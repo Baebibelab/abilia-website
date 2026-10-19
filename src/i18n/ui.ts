@@ -1,6 +1,8 @@
 // Textes de l'interface, en français et en anglais. Chaque clé existe dans les deux langues :
 // le type `UIKey` vient du français, et l'anglais doit le satisfaire entièrement.
 
+import { CARPLAY_AVAILABLE } from '../config';
+
 export const languages = {
   fr: 'Français',
   en: 'English',
@@ -12,8 +14,12 @@ export const defaultLang: Lang = 'fr';
 const fr = {
   'meta.title': 'Abilia — Toute votre musique Jellyfin, dans votre poche',
   'meta.description':
+    "Abilia est un lecteur de musique pour iPhone et Apple Watch qui joue votre serveur Jellyfin : rapide, beau, hors ligne, sans compte tiers ni pistage.",
+  'meta.description.carplay':
     "Abilia est un lecteur de musique pour iPhone, Apple Watch et CarPlay qui joue votre serveur Jellyfin : rapide, beau, hors ligne, sans compte tiers ni pistage.",
+  'meta.ogImageAlt': "L'icône d'Abilia, « Toute votre musique, dans votre poche » et l'écran En lecture de l'app",
   'nav.skip': 'Aller au contenu',
+  'nav.main': "Sections de l'accueil",
   'nav.features': 'Fonctionnalités',
   'nav.offline': 'Hors ligne',
   'nav.everywhere': 'Partout',
@@ -27,8 +33,12 @@ const fr = {
   'hero.title.1': 'Toute votre musique,',
   'hero.title.2': 'dans votre poche.',
   'hero.lead':
+    "Abilia joue la bibliothèque de votre serveur Jellyfin avec une app pensée pour l'iPhone : belle, rapide, et qui se fond dans le système, jusque sur l'Apple Watch.",
+  'hero.lead.carplay':
     "Abilia joue la bibliothèque de votre serveur Jellyfin avec une app pensée pour l'iPhone : belle, rapide, et qui se fond dans le système, jusque dans la voiture et sur l'Apple Watch.",
-  'hero.platforms': 'Pour iPhone, Apple Watch et CarPlay',
+  'hero.platforms': 'Pour iPhone et Apple Watch',
+  'hero.platforms.carplay': 'Pour iPhone, Apple Watch et CarPlay',
+  'hero.appLanguage': "L'app est en français.",
   'hero.chip.format': 'FLAC · 24 bits / 96 kHz',
   'hero.chip.gapless': 'Enchaînement sans blanc',
   'hero.chip.offline': 'Hors ligne',
@@ -188,6 +198,20 @@ const fr = {
   'footer.jellyfin': "Abilia n'est pas affiliée au projet Jellyfin.",
   'footer.apple': 'Apple, iPhone, Apple Watch, CarPlay et App Store sont des marques d’Apple Inc.',
   'footer.privacy': 'Politique de confidentialité',
+  'footer.nav': 'Liens du pied de page',
+  'privacy.title': 'Politique de confidentialité',
+  'privacy.description':
+    "Abilia ne collecte aucune donnée personnelle : ce que l'app envoie, à qui, et ce qui reste sur votre iPhone.",
+  'privacy.eyebrow': 'Confidentialité',
+  'privacy.updated': 'Mise à jour :',
+  'privacy.summary.title': "L'essentiel",
+  'privacy.summary.noData': 'Aucune donnée collectée',
+  'privacy.summary.noTracking': 'Ni publicité, ni pistage',
+  'privacy.summary.onDevice': 'Statistiques calculées sur l’iPhone',
+  'privacy.summary.yourServer': 'Votre musique reste sur votre serveur',
+  'privacy.toc': 'Sur cette page',
+  'privacy.translationNote': '',
+  'privacy.back': "Retour à l'accueil",
 };
 
 export type UIKey = keyof typeof fr;
@@ -195,8 +219,12 @@ export type UIKey = keyof typeof fr;
 const en: Record<UIKey, string> = {
   'meta.title': 'Abilia — All your Jellyfin music, in your pocket',
   'meta.description':
+    'Abilia is a music player for iPhone and Apple Watch that plays your Jellyfin server: fast, beautiful, offline-ready, with no third-party account and no tracking.',
+  'meta.description.carplay':
     'Abilia is a music player for iPhone, Apple Watch and CarPlay that plays your Jellyfin server: fast, beautiful, offline-ready, with no third-party account and no tracking.',
+  'meta.ogImageAlt': 'The Abilia icon, “All your music, in your pocket” and the app’s Now Playing screen',
   'nav.skip': 'Skip to content',
+  'nav.main': 'Home sections',
   'nav.features': 'Features',
   'nav.offline': 'Offline',
   'nav.everywhere': 'Everywhere',
@@ -210,8 +238,12 @@ const en: Record<UIKey, string> = {
   'hero.title.1': 'All your music,',
   'hero.title.2': 'in your pocket.',
   'hero.lead':
+    'Abilia plays your Jellyfin server’s library in an app built for the iPhone: beautiful, fast, and at home everywhere in the system, right down to your Apple Watch.',
+  'hero.lead.carplay':
     'Abilia plays your Jellyfin server’s library in an app built for the iPhone: beautiful, fast, and at home everywhere in the system, from the car to the Apple Watch.',
-  'hero.platforms': 'For iPhone, Apple Watch and CarPlay',
+  'hero.platforms': 'For iPhone and Apple Watch',
+  'hero.platforms.carplay': 'For iPhone, Apple Watch and CarPlay',
+  'hero.appLanguage': 'Good to know: the app itself is in French for now, as in the screenshots on this page.',
   'hero.chip.format': 'FLAC · 24-bit / 96 kHz',
   'hero.chip.gapless': 'Gapless playback',
   'hero.chip.offline': 'Works offline',
@@ -371,12 +403,37 @@ const en: Record<UIKey, string> = {
   'footer.jellyfin': 'Abilia is not affiliated with the Jellyfin project.',
   'footer.apple': 'Apple, iPhone, Apple Watch, CarPlay and App Store are trademarks of Apple Inc.',
   'footer.privacy': 'Privacy policy',
+  'footer.nav': 'Footer links',
+  'privacy.title': 'Privacy policy',
+  'privacy.description':
+    'Abilia collects no personal data: what the app sends, to whom, and what stays on your iPhone.',
+  'privacy.eyebrow': 'Privacy',
+  'privacy.updated': 'Last updated:',
+  'privacy.summary.title': 'In short',
+  'privacy.summary.noData': 'No data collected',
+  'privacy.summary.noTracking': 'No ads, no tracking',
+  'privacy.summary.onDevice': 'Stats computed on your iPhone',
+  'privacy.summary.yourServer': 'Your music stays on your server',
+  'privacy.toc': 'On this page',
+  'privacy.translationNote':
+    'This is a translation for your convenience; the French version is the reference. The app itself is in French for now.',
+  'privacy.back': 'Back to home',
 };
 
 export const ui: Record<Lang, Record<UIKey, string>> = { fr, en };
 
+/**
+ * Textes d'une langue. Une clé qui a une variante `<clé>.carplay` la donne à la place quand
+ * `CARPLAY_AVAILABLE` (src/config.ts) est vrai : d'ici là, le site ne promet CarPlay nulle part,
+ * sauf dans la section « Partout » qui le marque « Bientôt ».
+ */
 export function useTranslations(lang: Lang) {
-  return (key: UIKey) => ui[lang][key];
+  const dict = ui[lang];
+  return (key: UIKey): string => {
+    const variant = `${key}.carplay`;
+    if (CARPLAY_AVAILABLE && variant in dict) return dict[variant as UIKey];
+    return dict[key];
+  };
 }
 
 // Pages du site et leur adresse dans chaque langue. Une page nouvelle s'ajoute ici, puis dans
@@ -384,6 +441,7 @@ export function useTranslations(lang: Lang) {
 // hreflang lisent cette table.
 export const routes = {
   home: { fr: '/', en: '/en/' },
+  privacy: { fr: '/confidentialite/', en: '/en/privacy/' },
 } as const satisfies Record<string, Record<Lang, string>>;
 
 export type Route = keyof typeof routes;

@@ -10,7 +10,9 @@ export default defineConfig({
   // Site entièrement statique : le dossier dist/ est envoyé tel quel sur l'hébergement OVH.
   output: 'static',
   trailingSlash: 'always',
-  build: { format: 'directory' },
+  // Les feuilles de style (une dizaine de Ko compressés) vont dans la page : rien ne bloque le
+  // premier affichage, pas même un aller-retour vers le serveur.
+  build: { format: 'directory', inlineStylesheets: 'always' },
   i18n: {
     locales: ['fr', 'en'],
     defaultLocale: 'fr',

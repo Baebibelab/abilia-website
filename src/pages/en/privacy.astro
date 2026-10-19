@@ -1,0 +1,14 @@
+---
+import PrivacyPage from '../../components/privacy/PrivacyPage.astro';
+import { Content, frontmatter, getHeadings } from '../../content/privacy/en.md';
+import Base from '../../layouts/Base.astro';
+import { routes, useTranslations } from '../../i18n/ui';
+
+const t = useTranslations('en');
+---
+
+<Base lang="en" alternates={routes.privacy} title={t('privacy.title')} description={t('privacy.description')}>
+  <PrivacyPage lang="en" updated={frontmatter.updated} headings={getHeadings()}>
+    <Content />
+  </PrivacyPage>
+</Base>

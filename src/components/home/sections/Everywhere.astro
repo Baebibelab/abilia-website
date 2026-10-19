@@ -149,6 +149,11 @@ const system = [
       radial-gradient(closest-side at 30% 30%, var(--halo-purple), transparent);
   }
 
+  .device-card__visual--watch {
+    overflow: clip;
+    padding-block: 64px;
+  }
+
   .device-card__visual--car::before {
     background:
       radial-gradient(closest-side at 50% 55%, var(--halo-teal), transparent),
@@ -186,8 +191,8 @@ const system = [
     font-weight: 700;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: var(--coral);
-    background: color-mix(in srgb, var(--coral) 14%, transparent);
+    color: var(--coral-text);
+    background: color-mix(in srgb, var(--coral) 10%, transparent);
   }
 
   /* Apple Watch dessinée : boîtier, couronne, bracelet, et la liste de ce qui est sur la montre. */
@@ -197,11 +202,12 @@ const system = [
     aspect-ratio: 41 / 49;
   }
 
+  /* Le bracelet s'efface vers ses bouts : il ne déborde jamais sur le texte de la carte. */
   .watch__band {
     position: absolute;
     left: 14%;
     right: 14%;
-    height: 48%;
+    height: 40%;
     background: linear-gradient(90deg, #2c2f36, #474b55 50%, #2c2f36);
     z-index: -1;
   }
@@ -209,11 +215,15 @@ const system = [
   .watch__band--top {
     bottom: 80%;
     border-radius: 18px 18px 6px 6px;
+    -webkit-mask-image: linear-gradient(to top, #000 55%, transparent);
+    mask-image: linear-gradient(to top, #000 55%, transparent);
   }
 
   .watch__band--bottom {
     top: 80%;
     border-radius: 6px 6px 18px 18px;
+    -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent);
+    mask-image: linear-gradient(to bottom, #000 55%, transparent);
   }
 
   .watch__crown {
@@ -504,6 +514,10 @@ const system = [
       padding: 28px 14px;
     }
 
+    .device-card__visual--watch {
+      padding-block: 56px;
+    }
+
     .car {
       grid-template-columns: 40px 1fr;
     }
@@ -522,8 +536,29 @@ const system = [
       height: 22px;
     }
 
+    /* L'écran garde ses proportions : la liste se resserre pour y tenir en entier. */
+    .car__main {
+      gap: 3px;
+      padding: 6px 10px;
+    }
+
+    .car__list {
+      font-size: 0.74rem;
+    }
+
+    .car__list li {
+      gap: 8px;
+      padding: 5px 2px;
+    }
+
     .system li {
       font-size: 0.88rem;
+    }
+  }
+  /* Écran étroit (iPhone SE…) : un écran de voiture un peu moins large, pour garder les quatre lignes. */
+  @media (max-width: 370px) {
+    .car {
+      aspect-ratio: 16 / 10;
     }
   }
 </style>

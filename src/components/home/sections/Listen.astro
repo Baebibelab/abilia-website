@@ -72,6 +72,12 @@ const steps = [
 </Section>
 
 <style>
+  /* Les halos des captures débordent largement : coupés au bord de la page (`clip` laisse
+     fonctionner l'iPhone épinglé, contrairement à `hidden`). */
+  :global(.section.listen) {
+    overflow-x: clip;
+  }
+
   .tour {
     /* Indice (fractionnaire) de l'étape au centre de l'écran : 0 en haut, N − 1 en bas. */
     --t: calc(var(--progress, 0) * (var(--n) - 1) + 0.5);

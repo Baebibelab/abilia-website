@@ -1,0 +1,308 @@
+---
+// Page « Confidentialité », commune aux deux langues : en-tête, quatre pastilles qui résument la
+// politique, sommaire (colonne collante sur grand écran), puis le texte lui-même, tiré de
+// src/content/privacy/<langue>.md. Le français est la copie de docs/PRIVACY.md de l'app, l'URL
+// renseignée dans App Store Connect : ne rien y réécrire ici, tout passe par le fichier .md.
+import type { MarkdownHeading } from 'astro';
+import Glyph from '../Glyph.astro';
+import { type Lang, pathFor, useTranslations } from '../../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  /** Date de mise à jour du texte (frontmatter `updated`), au format AAAA-MM-JJ. */
+  updated: string;
+  headings: MarkdownHeading[];
+}
+
+const { lang, updated, headings } = Astro.props;
+const t = useTranslations(lang);
+
+// La date est un jour, pas un instant : lue et écrite en UTC pour ne jamais glisser d'un jour.
+const updatedDate = new Date(`${updated}T00:00:00Z`);
+const updatedLabel = new Intl.DateTimeFormat(lang, { dateStyle: 'long', timeZone: 'UTC' }).format(updatedDate);
+
+const summary = [
+  { icon: 'shield', label: t('privacy.summary.noData') },
+  { icon: 'lock', label: t('privacy.summary.noTracking') },
+  { icon: 'server', label: t('privacy.summary.yourServer') },
+  { icon: 'sparkles', label: t('privacy.summary.onDevice') },
+] as const;
+
+const sections = headings.filter((heading) => heading.depth === 2);
+const translationNote = t('privacy.translationNote');
+---
+
+<article class="privacy container">
+  <header class="privacy__header" data-reveal-stagger="90">
+    <p class="privacy__eyebrow" data-reveal>{t('privacy.eyebrow')}</p>
+    <h1 class="privacy__title" data-reveal="blur">{t('privacy.title')}</h1>
+    <p class="privacy__updated" data-reveal>
+      {t('privacy.updated')} <time datetime={updated}>{updatedLabel}</time>
+    </p>
+  </header>
+
+  <section class="privacy__summary" aria-labelledby="privacy-summary">
+    <h2 id="privacy-summary" class="visually-hidden">{t('privacy.summary.title')}</h2>
+    <ul role="list" data-reveal-stagger="70">
+      {
+        summary.map((item) => (
+          <li class="glass" data-reveal="scale">
+            <span class="privacy__badge">
+              <Glyph name={item.icon} size={18} />
+            </span>
+            {item.label}
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <div class="privacy__layout">
+    <nav class="privacy__toc" aria-labelledby="privacy-toc">
+      <h2 id="privacy-toc" class="privacy__toc-title">{t('privacy.toc')}</h2>
+      <ol role="list">
+        {
+          sections.map((heading) => (
+            <li>
+              <a href={`#${heading.slug}`}>{heading.text}</a>
+            </li>
+          ))
+        }
+      </ol>
+    </nav>
+
+    <div class="privacy__body glass" data-reveal>
+      {translationNote && <p class="privacy__note">{translationNote}</p>}
+      <div class="prose">
+        <slot />
+      </div>
+      <p class="privacy__back">
+        <a class="button button--ghost" href={pathFor('home', lang)}>{t('privacy.back')}</a>
+      </p>
+    </div>
+  </div>
+</article>
+
+<style>
+  .privacy {
+    padding-top: calc(var(--header-height) + clamp(40px, 7vw, 96px));
+  }
+
+  .privacy__header {
+    display: grid;
+    justify-items: center;
+    gap: 14px;
+    text-align: center;
+  }
+
+  .privacy__eyebrow {
+    color: var(--coral-text);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .privacy__title {
+    font-size: clamp(2.3rem, 6vw, 4.2rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1.04;
+    text-wrap: balance;
+  }
+
+  .privacy__updated {
+    color: var(--text-secondary);
+  }
+
+  /* Résumé */
+
+  .privacy__summary ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin: clamp(32px, 5vw, 48px) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .privacy__summary li {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 16px 8px 8px;
+    border-radius: var(--radius-pill);
+    font-size: 0.94rem;
+    font-weight: 600;
+  }
+
+  .privacy__badge {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    color: #fff;
+    background: var(--teal-strong);
+  }
+
+  .privacy__summary li:nth-child(2) .privacy__badge {
+    background: var(--indigo);
+  }
+
+  .privacy__summary li:nth-child(3) .privacy__badge {
+    background: var(--purple-strong);
+  }
+
+  .privacy__summary li:nth-child(4) .privacy__badge {
+    background: var(--coral-text);
+  }
+
+  /* Sommaire + texte */
+
+  .privacy__layout {
+    display: grid;
+    grid-template-columns: 240px minmax(0, 1fr);
+    align-items: start;
+    gap: clamp(24px, 4vw, 56px);
+    max-width: 1040px;
+    margin: clamp(40px, 6vw, 72px) auto 0;
+  }
+
+  .privacy__toc {
+    position: sticky;
+    top: calc(var(--header-height) + 24px);
+  }
+
+  .privacy__toc-title {
+    margin-bottom: 10px;
+    color: var(--text-secondary);
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .privacy__toc ol {
+    display: grid;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-left: 1px solid var(--border);
+  }
+
+  .privacy__toc a {
+    display: flex;
+    align-items: center;
+    min-height: 40px;
+    margin-left: -1px;
+    padding: 4px 0 4px 16px;
+    border-left: 2px solid transparent;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition:
+      color 0.25s,
+      border-color 0.25s;
+  }
+
+  .privacy__toc a:hover {
+    color: var(--text);
+    border-left-color: var(--teal);
+  }
+
+  .privacy__body {
+    padding: clamp(24px, 4vw, 52px);
+  }
+
+  .privacy__note {
+    margin-bottom: 28px;
+    padding: 14px 18px;
+    border-radius: 16px;
+    background: color-mix(in srgb, var(--teal) 12%, transparent);
+    color: var(--text);
+    font-size: 0.95rem;
+  }
+
+  .prose {
+    max-width: 68ch;
+    font-size: 1.04rem;
+    line-height: 1.7;
+  }
+
+  .prose :global(p) {
+    color: var(--text-secondary);
+  }
+
+  .prose :global(p + p) {
+    margin-top: 1em;
+  }
+
+  /* Le chapeau : la phrase qui résume tout, en plus grand. */
+  .prose > :global(p:first-child) {
+    color: var(--text);
+    font-size: 1.15rem;
+    font-weight: 500;
+  }
+
+  .prose :global(h2) {
+    margin: 2.2em 0 0.55em;
+    font-size: 1.35rem;
+    font-weight: 750;
+    letter-spacing: -0.02em;
+    scroll-margin-top: calc(var(--header-height) + 24px);
+  }
+
+  .prose :global(h2)::before {
+    content: '';
+    display: block;
+    width: 28px;
+    height: 3px;
+    margin-bottom: 14px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--coral), var(--purple));
+  }
+
+  .privacy__back {
+    margin-top: 40px;
+  }
+
+  @media (max-width: 900px) {
+    .privacy__layout {
+      grid-template-columns: 1fr;
+    }
+
+    /* Sur téléphone, le sommaire précède le texte, sans rester collé. */
+    .privacy__toc {
+      position: static;
+    }
+
+    .privacy__toc ol {
+      grid-template-columns: repeat(auto-fill, minmax(min(220px, 100%), 1fr));
+      border-left: 0;
+      gap: 0 16px;
+    }
+
+    .privacy__toc a {
+      min-height: 44px;
+      padding-left: 0;
+      border-left: 0;
+      border-bottom: 1px solid var(--border);
+    }
+  }
+
+  @media (max-width: 520px) {
+    .privacy__summary ul {
+      display: grid;
+      grid-template-columns: 1fr;
+      justify-items: stretch;
+    }
+
+    .privacy__body {
+      padding: 22px 20px;
+      border-radius: 22px;
+    }
+  }
+</style>

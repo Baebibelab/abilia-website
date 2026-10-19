@@ -11,13 +11,18 @@ src/
   assets/screenshots/   captures de l'app (590 × 1278), optimisées par astro:assets
   components/           briques partagées (Header, Footer, Section, PhoneFrame, AppIcon…)
   components/home/      l'accueil : Home.astro assemble Hero.astro puis sections/*.astro
+  components/privacy/   la page Confidentialité (mise en page commune aux deux langues)
+  content/privacy/      le texte de la politique : fr.md (copie de l'app), en.md (traduction)
   i18n/ui.ts            tous les textes (fr + en) et la table des pages (`routes`)
-  layouts/Base.astro    <head>, fond animé, en-tête, pied de page, moteur d'animation
-  pages/                pages françaises ; pages/en/ leurs équivalents anglais
+  layouts/Base.astro    <head> (SEO, Open Graph, icônes), fond animé, en-tête, pied de page
+  pages/                pages françaises ; pages/en/ leurs équivalents anglais ;
+                        robots.txt.ts et sitemap.xml.ts, générés à partir de `routes`
   scripts/motion.ts     moteur d'animation au scroll (data-reveal, data-scroll)
   styles/global.css     couleurs, typographie, boutons, verre
   styles/motion.css     états des apparitions data-reveal
-public/                 copié tel quel : .htaccess (OVH), favicon, robots.txt
+public/                 copié tel quel : .htaccess (OVH), favicons, apple-touch-icon,
+                        og/ (images de partage)
+scripts/og/             modèle des images de partage et rendu des icônes PNG (render.mjs)
 ```
 
 L'accueil est découpé pour que plusieurs personnes y travaillent sans se marcher dessus :
@@ -36,8 +41,11 @@ Variables CSS (`src/styles/global.css`), toujours elles plutôt qu'une couleur e
 
 | Variable | Rôle |
 | --- | --- |
-| `--coral`, `--coral-strong` | couleur de la marque (icône), surtitres, points d'accent |
-| `--teal` | couleur d'accent de l'app : liens, états actifs, focus |
+| `--coral`, `--coral-strong` | couleur de la marque (icône), points d'accent, dégradés |
+| `--coral-text` | le corail pour du **texte** (surtitres, « Bientôt ») : plus sombre en clair |
+| `--teal` | couleur d'accent de l'app : icônes, états actifs, focus |
+| `--teal-text` | la sarcelle pour du **texte** (liens) : plus sombre en clair |
+| `--teal-strong`, `--purple-strong` | pastilles sous une icône blanche |
 | `--indigo`, `--purple` | couleurs des halos et des dégradés |
 | `--bg`, `--bg-elevated` | fond de page, fond d'un élément posé dessus |
 | `--text`, `--text-secondary`, `--text-tertiary` | texte principal, secondaire, discret |
@@ -52,6 +60,10 @@ Classes utilitaires : `.container` (largeur de contenu + marges, 16 px minimum s
 `.glass` (carte en verre, comme `glassCard()`), `.gradient-text` (corail → violet → sarcelle,
 pour un mot ou une ligne de titre, pas un paragraphe), `.button` + `.button--primary` /
 `.button--ghost`, `.visually-hidden`.
+
+Contraste : tout texte atteint 4,5:1 (WCAG AA) en clair comme en sombre. `--coral` et `--teal`
+n'y arrivent pas sur le fond clair : pour un texte, prendre `--coral-text` / `--teal-text`, et
+`--text-tertiary` plutôt que des opacités maison. Vérifier avec axe ou Lighthouse (Accessibilité).
 
 Typographie : la police système (SF Pro sur les appareils Apple, comme l'app), aucune police
 téléchargée. Titres en `font-weight: 800`, interlettrage négatif, tailles en `clamp()`.
@@ -75,9 +87,18 @@ par section. Une section peut poser ses propres halos ou dégradés locaux par-d
 - `FeatureCard` : carte en verre avec une icône blanche sur pastille de couleur (`icon`, `tone`,
   `title`, `text`), comme les catégories des Réglages de l'app.
 
-Réglages dans `src/config.ts` : `APP_STORE_URL`, `JELLYFIN_URL`, et `CARPLAY_AVAILABLE`, à
-passer à `true` le jour où Apple accorde le droit CarPlay (d'ici là, la section le marque
-« Bientôt » ; ne pas le promettre ailleurs).
+Réglages dans `src/config.ts` :
+
+- `APP_STORE_URL` et `APP_STORE_ID` : le jour du lancement, le lien et l'identifiant de l'app ;
+  le bouton devient un lien, la fiche schema.org reçoit l'adresse, Safari sur iPhone affiche sa
+  bannière d'app.
+- `CARPLAY_AVAILABLE`, à passer à `true` le jour où Apple accorde le droit CarPlay. D'ici là, la
+  section « Partout » le marque « Bientôt » et rien d'autre n'en parle : une clé de `ui.ts` qui a
+  une variante `<clé>.carplay` (description, hero) la donne à la place quand c'est vrai, sans
+  rien changer aux composants. Penser alors à l'image de partage (voir plus bas).
+- `APP_LANGUAGES` : langues de l'interface de l'app (`['fr']`). Une page dans une autre langue le
+  dit sous l'appel du hero, puisque l'app et ses captures sont en français.
+- `JELLYFIN_URL`.
 
 Les sections de l'accueil, dans l'ordre : `Jellyfin` (`#features`), `Listen` (visite épinglée
 En lecture, paroles, égaliseur, page d'album), `Gapless` (enchaînement et fondu), `Stations`,
@@ -164,8 +185,20 @@ aussi dans `ui.ts` (`screenshot.*`).
 
 **Nouvelle page** : l'ajouter à `routes` dans `ui.ts` avec son adresse dans chaque langue (les
 adresses peuvent différer, par ex. `/confidentialite/` et `/en/privacy/`), puis créer
-`src/pages/<page>.astro` et `src/pages/en/<page>.astro`, qui passent `alternates={routes.<page>}`
-à `Base` (sélecteur de langue et balises hreflang).
+`src/pages/<page>.astro` et `src/pages/en/<page>.astro`, qui passent `alternates={routes.<page>}`,
+`title` et `description` à `Base` (sélecteur de langue, balises hreflang, Open Graph). Le plan du
+site (`/sitemap.xml`) la reprend tout seul.
+
+**Politique de confidentialité** : `src/content/privacy/fr.md` est la copie de
+`docs/PRIVACY.md` de l'app (sans son titre ni sa date, reportée dans `updated`), à recopier mot
+pour mot à chaque changement là-bas : c'est l'adresse donnée à App Store Connect, et le texte
+doit rester celui de l'app (`PrivacyPolicyView`). `en.md` en est la traduction, à tenir à jour
+dans le même commit ; les libellés de l'app y restent en français, traduits entre parenthèses.
+
+**Images de partage** : `public/og/abilia-<langue>.jpg` (1200 × 630), rendues depuis
+`scripts/og/og.html` par `node scripts/og/render.mjs` (Playwright installé sur la machine, pas
+dans le projet), qui refait aussi `apple-touch-icon.png` et `favicon-32.png`. Les régénérer quand
+le titre, la capture En lecture ou les plateformes changent.
 
 Ton : celui du README de l'app, chaleureux et concret, en vouvoyant ; l'anglais est une vraie
 traduction, pas un mot à mot.
@@ -182,6 +215,10 @@ npm run preview   # sert dist/ comme en production
 
 Avant une PR : `npm run check` et `npm run build` sans erreur, et un coup d'œil en clair, en
 sombre, sur téléphone (390 px, aucun défilement horizontal) et avec « Réduire les animations ».
+Un halo ou une pastille qui déborde d'une section doit être coupé par elle (`overflow-x: clip`,
+qui garde les passages épinglés, contrairement à `hidden`) : vérifier aussi vers 1024 px, la
+largeur où les colonnes sont les plus serrées. Repères à garder : Lighthouse à 100 sur les quatre
+catégories, aucune erreur axe, CLS à 0.
 
 La CI (`.github/workflows/ci.yml`) refait `check` et `build` sur chaque PR. Le déploiement
 (`.github/workflows/deploy.yml`) envoie `dist/` sur OVH à chaque push sur `main`, une fois les

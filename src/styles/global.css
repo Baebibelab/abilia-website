@@ -11,11 +11,18 @@
   --indigo: #5856d6;
   --purple: #af52de;
 
+  /* Variantes pour du texte et des pastilles sous texte blanc : mêmes teintes, assez contrastées
+     (WCAG AA, 4,5:1) sur le fond clair. En sombre, le corail et la sarcelle suffisent tels quels. */
+  --coral-text: #bd3a18;
+  --teal-text: #247473;
+  --teal-strong: #2e8888;
+  --purple-strong: #9b3fcf;
+
   --bg: #f4f6f7;
   --bg-elevated: #ffffff;
   --text: #0b0d10;
-  --text-secondary: rgb(60 60 67 / 0.72);
-  --text-tertiary: rgb(60 60 67 / 0.5);
+  --text-secondary: rgb(60 60 67 / 0.8);
+  --text-tertiary: rgb(60 60 67 / 0.74);
   --border: rgb(0 0 0 / 0.08);
 
   --glass-bg: rgb(255 255 255 / 0.55);
@@ -47,11 +54,14 @@
     --indigo: #5e5ce6;
     --purple: #bf5af2;
 
+    --coral-text: #ff6b4a;
+    --teal-text: #6dc2b8;
+
     --bg: #07080b;
     --bg-elevated: #121418;
     --text: #f5f6f7;
     --text-secondary: rgb(235 235 245 / 0.7);
-    --text-tertiary: rgb(235 235 245 / 0.45);
+    --text-tertiary: rgb(235 235 245 / 0.55);
     --border: rgb(255 255 255 / 0.1);
 
     --glass-bg: rgb(28 30 36 / 0.5);

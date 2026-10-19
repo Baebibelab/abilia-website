@@ -23,6 +23,11 @@ ErrorDocument 404 /404.html
   <If "%{REQUEST_URI} =~ m#^/_astro/#">
     Header set Cache-Control "public, max-age=31536000, immutable"
   </If>
+  # Images de partage et icônes : noms fixes, gardées une semaine (le bloc <If> ci-dessus passe
+  # après les <FilesMatch> dans l'ordre d'Apache : les images de /_astro/ restent à un an).
+  <FilesMatch "\.(jpg|png|ico|svg)$">
+    Header set Cache-Control "public, max-age=604800"
+  </FilesMatch>
   # Pages HTML : toujours revalidées, pour qu'une mise en ligne se voie tout de suite.
   <FilesMatch "\.html$">
     Header set Cache-Control "no-cache"
