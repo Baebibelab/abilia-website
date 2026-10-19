@@ -30,8 +30,8 @@ const { src, alt, width = 300, loading = 'lazy', class: className } = Astro.prop
       src={src}
       alt={alt}
       formats={['avif', 'webp']}
-      widths={[300, 450, 590]}
-      sizes={`(max-width: 480px) 70vw, ${width}px`}
+      widths={[300, 400, 500, 590]}
+      sizes={`(max-width: 480px) min(${width}px, 70vw), ${width}px`}
       loading={loading}
       decoding="async"
       fetchpriority={loading === 'eager' ? 'high' : undefined}

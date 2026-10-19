@@ -6,7 +6,8 @@ import '../styles/motion.css';
 import Footer from '../components/Footer.astro';
 import Halos from '../components/Halos.astro';
 import Header from '../components/Header.astro';
-import { type Lang, defaultLang, languages, useTranslations } from '../i18n/ui';
+import { APP_LANGUAGES, APP_STORE_ID, APP_STORE_URL } from '../config';
+import { type Lang, defaultLang, languages, routes, useTranslations } from '../i18n/ui';
 
 interface Props {
   lang: Lang;
@@ -25,6 +26,23 @@ const pageDescription = description ?? t('meta.description');
 const site = Astro.site ?? new URL(Astro.url.origin);
 const canonical = new URL(alternates[lang], site).href;
 const ogLocale = { fr: 'fr_FR', en: 'en_US' } satisfies Record<Lang, string>;
+// Images de partage rendues par scripts/og/render.mjs (une par langue, 1200 × 630).
+const ogImage = new URL(`/og/abilia-${lang}.jpg`, site).href;
+
+// Fiche de l'app pour les moteurs de recherche (schema.org), sur l'accueil seulement.
+const isHome = alternates[lang] === routes.home[lang];
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'MobileApplication',
+  name: 'Abilia',
+  url: canonical,
+  description: pageDescription,
+  image: new URL('/apple-touch-icon.png', site).href,
+  operatingSystem: 'iOS 17, watchOS 10',
+  applicationCategory: 'MultimediaApplication',
+  inLanguage: APP_LANGUAGES,
+  ...(APP_STORE_URL ? { downloadUrl: APP_STORE_URL, installUrl: APP_STORE_URL } : {}),
+};
 ---
 
 <!doctype html>
@@ -44,6 +62,9 @@ const ogLocale = { fr: 'fr_FR', en: 'en_US' } satisfies Record<Lang, string>;
     <link rel="alternate" hreflang="x-default" href={new URL(alternates[defaultLang], site).href} />
 
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    {APP_STORE_ID && <meta name="apple-itunes-app" content={`app-id=${APP_STORE_ID}`} />}
     <meta name="theme-color" content="#f4f6f7" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#07080b" media="(prefers-color-scheme: dark)" />
 
@@ -53,7 +74,20 @@ const ogLocale = { fr: 'fr_FR', en: 'en_US' } satisfies Record<Lang, string>;
     <meta property="og:description" content={pageDescription} />
     <meta property="og:url" content={canonical} />
     <meta property="og:locale" content={ogLocale[lang]} />
+    {
+      (Object.keys(languages) as Lang[])
+        .filter((l) => l !== lang)
+        .map((l) => <meta property="og:locale:alternate" content={ogLocale[l]} />)
+    }
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={t('meta.ogImageAlt')} />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={t('meta.ogImageAlt')} />
+    {isHome && <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />}
 
     <!-- Avant tout rendu : les états de départ des animations ne s'appliquent qu'avec JavaScript. -->
     <script is:inline>

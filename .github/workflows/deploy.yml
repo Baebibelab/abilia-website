@@ -8,7 +8,7 @@
 #   OVH_PROTOCOL   sftp (défaut, offres Pro et Performance) ou ftp (offre Perso)
 #   OVH_REMOTE_DIR dossier du site sur l'hébergement (défaut : www)
 #   OVH_DELETE     true pour supprimer du serveur les fichiers qui ne sont plus dans le build
-#   SITE_URL       adresse publique du site (ex. https://abilia.app)
+#   SITE_URL       adresse publique du site (défaut : https://abilia-music.app)
 # Tant que OVH_HOST n'est pas défini, le job s'arrête sans rien envoyer.
 
 name: Deploy

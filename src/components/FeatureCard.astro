@@ -1,0 +1,73 @@
+---
+// Carte de fonctionnalité en verre : une icône blanche sur une pastille de couleur (comme les
+// catégories des Réglages de l'app), un titre et un court texte. Les attributs restants
+// (`data-reveal`…) passent sur la carte.
+//
+//   <FeatureCard icon="refresh" tone="teal" title="…" text="…" data-reveal />
+import Glyph from './Glyph.astro';
+
+interface Props {
+  icon: Parameters<typeof Glyph>[0]['name'];
+  title: string;
+  text: string;
+  tone?: 'teal' | 'coral' | 'indigo' | 'purple';
+  /** Niveau du titre : 3 par défaut, sous le h2 de la section. */
+  level?: 3 | 4;
+  class?: string;
+  [attr: string]: unknown;
+}
+
+const { icon, title, text, tone = 'teal', level = 3, class: className, ...attrs } = Astro.props;
+const Heading = `h${level}` as 'h3' | 'h4';
+---
+
+<article class:list={['feature-card', 'glass', `feature-card--${tone}`, className]} {...attrs}>
+  <span class="feature-card__badge"><Glyph name={icon} size={22} /></span>
+  <Heading class="feature-card__title">{title}</Heading>
+  <p class="feature-card__text">{text}</p>
+</article>
+
+<style>
+  .feature-card {
+    display: grid;
+    align-content: start;
+    gap: 10px;
+    padding: clamp(20px, 2.4vw, 28px);
+  }
+
+  .feature-card__badge {
+    --tone: var(--teal);
+    display: inline-grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    margin-bottom: 6px;
+    border-radius: 13px;
+    color: #fff;
+    background: linear-gradient(145deg, var(--tone), color-mix(in srgb, var(--tone) 72%, #000));
+    box-shadow: 0 10px 24px -12px var(--tone);
+  }
+
+  .feature-card--coral .feature-card__badge {
+    --tone: var(--coral);
+  }
+
+  .feature-card--indigo .feature-card__badge {
+    --tone: var(--indigo);
+  }
+
+  .feature-card--purple .feature-card__badge {
+    --tone: var(--purple);
+  }
+
+  .feature-card__title {
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+
+  .feature-card__text {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+</style>

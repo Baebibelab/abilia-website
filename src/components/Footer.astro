@@ -1,7 +1,7 @@
 ---
 import AppIcon from './AppIcon.astro';
 import { JELLYFIN_URL } from '../config';
-import { type Lang, useTranslations } from '../i18n/ui';
+import { type Lang, pathFor, useTranslations } from '../i18n/ui';
 
 interface Props {
   lang: Lang;
@@ -14,10 +14,15 @@ const year = new Date().getFullYear();
 
 <footer class="site-footer">
   <div class="container site-footer__inner">
-    <div class="site-footer__brand">
-      <AppIcon size={28} />
-      <span>Abilia</span>
-      <span class="site-footer__tagline">{t('footer.tagline')}</span>
+    <div class="site-footer__start">
+      <div class="site-footer__brand">
+        <AppIcon size={28} />
+        <span>Abilia</span>
+        <span class="site-footer__tagline">{t('footer.tagline')}</span>
+      </div>
+      <nav aria-label={t('footer.nav')}>
+        <a class="site-footer__link" href={pathFor('privacy', lang)}>{t('footer.privacy')}</a>
+      </nav>
     </div>
     <div class="site-footer__legal">
       <p>
@@ -55,6 +60,21 @@ const year = new Date().getFullYear();
   .site-footer__tagline {
     color: var(--text-secondary);
     font-weight: 400;
+  }
+
+  .site-footer__start {
+    display: grid;
+    justify-items: start;
+    gap: 8px;
+  }
+
+  .site-footer__link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: var(--text);
+    font-weight: 600;
+    text-underline-offset: 3px;
   }
 
   .site-footer__legal {

@@ -4,8 +4,12 @@
 // Hero.astro, puis sections/*.astro, dans l'ordre de lecture.
 import Hero from './Hero.astro';
 import Everywhere from './sections/Everywhere.astro';
-import Features from './sections/Features.astro';
+import Gapless from './sections/Gapless.astro';
+import Jellyfin from './sections/Jellyfin.astro';
+import Listen from './sections/Listen.astro';
 import Offline from './sections/Offline.astro';
+import Rewind from './sections/Rewind.astro';
+import Stations from './sections/Stations.astro';
 import type { Lang } from '../../i18n/ui';
 
 interface Props {
@@ -16,6 +20,10 @@ const { lang } = Astro.props;
 ---
 
 <Hero lang={lang} />
-<Features lang={lang} />
+<Jellyfin lang={lang} />
+<Listen lang={lang} />
+<Gapless lang={lang} />
+<Stations lang={lang} />
 <Offline lang={lang} />
+<Rewind lang={lang} />
 <Everywhere lang={lang} />

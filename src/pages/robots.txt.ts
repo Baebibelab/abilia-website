@@ -1,0 +1,10 @@
+// robots.txt : tout est indexable (sauf la 404, marquée noindex), et le plan du site est donné
+// avec l'adresse publique du site (`site` dans astro.config.mjs).
+import type { APIRoute } from 'astro';
+
+export const GET: APIRoute = ({ site }) => {
+  const sitemap = new URL('/sitemap.xml', site).href;
+  return new Response(`User-agent: *\nAllow: /\n\nSitemap: ${sitemap}\n`, {
+    headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+  });
+};
