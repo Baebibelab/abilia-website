@@ -207,8 +207,9 @@ site (`/sitemap.xml`) la reprend tout seul.
 **Politique de confidentialité** : `src/content/privacy/fr.md` est la copie de
 `docs/PRIVACY.md` de l'app (sans son titre ni sa date, reportée dans `updated`), à recopier mot
 pour mot à chaque changement là-bas : c'est l'adresse donnée à App Store Connect, et le texte
-doit rester celui de l'app (`PrivacyPolicyView`). `en.md` en est la traduction, à tenir à jour
-dans le même commit ; les libellés de l'app y restent en français, traduits entre parenthèses.
+doit rester celui de l'app (`PrivacyPolicyView`). `en.md` est de même la copie de
+`docs/PRIVACY.en.md` (la politique anglaise de l'app, depuis qu'elle est traduite), dans le même
+commit ; le français fait foi.
 
 **Images de partage** : `public/og/abilia-<langue>.jpg` (1200 × 630), rendues depuis
 `scripts/og/og.html` par `node scripts/og/render.mjs` (Playwright installé sur la machine, pas
