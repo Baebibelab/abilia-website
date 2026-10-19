@@ -1,0 +1,384 @@
+---
+// Section « Rewind » : un paquet de quatre cartes façon « wrapped » (temps d'écoute, genres,
+// moment préféré, morceau en boucle) qui s'ouvre en éventail au scroll. Sans JavaScript, avec
+// « Réduire les animations » ou sur téléphone, les cartes sont simplement rangées en grille.
+// Les chiffres sont des exemples, et le disent.
+import Glyph from '../../Glyph.astro';
+import Section from '../../Section.astro';
+import { type Lang, useTranslations } from '../../../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const genreShares = [34, 22, 15, 12, 9, 8];
+const genreColors = ['#ff6b4a', '#bf5af2', '#6dc2b8', '#5e5ce6', '#ffb347', '#ff4d8d'];
+const genres = t('rewind.genres.list')
+  .split(',')
+  .map((name, i) => ({ name, share: genreShares[i], color: genreColors[i] }));
+const periods = t('rewind.periods').split(',');
+
+// Horloge radiale : temps d'écoute par heure (24 valeurs), plus fort le soir.
+const hours = Array.from({ length: 24 }, (_, h) => {
+  const evening = Math.exp(-((h - 20.5) ** 2) / 6);
+  const morning = 0.45 * Math.exp(-((h - 8.5) ** 2) / 3);
+  const lunch = 0.3 * Math.exp(-((h - 13) ** 2) / 2);
+  const night = h < 5 ? 0.06 : 0.12;
+  return Math.min(1, night + evening + morning + lunch);
+});
+const clockBars = hours.map((v, h) => {
+  const angle = (h / 24) * Math.PI * 2 - Math.PI / 2;
+  const r0 = 30;
+  const r1 = r0 + 6 + v * 34;
+  return {
+    x1: (Math.cos(angle) * r0).toFixed(1),
+    y1: (Math.sin(angle) * r0).toFixed(1),
+    x2: (Math.cos(angle) * r1).toFixed(1),
+    y2: (Math.sin(angle) * r1).toFixed(1),
+    hot: v > 0.6,
+  };
+});
+
+// Position de chaque carte dans l'éventail : écart au centre du paquet.
+const cards = [-1.5, -0.5, 0.5, 1.5];
+---
+
+<Section id="rewind" eyebrow={t('rewind.eyebrow')} lead={t('rewind.lead')} align="center" class="rewind">
+  <Fragment slot="title">{t('rewind.title.1')}<br /><span class="gradient-text">{t('rewind.title.2')}</span></Fragment>
+
+  <ul class="periods" role="list" aria-hidden="true" data-reveal="fade">
+    {periods.map((period, i) => <li class:list={{ 'is-active': i === 2 }}>{period}</li>)}
+  </ul>
+
+  <div class="deck" data-scroll>
+    <article class="story story--time" style={`--dx: ${cards[0]}; --dy: ${Math.abs(cards[0])}`} data-reveal="up">
+      <p class="story__label">{t('rewind.time.label')}</p>
+      <p class="story__big">{t('rewind.time.value')}</p>
+      <p class="story__detail">{t('rewind.time.detail')}</p>
+      <p class="story__pill">{t('rewind.time.trend')}</p>
+    </article>
+
+    <article class="story story--genres" style={`--dx: ${cards[1]}; --dy: ${Math.abs(cards[1])}`} data-reveal="up">
+      <p class="story__label">{t('rewind.genres.label')}</p>
+      <div class="palette" aria-hidden="true">
+        {genres.map((g) => <span style={`flex: ${g.share}; background: ${g.color}`} />)}
+      </div>
+      <ul class="genres" role="list">
+        {
+          genres.map((g) => (
+            <li>
+              <span class="genres__dot" style={`background: ${g.color}`} />
+              <span class="genres__name">{g.name}</span>
+              <span class="genres__share">{g.share}{lang === 'fr' ? ' %' : '%'}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </article>
+
+    <article class="story story--hours" style={`--dx: ${cards[2]}; --dy: ${Math.abs(cards[2])}`} data-reveal="up">
+      <p class="story__label">{t('rewind.hours.label')}</p>
+      <svg class="clock" viewBox="-75 -75 150 150" aria-hidden="true" focusable="false">
+        <circle r="26" class="clock__face"></circle>
+        {clockBars.map((b) => <line x1={b.x1} y1={b.y1} x2={b.x2} y2={b.y2} class:list={{ hot: b.hot }} />)}
+      </svg>
+      <p class="story__big story__big--small">{t('rewind.hours.value')}</p>
+    </article>
+
+    <article class="story story--loop" style={`--dx: ${cards[3]}; --dy: ${Math.abs(cards[3])}`} data-reveal="up">
+      <p class="story__label">{t('rewind.loop.label')}</p>
+      <span class="loop" aria-hidden="true"><Glyph name="refresh" size={40} /></span>
+      <p class="story__big story__big--small">{t('rewind.loop.value')}</p>
+      <p class="story__detail">{t('rewind.loop.detail')}</p>
+    </article>
+  </div>
+
+  <p class="private" data-reveal>
+    <Glyph name="shield" size={20} />
+    <span>{t('rewind.private')} <span class="example">{t('rewind.example')}</span></span>
+  </p>
+</Section>
+
+<style>
+  .periods {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin: -24px 0 40px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .periods li {
+    padding: 7px 14px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--border);
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+
+  .periods li.is-active {
+    color: #fff;
+    border-color: transparent;
+    background: linear-gradient(120deg, var(--coral), var(--purple));
+  }
+
+  /* Par défaut (sans JavaScript, sans mouvement, téléphone) : une grille de cartes. */
+  .deck {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+    max-width: 1000px;
+    margin-inline: auto;
+  }
+
+  .story {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    aspect-ratio: 9 / 14;
+    padding: 22px;
+    border-radius: 26px;
+    color: #fff;
+    overflow: hidden;
+    background: #111;
+    box-shadow: 0 30px 60px -30px rgb(0 0 0 / 0.6);
+    isolation: isolate;
+  }
+
+  /* Halos de couleur dans chaque carte, comme le fond du Rewind dans l'app. */
+  .story::before {
+    content: '';
+    position: absolute;
+    inset: -30%;
+    z-index: -1;
+    background:
+      radial-gradient(closest-side at 25% 25%, var(--c1), transparent),
+      radial-gradient(closest-side at 80% 75%, var(--c2), transparent),
+      #0d0e14;
+  }
+
+  .story--time {
+    --c1: #ff6b4a;
+    --c2: #bf5af2;
+  }
+
+  .story--genres {
+    --c1: #5e5ce6;
+    --c2: #2e8888;
+  }
+
+  .story--hours {
+    --c1: #2e8888;
+    --c2: #5e5ce6;
+  }
+
+  .story--loop {
+    --c1: #bf5af2;
+    --c2: #ff6b4a;
+  }
+
+  .story__label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgb(255 255 255 / 0.75);
+  }
+
+  .story__big {
+    margin-top: auto;
+    font-family: var(--font-display);
+    font-size: clamp(2.6rem, 5vw, 3.6rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+
+  .story__big--small {
+    margin-top: 0;
+    font-size: clamp(1.7rem, 3vw, 2.2rem);
+  }
+
+  .story__detail {
+    color: rgb(255 255 255 / 0.8);
+    font-size: 0.95rem;
+    line-height: 1.35;
+  }
+
+  .story__pill {
+    align-self: start;
+    margin-top: 6px;
+    padding: 5px 11px;
+    border-radius: var(--radius-pill);
+    background: rgb(255 255 255 / 0.16);
+    font-size: 0.82rem;
+    font-weight: 650;
+  }
+
+  .palette {
+    display: flex;
+    gap: 3px;
+    height: 14px;
+    margin-top: 8px;
+    border-radius: 7px;
+    overflow: hidden;
+  }
+
+  .genres {
+    display: grid;
+    gap: 7px;
+    margin: auto 0 0;
+    padding: 0;
+    list-style: none;
+    font-size: 0.92rem;
+  }
+
+  .genres li {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+  }
+
+  .genres__dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+  }
+
+  .genres__share {
+    margin-left: auto;
+    color: rgb(255 255 255 / 0.7);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .clock {
+    width: 78%;
+    margin: auto;
+  }
+
+  .clock__face {
+    fill: rgb(255 255 255 / 0.06);
+  }
+
+  .clock line {
+    stroke: rgb(255 255 255 / 0.4);
+    stroke-width: 5;
+    stroke-linecap: round;
+  }
+
+  .clock line.hot {
+    stroke: #6dc2b8;
+  }
+
+  .loop {
+    display: grid;
+    place-items: center;
+    width: 76px;
+    height: 76px;
+    margin: auto auto 8px 0;
+    border-radius: 50%;
+    background: rgb(255 255 255 / 0.12);
+  }
+
+  .private {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: clamp(36px, 5vw, 56px);
+    color: var(--text-secondary);
+    text-align: start;
+  }
+
+  .private :global(.glyph) {
+    color: var(--teal);
+  }
+
+  .example {
+    color: var(--text-tertiary);
+  }
+
+  /* Grand écran, JavaScript et mouvement : un paquet serré qui s'ouvre en éventail. */
+  @media (prefers-reduced-motion: no-preference) and (min-width: 1100px) {
+    :global(html.js) .deck {
+      --fan: clamp(0, (var(--progress, 0.5) - 0.1) * 3, 1);
+      display: grid;
+      grid-template-columns: 1fr;
+      justify-items: center;
+      height: 480px;
+      align-items: center;
+    }
+
+    :global(html.js) .story {
+      grid-area: 1 / 1;
+      width: 230px;
+      transform: translateX(calc(var(--dx) * var(--fan) * 250px)) translateY(calc(var(--dy) * var(--fan) * 22px))
+        rotate(calc(var(--dx) * var(--fan) * 4deg));
+    }
+
+    /* L'apparition reste un fondu : la position vient de l'éventail. */
+    :global(html.js) .story[data-reveal]:not(.is-revealed) {
+      transform: translateX(calc(var(--dx) * var(--fan) * 250px)) translateY(calc(var(--dy) * var(--fan) * 22px + 60px))
+        rotate(calc(var(--dx) * var(--fan) * 4deg));
+    }
+
+    :global(html.js) .story.is-revealed {
+      transition:
+        opacity var(--reveal-duration) var(--ease-out),
+        transform 0.35s var(--ease-out);
+    }
+
+    .story--time {
+      z-index: 1;
+    }
+
+    .story--loop {
+      z-index: 1;
+    }
+
+    .story--genres,
+    .story--hours {
+      z-index: 2;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .deck {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      max-width: 560px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .deck {
+      gap: 12px;
+    }
+
+    .story {
+      aspect-ratio: 9 / 15;
+      padding: 16px;
+      border-radius: 20px;
+    }
+
+    .genres {
+      font-size: 0.8rem;
+      gap: 4px;
+    }
+
+    .story__detail {
+      font-size: 0.82rem;
+    }
+
+    .loop {
+      width: 56px;
+      height: 56px;
+    }
+  }
+</style>

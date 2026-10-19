@@ -70,6 +70,18 @@ par section. Une section peut poser ses propres halos ou dégradés locaux par-d
   (`src/config.ts`) est vide. Le jour du lancement, utiliser le **badge officiel d'Apple**, tel
   quel ; ne jamais dessiner un faux badge ni utiliser le logo Apple ailleurs.
 - `AppIcon` : l'icône en SVG (`size`, `label` si elle doit être lue).
+- `Glyph` : petites icônes au trait (`name`, `size`), décoratives ; en ajouter une = un tracé
+  24 × 24 de plus dans la table du composant.
+- `FeatureCard` : carte en verre avec une icône blanche sur pastille de couleur (`icon`, `tone`,
+  `title`, `text`), comme les catégories des Réglages de l'app.
+
+Réglages dans `src/config.ts` : `APP_STORE_URL`, `JELLYFIN_URL`, et `CARPLAY_AVAILABLE`, à
+passer à `true` le jour où Apple accorde le droit CarPlay (d'ici là, la section le marque
+« Bientôt » ; ne pas le promettre ailleurs).
+
+Les sections de l'accueil, dans l'ordre : `Jellyfin` (`#features`), `Listen` (visite épinglée
+En lecture, paroles, égaliseur, page d'album), `Gapless` (enchaînement et fondu), `Stations`,
+`Offline` (`#offline`), `Rewind`, `Everywhere` (`#everywhere`, Apple Watch et CarPlay).
 
 ## Animations
 
@@ -107,6 +119,12 @@ quitte le haut. Le CSS en fait ce qu'il veut :
 dont l'enfant est `position: sticky; top: 0`. `--progress` va alors de 0 (le conteneur arrive
 en haut) à 1 (sa fin arrive en bas) : c'est le temps pendant lequel l'enfant reste à l'écran,
 idéal pour faire défiler des écrans dans un iPhone fixe ou enchaîner des titres.
+
+Pour changer de contenu pendant un passage épinglé sans JavaScript à soi, voir
+`sections/Listen.astro` : chaque étape fait un écran de haut, donc
+`--t: calc(var(--progress) * (N - 1) + 0.5)` vaut l'indice de l'étape centrée, et chaque calque
+en tire son opacité avec `clamp()`. Le passage épinglé ne s'applique que sous `html.js` (sans
+JavaScript, chaque étape montre son propre visuel).
 
 `<html>` porte aussi `--page-progress` (0 en haut, 1 en bas) et la classe `is-scrolled` dès que
 la page a défilé.
