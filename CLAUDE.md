@@ -12,5 +12,7 @@ l'accueil en fichiers.
 - Tout mouvement sous `prefers-reduced-motion: no-preference` ; rien de caché sans JavaScript.
 - Avant une PR : `npm run check` et `npm run build`, puis un rendu en clair, en sombre, à 390 px
   de large (aucun défilement horizontal) et avec les animations réduites.
-- Captures de l'app : `src/assets/screenshots/` (copiées de `docs/screenshots/` du dépôt de
-  l'app ; les remplacer là-bas aussi quand elles changent).
+- Captures de l'app : `src/assets/screenshots/` en français, `src/assets/screenshots/en/` en
+  anglais, sous les mêmes noms (copiées de `docs/screenshots/` et `docs/screenshots/en/` du dépôt
+  de l'app ; les remplacer là-bas aussi quand elles changent). Les sections les prennent par
+  `screenshots(lang)` (`src/assets/screenshots/index.ts`), jamais par un import direct.

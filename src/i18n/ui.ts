@@ -189,8 +189,8 @@ const fr = {
   'everywhere.watchList': 'Sur la montre',
   'screenshot.nowPlaying': 'Écran En lecture : pochette, spectre, format joué et commandes',
   'screenshot.library': 'Accueil de la bibliothèque : stations, mix par humeur et catégories',
-  'screenshot.downloads': 'Téléchargements : morceaux favoris gardés hors ligne',
-  'screenshot.settings': 'Réglages : Apple Watch et taille du cache',
+  'screenshot.downloads': 'Téléchargements : des albums gardés hors ligne',
+  'screenshot.settings': 'Réglages, rangés par thème',
   'screenshot.lyrics': 'Paroles synchronisées sous les commandes de lecture',
   'screenshot.equalizer': 'Égaliseur dix bandes avec le préréglage Rock',
   'screenshot.album': "Page d'un album aux couleurs de sa pochette",
@@ -394,8 +394,8 @@ const en: Record<UIKey, string> = {
   'everywhere.watchList': 'On the watch',
   'screenshot.nowPlaying': 'The Now Playing screen: artwork, spectrum, format being played and controls',
   'screenshot.library': 'The library home: stations, mood mixes and categories',
-  'screenshot.downloads': 'Downloads: favorite tracks kept offline',
-  'screenshot.settings': 'Settings: Apple Watch and cache size',
+  'screenshot.downloads': 'Downloads: albums kept offline',
+  'screenshot.settings': 'Settings, grouped by topic',
   'screenshot.lyrics': 'Synced lyrics beneath the playback controls',
   'screenshot.equalizer': 'Ten-band equalizer with the Rock preset',
   'screenshot.album': 'An album page in the colors of its artwork',
@@ -416,7 +416,7 @@ const en: Record<UIKey, string> = {
   'privacy.summary.yourServer': 'Your music stays on your server',
   'privacy.toc': 'On this page',
   'privacy.translationNote':
-    'This is a translation for your convenience; the French version is the reference. The app itself is in French for now.',
+    'This is a translation for your convenience; the French version is the reference.',
   'privacy.back': 'Back to home',
 };
 

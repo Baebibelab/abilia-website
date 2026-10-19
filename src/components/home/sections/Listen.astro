@@ -10,10 +10,7 @@
 // manque et la première reste affichée.
 import PhoneFrame from '../../PhoneFrame.astro';
 import Section from '../../Section.astro';
-import album from '../../../assets/screenshots/album.jpg';
-import egaliseur from '../../../assets/screenshots/egaliseur.jpg';
-import enLecture from '../../../assets/screenshots/en-lecture.jpg';
-import paroles from '../../../assets/screenshots/paroles.jpg';
+import { screenshots } from '../../../assets/screenshots';
 import { type Lang, useTranslations } from '../../../i18n/ui';
 
 interface Props {
@@ -22,12 +19,13 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
+const shots = screenshots(lang);
 
 const steps = [
-  { key: 'nowPlaying', shot: enLecture, alt: t('screenshot.nowPlaying'), tone: 'coral' },
-  { key: 'lyrics', shot: paroles, alt: t('screenshot.lyrics'), tone: 'purple' },
-  { key: 'eq', shot: egaliseur, alt: t('screenshot.equalizer'), tone: 'teal' },
-  { key: 'album', shot: album, alt: t('screenshot.album'), tone: 'indigo' },
+  { key: 'nowPlaying', shot: shots.nowPlaying, alt: t('screenshot.nowPlaying'), tone: 'coral' },
+  { key: 'lyrics', shot: shots.lyrics, alt: t('screenshot.lyrics'), tone: 'purple' },
+  { key: 'eq', shot: shots.equalizer, alt: t('screenshot.equalizer'), tone: 'teal' },
+  { key: 'album', shot: shots.album, alt: t('screenshot.album'), tone: 'indigo' },
 ] as const;
 ---
 

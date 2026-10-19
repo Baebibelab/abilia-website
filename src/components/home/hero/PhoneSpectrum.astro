@@ -1,11 +1,11 @@
 ---
-// Les barres du spectre de l'écran En lecture, posées sur la capture (`en-lecture.jpg`) à
-// l'endroit exact de sa rangée de points : 24 barres arrondies, blanches à 55 %, qui montent
+// Les barres du spectre de l'écran En lecture, posées sur la capture (`en-lecture.jpg`, la même
+// mise en page en français et en anglais) à l'endroit exact de sa rangée de points : 24 barres arrondies, blanches à 55 %, qui montent
 // depuis le bas sur 28 pt, comme `SpectrumBars` dans l'app. Un aplat de la couleur du fond
 // de l'écran efface les points de la capture, que les barres remplacent.
 //
-// Mesures en pixels de la capture (590 × 1278) : rangée de x = 90 à 500, bas des points à
-// y = 689,5, 42 px de haut (28 pt × 1,5). Les niveaux figés servent sans JavaScript et avec
+// Mesures en pixels de la capture (590 × 1278) : rangée de x = 88 à 502, bas des points à
+// y = 692,5, 42 px de haut (28 pt × 1,5). Les niveaux figés servent sans JavaScript et avec
 // « Réduire les animations » ; le script du hero les anime ensuite (`data-hero-bar`).
 import { BAND_COUNT, STILL_TIME, spectrumAt } from './spectrum';
 
@@ -40,23 +40,23 @@ const levels = spectrumAt(STILL_TIME);
 
   .dots-cover {
     position: absolute;
-    left: calc(86 / 590 * 100%);
-    width: calc(418 / 590 * 100%);
-    top: calc(674 / 1278 * 100%);
+    left: calc(84 / 590 * 100%);
+    width: calc(422 / 590 * 100%);
+    top: calc(677 / 1278 * 100%);
     height: calc(19 / 1278 * 100%);
     border-radius: 999px;
-    background: rgb(142 34 40);
+    background: rgb(146 20 36);
   }
 
   .bars {
     position: absolute;
-    left: calc(90 / 590 * 100%);
-    width: calc(410 / 590 * 100%);
-    top: calc(647.5 / 1278 * 100%);
+    left: calc(88 / 590 * 100%);
+    width: calc(414 / 590 * 100%);
+    top: calc(650.5 / 1278 * 100%);
     height: calc(42 / 1278 * 100%);
     display: grid;
     grid-template-columns: repeat(24, 1fr);
-    column-gap: calc(4.5 / 410 * 100%);
+    column-gap: calc(4.5 / 414 * 100%);
   }
 
   .bar {
