@@ -1,0 +1,175 @@
+---
+// L'app dessinée en CSS (accueil de la Bibliothèque et mini-lecteur), à la place d'une capture
+// iPad ou Mac qui manque encore (src/assets/screenshots/index.ts). Toujours en sombre, comme les
+// dessins de la montre et de CarPlay. Tout se mesure en `cqi` : le dessin suit la largeur de
+// l'écran qui le contient.
+import Glyph from '../../../Glyph.astro';
+import { type Lang, useTranslations } from '../../../../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const tiles = [
+  { icon: 'heart', label: t('everywhere.favorites') },
+  { icon: 'disc', label: t('everywhere.albums') },
+  { icon: 'mic', label: t('everywhere.artists') },
+  { icon: 'library', label: t('everywhere.playlists') },
+  { icon: 'layers', label: t('everywhere.genres') },
+  { icon: 'radio', label: t('screens.mock.radios') },
+] as const;
+
+const covers = [
+  ['#ff6b4a', '#bf5af2'],
+  ['#2e8888', '#5e5ce6'],
+  ['#ffb347', '#ff4d8d'],
+  ['#5e5ce6', '#6dc2b8'],
+  ['#bf5af2', '#2e8888'],
+  ['#6dc2b8', '#ff6b4a'],
+];
+---
+
+<div class="mock" aria-hidden="true">
+  <p class="mock__title">{t('screens.mock.library')}</p>
+  <ul class="mock__tiles">
+    {
+      tiles.map((tile) => (
+        <li>
+          <Glyph name={tile.icon} size={16} />
+          <span>{tile.label}</span>
+        </li>
+      ))
+    }
+  </ul>
+  <p class="mock__subtitle">{t('everywhere.recent')}</p>
+  <div class="mock__covers">
+    {covers.map(([a, b]) => <span style={`--a: ${a}; --b: ${b}`} />)}
+  </div>
+  <div class="mock__player">
+    <span class="mock__art"></span>
+    <span class="mock__lines"><i></i><i></i></span>
+    <Glyph name="play" size={16} />
+  </div>
+</div>
+
+<style>
+  .mock {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2cqi;
+    padding: 4cqi 5cqi 3cqi;
+    color: #fff;
+    background:
+      radial-gradient(60cqi 40cqi at 20% 0%, rgb(46 136 136 / 0.55), transparent),
+      radial-gradient(50cqi 40cqi at 90% 20%, rgb(94 92 230 / 0.4), transparent),
+      #0b0c10;
+    font-size: 2.1cqi;
+    overflow: hidden;
+  }
+
+  .mock__title {
+    font-size: 4.2cqi;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+
+  .mock__subtitle {
+    margin-top: 0.6cqi;
+    font-size: 2.6cqi;
+    font-weight: 750;
+  }
+
+  .mock__tiles {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.6cqi;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .mock__tiles li {
+    display: flex;
+    align-items: center;
+    gap: 1.4cqi;
+    min-width: 0;
+    padding: 1.8cqi 2cqi;
+    border-radius: 2cqi;
+    background: rgb(255 255 255 / 0.1);
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.12);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .mock__tiles span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .mock__tiles :global(.glyph) {
+    flex: none;
+    width: 2.8cqi;
+    height: 2.8cqi;
+    color: #6dc2b8;
+  }
+
+  .mock__covers {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1.6cqi;
+  }
+
+  .mock__covers span {
+    aspect-ratio: 1;
+    border-radius: 1.6cqi;
+    background: linear-gradient(145deg, var(--a), var(--b));
+  }
+
+  .mock__player {
+    display: flex;
+    align-items: center;
+    gap: 1.8cqi;
+    width: min(100%, 64cqi);
+    margin: auto auto 0;
+    padding: 1.4cqi 2.4cqi 1.4cqi 1.4cqi;
+    border-radius: 2.4cqi;
+    background: linear-gradient(90deg, #7a3a2c, #4a2b5c);
+    box-shadow: 0 1cqi 3cqi rgb(0 0 0 / 0.4);
+  }
+
+  .mock__art {
+    flex: none;
+    width: 5cqi;
+    height: 5cqi;
+    border-radius: 1cqi;
+    background: linear-gradient(145deg, #ff6b4a, #bf5af2);
+  }
+
+  .mock__lines {
+    display: grid;
+    flex: 1;
+    gap: 0.8cqi;
+  }
+
+  .mock__lines i {
+    height: 1cqi;
+    border-radius: 1cqi;
+    background: rgb(255 255 255 / 0.7);
+  }
+
+  .mock__lines i + i {
+    width: 55%;
+    background: rgb(255 255 255 / 0.35);
+  }
+
+  .mock__player :global(.glyph) {
+    width: 3cqi;
+    height: 3cqi;
+    fill: currentColor;
+  }
+</style>

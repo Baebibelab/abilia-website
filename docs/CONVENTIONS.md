@@ -10,6 +10,8 @@ est un site **statique** Astro (aucun serveur, aucune dépendance côté navigat
 src/
   assets/screenshots/   captures de l'app (590 × 1278), optimisées par astro:assets : en
                         français, en anglais dans en/, servies par screenshots(lang) (index.ts)
+                        ; ipad.jpg et mac.jpg (facultatives, bigScreenshots(lang)) : tant
+                        qu'elles manquent, la section iPad et Mac dessine l'écran en CSS
   components/           briques partagées (Header, Footer, Section, PhoneFrame, AppIcon…)
   components/home/      l'accueil : Home.astro assemble Hero.astro puis sections/*.astro
   components/privacy/   la page Confidentialité (mise en page commune aux deux langues)
@@ -97,13 +99,21 @@ Réglages dans `src/config.ts` :
   section « Partout » le marque « Bientôt » et rien d'autre n'en parle : une clé de `ui.ts` qui a
   une variante `<clé>.carplay` (description, hero) la donne à la place quand c'est vrai, sans
   rien changer aux composants. Penser alors à l'image de partage (voir plus bas).
+- `IPAD_AVAILABLE` et `MAC_AVAILABLE`, à passer à `true` le jour où l'app sort sur iPad, sur Mac
+  (PR #222 et #223 de l'app). D'ici là, la section « iPad et Mac » n'est construite qu'avec
+  `npm run dev` (pour la relire) et aucune page publiée n'en parle ; ensuite, la plateforme rejoint
+  `{platforms}` (« Pour iPhone, iPad, Mac et Apple Watch », description) et `{devices}`
+  (« pensée pour l'iPhone, l'iPad et le Mac », chapeau du hero), que `useTranslations` remplit
+  dans tous les textes de `ui.ts`, et la section paraît, l'autre plateforme y portant « Bientôt ».
+  Penser alors à la ligne des plateformes de `scripts/og/og.html` et aux images de partage.
 - `APP_LANGUAGES` : langues de l'interface de l'app (`['fr']`). Une page dans une autre langue le
   dit sous l'appel du hero, puisque l'app et ses captures sont en français.
 - `JELLYFIN_URL`.
 
 Les sections de l'accueil, dans l'ordre : `Jellyfin` (`#features`), `Listen` (visite épinglée
 En lecture, paroles, égaliseur, page d'album), `Gapless` (enchaînement et fondu), `Stations`,
-`Offline` (`#offline`), `Rewind`, `Everywhere` (`#everywhere`, Apple Watch et CarPlay).
+`Offline` (`#offline`), `Rewind`, `BigScreens` (`#ipad-mac`, iPad et Mac, voir
+`IPAD_AVAILABLE`), `Everywhere` (`#everywhere`, Apple Watch et CarPlay).
 
 ## Animations
 

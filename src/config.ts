@@ -27,3 +27,16 @@ export const JELLYFIN_URL = 'https://jellyfin.org';
  * Watch » de scripts/og/og.html et régénérer les images de partage.
  */
 export const CARPLAY_AVAILABLE = false;
+
+/**
+ * Abilia sur iPad et sur Mac (Mac Catalyst, même fiche App Store que l'iPhone) : PR #222 et #223
+ * du dépôt de l'app. Tant que les deux sont `false`, la section « iPad et Mac » n'est construite
+ * qu'en développement (`npm run dev`, pour la relire) et aucune page publiée n'en parle. Passer
+ * une plateforme à `true` le jour où elle sort : elle rejoint « Pour iPhone, … » du hero, la
+ * description et le chapeau du hero, et la section paraît (l'autre plateforme y porte alors
+ * « Bientôt »). Ajouter aussi la plateforme à la ligne « Pour iPhone et Apple Watch » de
+ * scripts/og/og.html et régénérer les images de partage. Les captures attendues sont décrites
+ * dans src/assets/screenshots/index.ts.
+ */
+export const IPAD_AVAILABLE = false;
+export const MAC_AVAILABLE = false;

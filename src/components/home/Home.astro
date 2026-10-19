@@ -3,6 +3,7 @@
 // Chaque bloc est son propre fichier, pour que le hero et les sections évoluent séparément :
 // Hero.astro, puis sections/*.astro, dans l'ordre de lecture.
 import Hero from './Hero.astro';
+import BigScreens from './sections/BigScreens.astro';
 import Everywhere from './sections/Everywhere.astro';
 import Gapless from './sections/Gapless.astro';
 import Jellyfin from './sections/Jellyfin.astro';
@@ -10,6 +11,7 @@ import Listen from './sections/Listen.astro';
 import Offline from './sections/Offline.astro';
 import Rewind from './sections/Rewind.astro';
 import Stations from './sections/Stations.astro';
+import { IPAD_AVAILABLE, MAC_AVAILABLE } from '../../config';
 import type { Lang } from '../../i18n/ui';
 
 interface Props {
@@ -17,6 +19,8 @@ interface Props {
 }
 
 const { lang } = Astro.props;
+// « iPad et Mac » attend la sortie d'au moins une des deux (src/config.ts), sauf en développement.
+const showsBigScreens = IPAD_AVAILABLE || MAC_AVAILABLE || import.meta.env.DEV;
 ---
 
 <Hero lang={lang} />
@@ -26,4 +30,5 @@ const { lang } = Astro.props;
 <Stations lang={lang} />
 <Offline lang={lang} />
 <Rewind lang={lang} />
+{showsBigScreens && <BigScreens lang={lang} />}
 <Everywhere lang={lang} />

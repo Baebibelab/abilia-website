@@ -1,7 +1,7 @@
 # Site d'Abilia
 
 Le site vitrine d'[Abilia](https://github.com/Baebibelab/abilia), le lecteur de musique pour
-Jellyfin sur iPhone et Apple Watch. Site statique [Astro](https://astro.build), en
+Jellyfin sur iPhone et Apple Watch (bientôt iPad et Mac). Site statique [Astro](https://astro.build), en
 français et en anglais, animé au scroll, hébergé chez OVH.
 
 ```bash
