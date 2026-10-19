@@ -6,7 +6,7 @@ import FeatureCard from '../../FeatureCard.astro';
 import Glyph from '../../Glyph.astro';
 import PhoneFrame from '../../PhoneFrame.astro';
 import Section from '../../Section.astro';
-import shot from '../../../assets/screenshots/bibliotheque.jpg';
+import { screenshots } from '../../../assets/screenshots';
 import { JELLYFIN_URL } from '../../../config';
 import { type Lang, useTranslations } from '../../../i18n/ui';
 
@@ -16,6 +16,7 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
+const shot = screenshots(lang).library;
 
 // Pastilles autour de l'iPhone : position dans la scène et profondeur de parallaxe (px).
 const chips = [

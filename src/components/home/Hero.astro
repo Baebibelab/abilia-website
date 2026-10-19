@@ -15,7 +15,7 @@ import AppStoreButton from '../AppStoreButton.astro';
 import PhoneFrame from '../PhoneFrame.astro';
 import PhoneSpectrum from './hero/PhoneSpectrum.astro';
 import WaveSpectrum from './hero/WaveSpectrum.astro';
-import enLecture from '../../assets/screenshots/en-lecture.jpg';
+import { screenshots } from '../../assets/screenshots';
 import { APP_LANGUAGES } from '../../config';
 import { type Lang, useTranslations } from '../../i18n/ui';
 
@@ -100,7 +100,7 @@ const chips = [
       <div class="hero__parallax">
         <div class="hero__tilt" data-hero-tilt>
           <div class="hero__float">
-            <PhoneFrame src={enLecture} alt={t('screenshot.nowPlaying')} width={310} loading="eager">
+            <PhoneFrame src={screenshots(lang).nowPlaying} alt={t('screenshot.nowPlaying')} width={310} loading="eager">
               <PhoneSpectrum />
               <span class="hero__glare" aria-hidden="true"></span>
             </PhoneFrame>

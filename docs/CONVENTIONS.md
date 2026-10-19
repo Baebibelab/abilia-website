@@ -8,7 +8,8 @@ est un site **statique** Astro (aucun serveur, aucune dépendance côté navigat
 
 ```
 src/
-  assets/screenshots/   captures de l'app (590 × 1278), optimisées par astro:assets
+  assets/screenshots/   captures de l'app (590 × 1278), optimisées par astro:assets : en
+                        français, en anglais dans en/, servies par screenshots(lang) (index.ts)
   components/           briques partagées (Header, Footer, Section, PhoneFrame, AppIcon…)
   components/home/      l'accueil : Home.astro assemble Hero.astro puis sections/*.astro
   components/privacy/   la page Confidentialité (mise en page commune aux deux langues)

@@ -6,7 +6,7 @@ import FeatureCard from '../../FeatureCard.astro';
 import Glyph from '../../Glyph.astro';
 import PhoneFrame from '../../PhoneFrame.astro';
 import Section from '../../Section.astro';
-import shot from '../../../assets/screenshots/telechargements.jpg';
+import { screenshots } from '../../../assets/screenshots';
 import { type Lang, useTranslations } from '../../../i18n/ui';
 
 interface Props {
@@ -15,6 +15,7 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
+const shot = screenshots(lang).downloads;
 ---
 
 <Section id="offline" eyebrow={t('offline.eyebrow')} lead={t('offline.lead')} class="offline">
