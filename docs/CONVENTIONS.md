@@ -24,7 +24,7 @@ L'accueil est découpé pour que plusieurs personnes y travaillent sans se march
 `Hero.astro` pour le haut de page, un fichier par section dans `components/home/sections/`, et
 `Home.astro` qui ne fait que les mettre dans l'ordre. Une nouvelle section = un nouveau fichier
 dans `sections/` + une ligne dans `Home.astro`. Les composants propres à une section restent
-dans son dossier (`sections/<nom>/…`) tant qu'une autre section ne s'en sert pas.
+dans son dossier (`sections/<nom>/…`, `hero/` pour le hero) tant qu'une autre section ne s'en sert pas.
 
 ## Direction artistique
 
@@ -64,7 +64,8 @@ par section. Une section peut poser ses propres halos ou dégradés locaux par-d
 - `Section` : `id`, `eyebrow`, `title`, `lead`, `align` (`start` / `center`), puis le contenu ;
   l'en-tête apparaît au scroll. Les ancres du menu sont `features`, `offline`, `everywhere`.
 - `PhoneFrame` : un iPhone dessiné en CSS avec une capture (`src`, `alt`, `width`, `loading`).
-  La largeur se règle aussi par `--phone-width` sur un parent.
+  La largeur se règle aussi par `--phone-width` sur un parent. Le contenu passé entre ses
+  balises se pose par-dessus la capture, dans l'écran (le hero y anime le spectre).
 - `AppStoreButton` : pastille « Bientôt sur l'App Store » tant que `APP_STORE_URL`
   (`src/config.ts`) est vide. Le jour du lancement, utiliser le **badge officiel d'Apple**, tel
   quel ; ne jamais dessiner un faux badge ni utiliser le logo Apple ailleurs.

@@ -1,8 +1,19 @@
 ---
-// Hero provisoire (étape 1) : il montre les fondations en place (titre, appel App Store,
-// iPhone, apparition et parallaxe au scroll). Le vrai hero animé le remplace.
+// Haut de l'accueil : l'icône, le titre, l'appel App Store, et l'iPhone qui joue un morceau.
+// Derrière l'iPhone, des halos qui tournent (sarcelle, indigo, violet, corail de l'icône) et
+// battent avec la musique ; dans l'écran, le spectre de l'app s'anime ; en bas, le même
+// spectre en grand. Autour, quatre pastilles en verre rappellent ce que fait l'app.
+//
+// Au chargement, le texte apparaît (`data-reveal`) et l'iPhone se redresse ; au scroll
+// (`--progress` du hero), l'iPhone recule en basculant, les pastilles s'écartent et le grand
+// spectre s'aplatit ; à la souris, l'iPhone s'incline vers le pointeur.
+// Sans JavaScript ou avec « Réduire les animations » : la même composition, immobile, avec
+// le spectre figé sur une image (voir hero/spectrum.ts).
+import AppIcon from '../AppIcon.astro';
 import AppStoreButton from '../AppStoreButton.astro';
 import PhoneFrame from '../PhoneFrame.astro';
+import PhoneSpectrum from './hero/PhoneSpectrum.astro';
+import WaveSpectrum from './hero/WaveSpectrum.astro';
 import enLecture from '../../assets/screenshots/en-lecture.jpg';
 import { type Lang, useTranslations } from '../../i18n/ui';
 
@@ -12,94 +23,583 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
+
+// Pastilles autour de l'iPhone : position (classe), profondeur de parallaxe, icône.
+const chips = [
+  { key: 'hero.chip.format', place: 'tl', icon: 'wave' },
+  { key: 'hero.chip.gapless', place: 'r', icon: 'loop' },
+  { key: 'hero.chip.offline', place: 'l', icon: 'download' },
+  { key: 'hero.chip.eq', place: 'br', icon: 'sliders' },
+] as const;
 ---
 
-<section class="hero" data-scroll>
+<section class="hero" data-scroll data-hero>
+  <WaveSpectrum />
+
   <div class="container hero__inner">
-    <div class="hero__text" data-reveal-stagger="120">
-      <p class="hero__eyebrow" data-reveal>{t('hero.eyebrow')}</p>
+    <div class="hero__text" data-reveal-stagger="110">
+      <div class="hero__brand" data-reveal="scale">
+        <span class="hero__icon">
+          <span class="hero__icon-glow" data-hero-pulse aria-hidden="true"></span>
+          <AppIcon size={60} />
+        </span>
+        <span class="hero__brand-text">
+          <span class="hero__name">Abilia</span>
+          <span class="hero__eyebrow">{t('hero.eyebrow')}</span>
+        </span>
+      </div>
       <h1 class="hero__title" data-reveal="blur">
         {t('hero.title.1')}
-        <span class="gradient-text">{t('hero.title.2')}</span>
+        <span class="gradient-text hero__title-accent">{t('hero.title.2')}</span>
       </h1>
       <p class="hero__lead" data-reveal>{t('hero.lead')}</p>
       <div class="hero__actions" data-reveal>
         <AppStoreButton lang={lang} />
-        <a class="button button--ghost" href="#features">{t('cta.discover')}</a>
+        <a class="button button--ghost" href="#features">
+          {t('cta.discover')}
+          <svg class="hero__arrow" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+            <path d="M8 2.5v11M3.5 9 8 13.5 12.5 9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </a>
       </div>
+      <p class="hero__platforms" data-reveal="fade">{t('hero.platforms')}</p>
     </div>
-    <div class="hero__visual" data-reveal="scale" data-reveal-delay="250">
-      <PhoneFrame src={enLecture} alt={t('screenshot.nowPlaying')} width={320} loading="eager" />
+
+    <div class="hero__visual">
+      <div class="hero__orbit" aria-hidden="true">
+        <span class="hero__orbit-ring"></span>
+      </div>
+      <span class="hero__beat" data-hero-pulse aria-hidden="true"></span>
+
+      <div class="hero__parallax">
+        <div class="hero__tilt" data-hero-tilt>
+          <div class="hero__float">
+            <PhoneFrame src={enLecture} alt={t('screenshot.nowPlaying')} width={310} loading="eager">
+              <PhoneSpectrum />
+            </PhoneFrame>
+          </div>
+        </div>
+      </div>
+
+      <ul class="hero__chips" aria-hidden="true">
+        {
+          chips.map((chip, index) => (
+            <li class={`chip chip--${chip.place}`} style={`--i: ${index}`}>
+              <span class="chip__inner glass">
+                <svg class="chip__icon" width="18" height="18" viewBox="0 0 24 24">
+                  {chip.icon === 'wave' && <path d="M3 12h2M7 8v8M11 5v14M15 9v6M19 7v10M21 12h0" />}
+                  {chip.icon === 'loop' && (
+                    <path d="M8.5 15.5c-2 1.9-5.5.8-5.5-3.5s3.5-5.4 5.5-3.5l7 7c2 1.9 5.5.8 5.5-3.5s-3.5-5.4-5.5-3.5" />
+                  )}
+                  {chip.icon === 'download' && <path d="M12 4v11M7 10.5l5 5 5-5M5 20h14" />}
+                  {chip.icon === 'sliders' && <path d="M6 4v16M12 4v16M18 4v16M3.5 14h5M9.5 8h5M15.5 16h5" />}
+                </svg>
+                {t(chip.key)}
+              </span>
+            </li>
+          ))
+        }
+      </ul>
     </div>
   </div>
 </section>
 
+<script>
+  import { BAND_COUNT, kickAt, smooth, spectrumAt, STILL_TIME } from './hero/spectrum';
+
+  // Anime le spectre (barres de l'iPhone et grand spectre), fait battre les halos et incline
+  // l'iPhone vers le pointeur. Rien ne tourne hors de l'écran, onglet caché, ou avec
+  // « Réduire les animations » (le rendu figé reste alors en place).
+  const hero = document.querySelector<HTMLElement>('[data-hero]');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  if (hero) {
+    const caps = Array.from(hero.querySelectorAll<HTMLElement>('[data-hero-bar]')).map((el) => ({
+      el,
+      band: Number(el.dataset.heroBar),
+      // Hauteur visible minimale : un rond dans l'iPhone, un trait dans le grand spectre.
+      floor: el.classList.contains('cap') ? 0.304 : 0.06,
+      base: el.classList.contains('cap') ? 0.06 : 0.08,
+    }));
+    const pulses = Array.from(hero.querySelectorAll<HTMLElement>('[data-hero-pulse]'));
+    const tilt = hero.querySelector<HTMLElement>('[data-hero-tilt]');
+
+    const levels = spectrumAt(STILL_TIME).slice();
+    const target = new Array<number>(BAND_COUNT);
+    let onScreen = true;
+    let frame = 0;
+    let last = 0;
+    // Le morceau imaginaire reprend là où l'image figée l'avait laissé.
+    let clock = STILL_TIME;
+
+    function render(now: number) {
+      frame = requestAnimationFrame(render);
+      // 30 images par seconde, comme les barres de l'app.
+      if (now - last < 1000 / 31) return;
+      const elapsed = last ? Math.min(now - last, 100) : 1000 / 30;
+      last = now;
+      clock += elapsed / 1000;
+
+      spectrumAt(clock, target);
+      smooth(levels, target, elapsed / (1000 / 30));
+      for (const cap of caps) {
+        const visible = Math.max(cap.floor, cap.base + (1 - cap.base) * levels[cap.band]);
+        cap.el.style.transform = `translateY(${((1 - visible) * 100).toFixed(2)}%)`;
+      }
+
+      const kick = kickAt(clock);
+      for (const pulse of pulses) {
+        pulse.style.opacity = (0.55 + 0.45 * kick).toFixed(3);
+        pulse.style.transform = `scale(${(1 + 0.06 * kick).toFixed(4)})`;
+      }
+    }
+
+    function start() {
+      if (frame || !onScreen || document.hidden || reducedMotion.matches) return;
+      last = 0;
+      frame = requestAnimationFrame(render);
+    }
+
+    function stop() {
+      cancelAnimationFrame(frame);
+      frame = 0;
+    }
+
+    new IntersectionObserver(([entry]) => {
+      onScreen = entry.isIntersecting;
+      if (onScreen) start();
+      else stop();
+    }).observe(hero);
+
+    document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
+
+    // « Réduire les animations » activé page ouverte : retour à l'image figée.
+    reducedMotion.addEventListener('change', () => {
+      if (!reducedMotion.matches) return start();
+      stop();
+      for (const el of [...caps.map((cap) => cap.el), ...pulses, tilt]) el?.style.removeProperty('transform');
+      pulses.forEach((pulse) => pulse.style.removeProperty('opacity'));
+    });
+
+    // Inclinaison vers le pointeur, seulement avec une souris ou un pavé tactile.
+    const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+    if (tilt) {
+      let goal = { x: 0, y: 0 };
+      let current = { x: 0, y: 0 };
+      let tiltFrame = 0;
+
+      const step = () => {
+        current.x += (goal.x - current.x) * 0.08;
+        current.y += (goal.y - current.y) * 0.08;
+        tilt.style.transform = `rotateX(${(-current.y * 9).toFixed(2)}deg) rotateY(${(current.x * 11).toFixed(2)}deg)`;
+        const settled = Math.abs(goal.x - current.x) < 0.001 && Math.abs(goal.y - current.y) < 0.001;
+        tiltFrame = settled ? 0 : requestAnimationFrame(step);
+      };
+
+      const aim = (x: number, y: number) => {
+        if (reducedMotion.matches || !finePointer.matches) return;
+        goal = { x, y };
+        if (!tiltFrame) tiltFrame = requestAnimationFrame(step);
+      };
+
+      hero.addEventListener('pointermove', (event) => {
+        if (event.pointerType !== 'mouse') return;
+        const rect = tilt.getBoundingClientRect();
+        const x = (event.clientX - (rect.left + rect.width / 2)) / (window.innerWidth / 2);
+        const y = (event.clientY - (rect.top + rect.height / 2)) / (window.innerHeight / 2);
+        aim(Math.max(-1, Math.min(1, x)), Math.max(-1, Math.min(1, y)));
+      });
+      hero.addEventListener('pointerleave', () => aim(0, 0));
+    }
+
+    start();
+  }
+</script>
+
 <style>
   .hero {
+    position: relative;
+    /* Les halos et les pastilles qui s'écartent ne doivent jamais élargir la page. */
+    overflow: clip;
     min-height: 100svh;
     display: flex;
     align-items: center;
-    padding-block: calc(var(--header-height) + 40px) 80px;
+    padding-block: calc(var(--header-height) + 32px) clamp(96px, 12vw, 160px);
+    /* 0 tant que le hero remplit l'écran, 1 quand il l'a quitté. */
+    --exit: max(0, (var(--progress, 0.5) - 0.5) * 2);
   }
 
   .hero__inner {
+    position: relative;
     display: grid;
-    grid-template-columns: 1.15fr 0.85fr;
+    grid-template-columns: 1.2fr 0.8fr;
     align-items: center;
     gap: clamp(40px, 6vw, 96px);
   }
 
+  /* Texte */
+
   .hero__text {
     display: grid;
+    justify-items: start;
     gap: 24px;
+  }
+
+  .hero__brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-align: start;
+  }
+
+  .hero__brand-text {
+    display: grid;
+    gap: 2px;
+  }
+
+  .hero__name {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+
+  .hero__icon {
+    position: relative;
+    display: grid;
+    place-items: center;
+  }
+
+  .hero__icon :global(.app-icon) {
+    position: relative;
+  }
+
+  .hero__icon-glow {
+    position: absolute;
+    inset: -40%;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, rgb(255 107 74 / 0.45), transparent);
+    opacity: 0.55;
   }
 
   .hero__eyebrow {
     color: var(--coral);
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-weight: 700;
     letter-spacing: 0.12em;
     text-transform: uppercase;
   }
 
   .hero__title {
-    font-size: clamp(2.8rem, 7vw, 5.6rem);
+    font-size: clamp(2.5rem, 5.1vw, 4.6rem);
     font-weight: 800;
-    letter-spacing: -0.035em;
+    letter-spacing: -0.04em;
+    line-height: 1.02;
+    text-wrap: balance;
   }
 
-  .hero__title .gradient-text {
+  .hero__title-accent {
     display: block;
+    /* Dégradé deux fois plus large que le texte, qui glisse lentement. */
+    background-image: linear-gradient(
+      100deg,
+      var(--coral) 0%,
+      var(--purple) 25%,
+      var(--teal) 50%,
+      var(--purple) 75%,
+      var(--coral) 100%
+    );
+    background-size: 200% 100%;
+    /* Les jambages (« p », « q ») restent dans la zone colorée. */
+    padding-bottom: 0.08em;
   }
 
   .hero__lead {
     max-width: 34em;
     color: var(--text-secondary);
-    font-size: clamp(1.1rem, 1.6vw, 1.3rem);
+    font-size: clamp(1.08rem, 1.5vw, 1.28rem);
+    text-wrap: pretty;
   }
 
   .hero__actions {
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
+    margin-top: 6px;
   }
+
+  .hero__arrow {
+    transition: transform 0.4s var(--ease-out);
+  }
+
+  .hero__actions a:hover .hero__arrow {
+    transform: translateY(2px);
+  }
+
+  .hero__platforms {
+    color: var(--text-tertiary);
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  /* iPhone et décor */
 
   .hero__visual {
-    display: flex;
-    justify-content: center;
+    --phone-width: clamp(250px, 26vw, 320px);
+    position: relative;
+    display: grid;
+    place-items: center;
+    perspective: 1400px;
   }
 
+  .hero__orbit {
+    position: absolute;
+    width: calc(var(--phone-width) * 2.6);
+    aspect-ratio: 1;
+    pointer-events: none;
+  }
+
+  /* Disque conique aux couleurs d'Abilia, adouci par un masque radial (pas de `filter: blur`,
+     trop coûteux à faire tourner). */
+  .hero__orbit-ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: conic-gradient(
+      from 0deg,
+      var(--teal),
+      var(--indigo),
+      var(--purple),
+      var(--coral),
+      var(--teal)
+    );
+    -webkit-mask-image: radial-gradient(closest-side, #000 25%, rgb(0 0 0 / 0.45) 60%, transparent);
+    mask-image: radial-gradient(closest-side, #000 25%, rgb(0 0 0 / 0.45) 60%, transparent);
+    opacity: 0.55;
+  }
+
+  /* Lueur de la pochette (rouge du morceau joué) juste derrière l'iPhone, qui bat au tempo. */
+  .hero__beat {
+    position: absolute;
+    width: calc(var(--phone-width) * 1.5);
+    aspect-ratio: 0.75;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, rgb(220 60 70 / 0.5), rgb(255 107 74 / 0.18) 55%, transparent);
+    opacity: 0.55;
+    pointer-events: none;
+  }
+
+  .hero__parallax,
+  .hero__tilt,
+  .hero__float {
+    transform-style: preserve-3d;
+  }
+
+  .hero__float :global(.phone) {
+    box-shadow:
+      inset 0 0 0 1.5px rgb(255 255 255 / 0.18),
+      0 0 0 1px rgb(0 0 0 / 0.6),
+      0 50px 100px -30px rgb(60 10 20 / 0.55),
+      0 30px 60px -30px rgb(20 40 60 / 0.4);
+  }
+
+  /* Pastilles */
+
+  .hero__chips {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    pointer-events: none;
+  }
+
+  .chip {
+    position: absolute;
+    --dx: 0;
+    --dy: 0;
+    --depth: 1;
+  }
+
+  .chip--tl {
+    top: 13%;
+    left: calc(50% - var(--phone-width) * 0.5 - 64px);
+    --dx: -1;
+    --dy: -0.6;
+    --depth: 1.2;
+  }
+
+  .chip--r {
+    top: 38%;
+    /* Sans dépasser de plus de 36 px la colonne (la marge de la page, sur un écran de portable). */
+    left: min(calc(50% + var(--phone-width) * 0.5 - 64px), calc(100% - 140px));
+    --dx: 1;
+    --dy: -0.2;
+    --depth: 0.8;
+  }
+
+  .chip--l {
+    top: 62%;
+    left: calc(50% - var(--phone-width) * 0.5 - 76px);
+    --dx: -1;
+    --dy: 0.3;
+    --depth: 0.9;
+  }
+
+  .chip--br {
+    top: 86%;
+    left: calc(50% + var(--phone-width) * 0.5 - 96px);
+    --dx: 1;
+    --dy: 0.6;
+    --depth: 1.3;
+  }
+
+  .chip__inner {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px 10px 12px;
+    border-radius: var(--radius-pill);
+    font-size: 0.88rem;
+    font-weight: 600;
+    white-space: nowrap;
+    color: var(--text);
+  }
+
+  .chip__icon {
+    flex: none;
+    fill: none;
+    stroke: var(--teal);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .chip--tl .chip__icon,
+  .chip--br .chip__icon {
+    stroke: var(--coral);
+  }
+
+  /* Mouvements : entrée, flottement, scroll. Rien de tout ça avec « Réduire les animations ». */
   @media (prefers-reduced-motion: no-preference) {
-    /* L'iPhone remonte et s'incline à mesure que le hero quitte l'écran. */
-    .hero__visual :global(.phone) {
-      transform: translateY(calc((var(--progress, 0.5) - 0.5) * -120px))
-        rotate(calc((var(--progress, 0.5) - 0.5) * 6deg));
+    .hero__title-accent {
+      animation: gradient-slide 10s linear infinite;
+    }
+
+    .hero__orbit-ring {
+      animation: spin 36s linear infinite;
+    }
+
+    .hero__orbit {
+      transform: scale(calc(1 + var(--exit) * 0.35)) rotate(calc(var(--exit) * 60deg));
+    }
+
+    .hero__beat,
+    .hero__icon-glow {
+      will-change: transform, opacity;
+    }
+
+    /* L'iPhone traîne derrière la page et bascule en reculant. */
+    .hero__parallax {
+      transform: translateY(calc(var(--exit) * 140px)) rotateX(calc(var(--exit) * 14deg))
+        scale(calc(1 - var(--exit) * 0.1));
+    }
+
+    .hero__tilt {
+      will-change: transform;
+    }
+
+    .hero__float {
+      animation:
+        phone-in 1.6s var(--ease-out) 0.25s both,
+        bob 7s ease-in-out 1.85s infinite alternate;
+    }
+
+    /* Les pastilles arrivent l'une après l'autre, flottent, puis s'écartent au scroll. */
+    .chip {
+      transform: translate(
+        calc(var(--exit) * var(--dx) * var(--depth) * 120px),
+        calc(var(--exit) * var(--dy) * var(--depth) * 160px - var(--exit) * var(--depth) * 60px)
+      );
+      opacity: calc(1 - var(--exit) * 1.4);
+    }
+
+    .chip__inner {
+      animation:
+        chip-in 0.9s var(--ease-out) calc(0.9s + var(--i) * 0.14s) both,
+        bob 5s ease-in-out calc(1.8s + var(--i) * 0.6s) infinite alternate;
+    }
+
+    .hero__text {
+      transform: translateY(calc(var(--exit) * -50px));
+      opacity: calc(1 - var(--exit) * 0.5);
+    }
+
+    .hero :global(.wave) {
+      transform: scaleY(calc(1 - var(--exit) * 0.75));
+      transform-origin: bottom;
     }
   }
 
+  @keyframes gradient-slide {
+    to {
+      background-position: -200% 0;
+    }
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(1turn);
+    }
+  }
+
+  @keyframes phone-in {
+    from {
+      opacity: 0;
+      transform: translateY(90px) rotateX(24deg) rotateZ(-4deg) scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes chip-in {
+    from {
+      opacity: 0;
+      transform: translateY(16px) scale(0.85);
+    }
+  }
+
+  @keyframes bob {
+    from {
+      translate: 0 -5px;
+    }
+    to {
+      translate: 0 5px;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .hero__orbit-ring {
+      opacity: 0.6;
+    }
+
+    .hero__beat {
+      background: radial-gradient(closest-side, rgb(220 60 70 / 0.55), rgb(255 107 74 / 0.2) 55%, transparent);
+    }
+  }
+
+  /* Tablette et téléphone : texte centré, l'iPhone dessous. */
   @media (max-width: 860px) {
+    .hero {
+      padding-top: calc(var(--header-height) + 20px);
+    }
+
     .hero__inner {
       grid-template-columns: 1fr;
+      gap: 56px;
       text-align: center;
     }
 
@@ -112,7 +612,65 @@ const t = useTranslations(lang);
     }
 
     .hero__visual {
-      --phone-width: min(280px, 72vw);
+      --phone-width: min(270px, 64vw);
+      padding-block: 8px;
+    }
+  }
+
+  /* Téléphone : pastilles plus petites, collées aux bords de l'iPhone pour ne pas déborder. */
+  @media (max-width: 520px) {
+    .hero__icon :global(.app-icon) {
+      width: 52px;
+      height: 52px;
+    }
+
+    /* L'en-tête affiche déjà le nom juste au-dessus : l'icône, puis la ligne de présentation. */
+    .hero__brand {
+      flex-direction: column;
+      gap: 14px;
+      text-align: center;
+    }
+
+    .hero__name {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+
+    .hero__text {
+      gap: 20px;
+    }
+
+    .chip__inner {
+      padding: 7px 12px 7px 9px;
+      font-size: 0.78rem;
+      gap: 6px;
+    }
+
+    .chip__icon {
+      width: 15px;
+      height: 15px;
+    }
+
+    .chip--tl {
+      left: max(0px, calc(50% - var(--phone-width) * 0.5 - 28px));
+    }
+
+    .chip--l {
+      left: max(0px, calc(50% - var(--phone-width) * 0.5 - 36px));
+    }
+
+    /* Trois pastilles suffisent : la quatrième couvrirait la pochette. */
+    .chip--r {
+      display: none;
+    }
+
+    .chip--br {
+      left: auto;
+      right: max(0px, calc(50% - var(--phone-width) * 0.5 - 36px));
     }
   }
 </style>

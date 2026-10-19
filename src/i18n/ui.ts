@@ -28,6 +28,11 @@ const fr = {
   'hero.title.2': 'dans votre poche.',
   'hero.lead':
     "Abilia joue la bibliothèque de votre serveur Jellyfin avec une app pensée pour l'iPhone : belle, rapide, et qui se fond dans le système, jusque dans la voiture et sur l'Apple Watch.",
+  'hero.platforms': 'Pour iPhone, Apple Watch et CarPlay',
+  'hero.chip.format': 'FLAC · 24 bits / 96 kHz',
+  'hero.chip.gapless': 'Enchaînement sans blanc',
+  'hero.chip.offline': 'Hors ligne',
+  'hero.chip.eq': 'Égaliseur 10 bandes',
   'features.eyebrow': 'Fonctionnalités',
   'features.title': 'Écoutez, simplement.',
   'features.lead':
@@ -71,6 +76,11 @@ const en: Record<UIKey, string> = {
   'hero.title.2': 'in your pocket.',
   'hero.lead':
     'Abilia plays your Jellyfin server’s library in an app built for the iPhone: beautiful, fast, and at home everywhere in the system, from the car to the Apple Watch.',
+  'hero.platforms': 'For iPhone, Apple Watch and CarPlay',
+  'hero.chip.format': 'FLAC · 24-bit / 96 kHz',
+  'hero.chip.gapless': 'Gapless playback',
+  'hero.chip.offline': 'Works offline',
+  'hero.chip.eq': '10-band equalizer',
   'features.eyebrow': 'Features',
   'features.title': 'Just press play.',
   'features.lead':
