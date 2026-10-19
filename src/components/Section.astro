@@ -1,0 +1,85 @@
+---
+// Bloc de page commun : identifiant d'ancre, surtitre, titre, chapeau, puis le contenu.
+// Le titre et le texte apparaissent au scroll (`data-reveal`). Les sections de l'accueil
+// utilisent les ancres `features`, `offline`, `everywhere` du menu (Header.astro).
+interface Props {
+  id?: string;
+  eyebrow?: string;
+  title?: string;
+  lead?: string;
+  align?: 'start' | 'center';
+  /** Niveau du titre : 2 par défaut (le h1 est celui de la page). */
+  level?: 2 | 3;
+  class?: string;
+}
+
+const { id, eyebrow, title, lead, align = 'start', level = 2, class: className } = Astro.props;
+const Heading = `h${level}` as 'h2' | 'h3';
+const hasHeader = eyebrow || title || lead || Astro.slots.has('title');
+---
+
+<section id={id} class:list={['section', `section--${align}`, className]}>
+  <div class="container">
+    {
+      hasHeader && (
+        <header class="section__header" data-reveal-stagger>
+          {eyebrow && (
+            <p class="section__eyebrow" data-reveal>
+              {eyebrow}
+            </p>
+          )}
+          {(title || Astro.slots.has('title')) && (
+            <Heading class="section__title" data-reveal>
+              {title}
+              <slot name="title" />
+            </Heading>
+          )}
+          {lead && (
+            <p class="section__lead" data-reveal>
+              {lead}
+            </p>
+          )}
+        </header>
+      )
+    }
+    <slot />
+  </div>
+</section>
+
+<style>
+  .section {
+    padding-block: clamp(72px, 12vw, 160px);
+  }
+
+  .section__header {
+    display: grid;
+    gap: 18px;
+    max-width: 760px;
+    margin-bottom: clamp(40px, 6vw, 72px);
+  }
+
+  .section--center .section__header {
+    margin-inline: auto;
+    text-align: center;
+    justify-items: center;
+  }
+
+  .section__eyebrow {
+    color: var(--coral);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .section__title {
+    font-size: clamp(2.2rem, 5.5vw, 4rem);
+    font-weight: 800;
+  }
+
+  .section__lead {
+    color: var(--text-secondary);
+    font-size: clamp(1.1rem, 1.8vw, 1.3rem);
+    line-height: 1.5;
+  }
+</style>

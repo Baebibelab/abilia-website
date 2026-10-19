@@ -1,0 +1,170 @@
+# Conventions du site Abilia
+
+Ce qu'il faut savoir pour ajouter ou modifier une page, une section ou une animation. Le site
+est un site **statique** Astro (aucun serveur, aucune dépendance côté navigateur), en français
+à la racine et en anglais sous `/en/`, mis en ligne sur l'hébergement mutualisé OVH.
+
+## Arborescence
+
+```
+src/
+  assets/screenshots/   captures de l'app (590 × 1278), optimisées par astro:assets
+  components/           briques partagées (Header, Footer, Section, PhoneFrame, AppIcon…)
+  components/home/      l'accueil : Home.astro assemble Hero.astro puis sections/*.astro
+  i18n/ui.ts            tous les textes (fr + en) et la table des pages (`routes`)
+  layouts/Base.astro    <head>, fond animé, en-tête, pied de page, moteur d'animation
+  pages/                pages françaises ; pages/en/ leurs équivalents anglais
+  scripts/motion.ts     moteur d'animation au scroll (data-reveal, data-scroll)
+  styles/global.css     couleurs, typographie, boutons, verre
+  styles/motion.css     états des apparitions data-reveal
+public/                 copié tel quel : .htaccess (OVH), favicon, robots.txt
+```
+
+L'accueil est découpé pour que plusieurs personnes y travaillent sans se marcher dessus :
+`Hero.astro` pour le haut de page, un fichier par section dans `components/home/sections/`, et
+`Home.astro` qui ne fait que les mettre dans l'ordre. Une nouvelle section = un nouveau fichier
+dans `sections/` + une ligne dans `Home.astro`. Les composants propres à une section restent
+dans son dossier (`sections/<nom>/…`) tant qu'une autre section ne s'en sert pas.
+
+## Direction artistique
+
+Reprise de l'app (`Utilities/Theme.swift`, `AccentColor`, l'icône) : le **corail** de l'icône,
+la **sarcelle** de la couleur d'accent, des **halos** sarcelle / indigo / violet très flous, des
+cartes en **verre**. Clair et sombre suivent le système, comme l'app.
+
+Variables CSS (`src/styles/global.css`), toujours elles plutôt qu'une couleur en dur :
+
+| Variable | Rôle |
+| --- | --- |
+| `--coral`, `--coral-strong` | couleur de la marque (icône), surtitres, points d'accent |
+| `--teal` | couleur d'accent de l'app : liens, états actifs, focus |
+| `--indigo`, `--purple` | couleurs des halos et des dégradés |
+| `--bg`, `--bg-elevated` | fond de page, fond d'un élément posé dessus |
+| `--text`, `--text-secondary`, `--text-tertiary` | texte principal, secondaire, discret |
+| `--border` | filets |
+| `--glass-bg`, `--glass-border`, `--glass-shadow` | cartes en verre |
+| `--halo-*` | couleurs (avec transparence) des halos du fond |
+| `--radius-card`, `--radius-pill` | coins des cartes (28 px), des pastilles |
+| `--gutter`, `--content-width`, `--header-height` | mise en page |
+| `--ease-out` | courbe de toutes les transitions |
+
+Classes utilitaires : `.container` (largeur de contenu + marges, 16 px minimum sur téléphone),
+`.glass` (carte en verre, comme `glassCard()`), `.gradient-text` (corail → violet → sarcelle,
+pour un mot ou une ligne de titre, pas un paragraphe), `.button` + `.button--primary` /
+`.button--ghost`, `.visually-hidden`.
+
+Typographie : la police système (SF Pro sur les appareils Apple, comme l'app), aucune police
+téléchargée. Titres en `font-weight: 800`, interlettrage négatif, tailles en `clamp()`.
+
+Le fond (`components/Halos.astro`) est commun à toutes les pages : ne pas en ajouter un autre
+par section. Une section peut poser ses propres halos ou dégradés locaux par-dessus.
+
+## Composants partagés
+
+- `Section` : `id`, `eyebrow`, `title`, `lead`, `align` (`start` / `center`), puis le contenu ;
+  l'en-tête apparaît au scroll. Les ancres du menu sont `features`, `offline`, `everywhere`.
+- `PhoneFrame` : un iPhone dessiné en CSS avec une capture (`src`, `alt`, `width`, `loading`).
+  La largeur se règle aussi par `--phone-width` sur un parent.
+- `AppStoreButton` : pastille « Bientôt sur l'App Store » tant que `APP_STORE_URL`
+  (`src/config.ts`) est vide. Le jour du lancement, utiliser le **badge officiel d'Apple**, tel
+  quel ; ne jamais dessiner un faux badge ni utiliser le logo Apple ailleurs.
+- `AppIcon` : l'icône en SVG (`size`, `label` si elle doit être lue).
+
+## Animations
+
+Le moteur (`src/scripts/motion.ts`, chargé par `Base.astro`) se pilote par attributs HTML.
+
+### Apparition : `data-reveal`
+
+```astro
+<h2 data-reveal>…</h2>                        <!-- monte en fondu (défaut : up) -->
+<div data-reveal="scale" data-reveal-delay="200">…</div>
+<ul data-reveal-stagger="80">                 <!-- les enfants data-reveal se suivent -->
+  <li data-reveal>…</li>
+  <li data-reveal>…</li>
+</ul>
+<p data-reveal="fade" data-reveal-repeat>…</p>  <!-- disparaît en quittant l'écran -->
+```
+
+Valeurs : `up`, `down`, `left`, `right`, `scale`, `fade`, `blur`. Distance et durée se règlent
+par `--reveal-distance` (40 px) et `--reveal-duration` (0,9 s) sur l'élément.
+
+### Progression du scroll : `data-scroll`
+
+L'élément reçoit `--progress` : 0 quand son haut touche le bas de l'écran, 1 quand son bas
+quitte le haut. Le CSS en fait ce qu'il veut :
+
+```css
+@media (prefers-reduced-motion: no-preference) {
+  .visual .phone {
+    transform: translateY(calc((var(--progress, 0.5) - 0.5) * -80px));
+  }
+}
+```
+
+`data-scroll="pin"` sert aux passages épinglés : un conteneur haut (par ex. `height: 300vh`)
+dont l'enfant est `position: sticky; top: 0`. `--progress` va alors de 0 (le conteneur arrive
+en haut) à 1 (sa fin arrive en bas) : c'est le temps pendant lequel l'enfant reste à l'écran,
+idéal pour faire défiler des écrans dans un iPhone fixe ou enchaîner des titres.
+
+`<html>` porte aussi `--page-progress` (0 en haut, 1 en bas) et la classe `is-scrolled` dès que
+la page a défilé.
+
+### Règles
+
+- **Accessibilité** : tout mouvement (translation, rotation, échelle, parallaxe) va dans
+  `@media (prefers-reduced-motion: no-preference)`. Avec « Réduire les animations », le moteur
+  révèle tout d'emblée ; seuls des fondus de couleur ou d'opacité restent permis. Les effets de
+  flou et de verre ont un repli sous `prefers-reduced-transparency: reduce`.
+- **Sans JavaScript**, rien ne doit rester caché : les états de départ ne valent que sous
+  `html.js` (déjà le cas pour `data-reveal` ; à respecter pour toute animation maison).
+- **Performance** : n'animer que `transform`, `opacity` (et `filter` pour une apparition). Pas
+  d'écouteur `scroll` à soi : passer par `data-scroll` et `--progress`, que le moteur ne calcule
+  que pour les éléments proches de l'écran, une fois par image.
+- Une boucle infinie (halos, pulsation) se coupe aussi avec « Réduire les animations ».
+- Pas de bibliothèque d'animation (GSAP, Lenis…) sans en discuter : le site n'a aujourd'hui
+  aucune dépendance côté navigateur.
+
+## Textes et langues
+
+Tous les textes sont dans `src/i18n/ui.ts`, en français puis en anglais. Le type de l'objet
+anglais oblige à traduire chaque clé : `npm run check` échoue sinon. Les clés sont préfixées par
+leur zone (`hero.`, `features.`, `offline.`…). Dans un composant :
+
+```astro
+---
+import { type Lang, useTranslations } from '../i18n/ui';
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+<h2>{t('features.title')}</h2>
+```
+
+Les composants reçoivent toujours `lang` en prop. Les textes alternatifs des captures vont
+aussi dans `ui.ts` (`screenshot.*`).
+
+**Nouvelle page** : l'ajouter à `routes` dans `ui.ts` avec son adresse dans chaque langue (les
+adresses peuvent différer, par ex. `/confidentialite/` et `/en/privacy/`), puis créer
+`src/pages/<page>.astro` et `src/pages/en/<page>.astro`, qui passent `alternates={routes.<page>}`
+à `Base` (sélecteur de langue et balises hreflang).
+
+Ton : celui du README de l'app, chaleureux et concret, en vouvoyant ; l'anglais est une vraie
+traduction, pas un mot à mot.
+
+## Vérifier et mettre en ligne
+
+```bash
+npm install
+npm run dev       # http://localhost:4321, rechargement à chaud
+npm run check     # types et textes manquants
+npm run build     # site statique dans dist/
+npm run preview   # sert dist/ comme en production
+```
+
+Avant une PR : `npm run check` et `npm run build` sans erreur, et un coup d'œil en clair, en
+sombre, sur téléphone (390 px, aucun défilement horizontal) et avec « Réduire les animations ».
+
+La CI (`.github/workflows/ci.yml`) refait `check` et `build` sur chaque PR. Le déploiement
+(`.github/workflows/deploy.yml`) envoie `dist/` sur OVH à chaque push sur `main`, une fois les
+secrets `OVH_HOST`, `OVH_USER`, `OVH_PASSWORD` définis (détails en tête du fichier). Les règles
+Apache (HTTPS, cache, page 404, en-têtes de sécurité) sont dans `public/.htaccess`.

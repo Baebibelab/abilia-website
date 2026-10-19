@@ -1,0 +1,184 @@
+---
+// En-tête fixe : transparent en haut de page, en verre dès que la page défile
+// (`html.is-scrolled`, posé par src/scripts/motion.ts).
+import AppIcon from './AppIcon.astro';
+import AppStoreButton from './AppStoreButton.astro';
+import { type Lang, languages, pathFor, useTranslations } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  /** Adresse de la même page dans chaque langue, pour le sélecteur. */
+  alternates: Record<Lang, string>;
+}
+
+const { lang, alternates } = Astro.props;
+const t = useTranslations(lang);
+const home = pathFor('home', lang);
+
+// Ancres des sections de l'accueil : mêmes identifiants dans les deux langues.
+const links = [
+  { href: `${home}#features`, label: t('nav.features') },
+  { href: `${home}#offline`, label: t('nav.offline') },
+  { href: `${home}#everywhere`, label: t('nav.everywhere') },
+];
+const otherLangs = (Object.keys(languages) as Lang[]).filter((l) => l !== lang);
+---
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a class="brand" href={home} aria-label={t('nav.home')}>
+      <AppIcon size={34} />
+      <span class="brand__name" aria-hidden="true">Abilia</span>
+    </a>
+
+    <nav class="site-nav" aria-label={t('nav.features')}>
+      <ul>
+        {links.map((link) => (
+          <li>
+            <a href={link.href}>{link.label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="site-header__actions">
+      {
+        otherLangs.map((l) => (
+          <a class="lang-switch" href={alternates[l]} hreflang={l} lang={l} aria-label={`${languages[l]}`}>
+            {l.toUpperCase()}
+          </a>
+        ))
+      }
+      <AppStoreButton lang={lang} size="small" class="site-header__cta" />
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 100;
+    height: var(--header-height);
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid transparent;
+    transition:
+      background-color 0.4s var(--ease-out),
+      border-color 0.4s var(--ease-out),
+      -webkit-backdrop-filter 0.4s var(--ease-out),
+      backdrop-filter 0.4s var(--ease-out);
+  }
+
+  :global(html.is-scrolled) .site-header {
+    background: var(--glass-bg);
+    border-bottom-color: var(--border);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    backdrop-filter: blur(24px) saturate(180%);
+  }
+
+  @media (prefers-reduced-transparency: reduce) {
+    :global(html.is-scrolled) .site-header {
+      background: var(--bg-elevated);
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+    }
+  }
+
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 44px;
+    text-decoration: none;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.2rem;
+    letter-spacing: -0.02em;
+  }
+
+  .site-nav {
+    margin-inline: auto;
+  }
+
+  .site-nav ul {
+    display: flex;
+    gap: 6px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .site-nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 14px;
+    border-radius: var(--radius-pill);
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition:
+      color 0.25s,
+      background-color 0.25s;
+  }
+
+  .site-nav a:hover {
+    color: var(--text);
+    background: var(--glass-bg);
+  }
+
+  .site-header__actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: auto;
+  }
+
+  .site-nav + .site-header__actions {
+    margin-left: 0;
+  }
+
+  .lang-switch {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+    border-radius: var(--radius-pill);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    color: var(--text-secondary);
+  }
+
+  .lang-switch:hover {
+    color: var(--text);
+    background: var(--glass-bg);
+  }
+
+  @media (max-width: 860px) {
+    .site-nav {
+      display: none;
+    }
+
+    .site-header__actions {
+      margin-left: auto !important;
+    }
+  }
+
+  /* Sur téléphone, l'appel App Store du hero suffit : l'en-tête garde le logo et la langue. */
+  @media (max-width: 600px) {
+    .site-header__actions :global(.site-header__cta) {
+      display: none;
+    }
+  }
+</style>

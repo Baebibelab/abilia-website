@@ -1,0 +1,9 @@
+---
+import Home from '../components/home/Home.astro';
+import Base from '../layouts/Base.astro';
+import { routes } from '../i18n/ui';
+---
+
+<Base lang="fr" alternates={routes.home}>
+  <Home lang="fr" />
+</Base>

@@ -1,0 +1,61 @@
+---
+// Appel à télécharger l'app. Tant que `APP_STORE_URL` (src/config.ts) est vide, c'est une
+// pastille « Bientôt sur l'App Store », pas un lien.
+// Le jour du lancement : Apple impose son badge officiel « Télécharger dans l'App Store »
+// (https://developer.apple.com/app-store/marketing/guidelines/), tel quel et dans la langue de
+// la page. Ne pas dessiner un faux badge ni utiliser le logo Apple ici.
+import { APP_STORE_URL } from '../config';
+import { type Lang, useTranslations } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  size?: 'small' | 'large';
+  class?: string;
+}
+
+const { lang, size = 'large', class: className } = Astro.props;
+const t = useTranslations(lang);
+---
+
+{
+  APP_STORE_URL ? (
+    <a class:list={['button', 'button--primary', 'app-store', `app-store--${size}`, className]} href={APP_STORE_URL}>
+      {t('cta.download')}
+    </a>
+  ) : (
+    <span class:list={['button', 'button--primary', 'app-store', 'app-store--soon', `app-store--${size}`, className]}>
+      <span class="app-store__dot" aria-hidden="true"></span>
+      {t('cta.appStore')}
+    </span>
+  )
+}
+
+<style>
+  .app-store--small {
+    min-height: 40px;
+    padding: 0 1.1em;
+    font-size: 0.9rem;
+  }
+
+  .app-store--soon:hover {
+    transform: none;
+  }
+
+  .app-store__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--coral);
+    box-shadow: 0 0 0 0 rgb(255 107 74 / 0.6);
+    animation: pulse 2.4s var(--ease-out) infinite;
+  }
+
+  @keyframes pulse {
+    70% {
+      box-shadow: 0 0 0 8px rgb(255 107 74 / 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgb(255 107 74 / 0);
+    }
+  }
+</style>

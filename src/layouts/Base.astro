@@ -1,0 +1,100 @@
+---
+// Gabarit de toutes les pages : <head> (titre, description, canonique, hreflang, Open Graph),
+// fond animé, en-tête, contenu, pied de page, et le moteur d'animation au scroll.
+import '../styles/global.css';
+import '../styles/motion.css';
+import Footer from '../components/Footer.astro';
+import Halos from '../components/Halos.astro';
+import Header from '../components/Header.astro';
+import { type Lang, defaultLang, languages, useTranslations } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  /** Adresse de cette page dans chaque langue (voir `routes` dans src/i18n/ui.ts). */
+  alternates: Record<Lang, string>;
+  title?: string;
+  description?: string;
+  /** Pages qui ne doivent pas être indexées (404…). */
+  noindex?: boolean;
+}
+
+const { lang, alternates, title, description, noindex = false } = Astro.props;
+const t = useTranslations(lang);
+const pageTitle = title ? `${title} · Abilia` : t('meta.title');
+const pageDescription = description ?? t('meta.description');
+const site = Astro.site ?? new URL(Astro.url.origin);
+const canonical = new URL(alternates[lang], site).href;
+const ogLocale = { fr: 'fr_FR', en: 'en_US' } satisfies Record<Lang, string>;
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <link rel="canonical" href={canonical} />
+    {
+      (Object.keys(languages) as Lang[]).map((l) => (
+        <link rel="alternate" hreflang={l} href={new URL(alternates[l], site).href} />
+      ))
+    }
+    <link rel="alternate" hreflang="x-default" href={new URL(alternates[defaultLang], site).href} />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#f4f6f7" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#07080b" media="(prefers-color-scheme: dark)" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Abilia" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={ogLocale[lang]} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Avant tout rendu : les états de départ des animations ne s'appliquent qu'avec JavaScript. -->
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{t('nav.skip')}</a>
+    <Halos />
+    <Header lang={lang} alternates={alternates} />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer lang={lang} />
+    <script>
+      import '../scripts/motion';
+    </script>
+  </body>
+</html>
+
+<style>
+  .skip-link {
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    z-index: 200;
+    padding: 10px 16px;
+    border-radius: 12px;
+    background: var(--text);
+    color: var(--bg);
+    font-weight: 600;
+    text-decoration: none;
+    transform: translateY(-200%);
+  }
+
+  .skip-link:focus {
+    transform: none;
+  }
+
+  main {
+    outline: none;
+  }
+</style>

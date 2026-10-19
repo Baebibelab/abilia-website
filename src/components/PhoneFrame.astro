@@ -1,0 +1,84 @@
+---
+// Un iPhone qui affiche une capture de l'app (src/assets/screenshots/, 590 × 1278).
+// Le cadre est en CSS (pas d'image d'Apple) ; la capture passe par `astro:assets`, qui la
+// convertit en WebP / AVIF aux bonnes tailles.
+//
+//   <PhoneFrame src={enLecture} alt="…" />
+//   <PhoneFrame src={album} alt="…" width={260} loading="eager" />
+//
+// La largeur se règle aussi en CSS, par la variable `--phone-width` du parent.
+import type { ImageMetadata } from 'astro';
+import { Picture } from 'astro:assets';
+
+interface Props {
+  src: ImageMetadata;
+  alt: string;
+  /** Largeur affichée en px (par défaut 300, ou `--phone-width`). */
+  width?: number;
+  loading?: 'lazy' | 'eager';
+  class?: string;
+}
+
+const { src, alt, width = 300, loading = 'lazy', class: className } = Astro.props;
+---
+
+<figure class:list={['phone', className]} style={`--phone-default-width: ${width}px`}>
+  <div class="phone__screen">
+    <Picture
+      src={src}
+      alt={alt}
+      formats={['avif', 'webp']}
+      widths={[300, 450, 590]}
+      sizes={`(max-width: 480px) 70vw, ${width}px`}
+      loading={loading}
+      decoding="async"
+      fetchpriority={loading === 'eager' ? 'high' : undefined}
+    />
+  </div>
+  <span class="phone__island" aria-hidden="true"></span>
+</figure>
+
+<style>
+  .phone {
+    --w: var(--phone-width, var(--phone-default-width));
+    position: relative;
+    width: var(--w);
+    max-width: 100%;
+    margin: 0;
+    aspect-ratio: 590 / 1278;
+    padding: calc(var(--w) * 0.035);
+    border-radius: calc(var(--w) * 0.17);
+    background: linear-gradient(145deg, #3a3d44, #121316 40%, #2b2d33);
+    box-shadow:
+      inset 0 0 0 1.5px rgb(255 255 255 / 0.18),
+      0 0 0 1px rgb(0 0 0 / 0.6),
+      0 40px 80px -30px rgb(0 0 0 / 0.55),
+      0 20px 40px -20px rgb(20 40 60 / 0.35);
+  }
+
+  .phone__screen {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+    border-radius: calc(var(--w) * 0.135);
+    background: #000;
+  }
+
+  .phone__screen :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* La capture a déjà sa barre d'état ; l'îlot dynamique la recouvre comme sur l'appareil. */
+  .phone__island {
+    position: absolute;
+    top: calc(var(--w) * 0.058);
+    left: 50%;
+    width: 30%;
+    height: calc(var(--w) * 0.085);
+    border-radius: 999px;
+    background: #000;
+    translate: -50% 0;
+  }
+</style>

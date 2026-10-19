@@ -1,0 +1,100 @@
+---
+// Fond animé de toutes les pages : le dégradé et les grands halos flous de l'app
+// (`AppBackground` : sarcelle, indigo, violet), plus le corail de l'icône. Les halos dérivent
+// lentement et glissent avec le défilement de la page (`--page-progress`). Dégradés radiaux
+// plutôt que `filter: blur` : aussi doux, bien moins coûteux à faire bouger.
+---
+
+<div class="halos" aria-hidden="true">
+  <div class="halo halo--teal"></div>
+  <div class="halo halo--indigo"></div>
+  <div class="halo halo--purple"></div>
+  <div class="halo halo--coral"></div>
+  <div class="grain"></div>
+</div>
+
+<style>
+  .halos {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+    background: linear-gradient(180deg, var(--halo-teal) -20%, transparent 55%), var(--bg);
+  }
+
+  .halo {
+    position: absolute;
+    width: 70vmax;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    will-change: transform, translate;
+    --shift: var(--page-progress, 0);
+  }
+
+  .halo--teal {
+    top: -30vmax;
+    left: -20vmax;
+    background: radial-gradient(closest-side, var(--halo-teal), transparent);
+    translate: 0 calc(var(--shift) * 40vh);
+    animation: drift-a 28s ease-in-out infinite alternate;
+  }
+
+  .halo--indigo {
+    top: 10vh;
+    right: -30vmax;
+    background: radial-gradient(closest-side, var(--halo-indigo), transparent);
+    translate: 0 calc(var(--shift) * -30vh);
+    animation: drift-b 34s ease-in-out infinite alternate;
+  }
+
+  .halo--purple {
+    bottom: -35vmax;
+    left: 5vw;
+    background: radial-gradient(closest-side, var(--halo-purple), transparent);
+    translate: calc(var(--shift) * 20vw) 0;
+    animation: drift-c 40s ease-in-out infinite alternate;
+  }
+
+  .halo--coral {
+    width: 45vmax;
+    top: 45vh;
+    left: 55vw;
+    background: radial-gradient(closest-side, var(--halo-coral), transparent);
+    translate: calc(var(--shift) * -35vw) calc(var(--shift) * -25vh);
+    animation: drift-b 46s ease-in-out infinite alternate-reverse;
+  }
+
+  /* Léger grain, pour que les dégradés ne fassent pas de bandes. */
+  .grain {
+    position: absolute;
+    inset: 0;
+    opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  @keyframes drift-a {
+    to {
+      transform: translate3d(12vw, 8vh, 0) scale(1.15);
+    }
+  }
+
+  @keyframes drift-b {
+    to {
+      transform: translate3d(-10vw, 12vh, 0) scale(0.9);
+    }
+  }
+
+  @keyframes drift-c {
+    to {
+      transform: translate3d(8vw, -10vh, 0) scale(1.1);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .halo {
+      animation: none;
+      translate: none;
+    }
+  }
+</style>

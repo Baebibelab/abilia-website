@@ -1,0 +1,21 @@
+---
+// Accueil, commun aux deux langues (src/pages/index.astro et src/pages/en/index.astro).
+// Chaque bloc est son propre fichier, pour que le hero et les sections évoluent séparément :
+// Hero.astro, puis sections/*.astro, dans l'ordre de lecture.
+import Hero from './Hero.astro';
+import Everywhere from './sections/Everywhere.astro';
+import Features from './sections/Features.astro';
+import Offline from './sections/Offline.astro';
+import type { Lang } from '../../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+---
+
+<Hero lang={lang} />
+<Features lang={lang} />
+<Offline lang={lang} />
+<Everywhere lang={lang} />

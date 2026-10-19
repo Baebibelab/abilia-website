@@ -1,0 +1,69 @@
+---
+import AppIcon from './AppIcon.astro';
+import { JELLYFIN_URL } from '../config';
+import { type Lang, useTranslations } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container site-footer__inner">
+    <div class="site-footer__brand">
+      <AppIcon size={28} />
+      <span>Abilia</span>
+      <span class="site-footer__tagline">{t('footer.tagline')}</span>
+    </div>
+    <div class="site-footer__legal">
+      <p>
+        © {year} Abilia · <a href={JELLYFIN_URL} rel="noopener">Jellyfin</a> — {t('footer.jellyfin')}
+      </p>
+      <p>{t('footer.apple')}</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: clamp(80px, 12vw, 160px);
+    padding-block: 40px calc(40px + env(safe-area-inset-bottom));
+    border-top: 1px solid var(--border);
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+  }
+
+  .site-footer__inner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 24px;
+  }
+
+  .site-footer__brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text);
+    font-weight: 700;
+  }
+
+  .site-footer__tagline {
+    color: var(--text-secondary);
+    font-weight: 400;
+  }
+
+  .site-footer__legal {
+    display: grid;
+    gap: 4px;
+    max-width: 560px;
+  }
+
+  .site-footer__legal a {
+    color: var(--text);
+  }
+</style>

@@ -1,0 +1,67 @@
+# Mise en ligne sur l'hébergement OVH à chaque push sur main (ou à la demande).
+#
+# Secrets du dépôt (Settings › Secrets and variables › Actions) :
+#   OVH_HOST       serveur FTP / SFTP de l'hébergement (ex. ftp.cluster0XX.hosting.ovh.net)
+#   OVH_USER       identifiant FTP
+#   OVH_PASSWORD   mot de passe FTP
+# Variables du dépôt (facultatives) :
+#   OVH_PROTOCOL   sftp (défaut, offres Pro et Performance) ou ftp (offre Perso)
+#   OVH_REMOTE_DIR dossier du site sur l'hébergement (défaut : www)
+#   OVH_DELETE     true pour supprimer du serveur les fichiers qui ne sont plus dans le build
+#   SITE_URL       adresse publique du site (ex. https://abilia.app)
+# Tant que OVH_HOST n'est pas défini, le job s'arrête sans rien envoyer.
+
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      HAS_TARGET: ${{ secrets.OVH_HOST != '' }}
+    steps:
+      - name: Hébergement non configuré
+        if: env.HAS_TARGET != 'true'
+        run: echo "::notice::Secrets OVH absents, rien n'est mis en ligne."
+
+      - uses: actions/checkout@v4
+        if: env.HAS_TARGET == 'true'
+      - uses: actions/setup-node@v4
+        if: env.HAS_TARGET == 'true'
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - name: Build
+        if: env.HAS_TARGET == 'true'
+        run: npm ci && npm run build
+        env:
+          SITE_URL: ${{ vars.SITE_URL }}
+
+      - name: Envoi sur OVH
+        if: env.HAS_TARGET == 'true'
+        env:
+          HOST: ${{ secrets.OVH_HOST }}
+          USER: ${{ secrets.OVH_USER }}
+          PASSWORD: ${{ secrets.OVH_PASSWORD }}
+          PROTOCOL: ${{ vars.OVH_PROTOCOL || 'sftp' }}
+          REMOTE_DIR: ${{ vars.OVH_REMOTE_DIR || 'www' }}
+          DELETE: ${{ vars.OVH_DELETE == 'true' && '--delete' || '' }}
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+          # Le mot de passe passe par l'environnement (LFTP_PASSWORD, --env-password), jamais par la ligne de commande.
+          export LFTP_PASSWORD="$PASSWORD"
+          lftp -c "
+            set sftp:auto-confirm yes;
+            set ftp:ssl-allow yes;
+            set net:max-retries 3;
+            open --user '$USER' --env-password '$PROTOCOL://$HOST';
+            mirror --reverse --verbose --parallel=4 $DELETE --exclude-glob .DS_Store dist/ '$REMOTE_DIR/';
+          "

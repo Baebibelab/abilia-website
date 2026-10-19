@@ -1,0 +1,54 @@
+---
+// Page introuvable, servie par OVH pour toute adresse inconnue (ErrorDocument dans
+// public/.htaccess). Une seule page pour les deux langues : le texte anglais suit le français.
+import Base from '../layouts/Base.astro';
+import { routes } from '../i18n/ui';
+---
+
+<Base lang="fr" alternates={routes.home} title="Page introuvable" noindex>
+  <section class="not-found container">
+    <p class="not-found__code gradient-text" data-reveal="blur">404</p>
+    <h1 data-reveal>Cette page s'est perdue en route.</h1>
+    <p class="not-found__en" lang="en" data-reveal data-reveal-delay="100">This page got lost on the way.</p>
+    <div class="not-found__actions" data-reveal data-reveal-delay="200">
+      <a class="button button--primary" href={routes.home.fr}>Retour à l'accueil</a>
+      <a class="button button--ghost" href={routes.home.en} lang="en">Back to home</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .not-found {
+    min-height: 80svh;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: 16px;
+    padding-top: var(--header-height);
+    text-align: center;
+  }
+
+  .not-found__code {
+    font-family: var(--font-display);
+    font-size: clamp(6rem, 22vw, 12rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.05em;
+  }
+
+  h1 {
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+  }
+
+  .not-found__en {
+    color: var(--text-secondary);
+  }
+
+  .not-found__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 16px;
+  }
+</style>

@@ -1,0 +1,44 @@
+/* États des animations déclarées par `data-reveal` (voir src/scripts/motion.ts).
+   Les états de départ ne valent que sous `html.js` : sans JavaScript, tout est visible. */
+
+[data-reveal] {
+  --reveal-distance: 40px;
+  --reveal-duration: 0.9s;
+  transition:
+    opacity var(--reveal-duration) var(--ease-out),
+    transform var(--reveal-duration) var(--ease-out),
+    filter var(--reveal-duration) var(--ease-out);
+  transition-delay: calc(var(--reveal-delay, 0ms) + var(--reveal-index, 0) * var(--reveal-step, 0ms));
+}
+
+html.js [data-reveal]:not(.is-revealed) {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html.js [data-reveal='']:not(.is-revealed),
+  html.js [data-reveal='up']:not(.is-revealed) {
+    transform: translate3d(0, var(--reveal-distance), 0);
+  }
+
+  html.js [data-reveal='down']:not(.is-revealed) {
+    transform: translate3d(0, calc(-1 * var(--reveal-distance)), 0);
+  }
+
+  html.js [data-reveal='left']:not(.is-revealed) {
+    transform: translate3d(var(--reveal-distance), 0, 0);
+  }
+
+  html.js [data-reveal='right']:not(.is-revealed) {
+    transform: translate3d(calc(-1 * var(--reveal-distance)), 0, 0);
+  }
+
+  html.js [data-reveal='scale']:not(.is-revealed) {
+    transform: scale(0.92);
+  }
+
+  html.js [data-reveal='blur']:not(.is-revealed) {
+    filter: blur(16px);
+    transform: translate3d(0, calc(var(--reveal-distance) / 2), 0);
+  }
+}

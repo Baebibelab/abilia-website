@@ -1,0 +1,218 @@
+/* Direction artistique d'Abilia, reprise de l'app (Utilities/Theme.swift, AccentColor, icône) :
+   corail de l'icône, sarcelle de la couleur d'accent, halos sarcelle / indigo / violet,
+   cartes en verre. Clair et sombre suivent le réglage du système, comme l'app. */
+
+:root {
+  color-scheme: light dark;
+
+  --coral: #ff6b4a;
+  --coral-strong: #f2542f;
+  --teal: #2e8888;
+  --indigo: #5856d6;
+  --purple: #af52de;
+
+  --bg: #f4f6f7;
+  --bg-elevated: #ffffff;
+  --text: #0b0d10;
+  --text-secondary: rgb(60 60 67 / 0.72);
+  --text-tertiary: rgb(60 60 67 / 0.5);
+  --border: rgb(0 0 0 / 0.08);
+
+  --glass-bg: rgb(255 255 255 / 0.55);
+  --glass-border: rgb(255 255 255 / 0.7);
+  --glass-shadow: 0 20px 60px -20px rgb(20 40 60 / 0.25);
+
+  --halo-teal: rgb(46 136 136 / 0.5);
+  --halo-indigo: rgb(88 86 214 / 0.32);
+  --halo-purple: rgb(175 82 222 / 0.22);
+  --halo-coral: rgb(255 107 74 / 0.22);
+
+  --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, 'Helvetica Neue',
+    Arial, sans-serif;
+  --font-display: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+
+  --radius-card: 28px;
+  --radius-pill: 999px;
+  --gutter: clamp(16px, 5vw, 40px);
+  --content-width: 1180px;
+  --header-height: 68px;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --teal: #6dc2b8;
+    --indigo: #5e5ce6;
+    --purple: #bf5af2;
+
+    --bg: #07080b;
+    --bg-elevated: #121418;
+    --text: #f5f6f7;
+    --text-secondary: rgb(235 235 245 / 0.7);
+    --text-tertiary: rgb(235 235 245 / 0.45);
+    --border: rgb(255 255 255 / 0.1);
+
+    --glass-bg: rgb(28 30 36 / 0.5);
+    --glass-border: rgb(255 255 255 / 0.12);
+    --glass-shadow: 0 20px 60px -20px rgb(0 0 0 / 0.6);
+
+    --halo-teal: rgb(109 194 184 / 0.42);
+    --halo-indigo: rgb(94 92 230 / 0.42);
+    --halo-purple: rgb(191 90 242 / 0.3);
+    --halo-coral: rgb(255 107 74 / 0.24);
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-height) + 16px);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+}
+
+img,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+:focus-visible {
+  outline: 3px solid var(--teal);
+  outline-offset: 3px;
+  border-radius: 8px;
+}
+
+.container {
+  width: 100%;
+  max-width: calc(var(--content-width) + 2 * var(--gutter));
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Carte en verre, comme `glassCard()` dans l'app. */
+.glass {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--glass-shadow);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  backdrop-filter: blur(24px) saturate(160%);
+}
+
+/* Texte dégradé corail → violet → sarcelle, pour les titres mis en avant. */
+.gradient-text {
+  background: linear-gradient(100deg, var(--coral) 0%, var(--purple) 50%, var(--teal) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55em;
+  min-height: 48px;
+  padding: 0 1.4em;
+  border-radius: var(--radius-pill);
+  font-weight: 600;
+  text-decoration: none;
+  transition:
+    transform 0.3s var(--ease-out),
+    box-shadow 0.3s var(--ease-out),
+    background-color 0.3s var(--ease-out);
+}
+
+.button:hover {
+  transform: translateY(-2px);
+}
+
+.button--primary {
+  background: var(--text);
+  color: var(--bg);
+  box-shadow: 0 10px 30px -10px rgb(0 0 0 / 0.45);
+}
+
+.button--ghost {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+}
+
+/* « Réduire les animations » : aucun mouvement, comme dans l'app. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* « Réduire la transparence » : plus de flou, des fonds pleins. */
+@media (prefers-reduced-transparency: reduce) {
+  .glass,
+  .button--ghost {
+    background: var(--bg-elevated);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}

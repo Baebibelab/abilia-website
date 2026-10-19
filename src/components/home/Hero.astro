@@ -1,0 +1,118 @@
+---
+// Hero provisoire (étape 1) : il montre les fondations en place (titre, appel App Store,
+// iPhone, apparition et parallaxe au scroll). Le vrai hero animé le remplace.
+import AppStoreButton from '../AppStoreButton.astro';
+import PhoneFrame from '../PhoneFrame.astro';
+import enLecture from '../../assets/screenshots/en-lecture.jpg';
+import { type Lang, useTranslations } from '../../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<section class="hero" data-scroll>
+  <div class="container hero__inner">
+    <div class="hero__text" data-reveal-stagger="120">
+      <p class="hero__eyebrow" data-reveal>{t('hero.eyebrow')}</p>
+      <h1 class="hero__title" data-reveal="blur">
+        {t('hero.title.1')}
+        <span class="gradient-text">{t('hero.title.2')}</span>
+      </h1>
+      <p class="hero__lead" data-reveal>{t('hero.lead')}</p>
+      <div class="hero__actions" data-reveal>
+        <AppStoreButton lang={lang} />
+        <a class="button button--ghost" href="#features">{t('cta.discover')}</a>
+      </div>
+    </div>
+    <div class="hero__visual" data-reveal="scale" data-reveal-delay="250">
+      <PhoneFrame src={enLecture} alt={t('screenshot.nowPlaying')} width={320} loading="eager" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    padding-block: calc(var(--header-height) + 40px) 80px;
+  }
+
+  .hero__inner {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    align-items: center;
+    gap: clamp(40px, 6vw, 96px);
+  }
+
+  .hero__text {
+    display: grid;
+    gap: 24px;
+  }
+
+  .hero__eyebrow {
+    color: var(--coral);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .hero__title {
+    font-size: clamp(2.8rem, 7vw, 5.6rem);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+  }
+
+  .hero__title .gradient-text {
+    display: block;
+  }
+
+  .hero__lead {
+    max-width: 34em;
+    color: var(--text-secondary);
+    font-size: clamp(1.1rem, 1.6vw, 1.3rem);
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .hero__visual {
+    display: flex;
+    justify-content: center;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    /* L'iPhone remonte et s'incline à mesure que le hero quitte l'écran. */
+    .hero__visual :global(.phone) {
+      transform: translateY(calc((var(--progress, 0.5) - 0.5) * -120px))
+        rotate(calc((var(--progress, 0.5) - 0.5) * 6deg));
+    }
+  }
+
+  @media (max-width: 860px) {
+    .hero__inner {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+
+    .hero__text {
+      justify-items: center;
+    }
+
+    .hero__actions {
+      justify-content: center;
+    }
+
+    .hero__visual {
+      --phone-width: min(280px, 72vw);
+    }
+  }
+</style>

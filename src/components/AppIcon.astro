@@ -1,0 +1,43 @@
+---
+// Icône d'Abilia (docs/icon/abilia-icon-1024.svg de l'app), dessinée en SVG pour rester nette à
+// toutes les tailles, avec les coins arrondis d'une icône iOS.
+interface Props {
+  size?: number;
+  class?: string;
+  /** Texte lu par VoiceOver ; sans lui, l'icône est décorative. */
+  label?: string;
+}
+
+const { size = 40, class: className, label } = Astro.props;
+---
+
+<svg
+  class:list={['app-icon', className]}
+  width={size}
+  height={size}
+  viewBox="0 0 96 96"
+  role={label ? 'img' : undefined}
+  aria-label={label}
+  aria-hidden={label ? undefined : 'true'}
+>
+  <rect width="96" height="96" rx="21.5" fill="#FF6B4A"></rect>
+  <path
+    d="M24 76 L48 20 L72 76"
+    fill="none"
+    stroke="#FFFFFF"
+    stroke-width="8"
+    stroke-linecap="round"
+    stroke-linejoin="round"></path>
+  <rect x="47" y="42" width="3.2" height="24" fill="#FFFFFF"></rect>
+  <path
+    d="M50.2 42 C50.512 47.5 52.852 49.5 54.178 52 C55.426 54.2 55.192 57.2 54.1 59.2 C54.412 55.6 52.774 53.6 50.2 52.6 Z"
+    fill="#FFFFFF"></path>
+  <ellipse cx="44.8" cy="66.3" rx="5.6" ry="4.3" transform="rotate(-20 44.8 66.3)" fill="#FFFFFF"></ellipse>
+</svg>
+
+<style>
+  .app-icon {
+    flex: none;
+    filter: drop-shadow(0 6px 16px rgb(255 107 74 / 0.35));
+  }
+</style>
