@@ -28,6 +28,15 @@ const fr = {
   'hero.title.2': 'dans votre poche.',
   'hero.lead':
     "Abilia joue la bibliothèque de votre serveur Jellyfin avec une app pensée pour l'iPhone : belle, rapide, et qui se fond dans le système, jusque dans la voiture et sur l'Apple Watch.",
+  'hero.highlight.lossless': 'Sans perte : FLAC, ALAC',
+  'hero.highlight.offline': 'Hors ligne',
+  'hero.highlight.private': 'Sans pistage',
+  'hero.chip.format.label': "Qualité d'origine",
+  'hero.chip.format.value': 'FLAC · 24 bits / 96 kHz',
+  'hero.chip.offline.label': 'Hors ligne',
+  'hero.chip.offline.value': 'Albums téléchargés',
+  'hero.chip.everywhere.label': 'Partout',
+  'hero.chip.everywhere.value': 'CarPlay · Apple Watch',
   'features.eyebrow': 'Fonctionnalités',
   'features.title': 'Écoutez, simplement.',
   'features.lead':
@@ -71,6 +80,15 @@ const en: Record<UIKey, string> = {
   'hero.title.2': 'in your pocket.',
   'hero.lead':
     'Abilia plays your Jellyfin server’s library in an app built for the iPhone: beautiful, fast, and at home everywhere in the system, from the car to the Apple Watch.',
+  'hero.highlight.lossless': 'Lossless: FLAC, ALAC',
+  'hero.highlight.offline': 'Works offline',
+  'hero.highlight.private': 'No tracking',
+  'hero.chip.format.label': 'Original quality',
+  'hero.chip.format.value': 'FLAC · 24-bit / 96 kHz',
+  'hero.chip.offline.label': 'Offline',
+  'hero.chip.offline.value': 'Downloaded albums',
+  'hero.chip.everywhere.label': 'Everywhere',
+  'hero.chip.everywhere.value': 'CarPlay · Apple Watch',
   'features.eyebrow': 'Features',
   'features.title': 'Just press play.',
   'features.lead':

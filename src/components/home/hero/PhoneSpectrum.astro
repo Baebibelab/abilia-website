@@ -1,0 +1,142 @@
+---
+// Le spectre de l'écran En lecture, rendu vivant : la capture (en-lecture.jpg) montre ses
+// 24 barres au repos (des points, centres x = 96…493, y = 683 sur 590 × 1278). Ce calque les
+// recouvre exactement et les fait danser comme dans l'app.
+//
+// Il se pose dans un parent `container-type: inline-size` qui a la largeur de l'iPhone
+// (PhoneFrame) : 1 px de capture y vaut 0,16402cqw. Le cadre a une marge de 3,5 % et la capture
+// y est rognée en largeur (`object-fit: cover`) de 1,8845 % de chaque côté, d'où les positions
+// ci-dessous. Avec « Réduire les animations », les barres restent figées.
+import { round, seededRandom } from './random';
+
+const count = 24;
+const random = seededRandom(2026);
+
+const bars = Array.from({ length: count }, (_, index) => {
+  const t = index / (count - 1);
+  // Comme un vrai spectre : plus d'énergie dans les graves (à gauche) que dans les aigus.
+  const envelope = 1 - t * 0.55;
+  const level = () => round(Math.min(1, Math.max(0, envelope * (0.15 + random() * 0.85))));
+  return [
+    `--a: ${level()}`,
+    `--b: ${level()}`,
+    `--c: ${level()}`,
+    `--d: ${round(0.42 + random() * 0.4)}s`,
+    `--delay: ${round(-random())}s`,
+  ].join('; ');
+});
+---
+
+<div class="phone-spectrum" aria-hidden="true">
+  {
+    bars.map((style) => (
+      <span class="phone-spectrum__bar" style={style}>
+        <i class="phone-spectrum__body" />
+        <i class="phone-spectrum__cap phone-spectrum__cap--top" />
+        <i class="phone-spectrum__cap phone-spectrum__cap--bottom" />
+      </span>
+    ))
+  }
+</div>
+
+<style>
+  .phone-spectrum {
+    /* 1 px de la capture. */
+    --px: 0.16402cqw;
+    /* Demi-hauteur de la partie droite d'une barre au maximum (47 px de capture / 2). */
+    --half: calc(23.5 * var(--px));
+    position: absolute;
+    top: calc(3.5cqw + 683 * var(--px));
+    left: calc(1.6155cqw + 89.5 * var(--px));
+    width: calc(410 * var(--px));
+    height: 0;
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none;
+    /* Le groupe a une seule opacité : les morceaux d'une barre ne se superposent pas en plus clair. */
+    opacity: 0.88;
+  }
+
+  .phone-spectrum__bar {
+    position: relative;
+    width: calc(13.6 * var(--px));
+  }
+
+  .phone-spectrum__body,
+  .phone-spectrum__cap {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    background: #fff;
+  }
+
+  .phone-spectrum__body {
+    top: calc(-1 * var(--half));
+    height: calc(2 * var(--half));
+    transform: scaleY(var(--b));
+  }
+
+  .phone-spectrum__cap {
+    top: calc(-6.8 * var(--px));
+    aspect-ratio: 1;
+    border-radius: 50%;
+  }
+
+  .phone-spectrum__cap--top {
+    transform: translateY(calc(var(--b) * -1 * var(--half)));
+  }
+
+  .phone-spectrum__cap--bottom {
+    transform: translateY(calc(var(--b) * var(--half)));
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .phone-spectrum__body {
+      animation: phone-spectrum-body var(--d) ease-in-out var(--delay) infinite alternate;
+    }
+
+    .phone-spectrum__cap--top {
+      animation: phone-spectrum-top var(--d) ease-in-out var(--delay) infinite alternate;
+    }
+
+    .phone-spectrum__cap--bottom {
+      animation: phone-spectrum-bottom var(--d) ease-in-out var(--delay) infinite alternate;
+    }
+  }
+
+  @keyframes phone-spectrum-body {
+    0% {
+      transform: scaleY(var(--a));
+    }
+    50% {
+      transform: scaleY(var(--b));
+    }
+    100% {
+      transform: scaleY(var(--c));
+    }
+  }
+
+  @keyframes phone-spectrum-top {
+    0% {
+      transform: translateY(calc(var(--a) * -1 * var(--half)));
+    }
+    50% {
+      transform: translateY(calc(var(--b) * -1 * var(--half)));
+    }
+    100% {
+      transform: translateY(calc(var(--c) * -1 * var(--half)));
+    }
+  }
+
+  @keyframes phone-spectrum-bottom {
+    0% {
+      transform: translateY(calc(var(--a) * var(--half)));
+    }
+    50% {
+      transform: translateY(calc(var(--b) * var(--half)));
+    }
+    100% {
+      transform: translateY(calc(var(--c) * var(--half)));
+    }
+  }
+</style>
