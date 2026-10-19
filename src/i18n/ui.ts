@@ -75,7 +75,7 @@ const fr = {
   'listen.eq.title': 'Un égaliseur dix bandes',
   'listen.eq.text':
     'De 31 Hz à 16 kHz, avec des préréglages. Les bandes renforcées sont compensées par une légère baisse du volume, pour ne jamais saturer.',
-  'listen.album.title': 'Chaque page à ses couleurs',
+  'listen.album.title': 'Chaque page a ses couleurs',
   'listen.album.text':
     'Albums, artistes et playlists prennent la teinte de leur pochette. Un cœur, et le morceau est marqué en favori sur votre serveur.',
   'listen.steps': 'Étapes de la visite',
