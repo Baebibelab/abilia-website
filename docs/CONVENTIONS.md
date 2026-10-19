@@ -223,4 +223,10 @@ catégories, aucune erreur axe, CLS à 0.
 La CI (`.github/workflows/ci.yml`) refait `check` et `build` sur chaque PR. Le déploiement
 (`.github/workflows/deploy.yml`) envoie `dist/` sur OVH à chaque push sur `main`, une fois les
 secrets `OVH_HOST`, `OVH_USER`, `OVH_PASSWORD` définis (détails en tête du fichier). Les règles
-Apache (HTTPS, cache, page 404, en-têtes de sécurité) sont dans `public/.htaccess`.
+Apache (redirection vers le domaine principal, HTTPS, cache, page 404, en-têtes de sécurité) sont
+dans `public/.htaccess`.
+
+Domaine principal : `https://abilia-music.app` (`site` dans `astro.config.mjs`, repris par les
+liens canoniques, hreflang, Open Graph, `robots.txt` et le plan du site). `abilia-music.fr` et les
+« www » sont rattachés au même hébergement OVH (multisite, dossier `www`, certificat SSL activé
+pour chacun) et redirigent en 301 vers le domaine principal, même chemin.
