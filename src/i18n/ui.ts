@@ -1,7 +1,7 @@
 // Textes de l'interface, en français et en anglais. Chaque clé existe dans les deux langues :
 // le type `UIKey` vient du français, et l'anglais doit le satisfaire entièrement.
 
-import { CARPLAY_AVAILABLE } from '../config';
+import { CARPLAY_AVAILABLE, IPAD_AVAILABLE, MAC_AVAILABLE } from '../config';
 
 export const languages = {
   fr: 'Français',
@@ -14,9 +14,7 @@ export const defaultLang: Lang = 'fr';
 const fr = {
   'meta.title': 'Abilia — Toute votre musique Jellyfin, dans votre poche',
   'meta.description':
-    "Abilia est un lecteur de musique pour iPhone et Apple Watch qui joue votre serveur Jellyfin : rapide, beau, hors ligne, sans compte tiers ni pistage.",
-  'meta.description.carplay':
-    "Abilia est un lecteur de musique pour iPhone, Apple Watch et CarPlay qui joue votre serveur Jellyfin : rapide, beau, hors ligne, sans compte tiers ni pistage.",
+    "Abilia est un lecteur de musique pour {platforms} qui joue votre serveur Jellyfin : rapide, beau, hors ligne, sans compte tiers ni pistage.",
   'meta.ogImageAlt': "L'icône d'Abilia, « Toute votre musique, dans votre poche » et l'écran En lecture de l'app",
   'nav.skip': 'Aller au contenu',
   'nav.main': "Sections de l'accueil",
@@ -33,11 +31,10 @@ const fr = {
   'hero.title.1': 'Toute votre musique,',
   'hero.title.2': 'dans votre poche.',
   'hero.lead':
-    "Abilia joue la bibliothèque de votre serveur Jellyfin avec une app pensée pour l'iPhone : belle, rapide, et qui se fond dans le système, jusque sur l'Apple Watch.",
+    "Abilia joue la bibliothèque de votre serveur Jellyfin avec une app pensée pour {devices} : belle, rapide, et qui se fond dans le système, jusque sur l'Apple Watch.",
   'hero.lead.carplay':
-    "Abilia joue la bibliothèque de votre serveur Jellyfin avec une app pensée pour l'iPhone : belle, rapide, et qui se fond dans le système, jusque dans la voiture et sur l'Apple Watch.",
-  'hero.platforms': 'Pour iPhone et Apple Watch',
-  'hero.platforms.carplay': 'Pour iPhone, Apple Watch et CarPlay',
+    "Abilia joue la bibliothèque de votre serveur Jellyfin avec une app pensée pour {devices} : belle, rapide, et qui se fond dans le système, jusque dans la voiture et sur l'Apple Watch.",
+  'hero.platforms': 'Pour {platforms}',
   'hero.appLanguage': "L'app est en français.",
   'hero.chip.format': 'FLAC · 24 bits / 96 kHz',
   'hero.chip.gapless': 'Enchaînement sans blanc',
@@ -55,7 +52,7 @@ const fr = {
   'jellyfin.search.text': "Morceaux, albums, artistes et playlists s'affichent dès la première lettre.",
   'jellyfin.secure.title': 'Une connexion sûre',
   'jellyfin.secure.text':
-    "Vos identifiants restent dans le trousseau de l'iPhone. Certificat auto-signé ? Abilia vous montre son empreinte, puis n'accepte que lui.",
+    "Vos identifiants restent dans le trousseau de votre appareil. Certificat auto-signé ? Abilia vous montre son empreinte, puis n'accepte que lui.",
   'jellyfin.chip.home': 'Chez vous',
   'jellyfin.chip.away': 'Sur Internet',
   'jellyfin.chip.keychain': 'Trousseau iOS',
@@ -132,13 +129,13 @@ const fr = {
   'offline.progress.detail': '42 pistes',
   'offline.sync.title': 'Toujours à jour',
   'offline.sync.text':
-    "Un nouveau cœur, un morceau ajouté à la playlist : il arrive tout seul sur l'iPhone. Un morceau partagé par deux albums ou playlists n'est stocké qu'une fois.",
+    "Un nouveau cœur, un morceau ajouté à la playlist : il arrive tout seul sur votre appareil. Un morceau partagé par deux albums ou playlists n'est stocké qu'une fois.",
   'offline.cache.title': 'Un cache qui se souvient',
   'offline.cache.text':
-    "Ce que vous écoutez reste sur l'iPhone, de 1 à 10 Go au choix, vos favoris en dernier à partir. Réécouter ne re-télécharge rien.",
+    "Ce que vous écoutez reste sur votre appareil, de 1 à 10 Go au choix, vos favoris en dernier à partir. Réécouter ne re-télécharge rien.",
   'offline.mode.title': 'Le mode hors ligne',
   'offline.mode.text':
-    "Un geste, et la bibliothèque n'affiche et ne joue que ce qui est téléchargé, même avec du réseau. Les stations piochent dans ce qui est sur l'iPhone.",
+    "Un geste, et la bibliothèque n'affiche et ne joue que ce qui est téléchargé, même avec du réseau. Les stations piochent dans ce qui est sur votre appareil.",
   'offline.quality.title': 'La qualité qui vous va',
   'offline.quality.text':
     "Réglée à part en Wi-Fi, en 4G/5G et pour les téléchargements, de l'original jusqu'à 128 kb/s.",
@@ -147,7 +144,7 @@ const fr = {
   'rewind.title.2': 'en rétrospective.',
   'rewind.lead':
     "Temps d'écoute, artistes et albums favoris, genres, heures préférées : un récap à feuilleter toute l'année, sur 7 jours, 30 jours, une année ou depuis le début.",
-  'rewind.private': "Calculé sur votre iPhone, jamais envoyé nulle part.",
+  'rewind.private': "Calculé sur votre appareil, jamais envoyé nulle part.",
   'rewind.example': "Chiffres d'exemple.",
   'rewind.time.label': "Temps d'écoute",
   'rewind.time.value': '212 h',
@@ -187,6 +184,27 @@ const fr = {
   'everywhere.played': 'Écoutés récemment',
   'everywhere.genres': 'Genres',
   'everywhere.watchList': 'Sur la montre',
+  'list.and': ' et ',
+  'device.iphone': "l'iPhone",
+  'device.ipad': "l'iPad",
+  'device.mac': 'le Mac',
+  'screens.eyebrow': 'iPad et Mac',
+  'screens.title.1': 'Sur grand écran',
+  'screens.title.2': 'aussi.',
+  'screens.lead':
+    "La même app, à la taille de l'écran, et une seule fiche sur l'App Store pour tous vos appareils.",
+  'screens.ipad.title': 'iPad',
+  'screens.ipad.text':
+    "En portrait ou en paysage, en Split View, en Slide Over ou dans plusieurs fenêtres : la bibliothèque prend la place qu'on lui donne, et En lecture s'ouvre en grand.",
+  'screens.mac.title': 'Mac',
+  'screens.mac.text':
+    "Dans sa fenêtre, avec la barre des menus, les raccourcis clavier et les touches multimédia : Espace pour lire ou mettre en pause, ⌘→ pour le morceau suivant. Sur macOS 14 ou plus récent.",
+  'screens.note': "Le widget et l'Apple Watch restent sur l'iPhone.",
+  'screens.note.carplay': "Le widget, CarPlay et l'Apple Watch restent sur l'iPhone.",
+  'screens.mock.library': 'Bibliothèque',
+  'screens.mock.radios': 'Radios',
+  'screenshot.ipad': "Abilia sur iPad en paysage : l'accueil de la bibliothèque et le mini-lecteur",
+  'screenshot.mac': "Abilia sur Mac : la page d'un album dans une fenêtre",
   'screenshot.nowPlaying': 'Écran En lecture : pochette, spectre, format joué et commandes',
   'screenshot.library': 'Accueil de la bibliothèque : stations, mix par humeur et catégories',
   'screenshot.downloads': 'Téléchargements : des albums gardés hors ligne',
@@ -196,18 +214,18 @@ const fr = {
   'screenshot.album': "Page d'un album aux couleurs de sa pochette",
   'footer.tagline': 'Votre musique, votre serveur.',
   'footer.jellyfin': "Abilia n'est pas affiliée au projet Jellyfin.",
-  'footer.apple': 'Apple, iPhone, Apple Watch, CarPlay et App Store sont des marques d’Apple Inc.',
+  'footer.apple': 'Apple, iPhone, iPad, Mac, Apple Watch, CarPlay et App Store sont des marques d’Apple Inc.',
   'footer.privacy': 'Politique de confidentialité',
   'footer.nav': 'Liens du pied de page',
   'privacy.title': 'Politique de confidentialité',
   'privacy.description':
-    "Abilia ne collecte aucune donnée personnelle : ce que l'app envoie, à qui, et ce qui reste sur votre iPhone.",
+    "Abilia ne collecte aucune donnée personnelle : ce que l'app envoie, à qui, et ce qui reste sur votre appareil.",
   'privacy.eyebrow': 'Confidentialité',
   'privacy.updated': 'Mise à jour :',
   'privacy.summary.title': "L'essentiel",
   'privacy.summary.noData': 'Aucune donnée collectée',
   'privacy.summary.noTracking': 'Ni publicité, ni pistage',
-  'privacy.summary.onDevice': 'Statistiques calculées sur l’iPhone',
+  'privacy.summary.onDevice': 'Statistiques calculées sur l’appareil',
   'privacy.summary.yourServer': 'Votre musique reste sur votre serveur',
   'privacy.toc': 'Sur cette page',
   'privacy.translationNote': '',
@@ -219,9 +237,7 @@ export type UIKey = keyof typeof fr;
 const en: Record<UIKey, string> = {
   'meta.title': 'Abilia — All your Jellyfin music, in your pocket',
   'meta.description':
-    'Abilia is a music player for iPhone and Apple Watch that plays your Jellyfin server: fast, beautiful, offline-ready, with no third-party account and no tracking.',
-  'meta.description.carplay':
-    'Abilia is a music player for iPhone, Apple Watch and CarPlay that plays your Jellyfin server: fast, beautiful, offline-ready, with no third-party account and no tracking.',
+    'Abilia is a music player for {platforms} that plays your Jellyfin server: fast, beautiful, offline-ready, with no third-party account and no tracking.',
   'meta.ogImageAlt': 'The Abilia icon, “All your music, in your pocket” and the app’s Now Playing screen',
   'nav.skip': 'Skip to content',
   'nav.main': 'Home sections',
@@ -238,11 +254,10 @@ const en: Record<UIKey, string> = {
   'hero.title.1': 'All your music,',
   'hero.title.2': 'in your pocket.',
   'hero.lead':
-    'Abilia plays your Jellyfin server’s library in an app built for the iPhone: beautiful, fast, and at home everywhere in the system, right down to your Apple Watch.',
+    'Abilia plays your Jellyfin server’s library in an app built for {devices}: beautiful, fast, and at home everywhere in the system, right down to your Apple Watch.',
   'hero.lead.carplay':
-    'Abilia plays your Jellyfin server’s library in an app built for the iPhone: beautiful, fast, and at home everywhere in the system, from the car to the Apple Watch.',
-  'hero.platforms': 'For iPhone and Apple Watch',
-  'hero.platforms.carplay': 'For iPhone, Apple Watch and CarPlay',
+    'Abilia plays your Jellyfin server’s library in an app built for {devices}: beautiful, fast, and at home everywhere in the system, from the car to the Apple Watch.',
+  'hero.platforms': 'For {platforms}',
   'hero.appLanguage': 'Good to know: the app itself is in French for now, as in the screenshots on this page.',
   'hero.chip.format': 'FLAC · 24-bit / 96 kHz',
   'hero.chip.gapless': 'Gapless playback',
@@ -260,7 +275,7 @@ const en: Record<UIKey, string> = {
   'jellyfin.search.text': 'Tracks, albums, artists and playlists show up from the very first letter.',
   'jellyfin.secure.title': 'A secure connection',
   'jellyfin.secure.text':
-    'Your credentials stay in the iPhone’s keychain. Self-signed certificate? Abilia shows you its fingerprint, then trusts that one alone.',
+    'Your credentials stay in your device’s keychain. Self-signed certificate? Abilia shows you its fingerprint, then trusts that one alone.',
   'jellyfin.chip.home': 'At home',
   'jellyfin.chip.away': 'Over the internet',
   'jellyfin.chip.keychain': 'iOS keychain',
@@ -337,13 +352,13 @@ const en: Record<UIKey, string> = {
   'offline.progress.detail': '42 tracks',
   'offline.sync.title': 'Always up to date',
   'offline.sync.text':
-    'A new heart, a track added to a playlist: it lands on your iPhone by itself. A track shared by two albums or playlists is stored only once.',
+    'A new heart, a track added to a playlist: it lands on your device by itself. A track shared by two albums or playlists is stored only once.',
   'offline.cache.title': 'A cache that remembers',
   'offline.cache.text':
-    'What you play stays on your iPhone, from 1 to 10 GB as you choose, with your favorites the last to go. Replaying downloads nothing again.',
+    'What you play stays on your device, from 1 to 10 GB as you choose, with your favorites the last to go. Replaying downloads nothing again.',
   'offline.mode.title': 'Offline mode',
   'offline.mode.text':
-    'One tap, and the library shows and plays only what’s downloaded, even with a connection. Stations pick from what’s on your iPhone.',
+    'One tap, and the library shows and plays only what’s downloaded, even with a connection. Stations pick from what’s on your device.',
   'offline.quality.title': 'The quality you want',
   'offline.quality.text':
     'Set separately for Wi-Fi, 4G/5G and downloads, from the original file down to 128 kbps.',
@@ -352,7 +367,7 @@ const en: Record<UIKey, string> = {
   'rewind.title.2': 'looking back.',
   'rewind.lead':
     'Listening time, top artists and albums, genres, favorite hours: a recap to flip through all year long, over 7 days, 30 days, a year or since the very beginning.',
-  'rewind.private': 'Computed on your iPhone, never sent anywhere.',
+  'rewind.private': 'Computed on your device, never sent anywhere.',
   'rewind.example': 'Example figures.',
   'rewind.time.label': 'Listening time',
   'rewind.time.value': '212 h',
@@ -392,6 +407,26 @@ const en: Record<UIKey, string> = {
   'everywhere.played': 'Recently played',
   'everywhere.genres': 'Genres',
   'everywhere.watchList': 'On the watch',
+  'list.and': ' and ',
+  'device.iphone': 'iPhone',
+  'device.ipad': 'iPad',
+  'device.mac': 'Mac',
+  'screens.eyebrow': 'iPad and Mac',
+  'screens.title.1': 'On the big screen',
+  'screens.title.2': 'too.',
+  'screens.lead': 'The same app, sized to the screen, with a single App Store listing for all your devices.',
+  'screens.ipad.title': 'iPad',
+  'screens.ipad.text':
+    'Portrait or landscape, Split View, Slide Over or several windows: the library fills the space it’s given, and Now Playing opens up big.',
+  'screens.mac.title': 'Mac',
+  'screens.mac.text':
+    'In its own window, with the menu bar, keyboard shortcuts and media keys: Space to play or pause, ⌘→ for the next song. On macOS 14 or later.',
+  'screens.note': 'The widget and Apple Watch stay with your iPhone.',
+  'screens.note.carplay': 'The widget, CarPlay and Apple Watch stay with your iPhone.',
+  'screens.mock.library': 'Library',
+  'screens.mock.radios': 'Radio',
+  'screenshot.ipad': 'Abilia on iPad in landscape: the library home and the mini player',
+  'screenshot.mac': 'Abilia on Mac: an album page in a window',
   'screenshot.nowPlaying': 'The Now Playing screen: artwork, spectrum, format being played and controls',
   'screenshot.library': 'The library home: stations, mood mixes and categories',
   'screenshot.downloads': 'Downloads: albums kept offline',
@@ -401,18 +436,18 @@ const en: Record<UIKey, string> = {
   'screenshot.album': 'An album page in the colors of its artwork',
   'footer.tagline': 'Your music, your server.',
   'footer.jellyfin': 'Abilia is not affiliated with the Jellyfin project.',
-  'footer.apple': 'Apple, iPhone, Apple Watch, CarPlay and App Store are trademarks of Apple Inc.',
+  'footer.apple': 'Apple, iPhone, iPad, Mac, Apple Watch, CarPlay and App Store are trademarks of Apple Inc.',
   'footer.privacy': 'Privacy policy',
   'footer.nav': 'Footer links',
   'privacy.title': 'Privacy policy',
   'privacy.description':
-    'Abilia collects no personal data: what the app sends, to whom, and what stays on your iPhone.',
+    'Abilia collects no personal data: what the app sends, to whom, and what stays on your device.',
   'privacy.eyebrow': 'Privacy',
   'privacy.updated': 'Last updated:',
   'privacy.summary.title': 'In short',
   'privacy.summary.noData': 'No data collected',
   'privacy.summary.noTracking': 'No ads, no tracking',
-  'privacy.summary.onDevice': 'Stats computed on your iPhone',
+  'privacy.summary.onDevice': 'Stats computed on your device',
   'privacy.summary.yourServer': 'Your music stays on your server',
   'privacy.toc': 'On this page',
   'privacy.translationNote':
@@ -423,16 +458,47 @@ const en: Record<UIKey, string> = {
 export const ui: Record<Lang, Record<UIKey, string>> = { fr, en };
 
 /**
+ * Plateformes où l'app est disponible, dans l'ordre où le site les cite : l'iPad, le Mac et
+ * CarPlay n'y entrent que le jour où leur réglage de src/config.ts passe à vrai.
+ */
+export function platforms(): string[] {
+  return [
+    'iPhone',
+    ...(IPAD_AVAILABLE ? ['iPad'] : []),
+    ...(MAC_AVAILABLE ? ['Mac'] : []),
+    'Apple Watch',
+    ...(CARPLAY_AVAILABLE ? ['CarPlay'] : []),
+  ];
+}
+
+/** « a, b et c » / « a, b and c ». */
+function joinList(items: string[], and: string) {
+  return items.length < 2 ? items.join('') : `${items.slice(0, -1).join(', ')}${and}${items.at(-1)}`;
+}
+
+/**
  * Textes d'une langue. Une clé qui a une variante `<clé>.carplay` la donne à la place quand
  * `CARPLAY_AVAILABLE` (src/config.ts) est vrai : d'ici là, le site ne promet CarPlay nulle part,
- * sauf dans la section « Partout » qui le marque « Bientôt ».
+ * sauf dans la section « Partout » qui le marque « Bientôt ». `{platforms}` devient la liste des
+ * plateformes disponibles (« iPhone, iPad et Apple Watch ») et `{devices}` celle des appareils
+ * qui font tourner l'app elle-même, avec leur article en français (« l'iPhone et l'iPad »).
  */
 export function useTranslations(lang: Lang) {
   const dict = ui[lang];
+  const and = dict['list.and'];
+  const devices = [
+    dict['device.iphone'],
+    ...(IPAD_AVAILABLE ? [dict['device.ipad']] : []),
+    ...(MAC_AVAILABLE ? [dict['device.mac']] : []),
+  ];
+  const values: Record<string, string> = {
+    platforms: joinList(platforms(), and),
+    devices: joinList(devices, and),
+  };
   return (key: UIKey): string => {
     const variant = `${key}.carplay`;
-    if (CARPLAY_AVAILABLE && variant in dict) return dict[variant as UIKey];
-    return dict[key];
+    const text = CARPLAY_AVAILABLE && variant in dict ? dict[variant as UIKey] : dict[key];
+    return text.replace(/\{(platforms|devices)\}/g, (_, name: string) => values[name]);
   };
 }
 

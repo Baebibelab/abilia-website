@@ -1,0 +1,314 @@
+---
+// Section « iPad et Mac » : un iPad en paysage et une fenêtre de Mac, chacun dans sa carte, avec
+// la capture de l'app quand elle existe (src/assets/screenshots/index.ts), l'app dessinée en CSS
+// sinon. Home.astro ne la construit qu'une fois `IPAD_AVAILABLE` ou `MAC_AVAILABLE`
+// (src/config.ts) vrai, ou en développement ; la plateforme pas encore sortie porte « Bientôt ».
+import { Picture } from 'astro:assets';
+import Glyph from '../../Glyph.astro';
+import Section from '../../Section.astro';
+import AppMock from './bigscreens/AppMock.astro';
+import { bigScreenshots } from '../../../assets/screenshots';
+import { IPAD_AVAILABLE, MAC_AVAILABLE } from '../../../config';
+import { type Lang, useTranslations } from '../../../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const shots = bigScreenshots(lang);
+const folder = lang === 'fr' ? '' : `${lang}/`;
+// Repère pour la relecture locale : jamais dans le site construit.
+const missing = (name: string) => (import.meta.env.DEV ? `Capture à fournir : src/assets/screenshots/${folder}${name}` : null);
+---
+
+<Section id="ipad-mac" eyebrow={t('screens.eyebrow')} lead={t('screens.lead')} align="center" class="screens">
+  <Fragment slot="title">{t('screens.title.1')}{' '}<span class="gradient-text">{t('screens.title.2')}</span></Fragment>
+
+  <div class="duo" data-scroll>
+    <article class="device-card glass" data-reveal="up">
+      <div class="device-card__visual device-card__visual--ipad">
+        <figure class="ipad">
+          <div class="ipad__screen">
+            {
+              shots.ipad ? (
+                <Picture
+                  src={shots.ipad}
+                  alt={t('screenshot.ipad')}
+                  formats={['avif', 'webp']}
+                  widths={[500, 800, 1100, 1400]}
+                  sizes="(max-width: 900px) 86vw, 520px"
+                  loading="lazy"
+                  decoding="async"
+                />
+              ) : (
+                <AppMock lang={lang} />
+              )
+            }
+            {!shots.ipad && missing('ipad.jpg') && <span class="placeholder">{missing('ipad.jpg')}</span>}
+          </div>
+        </figure>
+      </div>
+      <div class="device-card__text">
+        <h3>
+          <Glyph name="tablet" size={24} />{t('screens.ipad.title')}
+          {!IPAD_AVAILABLE && <span class="soon">{t('everywhere.soon')}</span>}
+        </h3>
+        <p>{t('screens.ipad.text')}</p>
+      </div>
+    </article>
+
+    <article class="device-card glass" data-reveal="up" data-reveal-delay="120">
+      <div class="device-card__visual device-card__visual--mac">
+        <figure class:list={['mac', { 'mac--drawn': !shots.mac }]}>
+          {
+            shots.mac ? (
+              <Picture
+                src={shots.mac}
+                alt={t('screenshot.mac')}
+                formats={['avif', 'webp']}
+                widths={[500, 800, 1100, 1400]}
+                sizes="(max-width: 900px) 86vw, 520px"
+                loading="lazy"
+                decoding="async"
+              />
+            ) : (
+              <>
+                <div class="mac__bar" aria-hidden="true">
+                  <i />
+                  <i />
+                  <i />
+                </div>
+                <div class="mac__content">
+                  <AppMock lang={lang} />
+                </div>
+              </>
+            )
+          }
+          {!shots.mac && missing('mac.jpg') && <span class="placeholder">{missing('mac.jpg')}</span>}
+        </figure>
+      </div>
+      <div class="device-card__text">
+        <h3>
+          <Glyph name="laptop" size={24} />{t('screens.mac.title')}
+          {!MAC_AVAILABLE && <span class="soon">{t('everywhere.soon')}</span>}
+        </h3>
+        <p>{t('screens.mac.text')}</p>
+      </div>
+    </article>
+  </div>
+
+  <p class="note" data-reveal="fade">{t('screens.note')}</p>
+</Section>
+
+<style>
+  .screens {
+    overflow-x: clip;
+  }
+
+  /* Les deux cartes partagent leurs lignes (subgrid) : visuels de même hauteur, textes alignés. */
+  .duo {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: auto 1fr;
+    gap: 0 22px;
+  }
+
+  .device-card {
+    display: grid;
+    grid-row: span 2;
+    grid-template-rows: subgrid;
+    overflow: hidden;
+    text-align: start;
+  }
+
+  .device-card__visual {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: 330px;
+    padding: 40px clamp(18px, 3vw, 32px);
+    isolation: isolate;
+  }
+
+  .device-card__visual::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      radial-gradient(closest-side at 50% 55%, var(--halo-teal), transparent),
+      radial-gradient(closest-side at 25% 30%, var(--halo-indigo), transparent);
+  }
+
+  .device-card__visual--mac::before {
+    background:
+      radial-gradient(closest-side at 50% 55%, var(--halo-coral), transparent),
+      radial-gradient(closest-side at 75% 30%, var(--halo-purple), transparent);
+  }
+
+  .device-card__text {
+    display: grid;
+    align-content: start;
+    gap: 10px;
+    padding: 0 clamp(22px, 3vw, 32px) clamp(24px, 3vw, 32px);
+  }
+
+  .device-card__text h3 {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-size: 1.45rem;
+    font-weight: 750;
+  }
+
+  .device-card__text h3 :global(.glyph) {
+    color: var(--teal);
+  }
+
+  .device-card__text p {
+    color: var(--text-secondary);
+  }
+
+  .soon {
+    padding: 3px 10px;
+    border-radius: var(--radius-pill);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--coral-text);
+    background: color-mix(in srgb, var(--coral) 10%, transparent);
+  }
+
+  /* iPad dessiné en paysage : bord fin et régulier, la capture (ou le dessin) à l'intérieur. */
+  .ipad {
+    width: 100%;
+    margin: 0;
+    padding: 2.6%;
+    border-radius: 6.5% / 8.6%;
+    background: linear-gradient(145deg, #3a3d44, #121316 40%, #2b2d33);
+    box-shadow:
+      inset 0 0 0 1.5px rgb(255 255 255 / 0.18),
+      0 0 0 1px rgb(0 0 0 / 0.6),
+      0 36px 70px -30px rgb(0 0 0 / 0.55);
+  }
+
+  .ipad__screen {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    border-radius: 4.2% / 5.6%;
+    overflow: hidden;
+    background: #0b0c10;
+    container-type: inline-size;
+  }
+
+  .ipad__screen :global(img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Fenêtre de Mac : la capture porte déjà sa barre de titre ; le dessin a la sienne. */
+  .mac {
+    position: relative;
+    width: 100%;
+    margin: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow:
+      0 0 0 1px rgb(0 0 0 / 0.35),
+      0 36px 70px -28px rgb(0 0 0 / 0.6);
+  }
+
+  .mac :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .mac--drawn {
+    background: #1d1e22;
+  }
+
+  .mac__bar {
+    display: flex;
+    gap: 7px;
+    padding: 10px 12px;
+    background: #24252a;
+    border-bottom: 1px solid rgb(255 255 255 / 0.08);
+  }
+
+  .mac__bar i {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: #ff5f57;
+  }
+
+  .mac__bar i:nth-child(2) {
+    background: #febc2e;
+  }
+
+  .mac__bar i:nth-child(3) {
+    background: #28c840;
+  }
+
+  .mac__content {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    container-type: inline-size;
+  }
+
+  .placeholder {
+    position: absolute;
+    inset: 8px;
+    display: grid;
+    place-items: center;
+    padding: 12px;
+    border: 2px dashed #ffb347;
+    border-radius: 10px;
+    color: #ffb347;
+    background: rgb(0 0 0 / 0.55);
+    font: 700 0.85rem/1.3 ui-monospace, monospace;
+    text-align: center;
+  }
+
+  .note {
+    margin-top: 24px;
+    text-align: center;
+    color: var(--text-tertiary);
+    font-size: 0.95rem;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .ipad {
+      transform: translateY(calc((var(--progress, 0.5) - 0.5) * -40px));
+    }
+
+    .mac {
+      transform: translateY(calc((var(--progress, 0.5) - 0.5) * 40px)) perspective(900px)
+        rotateY(calc((var(--progress, 0.5) - 0.5) * -10deg));
+    }
+  }
+
+  @media (max-width: 900px) {
+    .duo {
+      grid-template-columns: 1fr;
+      grid-template-rows: none;
+      gap: 22px;
+      max-width: 600px;
+      margin-inline: auto;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .device-card__visual {
+      min-height: 0;
+      padding: 28px 16px;
+    }
+  }
+</style>
