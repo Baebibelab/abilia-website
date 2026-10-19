@@ -1,0 +1,257 @@
+---
+// Section « Écoutez, simplement » : une visite épinglée. Sur grand écran, l'iPhone reste fixe à
+// droite pendant que quatre étapes défilent à gauche, et sa capture change avec l'étape lue
+// (En lecture, paroles, égaliseur, page d'album). Sur téléphone, chaque étape a son iPhone.
+//
+// Le passage d'une capture à l'autre se calcule en CSS à partir de `--progress`
+// (`data-scroll="pin"` sur la grille) : chaque étape fait un écran de haut, donc
+// `--t = --progress × (N − 1) + 0,5` vaut l'indice de l'étape centrée à l'écran. Les captures
+// sont empilées, chacune fondue au-dessus de la précédente ; sans JavaScript, `--progress`
+// manque et la première reste affichée.
+import PhoneFrame from '../../PhoneFrame.astro';
+import Section from '../../Section.astro';
+import album from '../../../assets/screenshots/album.jpg';
+import egaliseur from '../../../assets/screenshots/egaliseur.jpg';
+import enLecture from '../../../assets/screenshots/en-lecture.jpg';
+import paroles from '../../../assets/screenshots/paroles.jpg';
+import { type Lang, useTranslations } from '../../../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const steps = [
+  { key: 'nowPlaying', shot: enLecture, alt: t('screenshot.nowPlaying'), tone: 'coral' },
+  { key: 'lyrics', shot: paroles, alt: t('screenshot.lyrics'), tone: 'purple' },
+  { key: 'eq', shot: egaliseur, alt: t('screenshot.equalizer'), tone: 'teal' },
+  { key: 'album', shot: album, alt: t('screenshot.album'), tone: 'indigo' },
+] as const;
+---
+
+<Section id="listen" eyebrow={t('listen.eyebrow')} lead={t('listen.lead')} class="listen">
+  <Fragment slot="title">{t('listen.title.1')}<br /><span class="gradient-text">{t('listen.title.2')}</span></Fragment>
+
+  <div class="tour" data-scroll="pin" style={`--n: ${steps.length}`}>
+    <ol class="tour__steps">
+      {
+        steps.map((step, index) => (
+          <li class:list={['step', `step--${step.tone}`]} style={`--i: ${index}`}>
+            <div class="step__body" data-reveal="up" data-reveal-repeat>
+              <span class="step__number" aria-hidden="true">
+                {String(index + 1).padStart(2, '0')}
+              </span>
+              <h3 class="step__title">{t(`listen.${step.key}.title`)}</h3>
+              <p class="step__text">{t(`listen.${step.key}.text`)}</p>
+            </div>
+            <div class="step__phone" data-reveal="up">
+              <PhoneFrame src={step.shot} alt={step.alt} width={260} />
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+
+    <div class="tour__stage" aria-hidden="true">
+      <div class="tour__phones">
+        {
+          steps.map((step, index) => (
+            <div class:list={['tour__layer', `tour__layer--${step.tone}`]} style={`--i: ${index}`}>
+              <PhoneFrame src={step.shot} alt="" width={300} />
+            </div>
+          ))
+        }
+      </div>
+      <div class="tour__dots">
+        {steps.map((_, index) => <span style={`--i: ${index}`} />)}
+      </div>
+    </div>
+  </div>
+</Section>
+
+<style>
+  .tour {
+    /* Indice (fractionnaire) de l'étape au centre de l'écran : 0 en haut, N − 1 en bas. */
+    --t: calc(var(--progress, 0) * (var(--n) - 1) + 0.5);
+  }
+
+  .tour__steps {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* Par défaut (sans JavaScript, tablette, téléphone) : chaque étape a son iPhone. */
+  .step {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: clamp(32px, 6vw, 96px);
+    padding-block: 32px;
+  }
+
+  .step__body {
+    display: grid;
+    gap: 14px;
+    max-width: 460px;
+  }
+
+  .step__number {
+    --tone: var(--coral);
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 6vw, 4.5rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    background: linear-gradient(135deg, var(--tone), color-mix(in srgb, var(--tone) 40%, transparent));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .step--purple .step__number {
+    --tone: var(--purple);
+  }
+
+  .step--teal .step__number {
+    --tone: var(--teal);
+  }
+
+  .step--indigo .step__number {
+    --tone: var(--indigo);
+  }
+
+  .step__title {
+    font-size: clamp(1.7rem, 3.2vw, 2.4rem);
+    font-weight: 800;
+  }
+
+  .step__text {
+    color: var(--text-secondary);
+    font-size: clamp(1.05rem, 1.5vw, 1.2rem);
+    line-height: 1.55;
+  }
+
+  .step__phone {
+    --phone-width: min(260px, 70vw);
+  }
+
+  /* L'iPhone épinglé et ses captures empilées (grand écran, avec JavaScript). */
+  .tour__stage {
+    display: none;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    height: 100svh;
+    place-items: center;
+    padding-top: var(--header-height);
+  }
+
+  .tour__phones {
+    display: grid;
+    --phone-width: min(300px, 32vw, calc((100svh - var(--header-height) - 120px) * 590 / 1278));
+  }
+
+  .tour__layer {
+    grid-area: 1 / 1;
+    /* Fondu entrant autour de la frontière avec l'étape précédente, puis effacement une fois
+       la suivante entièrement affichée (sinon les ombres des cadres s'additionnent). */
+    --in: clamp(0, (var(--t) - var(--i)) * 5 + 0.5, 1);
+    --out: clamp(0, (var(--i) + 1.1 - var(--t)) * 5 + 1, 1);
+    opacity: min(var(--in), var(--out));
+  }
+
+  /* Un halo aux couleurs de l'étape, qui se fond avec sa capture. */
+  .tour__layer {
+    position: relative;
+    isolation: isolate;
+    --tone: var(--halo-coral);
+  }
+
+  .tour__layer::before {
+    content: '';
+    position: absolute;
+    inset: -30% -60%;
+    z-index: -1;
+    background: radial-gradient(closest-side, var(--tone), transparent);
+  }
+
+  .tour__layer--purple {
+    --tone: var(--halo-purple);
+  }
+
+  .tour__layer--teal {
+    --tone: var(--halo-teal);
+  }
+
+  .tour__layer--indigo {
+    --tone: var(--halo-indigo);
+  }
+
+  .tour__layer:first-child {
+    --in: 1;
+  }
+
+  .tour__layer:last-child {
+    --out: 1;
+  }
+
+  .tour__dots {
+    position: absolute;
+    bottom: 32px;
+    display: flex;
+    gap: 8px;
+  }
+
+  .tour__dots span {
+    --on: clamp(0, 1 - max(var(--t) - var(--i) - 1, var(--i) - var(--t)) * 6, 1);
+    width: calc(8px + var(--on) * 18px);
+    height: 8px;
+    border-radius: 4px;
+    background: color-mix(in srgb, var(--text) calc(20% + var(--on) * 60%), transparent);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .tour__layer {
+      transform: translateY(calc((1 - var(--in)) * 40px)) scale(calc(0.96 + var(--in) * 0.04));
+    }
+  }
+
+  @media (min-width: 861px) {
+    :global(html.js) .tour {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: clamp(32px, 6vw, 96px);
+    }
+
+    :global(html.js) .tour__stage {
+      display: grid;
+    }
+
+    :global(html.js) .step {
+      display: flex;
+      min-height: 100vh;
+      min-height: 100svh;
+      padding-block: 0;
+    }
+
+    :global(html.js) .step__phone {
+      display: none;
+    }
+  }
+
+  @media (max-width: 860px) {
+    .step {
+      grid-template-columns: 1fr;
+      justify-items: center;
+      gap: 32px;
+      text-align: center;
+    }
+
+    .step__body {
+      justify-items: center;
+    }
+  }
+</style>
