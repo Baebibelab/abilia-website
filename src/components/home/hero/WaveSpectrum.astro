@@ -1,0 +1,79 @@
+---
+// Grand spectre en bas du hero : les 24 bandes de l'iPhone en miroir (graves au centre, sous
+// l'iPhone, aigus vers les bords), en barres arrondies dégradées aux couleurs d'Abilia :
+// sarcelle → corail au centre, indigo → violet sur les bords. Purement décoratif.
+import { BAND_COUNT, STILL_TIME, spectrumAt } from './spectrum';
+
+const levels = spectrumAt(STILL_TIME);
+const bars = Array.from({ length: BAND_COUNT * 2 }, (_, j) => {
+  const band = j < BAND_COUNT ? BAND_COUNT - 1 - j : j - BAND_COUNT;
+  // Part des couleurs « chaudes » : 100 % au centre, 0 % aux bords.
+  const warmth = Math.round((1 - band / (BAND_COUNT - 1)) * 100);
+  return { band, warmth };
+});
+---
+
+<div class="wave" aria-hidden="true">
+  <div class="wave__fade">
+    {
+      bars.map(({ band, warmth }) => (
+        <span class="wave__bar">
+          <span
+            class="wave__cap"
+            data-hero-bar={band}
+            style={`--level: ${levels[band].toFixed(3)}; --warmth: ${warmth}%`}
+          />
+        </span>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .wave {
+    position: absolute;
+    inset: auto 0 0;
+    height: clamp(110px, 17vw, 230px);
+    pointer-events: none;
+    /* Fondu sur les côtés… */
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+  }
+
+  .wave__fade {
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(48, 1fr);
+    gap: clamp(3px, 0.9vw, 14px);
+    padding-inline: var(--gutter);
+    opacity: 0.55;
+    /* … et vers le bas, pour que la section suivante ne commence pas sur un trait net. */
+    -webkit-mask-image: linear-gradient(180deg, #000 55%, transparent);
+    mask-image: linear-gradient(180deg, #000 55%, transparent);
+  }
+
+  .wave__bar {
+    overflow: hidden;
+    border-radius: 999px;
+    isolation: isolate;
+  }
+
+  .wave__cap {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(
+      0deg,
+      color-mix(in oklab, var(--teal) var(--warmth), var(--indigo)),
+      color-mix(in oklab, var(--coral) var(--warmth), var(--purple))
+    );
+    transform: translateY(calc((1 - max(0.06, 0.08 + 0.92 * var(--level, 0))) * 100%));
+    will-change: transform;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .wave__fade {
+      opacity: 0.7;
+    }
+  }
+</style>
