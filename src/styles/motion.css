@@ -42,3 +42,11 @@ html.js [data-reveal]:not(.is-revealed) {
     transform: translate3d(0, calc(var(--reveal-distance) / 2), 0);
   }
 }
+
+/* `data-loop` loin de l'écran : ses boucles s'arrêtent (et reprennent où elles en étaient). */
+[data-loop].is-paused,
+[data-loop].is-paused *,
+[data-loop].is-paused *::before,
+[data-loop].is-paused *::after {
+  animation-play-state: paused !important;
+}

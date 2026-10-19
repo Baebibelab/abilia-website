@@ -15,7 +15,16 @@
 //    - `data-scroll="pin"` : pour un conteneur haut dont l'enfant est `position: sticky`, la
 //      progression va de 0 (haut du conteneur en haut de l'écran) à 1 (bas du conteneur en bas
 //      de l'écran) : la durée pendant laquelle l'enfant reste épinglé.
-//    La page entière expose aussi `--page-progress` sur <html> (0 en haut, 1 en bas).
+//    - `data-page-progress` : l'élément reçoit `--page-progress`, la progression de la page
+//      entière (0 en haut, 1 en bas). Le poser au plus près de qui s'en sert (le fond, par ex.) :
+//      sur <html>, chaque image recalculerait les styles de toute la page.
+//
+// 3. `data-loop` : les animations CSS en boucle de l'élément et de ses descendants (flottement,
+//    pulsation, dégradé qui glisse…) se mettent en pause tant qu'il est loin de l'écran (classe
+//    `is-paused`), au lieu de tourner pendant toute la visite. À poser sur chaque bloc qui en a.
+//
+// À chaque image, toutes les mesures sont lues avant la moindre écriture, et une valeur
+// inchangée n'est pas réécrite : écrire puis mesurer forcerait un recalcul des styles par élément.
 //
 // Avec « Réduire les animations », tout est révélé d'emblée ; `--progress` reste calculé (utile
 // pour une couleur ou une opacité), mais le CSS doit réserver les mouvements à
@@ -65,26 +74,40 @@ function setupReveal() {
 function setupScrollProgress() {
   const root = document.documentElement;
   const tracked = Array.from(document.querySelectorAll<HTMLElement>('[data-scroll]'));
+  const pageTracked = Array.from(document.querySelectorAll<HTMLElement>('[data-page-progress]'));
   // Seuls les éléments proches de l'écran sont recalculés.
   const visible = new Set<HTMLElement>();
+  // Dernière valeur écrite par élément, pour ne pas réécrire la même.
+  const written = new WeakMap<HTMLElement, string>();
   let scheduled = false;
 
   const clamp = (value: number) => Math.min(1, Math.max(0, value));
 
+  function write(el: HTMLElement, name: string, value: number) {
+    const text = clamp(value).toFixed(4);
+    if (written.get(el) === text) return;
+    written.set(el, text);
+    el.style.setProperty(name, text);
+  }
+
   function update() {
     scheduled = false;
+    // Lectures d'abord…
     const viewport = window.innerHeight;
     const scrollable = root.scrollHeight - viewport;
-    root.style.setProperty('--page-progress', (scrollable > 0 ? clamp(window.scrollY / scrollable) : 0).toFixed(4));
-
-    for (const el of visible) {
+    const page = scrollable > 0 ? window.scrollY / scrollable : 0;
+    const measures = Array.from(visible, (el) => {
       const rect = el.getBoundingClientRect();
       const progress =
         el.dataset.scroll === 'pin'
           ? -rect.top / Math.max(1, rect.height - viewport)
           : (viewport - rect.top) / (viewport + rect.height);
-      el.style.setProperty('--progress', clamp(progress).toFixed(4));
-    }
+      return [el, progress] as const;
+    });
+
+    // … écritures ensuite.
+    for (const el of pageTracked) write(el, '--page-progress', page);
+    for (const [el, progress] of measures) write(el, '--progress', progress);
   }
 
   function schedule() {
@@ -116,6 +139,18 @@ function setupScrollProgress() {
   schedule();
 }
 
+function setupLoops() {
+  if (!('IntersectionObserver' in window)) return;
+  const observer = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) entry.target.classList.toggle('is-paused', !entry.isIntersecting);
+    },
+    // Un peu de marge : la boucle tourne déjà quand le bloc arrive à l'écran.
+    { rootMargin: '25% 0px 25% 0px' },
+  );
+  document.querySelectorAll('[data-loop]').forEach((el) => observer.observe(el));
+}
+
 /** Ajoute `is-scrolled` sur <html> dès que la page a défilé (en-tête en verre, par exemple). */
 function setupScrolledFlag() {
   const root = document.documentElement;
@@ -126,4 +161,5 @@ function setupScrolledFlag() {
 
 setupReveal();
 setupScrollProgress();
+setupLoops();
 setupScrolledFlag();

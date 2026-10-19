@@ -148,8 +148,10 @@ Pour changer de contenu pendant un passage épinglé sans JavaScript à soi, voi
 en tire son opacité avec `clamp()`. Le passage épinglé ne s'applique que sous `html.js` (sans
 JavaScript, chaque étape montre son propre visuel).
 
-`<html>` porte aussi `--page-progress` (0 en haut, 1 en bas) et la classe `is-scrolled` dès que
-la page a défilé.
+`data-page-progress` donne à l'élément `--page-progress`, la progression de la page entière (0 en
+haut, 1 en bas) : le fond (`Halos.astro`) s'en sert. Le poser sur l'élément qui l'utilise, pas
+sur `<html>` : une variable qui change à la racine fait recalculer les styles de toute la page à
+chaque image. `<html>` porte la classe `is-scrolled` dès que la page a défilé.
 
 ### Règles
 
@@ -163,6 +165,8 @@ la page a défilé.
   d'écouteur `scroll` à soi : passer par `data-scroll` et `--progress`, que le moteur ne calcule
   que pour les éléments proches de l'écran, une fois par image.
 - Une boucle infinie (halos, pulsation) se coupe aussi avec « Réduire les animations ».
+  Le bloc qui la contient porte `data-loop` : le moteur la met en pause tant qu'il est loin de
+  l'écran (le fond, toujours visible, n'en a pas besoin).
 - Pas de bibliothèque d'animation (GSAP, Lenis…) sans en discuter : le site n'a aujourd'hui
   aucune dépendance côté navigateur.
 
