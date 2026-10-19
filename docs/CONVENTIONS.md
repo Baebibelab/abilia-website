@@ -106,8 +106,9 @@ Réglages dans `src/config.ts` :
   (« pensée pour l'iPhone, l'iPad et le Mac », chapeau du hero), que `useTranslations` remplit
   dans tous les textes de `ui.ts`, et la section paraît, l'autre plateforme y portant « Bientôt ».
   Penser alors à la ligne des plateformes de `scripts/og/og.html` et aux images de partage.
-- `APP_LANGUAGES` : langues de l'interface de l'app (`['fr']`). Une page dans une autre langue le
-  dit sous l'appel du hero, puisque l'app et ses captures sont en français.
+- `APP_LANGUAGES` : langues de l'interface de l'app (`['fr', 'en']`), qui ont chacune leurs
+  captures. Une page dans une langue que l'app ne parle pas le dit sous l'appel du hero
+  (`hero.appLanguage`) ; aujourd'hui, aucune.
 - `JELLYFIN_URL`.
 
 Les sections de l'accueil, dans l'ordre : `Jellyfin` (`#features`), `Listen` (visite épinglée
