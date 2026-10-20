@@ -256,3 +256,10 @@ Domaine principal : `https://abilia-music.app` (`site` dans `astro.config.mjs`, 
 liens canoniques, hreflang, Open Graph, `robots.txt` et le plan du site). `abilia-music.fr` et les
 « www » sont rattachés au même hébergement OVH (multisite, dossier `www`, certificat SSL activé
 pour chacun) et redirigent en 301 vers le domaine principal, même chemin.
+
+Ce domaine date du nom précédent de l'app (Abilia) : le site est en maintenance jusqu'au nouveau
+(`docs/LANCEMENT.md` §7 du dépôt de l'app, « Suites du changement de nom »). Le jour venu, changer
+le domaine à quatre endroits : `site` dans `astro.config.mjs`, la valeur par défaut de `SITE_URL`
+dans `.github/workflows/deploy.yml`, les redirections de `public/.htaccess` (anciens domaines et
+« www » vers le nouveau), et ce paragraphe ; puis régénérer les images de partage (`scripts/og/`)
+et donner l'URL `/confidentialite` (et `/en/privacy`) à App Store Connect.
