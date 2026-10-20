@@ -1,4 +1,4 @@
-# Conventions du site Abilia
+# Conventions du site Andia
 
 Ce qu'il faut savoir pour ajouter ou modifier une page, une section ou une animation. Le site
 est un site **statique** Astro (aucun serveur, aucune dépendance côté navigateur), en français
@@ -110,17 +110,17 @@ Réglages dans `src/config.ts` :
   captures. Une page dans une langue que l'app ne parle pas le dit sous l'appel du hero
   (`hero.appLanguage`) ; aujourd'hui, aucune.
 - `JELLYFIN_URL`.
-- `PLUS_PRICE` : prix d'Abilia Plus par langue, affiché par « Tarifs » (`null` : « Achat unique »
+- `PLUS_PRICE` : prix d'Andia Plus par langue, affiché par « Tarifs » (`null` : « Achat unique »
   sans prix). Le vrai prix est celui de l'App Store : le changer ici le même jour (plan de prix
   dans `docs/monetisation/` du dépôt de l'app).
 - `TESTFLIGHT_URL` : lien public de la bêta TestFlight ; renseigné, « Tarifs » propose « Rejoindre
-  la bêta ». Le site ne vend rien : Abilia Plus s'achète dans l'app (guideline 3.1.1), jamais de
+  la bêta ». Le site ne vend rien : Andia Plus s'achète dans l'app (guideline 3.1.1), jamais de
   bouton d'achat ici.
 
 Les sections de l'accueil, dans l'ordre : `Jellyfin` (`#features`), `Listen` (visite épinglée
 En lecture, paroles, égaliseur, page d'album), `Gapless` (enchaînement et fondu), `Stations`,
 `Offline` (`#offline`), `Rewind`, `BigScreens` (`#ipad-mac`, iPad et Mac, voir
-`IPAD_AVAILABLE`), `Everywhere` (`#everywhere`, Apple Watch et CarPlay), `Pricing` (`#pricing`, gratuit et Abilia
+`IPAD_AVAILABLE`), `Everywhere` (`#everywhere`, Apple Watch et CarPlay), `Pricing` (`#pricing`, gratuit et Andia
 Plus, bêta ; même répartition que `docs/monetisation/README.md` de l'app).
 
 ## Animations
@@ -219,7 +219,7 @@ doit rester celui de l'app (`PrivacyPolicyView`). `en.md` est de même la copie 
 `docs/PRIVACY.en.md` (la politique anglaise de l'app, depuis qu'elle est traduite), dans le même
 commit ; le français fait foi.
 
-**Images de partage** : `public/og/abilia-<langue>.jpg` (1200 × 630), rendues depuis
+**Images de partage** : `public/og/andia-<langue>.jpg` (1200 × 630), rendues depuis
 `scripts/og/og.html` par `node scripts/og/render.mjs` (Playwright installé sur la machine, pas
 dans le projet), qui refait aussi `apple-touch-icon.png` et `favicon-32.png`. Les régénérer quand
 le titre, la capture En lecture ou les plateformes changent.
@@ -245,8 +245,10 @@ largeur où les colonnes sont les plus serrées. Repères à garder : Lighthouse
 catégories, aucune erreur axe, CLS à 0.
 
 La CI (`.github/workflows/ci.yml`) refait `check` et `build` sur chaque PR. Le déploiement
-(`.github/workflows/deploy.yml`) envoie `dist/` sur OVH à chaque push sur `main`, une fois les
-secrets `OVH_HOST`, `OVH_USER`, `OVH_PASSWORD` définis (détails en tête du fichier). Les règles
+(`.github/workflows/deploy.yml`) ne part plus qu'à la demande (Actions › Deploy › Run workflow),
+une fois les secrets `OVH_HOST`, `OVH_USER`, `OVH_PASSWORD` définis (détails en tête du fichier) :
+mode `site` pour envoyer `dist/`, mode `maintenance` pour envoyer `maintenance/` (toute adresse
+répond 503 avec une page d'attente autonome, hors Astro et hors `ui.ts`). Les règles
 Apache (redirection vers le domaine principal, HTTPS, cache, page 404, en-têtes de sécurité) sont
 dans `public/.htaccess`.
 

@@ -1,8 +1,8 @@
 ---
-// Section « Tarifs » (ancre `#pricing` du menu) : l'offre gratuite et Abilia Plus côte à côte,
+// Section « Tarifs » (ancre `#pricing` du menu) : l'offre gratuite et Andia Plus côte à côte,
 // puis l'appel à la bêta TestFlight quand `TESTFLIGHT_URL` (src/config.ts) est renseigné. La
 // répartition est celle de docs/monetisation/README.md du dépôt de l'app : la changer ensemble.
-// Pas de bouton d'achat : Abilia Plus s'achète dans l'app (guideline 3.1.1 de l'App Store).
+// Pas de bouton d'achat : Andia Plus s'achète dans l'app (guideline 3.1.1 de l'App Store).
 import Glyph from '../../Glyph.astro';
 import Section from '../../Section.astro';
 import { PLUS_PRICE, TESTFLIGHT_URL } from '../../../config';
@@ -107,7 +107,7 @@ const plusPrice = PLUS_PRICE ? t('pricing.plus.price').replace('{price}', PLUS_P
     text-align: start;
   }
 
-  /* Abilia Plus : un liseré aux couleurs de la marque, sans changer la carte en verre. */
+  /* Andia Plus : un liseré aux couleurs de la marque, sans changer la carte en verre. */
   .plan--plus {
     border-color: transparent;
     background:
