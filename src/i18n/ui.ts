@@ -60,6 +60,8 @@ const fr = {
   'jellyfin.chip.noAccount': 'Aucun compte tiers',
   'jellyfin.note': "Il vous faut un serveur Jellyfin 10.9 ou plus récent. Pas encore de serveur ? C'est gratuit et open source :",
   'jellyfin.noteLink': 'découvrir Jellyfin',
+  'jellyfin.demo':
+    "Envie d'essayer d'abord ? Dans l'app, connectez-vous au serveur de démo {server} avec l'identifiant {user} et le mot de passe {password}.",
   'listen.eyebrow': 'En lecture',
   'listen.title.1': 'Écoutez,',
   'listen.title.2': 'simplement.',
@@ -308,6 +310,7 @@ const en: Record<UIKey, string> = {
   'jellyfin.chip.noAccount': 'No third-party account',
   'jellyfin.note': 'You need a Jellyfin server, version 10.9 or later. No server yet? It’s free and open source:',
   'jellyfin.noteLink': 'discover Jellyfin',
+  'jellyfin.demo': 'Want to try it first? In the app, sign in to the demo server {server} with the username {user} and the password {password}.',
   'listen.eyebrow': 'Now Playing',
   'listen.title.1': 'Just',
   'listen.title.2': 'press play.',
