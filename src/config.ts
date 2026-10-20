@@ -43,10 +43,10 @@ export const MAC_AVAILABLE = false;
 
 /**
  * Prix d'Abilia Plus affiché par la section « Tarifs », dans chaque langue. Le vrai prix est celui
- * de l'App Store (docs/monetisation/ du dépôt de l'app : 4,99 € au lancement, puis 6,99 €) : le
+ * de l'App Store (docs/monetisation/ du dépôt de l'app : 7,99 € au lancement, puis 12,99 €) : le
  * changer ici le même jour. `null` : la section dit « Achat unique » sans prix.
  */
-export const PLUS_PRICE: Record<'fr' | 'en', string> | null = { fr: '4,99 €', en: '$4.99' };
+export const PLUS_PRICE: Record<'fr' | 'en', string> | null = { fr: '7,99 €', en: '$7.99' };
 
 /**
  * Lien public de la bêta TestFlight (App Store Connect › TestFlight › groupe externe › lien
