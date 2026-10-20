@@ -1,6 +1,6 @@
 // Captures de l'app dans la langue de la page : françaises ici, anglaises dans `en/`, sous le
 // même nom de fichier (copiées de `docs/screenshots/` et `docs/screenshots/en/` du dépôt de
-// l'app ; 590 × 1278).
+// l'app ; 590 × 1282).
 import type { ImageMetadata } from 'astro';
 import type { Lang } from '../../i18n/ui';
 
@@ -50,16 +50,16 @@ export function screenshots(lang: Lang): Screenshots {
 }
 
 /*
- * Captures iPad et Mac, à fournir (section « iPad et Mac », sections/BigScreens.astro) : il suffit
- * de déposer le fichier sous ce nom, aucun code à changer. Tant qu'il manque, la section dessine
- * l'écran en CSS à la place, et `npm run dev` le signale sur l'emplacement.
+ * Captures iPad et Mac (section « iPad et Mac », sections/BigScreens.astro) : copiées de
+ * docs/screenshots/ipad/bibliotheque.jpg et docs/screenshots/mac/bibliotheque.jpg du dépôt de l'app
+ * (et de leurs versions en/). Si l'une manque, la section dessine l'écran en CSS à la place, et
+ * `npm run dev` le signale sur l'emplacement.
  *
- *   ipad.jpg, en/ipad.jpg  iPad en paysage, écran entier sans cadre (4:3, au moins 2048 × 1536 :
- *                          simulateur « iPad Pro 13 pouces », ⌘S) : l'accueil de la Bibliothèque
- *                          avec le mini-lecteur en train de jouer (texte `screenshot.ipad`).
- *   mac.jpg, en/mac.jpg    Mac, la fenêtre seule sans son ombre (⇧⌘4, Espace, ⌥ + clic), vers
- *                          1440 × 900 points, donc 2880 × 1800 pixels sur un écran Retina : la
- *                          page d'un album (texte `screenshot.mac`).
+ *   ipad.jpg, en/ipad.jpg  iPad tenu verticalement, écran entier sans cadre (3:4, 1000 × 1333) :
+ *                          l'accueil de la Bibliothèque (texte `screenshot.ipad`).
+ *   mac.jpg, en/mac.jpg    Mac, la fenêtre seule, recadrée au bord de la fenêtre (sans l'ombre ni
+ *                          le fond blanc de la capture de l'app, 902 × 675) : l'accueil de la
+ *                          Bibliothèque (texte `screenshot.mac`).
  *
  * Même rangement que les autres : en français ici, en anglais dans en/, et copiées aussi dans
  * docs/screenshots/ (et docs/screenshots/en/) du dépôt de l'app.

@@ -1,5 +1,5 @@
 ---
-// Section « iPad et Mac » : un iPad en paysage et une fenêtre de Mac, chacun dans sa carte, avec
+// Section « iPad et Mac » : un iPad (en portrait avec la capture, en paysage pour le dessin) et une fenêtre de Mac, chacun dans sa carte, avec
 // la capture de l'app quand elle existe (src/assets/screenshots/index.ts), l'app dessinée en CSS
 // sinon. Home.astro ne la construit qu'une fois `IPAD_AVAILABLE` ou `MAC_AVAILABLE`
 // (src/config.ts) vrai, ou en développement ; la plateforme pas encore sortie porte « Bientôt ».
@@ -29,7 +29,7 @@ const missing = (name: string) => (import.meta.env.DEV ? `Capture à fournir : s
   <div class="duo" data-scroll>
     <article class="device-card glass" data-reveal="up">
       <div class="device-card__visual device-card__visual--ipad">
-        <figure class="ipad">
+        <figure class:list={['ipad', { 'ipad--portrait': !!shots.ipad }]}>
           <div class="ipad__screen">
             {
               shots.ipad ? (
@@ -38,7 +38,7 @@ const missing = (name: string) => (import.meta.env.DEV ? `Capture à fournir : s
                   alt={t('screenshot.ipad')}
                   formats={['avif', 'webp']}
                   widths={[500, 800, 1100, 1400]}
-                  sizes="(max-width: 900px) 86vw, 520px"
+                  sizes="300px"
                   loading="lazy"
                   decoding="async"
                 />
@@ -183,7 +183,7 @@ const missing = (name: string) => (import.meta.env.DEV ? `Capture à fournir : s
     background: color-mix(in srgb, var(--coral) 10%, transparent);
   }
 
-  /* iPad dessiné en paysage : bord fin et régulier, la capture (ou le dessin) à l'intérieur. */
+  /* iPad dessiné (en paysage par défaut) : bord fin et régulier, la capture (ou le dessin) à l'intérieur. */
   .ipad {
     width: 100%;
     margin: 0;
@@ -203,6 +203,17 @@ const missing = (name: string) => (import.meta.env.DEV ? `Capture à fournir : s
     overflow: hidden;
     background: #0b0c10;
     container-type: inline-size;
+  }
+
+  /* La capture est un iPad tenu verticalement (3:4) : plus étroit, pour rester à la hauteur du Mac. */
+  .ipad--portrait {
+    width: min(100%, 300px);
+    border-radius: 8.6% / 6.5%;
+  }
+
+  .ipad--portrait .ipad__screen {
+    aspect-ratio: 3 / 4;
+    border-radius: 5.6% / 4.2%;
   }
 
   .ipad__screen :global(img) {

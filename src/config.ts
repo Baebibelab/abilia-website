@@ -20,6 +20,17 @@ export const APP_LANGUAGES: readonly string[] = ['fr', 'en'];
 export const JELLYFIN_URL = 'https://jellyfin.org';
 
 /**
+ * Serveur Jellyfin de démo (musique libre de droits), proposé sous la note Jellyfin pour essayer
+ * l'app sans serveur. Les valeurs remplacent `{server}`, `{user}` et `{password}` dans
+ * `jellyfin.demo` ; mettre `null` pour retirer la phrase.
+ */
+export const DEMO_SERVER: { url: string; user: string; password: string } | null = {
+  url: 'https://demo.andia-music.app',
+  user: 'demo',
+  password: 'demo',
+};
+
+/**
  * CarPlay attend encore l'autorisation d'Apple (droit `carplay-audio`, voir docs/LANCEMENT.md de
  * l'app) : tant que c'est `false`, le site le présente comme « Bientôt » et ne le promet pas.
  * Le passer à `true` fait aussi parler de CarPlay la description et le hero (les clés
