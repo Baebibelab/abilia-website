@@ -5,7 +5,7 @@
 updated: '2026-10-20'
 ---
 
-Abilia doesn’t collect any personal data. The app talks to the Jellyfin server you point it to, to
+Andia doesn’t collect any personal data. The app talks to the Jellyfin server you point it to, to
 the Radio Browser directory and the stations you listen to when you use live radio, and, if you
 give it your Discogs token or your Ticketmaster key, to Discogs for public album ratings and to
 Ticketmaster for artists’ upcoming concerts. It talks to no other service: no ads, no analytics, no
@@ -31,7 +31,7 @@ folder to erase its settings and files, and the app then starts as if reinstalle
 
 ## Listening History (Rewind)
 
-For your listening stats, the app keeps a log on each device of the songs played in Abilia (and,
+For your listening stats, the app keeps a log on each device of the songs played in Andia (and,
 from the iPhone, in CarPlay and on Apple Watch): title, artist, album, genres, date, source, under
 your account. It’s never sent anywhere, neither to your server, nor elsewhere, nor from one device
 to another: stats are calculated on the device, from its own plays. When another Jellyfin account
@@ -78,7 +78,7 @@ to your server.
 ## Siri and Shortcuts
 
 The names of your albums, artists and playlists are given to the system (iOS, iPadOS or macOS) so
-that Siri can recognize them. They’re handled by the system as for any app, not by Abilia.
+that Siri can recognize them. They’re handled by the system as for any app, not by Andia.
 
 ## Performance Reports
 
@@ -87,8 +87,8 @@ and are only sent if you share them yourself from Settings › About.
 
 ## Purchases
 
-Abilia Plus is bought through the App Store. Abilia doesn’t receive any payment information; the
-purchase is verified on the device, with no Abilia server.
+Andia Plus is bought through the App Store. Andia doesn’t receive any payment information; the
+purchase is verified on the device, with no Andia server.
 
 ## External Links
 

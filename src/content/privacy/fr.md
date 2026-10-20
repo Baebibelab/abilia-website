@@ -4,7 +4,7 @@
 updated: '2026-10-20'
 ---
 
-Abilia ne collecte aucune donnée personnelle. L'app parle au serveur Jellyfin que vous lui
+Andia ne collecte aucune donnée personnelle. L'app parle au serveur Jellyfin que vous lui
 indiquez, à l'annuaire Radio Browser et aux radios que vous écoutez quand vous utilisez les radios
 en direct, et, si vous lui donnez votre jeton Discogs ou votre clé Ticketmaster, à Discogs pour les
 notes du public des albums et à Ticketmaster pour les concerts à venir des artistes ; à aucun autre
@@ -34,7 +34,7 @@ ses réglages et ses fichiers, et l'app redémarre alors comme réinstallée.
 ## Historique d'écoute (Rewind)
 
 Pour vos statistiques d'écoute, l'app tient sur chaque appareil un journal des morceaux écoutés
-dans Abilia (et, depuis l'iPhone, dans CarPlay et sur l'Apple Watch) : titre, artiste, album,
+dans Andia (et, depuis l'iPhone, dans CarPlay et sur l'Apple Watch) : titre, artiste, album,
 genres, date, source, au nom de votre compte. Il n'est jamais envoyé nulle part, ni à votre
 serveur, ni ailleurs, ni d'un appareil à l'autre : les statistiques sont calculées sur l'appareil,
 d'après ses propres écoutes. Quand un autre compte Jellyfin se connecte sur l'appareil, le journal
@@ -84,7 +84,7 @@ les transmet à votre serveur.
 ## Siri et Raccourcis
 
 Les noms de vos albums, artistes et playlists sont donnés au système (iOS, iPadOS ou macOS) pour
-que Siri les reconnaisse. Ils sont traités par celui-ci comme pour toute app, pas par Abilia.
+que Siri les reconnaisse. Ils sont traités par celui-ci comme pour toute app, pas par Andia.
 
 ## Rapports de performance
 
@@ -94,8 +94,8 @@ propos.
 
 ## Achats
 
-Abilia Plus s'achète par l'App Store. Abilia ne reçoit aucune information de paiement ; l'achat
-est vérifié sur l'appareil, sans serveur d'Abilia.
+Andia Plus s'achète par l'App Store. Andia ne reçoit aucune information de paiement ; l'achat
+est vérifié sur l'appareil, sans serveur d'Andia.
 
 ## Liens externes
 

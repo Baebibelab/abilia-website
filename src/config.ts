@@ -1,6 +1,6 @@
 // Réglages du site partagés par les pages.
 
-/** Lien App Store d'Abilia. Tant qu'il est `null`, le bouton affiche « Bientôt sur l'App Store ». */
+/** Lien App Store d'Andia. Tant qu'il est `null`, le bouton affiche « Bientôt sur l'App Store ». */
 export const APP_STORE_URL: string | null = null;
 
 /**
@@ -29,7 +29,7 @@ export const JELLYFIN_URL = 'https://jellyfin.org';
 export const CARPLAY_AVAILABLE = false;
 
 /**
- * Abilia sur iPad et sur Mac (Mac Catalyst, même fiche App Store que l'iPhone) : PR #222 et #223
+ * Andia sur iPad et sur Mac (Mac Catalyst, même fiche App Store que l'iPhone) : PR #222 et #223
  * du dépôt de l'app. Tant que les deux sont `false`, la section « iPad et Mac » n'est construite
  * qu'en développement (`npm run dev`, pour la relire) et aucune page publiée n'en parle. Passer
  * une plateforme à `true` le jour où elle sort : elle rejoint « Pour iPhone, … » du hero, la
@@ -42,7 +42,7 @@ export const IPAD_AVAILABLE = false;
 export const MAC_AVAILABLE = false;
 
 /**
- * Prix d'Abilia Plus affiché par la section « Tarifs », dans chaque langue. Le vrai prix est celui
+ * Prix d'Andia Plus affiché par la section « Tarifs », dans chaque langue. Le vrai prix est celui
  * de l'App Store (docs/monetisation/ du dépôt de l'app : 7,99 € au lancement, puis 12,99 €) : le
  * changer ici le même jour. `null` : la section dit « Achat unique » sans prix.
  */

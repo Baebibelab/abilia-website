@@ -1,0 +1,23 @@
+# Mode maintenance (envoyé par le workflow Deploy, mode « maintenance ») : remplace le .htaccess
+# du site sur OVH. Toute adresse répond 503 avec maintenance.html ; les fichiers du site restent
+# sur le serveur, et un déploiement en mode « site » remet le vrai .htaccess.
+
+Options -Indexes
+ErrorDocument 503 /maintenance.html
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  RewriteCond %{SERVER_PORT} 80
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [L,R=301]
+
+  RewriteCond %{REQUEST_URI} !^/maintenance\.html$
+  RewriteRule ^ - [R=503,L]
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header always set Retry-After "86400"
+  Header always set Cache-Control "no-store"
+  Header always set X-Robots-Tag "noindex"
+  Header always set X-Content-Type-Options "nosniff"
+</IfModule>

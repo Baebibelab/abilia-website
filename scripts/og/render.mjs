@@ -14,7 +14,7 @@ const page = await browser.newPage({ viewport: { width: 1200, height: 630 } });
 for (const lang of ['fr', 'en']) {
   await page.goto(`${pathToFileURL(`${here}og.html`).href}?lang=${lang}`);
   await page.waitForLoadState('networkidle');
-  await page.screenshot({ path: `${root}public/og/abilia-${lang}.jpg`, type: 'jpeg', quality: 86 });
+  await page.screenshot({ path: `${root}public/og/andia-${lang}.jpg`, type: 'jpeg', quality: 86 });
 }
 
 // Icône de l'écran d'accueil iOS (carrée : iOS arrondit lui-même les coins) et repli PNG du favicon

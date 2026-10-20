@@ -1,4 +1,8 @@
-# Mise en ligne sur l'hébergement OVH à chaque push sur main (ou à la demande).
+# Mise en ligne sur l'hébergement OVH, à la demande seulement (Actions › Deploy › Run workflow) :
+# le push sur main ne déploie plus, le temps de valider le nouveau nom de l'app (Andia).
+#   mode maintenance  envoie maintenance/ : toute adresse répond 503 avec une page d'attente
+#                     (les fichiers du site restent sur le serveur, OVH_DELETE est ignoré).
+#   mode site         construit et envoie dist/, ce qui remet le .htaccess du site.
 #
 # Secrets du dépôt (Settings › Secrets and variables › Actions) :
 #   OVH_HOST       serveur FTP / SFTP de l'hébergement (ex. ftp.cluster0XX.hosting.ovh.net)
@@ -14,9 +18,13 @@
 name: Deploy
 
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
+    inputs:
+      mode:
+        description: Ce qui est mis en ligne
+        type: choice
+        options: [maintenance, site]
+        default: maintenance
 
 concurrency:
   group: deploy
@@ -27,6 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       HAS_TARGET: ${{ secrets.OVH_HOST != '' }}
+      MAINTENANCE: ${{ inputs.mode != 'site' }}
     steps:
       - name: Hébergement non configuré
         if: env.HAS_TARGET != 'true'
@@ -35,12 +44,12 @@ jobs:
       - uses: actions/checkout@v4
         if: env.HAS_TARGET == 'true'
       - uses: actions/setup-node@v4
-        if: env.HAS_TARGET == 'true'
+        if: env.HAS_TARGET == 'true' && env.MAINTENANCE != 'true'
         with:
           node-version-file: .nvmrc
           cache: npm
       - name: Build
-        if: env.HAS_TARGET == 'true'
+        if: env.HAS_TARGET == 'true' && env.MAINTENANCE != 'true'
         run: npm ci && npm run build
         env:
           SITE_URL: ${{ vars.SITE_URL }}
@@ -53,7 +62,8 @@ jobs:
           PASSWORD: ${{ secrets.OVH_PASSWORD }}
           PROTOCOL: ${{ vars.OVH_PROTOCOL || 'sftp' }}
           REMOTE_DIR: ${{ vars.OVH_REMOTE_DIR || 'www' }}
-          DELETE: ${{ vars.OVH_DELETE == 'true' && '--delete' || '' }}
+          DELETE: ${{ inputs.mode == 'site' && vars.OVH_DELETE == 'true' && '--delete' || '' }}
+          SOURCE: ${{ inputs.mode == 'site' && 'dist/' || 'maintenance/' }}
         run: |
           sudo apt-get update -qq && sudo apt-get install -y -qq lftp
           # Le mot de passe passe par l'environnement (LFTP_PASSWORD, --env-password), jamais par la ligne de commande.
@@ -63,5 +73,5 @@ jobs:
             set ftp:ssl-allow yes;
             set net:max-retries 3;
             open --user '$USER' --env-password '$PROTOCOL://$HOST';
-            mirror --reverse --verbose --parallel=4 $DELETE --exclude-glob .DS_Store dist/ '$REMOTE_DIR/';
+            mirror --reverse --verbose --parallel=4 $DELETE --exclude-glob .DS_Store '$SOURCE' '$REMOTE_DIR/';
           "

@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-Site vitrine d'Abilia (l'app iOS est dans le dépôt `Baebibelab/abilia`) : Astro statique,
+Site vitrine d'Andia (l'app iOS est dans le dépôt `Baebibelab/abilia`) : Astro statique,
 français à la racine et anglais sous `/en/`, hébergé sur OVH. Lire
 [docs/CONVENTIONS.md](docs/CONVENTIONS.md) avant de toucher au code : couleurs, composants,
 moteur d'animation (`data-reveal`, `data-scroll`), textes dans `src/i18n/ui.ts`, découpage de
