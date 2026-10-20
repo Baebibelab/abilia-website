@@ -1,7 +1,7 @@
 ---
 # Copie de docs/PRIVACY.md du dépôt de l'app (Baebibelab/abilia), sans son titre ni sa date :
 # même texte, à recopier ici à chaque modification là-bas (avec la date et la traduction anglaise).
-updated: '2026-10-19'
+updated: '2026-10-20'
 ---
 
 Abilia ne collecte aucune donnée personnelle. L'app parle au serveur Jellyfin que vous lui
@@ -92,9 +92,10 @@ Le système remet à l'app des mesures de performance et des rapports de plantag
 restent sur l'appareil, et ne sont envoyés que si vous les partagez vous-même depuis Réglages › À
 propos.
 
-## Dons
+## Achats
 
-Les dons passent par l'App Store. Abilia ne reçoit aucune information de paiement.
+Abilia Plus s'achète par l'App Store. Abilia ne reçoit aucune information de paiement ; l'achat
+est vérifié sur l'appareil, sans serveur d'Abilia.
 
 ## Liens externes
 

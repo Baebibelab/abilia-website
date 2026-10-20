@@ -77,7 +77,7 @@ par section. Une section peut poser ses propres halos ou dégradés locaux par-d
 ## Composants partagés
 
 - `Section` : `id`, `eyebrow`, `title`, `lead`, `align` (`start` / `center`), puis le contenu ;
-  l'en-tête apparaît au scroll. Les ancres du menu sont `features`, `offline`, `everywhere`.
+  l'en-tête apparaît au scroll. Les ancres du menu sont `features`, `offline`, `everywhere`, `pricing`.
 - `PhoneFrame` : un iPhone dessiné en CSS avec une capture (`src`, `alt`, `width`, `loading`).
   La largeur se règle aussi par `--phone-width` sur un parent. Le contenu passé entre ses
   balises se pose par-dessus la capture, dans l'écran (le hero y anime le spectre).
@@ -109,11 +109,18 @@ Réglages dans `src/config.ts` :
 - `APP_LANGUAGES` : langues de l'interface de l'app (`['fr']`). Une page dans une autre langue le
   dit sous l'appel du hero, puisque l'app et ses captures sont en français.
 - `JELLYFIN_URL`.
+- `PLUS_PRICE` : prix d'Abilia Plus par langue, affiché par « Tarifs » (`null` : « Achat unique »
+  sans prix). Le vrai prix est celui de l'App Store : le changer ici le même jour (plan de prix
+  dans `docs/monetisation/` du dépôt de l'app).
+- `TESTFLIGHT_URL` : lien public de la bêta TestFlight ; renseigné, « Tarifs » propose « Rejoindre
+  la bêta ». Le site ne vend rien : Abilia Plus s'achète dans l'app (guideline 3.1.1), jamais de
+  bouton d'achat ici.
 
 Les sections de l'accueil, dans l'ordre : `Jellyfin` (`#features`), `Listen` (visite épinglée
 En lecture, paroles, égaliseur, page d'album), `Gapless` (enchaînement et fondu), `Stations`,
 `Offline` (`#offline`), `Rewind`, `BigScreens` (`#ipad-mac`, iPad et Mac, voir
-`IPAD_AVAILABLE`), `Everywhere` (`#everywhere`, Apple Watch et CarPlay).
+`IPAD_AVAILABLE`), `Everywhere` (`#everywhere`, Apple Watch et CarPlay), `Pricing` (`#pricing`, gratuit et Abilia
+Plus, bêta ; même répartition que `docs/monetisation/README.md` de l'app).
 
 ## Animations
 
