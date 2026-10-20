@@ -2,7 +2,7 @@
 # Copie de docs/PRIVACY.en.md du dépôt de l'app (Baebibelab/abilia), traduction de
 # src/content/privacy/fr.md, sans son titre ni sa date : même texte que la politique en anglais de
 # l'app, à recopier ici à chaque modification là-bas. Le français fait foi.
-updated: '2026-10-19'
+updated: '2026-10-20'
 ---
 
 Abilia doesn’t collect any personal data. The app talks to the Jellyfin server you point it to, to
@@ -85,9 +85,10 @@ that Siri can recognize them. They’re handled by the system as for any app, no
 The system gives the app performance metrics and crash reports (MetricKit). They stay on the device
 and are only sent if you share them yourself from Settings › About.
 
-## Donations
+## Purchases
 
-Donations go through the App Store. Abilia doesn’t receive any payment information.
+Abilia Plus is bought through the App Store. Abilia doesn’t receive any payment information; the
+purchase is verified on the device, with no Abilia server.
 
 ## External Links
 

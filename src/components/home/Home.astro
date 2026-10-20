@@ -9,6 +9,7 @@ import Gapless from './sections/Gapless.astro';
 import Jellyfin from './sections/Jellyfin.astro';
 import Listen from './sections/Listen.astro';
 import Offline from './sections/Offline.astro';
+import Pricing from './sections/Pricing.astro';
 import Rewind from './sections/Rewind.astro';
 import Stations from './sections/Stations.astro';
 import { IPAD_AVAILABLE, MAC_AVAILABLE } from '../../config';
@@ -32,3 +33,4 @@ const showsBigScreens = IPAD_AVAILABLE || MAC_AVAILABLE || import.meta.env.DEV;
 <Rewind lang={lang} />
 {showsBigScreens && <BigScreens lang={lang} />}
 <Everywhere lang={lang} />
+<Pricing lang={lang} />

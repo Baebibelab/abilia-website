@@ -1,0 +1,214 @@
+---
+// Section « Tarifs » (ancre `#pricing` du menu) : l'offre gratuite et Abilia Plus côte à côte,
+// puis l'appel à la bêta TestFlight quand `TESTFLIGHT_URL` (src/config.ts) est renseigné. La
+// répartition est celle de docs/monetisation/README.md du dépôt de l'app : la changer ensemble.
+// Pas de bouton d'achat : Abilia Plus s'achète dans l'app (guideline 3.1.1 de l'App Store).
+import Glyph from '../../Glyph.astro';
+import Section from '../../Section.astro';
+import { PLUS_PRICE, TESTFLIGHT_URL } from '../../../config';
+import { type Lang, useTranslations } from '../../../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const free = [
+  t('pricing.free.library'),
+  t('pricing.free.playback'),
+  t('pricing.free.offline'),
+  t('pricing.free.stations'),
+  t('pricing.free.system'),
+];
+const plus = [
+  t('pricing.plus.rewind'),
+  t('pricing.plus.watch'),
+  t('pricing.plus.eq'),
+  t('pricing.plus.crossfade'),
+  t('pricing.plus.family'),
+];
+const plusPrice = PLUS_PRICE ? t('pricing.plus.price').replace('{price}', PLUS_PRICE[lang]) : t('pricing.plus.priceUnknown');
+---
+
+<Section id="pricing" eyebrow={t('pricing.eyebrow')} lead={t('pricing.lead')} align="center" class="pricing">
+  <Fragment slot="title">{t('pricing.title.1')}<br /><span class="gradient-text">{t('pricing.title.2')}</span></Fragment>
+
+  <div class="plans" data-reveal-stagger="120">
+    <article class="plan glass" data-reveal>
+      <h3 class="plan__name">{t('pricing.free.name')}</h3>
+      <p class="plan__price">{t('pricing.free.price')}</p>
+      <ul class="plan__list" role="list">
+        {
+          free.map((item) => (
+            <li>
+              <Glyph name="check" size={18} />
+              <span>{item}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </article>
+
+    <article class="plan plan--plus glass" data-reveal>
+      <h3 class="plan__name">
+        <Glyph name="sparkles" size={20} />
+        {t('pricing.plus.name')}
+      </h3>
+      <p class="plan__price">{plusPrice}</p>
+      <ul class="plan__list" role="list">
+        {
+          plus.map((item) => (
+            <li>
+              <Glyph name="check" size={18} />
+              <span>{item}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </article>
+  </div>
+
+  <p class="note" data-reveal>{t('pricing.note')}</p>
+
+  {
+    TESTFLIGHT_URL && (
+      <div class="beta glass" data-reveal>
+        <span class="beta__icon">
+          <Glyph name="plane" size={24} />
+        </span>
+        <div class="beta__text">
+          <h3>{t('pricing.beta.title')}</h3>
+          <p>{t('pricing.beta.text')}</p>
+        </div>
+        <a class="button button--primary" href={TESTFLIGHT_URL} rel="noopener">
+          {t('pricing.beta.cta')}
+        </a>
+      </div>
+    )
+  }
+</Section>
+
+<style>
+  .plans {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    max-width: 860px;
+    margin-inline: auto;
+  }
+
+  .plan {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: clamp(24px, 4vw, 36px);
+    text-align: start;
+  }
+
+  /* Abilia Plus : un liseré aux couleurs de la marque, sans changer la carte en verre. */
+  .plan--plus {
+    border-color: transparent;
+    background:
+      linear-gradient(var(--bg-elevated), var(--bg-elevated)) padding-box,
+      linear-gradient(135deg, var(--coral), var(--purple), var(--teal)) border-box;
+    border: 2px solid transparent;
+  }
+
+  .plan__name {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+
+  .plan--plus .plan__name :global(.glyph) {
+    color: var(--coral-text);
+  }
+
+  .plan__price {
+    margin: 0 0 14px;
+    font-size: clamp(1.6rem, 3vw, 2rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+
+  .plan__list {
+    display: grid;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .plan__list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+  }
+
+  .plan__list :global(.glyph) {
+    margin-top: 1px;
+    color: var(--teal-text);
+  }
+
+  .note {
+    max-width: 640px;
+    margin: 28px auto 0;
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+  }
+
+  .beta {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    max-width: 860px;
+    margin: 40px auto 0;
+    padding: 24px 28px;
+    text-align: start;
+  }
+
+  .beta__icon {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 15px;
+    color: #fff;
+    background: linear-gradient(145deg, var(--teal-strong), var(--purple-strong));
+  }
+
+  .beta__text {
+    flex: 1;
+  }
+
+  .beta h3 {
+    margin: 0 0 4px;
+    font-size: 1.1rem;
+  }
+
+  .beta p {
+    margin: 0;
+    color: var(--text-secondary);
+  }
+
+  @media (max-width: 760px) {
+    .plans {
+      grid-template-columns: 1fr;
+      max-width: 520px;
+    }
+
+    .beta {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>
