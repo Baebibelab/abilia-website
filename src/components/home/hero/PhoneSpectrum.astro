@@ -4,8 +4,8 @@
 // depuis le bas sur 28 pt, comme `SpectrumBars` dans l'app. Un aplat de la couleur du fond
 // de l'écran efface les points de la capture, que les barres remplacent.
 //
-// Mesures en pixels de la capture (590 × 1278) : rangée de x = 88 à 502, bas des points à
-// y = 692,5, 42 px de haut (28 pt × 1,5). Les niveaux figés servent sans JavaScript et avec
+// Mesures en pixels de la capture (590 × 1282) : rangée de x = 88 à 502, bas des points à
+// y = 691,5, 42 px de haut (28 pt × 1,5). Les niveaux figés servent sans JavaScript et avec
 // « Réduire les animations » ; le script du hero les anime ensuite (`data-hero-bar`).
 import { BAND_COUNT, STILL_TIME, spectrumAt } from './spectrum';
 
@@ -33,7 +33,7 @@ const levels = spectrumAt(STILL_TIME);
     top: 0;
     left: 50%;
     height: 100%;
-    aspect-ratio: 590 / 1278;
+    aspect-ratio: 590 / 1282;
     translate: -50% 0;
     pointer-events: none;
   }
@@ -42,18 +42,19 @@ const levels = spectrumAt(STILL_TIME);
     position: absolute;
     left: calc(84 / 590 * 100%);
     width: calc(422 / 590 * 100%);
-    top: calc(677 / 1278 * 100%);
-    height: calc(19 / 1278 * 100%);
+    /* Assez haut pour les points les plus hauts de la capture (y = 668). */
+    top: calc(665 / 1282 * 100%);
+    height: calc(31 / 1282 * 100%);
     border-radius: 999px;
-    background: rgb(146 20 36);
+    background: rgb(75 16 90);
   }
 
   .bars {
     position: absolute;
     left: calc(88 / 590 * 100%);
     width: calc(414 / 590 * 100%);
-    top: calc(650.5 / 1278 * 100%);
-    height: calc(42 / 1278 * 100%);
+    top: calc(649.5 / 1282 * 100%);
+    height: calc(42 / 1282 * 100%);
     display: grid;
     grid-template-columns: repeat(24, 1fr);
     column-gap: calc(4.5 / 414 * 100%);

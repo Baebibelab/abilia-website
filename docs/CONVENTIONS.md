@@ -8,7 +8,7 @@ est un site **statique** Astro (aucun serveur, aucune dépendance côté navigat
 
 ```
 src/
-  assets/screenshots/   captures de l'app (590 × 1278), optimisées par astro:assets : en
+  assets/screenshots/   captures de l'app (590 × 1282), optimisées par astro:assets : en
                         français, en anglais dans en/, servies par screenshots(lang) (index.ts)
                         ; ipad.jpg et mac.jpg (facultatives, bigScreenshots(lang)) : tant
                         qu'elles manquent, la section iPad et Mac dessine l'écran en CSS
