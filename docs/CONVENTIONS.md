@@ -118,7 +118,7 @@ Réglages dans `src/config.ts` :
   bouton d'achat ici.
 
 Les sections de l'accueil, dans l'ordre : `Jellyfin` (`#features`), `Listen` (visite épinglée
-En lecture, paroles, égaliseur, page d'album), `Gapless` (enchaînement et fondu), `Stations`,
+En lecture, paroles, égaliseur, page d'album), `Gapless` (enchaînement et fondu, puis « Fait maison » : ce que permet le moteur audio de l'app), `Stations`,
 `Offline` (`#offline`), `Rewind`, `BigScreens` (`#ipad-mac`, iPad et Mac, voir
 `IPAD_AVAILABLE`), `Everywhere` (`#everywhere`, Apple Watch et CarPlay), `Pricing` (`#pricing`, gratuit et Andia
 Plus, bêta ; même répartition que `docs/monetisation/README.md` de l'app).

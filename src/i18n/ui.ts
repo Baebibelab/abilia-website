@@ -94,6 +94,23 @@ const fr = {
   'gapless.fact.prepared': "Les pistes suivantes sont prêtes avant d'arriver",
   'gapless.fact.normalized': 'Volume normalisé, sans saturation',
   'gapless.fact.sleep': 'Minuterie de sommeil, après un délai ou à la fin du morceau',
+  'gapless.engine.eyebrow': 'Fait maison',
+  'gapless.engine.title': 'Un moteur audio à lui',
+  'gapless.engine.text':
+    "D'ordinaire, une app confie la musique au lecteur standard d'iOS. Andia lit lui-même vos fichiers, de ce qu'il reçoit du serveur jusqu'au son qui sort : c'est ce qui lui permet d'enchaîner, de régler et de rattraper ce que le lecteur d'iOS ne sait pas faire.",
+  'gapless.engine.note': "Le lecteur classique d'iOS reste disponible dans les Réglages, au cas où.",
+  'gapless.engine.stream.title': 'Démarre vite, tient bon',
+  'gapless.engine.stream.text':
+    "La lecture part au bout d'une demi-seconde de musique reçue. Revenir en arrière ne redemande rien au serveur, et une connexion qui saute reprend là où elle s'était arrêtée.",
+  'gapless.engine.volume.title': 'Le bon volume, dans les deux sens',
+  'gapless.engine.volume.text':
+    "Un album gravé trop bas est remonté, pas seulement les trop forts baissés, et un limiteur veille à ce que rien ne sature.",
+  'gapless.engine.effects.title': 'Vos réglages, partout',
+  'gapless.engine.effects.text':
+    "Égaliseur, fondu et volume s'appliquent au son lui-même : vous les retrouvez au casque comme sur une enceinte AirPlay.",
+  'gapless.engine.system.title': "Et toujours bien intégré à l'iPhone",
+  'gapless.engine.system.text':
+    "Écran verrouillé, Centre de contrôle, AirPlay 2 : le moteur passe par les mêmes voies qu'Apple, rien n'est perdu en route.",
   'stations.eyebrow': 'Stations et mix',
   'stations.title.1': 'Laissez-vous',
   'stations.title.2': 'porter.',
@@ -344,6 +361,23 @@ const en: Record<UIKey, string> = {
   'gapless.fact.prepared': 'Upcoming tracks are ready before they’re due',
   'gapless.fact.normalized': 'Normalized volume, without clipping',
   'gapless.fact.sleep': 'Sleep timer, after a delay or at the end of the track',
+  'gapless.engine.eyebrow': 'Built in-house',
+  'gapless.engine.title': 'An audio engine of its own',
+  'gapless.engine.text':
+    'Usually, an app hands music off to iOS’s standard player. Andia plays your files itself, from what it receives from your server to the sound coming out: that’s what lets it do the blending, tuning and recovering that iOS’s player can’t.',
+  'gapless.engine.note': 'iOS’s classic player is still available in Settings, just in case.',
+  'gapless.engine.stream.title': 'Starts fast, holds steady',
+  'gapless.engine.stream.text':
+    'Playback begins after half a second of music. Skipping back asks nothing more of the server, and a dropped connection picks up right where it left off.',
+  'gapless.engine.volume.title': 'The right volume, both ways',
+  'gapless.engine.volume.text':
+    'An album mastered too quietly gets turned up, not just the loud ones turned down, and a limiter makes sure nothing clips.',
+  'gapless.engine.effects.title': 'Your settings, everywhere',
+  'gapless.engine.effects.text':
+    'Equalizer, crossfade and volume are applied to the sound itself, so you get them on headphones and AirPlay speakers alike.',
+  'gapless.engine.system.title': 'Still right at home on iPhone',
+  'gapless.engine.system.text':
+    'Lock Screen, Control Center, AirPlay 2: the engine goes through the same paths Apple uses, so nothing gets lost along the way.',
   'stations.eyebrow': 'Stations and mixes',
   'stations.title.1': 'Sit back and',
   'stations.title.2': 'listen.',
