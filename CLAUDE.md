@@ -12,6 +12,9 @@ l'accueil en fichiers.
 - Tout mouvement sous `prefers-reduced-motion: no-preference` ; rien de caché sans JavaScript.
 - Avant une PR : `npm run check` et `npm run build`, puis un rendu en clair, en sombre, à 390 px
   de large (aucun défilement horizontal) et avec les animations réduites.
+- Audit du site : méthode, points de contrôle et outils dans
+  [docs/AUDIT-TRAME.md](docs/AUDIT-TRAME.md). Un audit ne corrige rien : il écrit
+  `docs/AUDIT-<date>.md` et son suivi, les corrections viennent ensuite par lots.
 - Captures de l'app : `src/assets/screenshots/` en français, `src/assets/screenshots/en/` en
   anglais, sous les mêmes noms (copiées de `docs/screenshots/` et `docs/screenshots/en/` du dépôt
   de l'app ; les remplacer là-bas aussi quand elles changent). Les sections les prennent par
