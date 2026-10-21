@@ -48,7 +48,7 @@ const fr = {
     "Andia se connecte directement à votre serveur Jellyfin, chez vous ou sur Internet. Pas de compte à créer, pas d'abonnement, pas de publicité : juste votre bibliothèque, rangée comme à la maison.",
   'jellyfin.library.title': 'Toute votre bibliothèque',
   'jellyfin.library.text':
-    "Albums, artistes, playlists et genres, avec un index A–Z. Les pages d'artiste ont leur photo et leur biographie, les albums sur plusieurs disques se lisent d'un seul tenant.",
+    "Albums, artistes, playlists et genres, avec un index A–Z. Les pages d'artiste ont leur photo et leur biographie, les albums sur plusieurs disques se lisent d'un seul tenant. Toutes les bibliothèques musicales du serveur s'affichent par défaut ; avec Andia Plus, choisissez celles à afficher.",
   'jellyfin.search.title': 'Une recherche instantanée',
   'jellyfin.search.text': "Morceaux, albums, artistes et playlists s'affichent dès la première lettre.",
   'jellyfin.secure.title': 'Une connexion sûre',
@@ -205,6 +205,7 @@ const fr = {
   'pricing.plus.watch': "Votre musique sur l'Apple Watch, sans l'iPhone",
   'pricing.plus.eq': 'Égaliseur 10 bandes et préréglages',
   'pricing.plus.crossfade': 'Fondu enchaîné réglable',
+  'pricing.plus.libraries': 'Toutes vos bibliothèques musicales par défaut, ou seulement celles que vous choisissez',
   'pricing.plus.family': 'Partagé avec votre famille, sur tous vos appareils',
   'pricing.note': "Andia Plus s'achète dans l'app (Réglages › Andia Plus) et se restaure sur vos autres appareils. Le prix peut varier selon le pays.",
   'pricing.beta.title': "Envie de l'essayer avant tout le monde ?",
@@ -298,7 +299,7 @@ const en: Record<UIKey, string> = {
     'Andia connects straight to your Jellyfin server, at home or over the internet. No account to create, no subscription, no ads: just your library, organized the way you like it.',
   'jellyfin.library.title': 'Your whole library',
   'jellyfin.library.text':
-    'Albums, artists, playlists and genres, with an A–Z index. Artist pages have their photo and biography, and multi-disc albums play straight through.',
+    'Albums, artists, playlists and genres, with an A–Z index. Artist pages have their photo and biography, and multi-disc albums play straight through. All the music libraries on your server show up by default; with Andia Plus, choose which ones to show.',
   'jellyfin.search.title': 'Instant search',
   'jellyfin.search.text': 'Tracks, albums, artists and playlists show up from the very first letter.',
   'jellyfin.secure.title': 'A secure connection',
@@ -454,6 +455,7 @@ const en: Record<UIKey, string> = {
   'pricing.plus.watch': 'Your music on Apple Watch, without your iPhone',
   'pricing.plus.eq': 'Ten-band equalizer with presets',
   'pricing.plus.crossfade': 'Adjustable crossfade',
+  'pricing.plus.libraries': 'All your music libraries by default, or only the ones you pick',
   'pricing.plus.family': 'Shared with your family, on all your devices',
   'pricing.note': 'Andia Plus is bought in the app (Settings › Andia Plus) and restored on your other devices. Prices may vary by country.',
   'pricing.beta.title': 'Want to try it before everyone else?',
