@@ -193,6 +193,13 @@ chaque image. `<html>` porte la classe `is-scrolled` dès que la page a défilé
 - Une boucle infinie (halos, pulsation) se coupe aussi avec « Réduire les animations ».
   Le bloc qui la contient porte `data-loop` : le moteur la met en pause tant qu'il est loin de
   l'écran (le fond, toujours visible, n'en a pas besoin).
+- **Pas de bouton de pause** (décision de l'audit du 23 octobre, A5). Les boucles et les
+  mouvements de plus de cinq secondes (halos, dégradé du titre, spectre et anneau du hero,
+  impulsion de Jellyfin, égaliseur de la montre, point « Bientôt ») sont du décor : ils ne
+  portent aucune information et rien ne se lit en eux. L'exemption de WCAG 2.2.2 est assumée
+  à deux conditions, à garder : tout s'arrête avec « Réduire les animations » (le seul moyen
+  de pause du site), et aucun texte ne se déplace ni ne défile seul. Une animation qui porterait du
+  sens, ou du texte qui défile seul, demanderait une vraie commande de pause.
 - Pas de bibliothèque d'animation (GSAP, Lenis…) sans en discuter : le site n'a aujourd'hui
   aucune dépendance côté navigateur.
 
