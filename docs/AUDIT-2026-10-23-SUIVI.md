@@ -66,18 +66,18 @@ relecture sont dans `docs/AUDIT-2026-10-23-LOTS.md`.
 | 6 | D8 | Dette | HSTS sans `includeSubDomains` ni `preload` | décision | | Au changement de domaine |
 | 6 | S1 | Mineur | La 404 déclare l'accueil comme canonique | à faire | | |
 | 6 | S2 | Dette | Fiche schema.org sans `offers` | décision | | |
-| 7 | Q1 | Dette | Quatre clés de texte jamais lues | en cours | #PRLOT7 | |
-| 7 | Q2 | Dette | Fichiers et dessins morts | en cours | #PRLOT7 | `artiste.jpg` employée par F9 ; `recherche.jpg` et `reglages.jpg` supprimées |
-| 7 | Q3 | Dette | Commentaires et modèle de partage en retard | en cours | #PRLOT7 | |
-| 7 | Q4 | Dette | Styles recopiés d'une section à l'autre | en cours | #PRLOT7 | `DeviceCard`, `.note`, `.card-row`, `.badge-soon`, `.visually-hidden-narrow` ; rendu identique (captures d'éléments avant / après) |
-| 7 | Q5 | Dette | Calculs liés à une capture sans contrôle écrit | en cours | #PRLOT7 | `scripts/check-spectrum.mjs` dans `npm run check` ; `cards` de Rewind laissé (quatre articles écrits à la main) |
-| 7 | Q6 | Dette | README et CONVENTIONS à tenir à jour | en cours | #PRLOT7 | Relus contre le code après ce lot ; assistance (L2) et insécables (C3) laissées aux lots 2 et 5 |
-| 7 | F10 | Mineur | Le bloc bêta ne dit pas que l'achat TestFlight ne suit pas | en cours | #PRLOT7 | Phrase de `docs/monetisation/TESTFLIGHT.md` de l'app, fr et en |
-| 7 | F11 | Dette | Configuration « app en français seulement » contradictoire | en cours | #PRLOT7 | Supprimés ; `inLanguage` tiré de `languages` ; variante `francais` retirée de `variants.sh` |
-| 7 | V4 | Dette | Favicon sans variante sombre, `icon-dark.svg` inutilisé | en cours | #PRLOT7 | Icônes supprimées avec Q2, le favicon reste corail |
-| 7 | P5 | Dette | Styles et scripts dans chaque page | en cours | #PRLOT7 | Seuil noté : plus de dix pages ou 100 Ko de CSS en ligne |
-| 7 | F9 | Mineur | Fonctions marquantes absentes, captures fortes inutilisées | en cours | #PRLOT7 | Décision : `artiste.jpg` en cinquième étape de Listen, ligne playlists dans Tarifs › gratuit ; Discogs, anniversaires et Qobuz tus. À reporter dans le dépôt de l'app : `docs/screenshots/en/artiste.jpg` montre la biographie en français, non traduite |
-| 7 | L7 | Mineur | Appareils Apple dessinés en CSS | en cours | #PRLOT7 | Décision : appareils dessinés conservés, règle écrite dans CONVENTIONS |
+| 7 | Q1 | Dette | Quatre clés de texte jamais lues | en cours | #25 | |
+| 7 | Q2 | Dette | Fichiers et dessins morts | en cours | #25 | `artiste.jpg` employée par F9 ; `recherche.jpg` et `reglages.jpg` supprimées |
+| 7 | Q3 | Dette | Commentaires et modèle de partage en retard | en cours | #25 | |
+| 7 | Q4 | Dette | Styles recopiés d'une section à l'autre | en cours | #25 | `DeviceCard`, `.note`, `.card-row`, `.badge-soon`, `.visually-hidden-narrow` ; rendu identique (captures d'éléments avant / après) |
+| 7 | Q5 | Dette | Calculs liés à une capture sans contrôle écrit | en cours | #25 | `scripts/check-spectrum.mjs` dans `npm run check` ; `cards` de Rewind laissé (quatre articles écrits à la main) |
+| 7 | Q6 | Dette | README et CONVENTIONS à tenir à jour | en cours | #25 | Relus contre le code après ce lot ; assistance (L2) et insécables (C3) laissées aux lots 2 et 5 |
+| 7 | F10 | Mineur | Le bloc bêta ne dit pas que l'achat TestFlight ne suit pas | en cours | #25 | Phrase de `docs/monetisation/TESTFLIGHT.md` de l'app, fr et en |
+| 7 | F11 | Dette | Configuration « app en français seulement » contradictoire | en cours | #25 | Supprimés ; `inLanguage` tiré de `languages` ; variante `francais` retirée de `variants.sh` |
+| 7 | V4 | Dette | Favicon sans variante sombre, `icon-dark.svg` inutilisé | en cours | #25 | Icônes supprimées avec Q2, le favicon reste corail |
+| 7 | P5 | Dette | Styles et scripts dans chaque page | en cours | #25 | Seuil noté : plus de dix pages ou 100 Ko de CSS en ligne |
+| 7 | F9 | Mineur | Fonctions marquantes absentes, captures fortes inutilisées | en cours | #25 | Décision : `artiste.jpg` en cinquième étape de Listen, ligne playlists dans Tarifs › gratuit ; Discogs, anniversaires et Qobuz tus. À reporter dans le dépôt de l'app : `docs/screenshots/en/artiste.jpg` montre la biographie en français, non traduite |
+| 7 | L7 | Mineur | Appareils Apple dessinés en CSS | en cours | #25 | Décision : appareils dessinés conservés, règle écrite dans CONVENTIONS |
 | app | F7 | Mineur | Capture du hero en MP3 sous une pastille FLAC ; un seul mix | app | | Serveur de démo : album FLAC, genres pour plusieurs humeurs ; captures à refaire |
 | app | F8 | Mineur | Capture anglaise « En lecture » avec un artefact en bas | app | | `docs/screenshots/en/en-lecture.jpg` à refaire |
 | app | L6 | Mineur | Serveur de démo : compte, domaine, disponibilité | app | | Plausible : documenter dans `docs/LANCEMENT.md` |
