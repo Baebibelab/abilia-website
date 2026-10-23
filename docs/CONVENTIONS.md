@@ -94,8 +94,8 @@ par section. Une section peut poser ses propres halos ou dégradés locaux par-d
 Réglages dans `src/config.ts` :
 
 - `APP_STORE_URL` et `APP_STORE_ID` : le jour du lancement, le lien et l'identifiant de l'app ;
-  le bouton devient un lien, la fiche schema.org reçoit l'adresse, Safari sur iPhone affiche sa
-  bannière d'app.
+  le bouton devient un lien, la fiche schema.org reçoit l'adresse (son offre gratuite, `offers`,
+  passe de `OutOfStock` à `InStock`), Safari sur iPhone affiche sa bannière d'app.
 - `CARPLAY_AVAILABLE`, à passer à `true` le jour où Apple accorde le droit CarPlay. D'ici là, la
   section « Partout » le marque « Bientôt » et rien d'autre n'en parle : une clé de `ui.ts` qui a
   une variante `<clé>.carplay` (description, hero) la donne à la place quand c'est vrai, sans

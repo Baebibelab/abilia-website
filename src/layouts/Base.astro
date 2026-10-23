@@ -46,6 +46,15 @@ const structuredData = {
   operatingSystem: 'iOS 17, watchOS 10',
   applicationCategory: 'MultimediaApplication',
   inLanguage: APP_LANGUAGES,
+  // L'app est gratuite (Andia Plus s'achète dans l'app) : une offre à 0, disponible le jour où
+  // APP_STORE_URL est renseigné, indisponible jusque-là (pas « PreOrder » : rien ne se précommande).
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'EUR',
+    availability: APP_STORE_URL ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+    ...(APP_STORE_URL ? { url: APP_STORE_URL } : {}),
+  },
   ...(APP_STORE_URL ? { downloadUrl: APP_STORE_URL, installUrl: APP_STORE_URL } : {}),
 };
 ---
