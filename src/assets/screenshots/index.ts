@@ -5,12 +5,14 @@ import type { ImageMetadata } from 'astro';
 import type { Lang } from '../../i18n/ui';
 
 import album from './album.jpg';
+import artiste from './artiste.jpg';
 import bibliotheque from './bibliotheque.jpg';
 import egaliseur from './egaliseur.jpg';
 import enLecture from './en-lecture.jpg';
 import paroles from './paroles.jpg';
 import telechargements from './telechargements.jpg';
 import enAlbum from './en/album.jpg';
+import enArtiste from './en/artiste.jpg';
 import enBibliotheque from './en/bibliotheque.jpg';
 import enEgaliseur from './en/egaliseur.jpg';
 import enEnLecture from './en/en-lecture.jpg';
@@ -19,6 +21,7 @@ import enTelechargements from './en/telechargements.jpg';
 
 export interface Screenshots {
   album: ImageMetadata;
+  artist: ImageMetadata;
   library: ImageMetadata;
   equalizer: ImageMetadata;
   nowPlaying: ImageMetadata;
@@ -29,6 +32,7 @@ export interface Screenshots {
 const shots: Record<Lang, Screenshots> = {
   fr: {
     album,
+    artist: artiste,
     library: bibliotheque,
     equalizer: egaliseur,
     nowPlaying: enLecture,
@@ -37,6 +41,7 @@ const shots: Record<Lang, Screenshots> = {
   },
   en: {
     album: enAlbum,
+    artist: enArtiste,
     library: enBibliotheque,
     equalizer: enEgaliseur,
     nowPlaying: enEnLecture,

@@ -75,6 +75,9 @@ const fr = {
   'listen.album.title': 'Chaque page a ses couleurs',
   'listen.album.text':
     'Albums, artistes et playlists prennent la teinte de leur pochette. Un cœur, et le morceau est marqué en favori sur votre serveur.',
+  'listen.artist.title': "Les pages d'artiste",
+  'listen.artist.text':
+    "La photo de l'artiste, sa biographie (traduite sur l'appareil avec iOS 18), ses morceaux les plus écoutés et ses albums dans l'ordre de sortie. Avec votre clé Ticketmaster, ses prochains concerts.",
   'gapless.eyebrow': 'Moteur audio',
   'gapless.title.1': 'Pas un blanc.',
   'gapless.title.2': 'Comme sur le disque.',
@@ -190,6 +193,7 @@ const fr = {
   'pricing.free.name': 'Andia',
   'pricing.free.price': 'Gratuite',
   'pricing.free.library': 'Toute votre bibliothèque, la recherche et les paroles',
+  'pricing.free.playlists': 'Playlists créées et modifiées sur votre serveur',
   'pricing.free.playback': 'Lecture sans blanc, haute résolution, volume normalisé',
   'pricing.free.offline': 'Téléchargements hors ligne, sans limite',
   'pricing.free.stations': 'Stations, mix et radios en direct',
@@ -235,6 +239,7 @@ const fr = {
   'screenshot.lyrics': 'Paroles synchronisées sous les commandes de lecture',
   'screenshot.equalizer': 'Égaliseur dix bandes avec le préréglage Rock',
   'screenshot.album': "Page d'un album aux couleurs de sa pochette",
+  'screenshot.artist': "Page d'un artiste : photo, biographie et morceaux les plus écoutés",
   'footer.tagline': 'Votre musique, votre serveur.',
   'footer.jellyfin': "Andia n'est pas affiliée au projet Jellyfin.",
   'footer.apple': 'Apple, iPhone, iPad, Mac, Apple Watch, CarPlay et App Store sont des marques d’Apple Inc.',
@@ -320,6 +325,9 @@ const en: Record<UIKey, string> = {
   'listen.album.title': 'Every page in its own colors',
   'listen.album.text':
     'Albums, artists and playlists take on the hue of their artwork. Tap the heart and the track is saved as a favorite on your server.',
+  'listen.artist.title': 'Artist Pages',
+  'listen.artist.text':
+    'The artist’s photo, their bio (translated on your device with iOS 18), their most played songs and their albums in release order. Add your Ticketmaster key to see upcoming concerts.',
   'gapless.eyebrow': 'Audio engine',
   'gapless.title.1': 'Not a gap.',
   'gapless.title.2': 'Just like the record.',
@@ -435,6 +443,7 @@ const en: Record<UIKey, string> = {
   'pricing.free.name': 'Andia',
   'pricing.free.price': 'Free',
   'pricing.free.library': 'Your whole library, search and lyrics',
+  'pricing.free.playlists': 'Playlists created and edited on your server',
   'pricing.free.playback': 'Gapless, hi-res playback with volume normalization',
   'pricing.free.offline': 'Unlimited offline downloads',
   'pricing.free.stations': 'Stations, mixes and live radio',
@@ -479,6 +488,7 @@ const en: Record<UIKey, string> = {
   'screenshot.lyrics': 'Synced lyrics beneath the playback controls',
   'screenshot.equalizer': 'Ten-band equalizer with the Rock preset',
   'screenshot.album': 'An album page in the colors of its artwork',
+  'screenshot.artist': 'An artist page: photo, bio and most played songs',
   'footer.tagline': 'Your music, your server.',
   'footer.jellyfin': 'Andia is not affiliated with the Jellyfin project.',
   'footer.apple': 'Apple, iPhone, iPad, Mac, Apple Watch, CarPlay and App Store are trademarks of Apple Inc.',
