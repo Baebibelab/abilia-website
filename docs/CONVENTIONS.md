@@ -105,7 +105,7 @@ Réglages dans `src/config.ts` :
   `{platforms}` (« Pour iPhone, iPad, Mac et Apple Watch », description) et `{devices}`
   (« pensée pour l'iPhone, l'iPad et le Mac », chapeau du hero), que `useTranslations` remplit
   dans tous les textes de `ui.ts`, et la section paraît, l'autre plateforme y portant « Bientôt ».
-  Penser alors à la ligne des plateformes de `scripts/og/og.html` et aux images de partage.
+  Penser alors à régénérer les images de partage (leur ligne des plateformes suit `platforms()`).
 - `APP_LANGUAGES` : langues de l'interface de l'app (`['fr', 'en']`), qui ont chacune leurs
   captures. Une page dans une langue que l'app ne parle pas le dit sous l'appel du hero
   (`hero.appLanguage`) ; aujourd'hui, aucune.
@@ -221,8 +221,10 @@ commit ; le français fait foi.
 
 **Images de partage** : `public/og/andia-<langue>.jpg` (1200 × 630), rendues depuis
 `scripts/og/og.html` par `node scripts/og/render.mjs` (Playwright installé sur la machine, pas
-dans le projet), qui refait aussi `apple-touch-icon.png` et `favicon-32.png`. Les régénérer quand
-le titre, la capture En lecture ou les plateformes changent.
+dans le projet), qui refait aussi `apple-touch-icon.png` et `favicon-32.png`. Leurs textes sont
+ceux du hero, lus dans `ui.ts` (`hero.eyebrow`, `hero.title.1`, `hero.title.2`, `hero.platforms`,
+dont `{platforms}` suit `src/config.ts`), et la capture est l'En lecture de la langue. Les
+régénérer quand le titre, la capture En lecture ou les plateformes changent.
 
 Ton : celui du README de l'app, chaleureux et concret, en vouvoyant ; l'anglais est une vraie
 traduction, pas un mot à mot.

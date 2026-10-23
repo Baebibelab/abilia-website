@@ -68,7 +68,7 @@ relecture sont dans `docs/AUDIT-2026-10-23-LOTS.md`.
 | 6 | S2 | Dette | Fiche schema.org sans `offers` | décision | | |
 | 7 | Q1 | Dette | Quatre clés de texte jamais lues | en cours | #PRLOT7 | |
 | 7 | Q2 | Dette | Fichiers et dessins morts | en cours | #PRLOT7 | `artiste.jpg` employée par F9 ; `recherche.jpg` et `reglages.jpg` supprimées |
-| 7 | Q3 | Dette | Commentaires et modèle de partage en retard | à faire | | |
+| 7 | Q3 | Dette | Commentaires et modèle de partage en retard | en cours | #PRLOT7 | |
 | 7 | Q4 | Dette | Styles recopiés d'une section à l'autre | à faire | | |
 | 7 | Q5 | Dette | Calculs liés à une capture sans contrôle écrit | à faire | | |
 | 7 | Q6 | Dette | README et CONVENTIONS à tenir à jour | à faire | | Avec les lots 1, 2, 5 |
