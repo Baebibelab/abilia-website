@@ -87,7 +87,8 @@ par section. Une section peut poser ses propres halos ou dégradés locaux par-d
   simulateur (1 179 × 2 556), monter `widths` jusqu'à 930 (les calques posés sur la capture,
   comme `PhoneSpectrum`, sont en pourcentages de la capture et ne changent pas).
 - `AppStoreButton` : pastille « Bientôt sur l'App Store » tant que `APP_STORE_URL`
-  (`src/config.ts`) est vide. Le jour du lancement, utiliser le **badge officiel d'Apple**, tel
+  (`src/config.ts`) est vide ; elle n'a pas l'air d'un bouton (fond de verre, filet, sans ombre,
+  `cursor: default`), et son point ne bat que dans le hero (`pulse`). Le jour du lancement, utiliser le **badge officiel d'Apple**, tel
   quel ; ne jamais dessiner un faux badge ni utiliser le logo Apple ailleurs.
 - `AppIcon` : l'icône en SVG (`size`, `label` si elle doit être lue).
 - `Glyph` : petites icônes au trait (`name`, `size`), décoratives ; en ajouter une = un tracé

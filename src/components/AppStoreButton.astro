@@ -1,6 +1,7 @@
 ---
 // Appel à télécharger l'app. Tant que `APP_STORE_URL` (src/config.ts) est vide, c'est une
-// pastille « Bientôt sur l'App Store », pas un lien.
+// pastille « Bientôt sur l'App Store », pas un lien, qui n'a pas l'air d'un bouton : fond de
+// verre et filet, sans ombre ni curseur de lien.
 // Le jour du lancement : Apple impose son badge officiel « Télécharger dans l'App Store »
 // (https://developer.apple.com/app-store/marketing/guidelines/), tel quel et dans la langue de
 // la page. Ne pas dessiner un faux badge ni utiliser le logo Apple ici.
@@ -28,7 +29,7 @@ const t = useTranslations(lang);
     </a>
   ) : (
     <span
-      class:list={['button', 'button--primary', 'app-store', 'app-store--soon', `app-store--${size}`, className]}
+      class:list={['button', 'app-store', 'app-store--soon', `app-store--${size}`, className]}
       data-loop={pulse ? '' : undefined}
     >
       <span class:list={['app-store__dot', { 'app-store__dot--pulse': pulse }]} aria-hidden="true"></span>
@@ -44,8 +45,28 @@ const t = useTranslations(lang);
     font-size: 0.9rem;
   }
 
+  /* « Bientôt » n'est pas un bouton : pas l'aplat ni l'ombre du bouton principal, un fond de
+     verre bordé d'un filet, et ni curseur de lien ni soulèvement au survol. */
+  .app-store--soon {
+    background: var(--glass-bg);
+    border: 1px solid var(--border);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+    box-shadow: none;
+    color: var(--text);
+    cursor: default;
+  }
+
   .app-store--soon:hover {
     transform: none;
+  }
+
+  @media (prefers-reduced-transparency: reduce) {
+    .app-store--soon {
+      background: var(--bg-elevated);
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+    }
   }
 
   .app-store__dot {
