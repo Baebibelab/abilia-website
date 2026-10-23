@@ -258,6 +258,12 @@ qui garde les passages épinglés, contrairement à `hidden`) : vérifier aussi 
 largeur où les colonnes sont les plus serrées. Repères à garder : Lighthouse à 100 sur les quatre
 catégories, aucune erreur axe, CLS à 0.
 
+Styles et scripts vont dans chaque page (`inlineStylesheets: 'always'` dans `astro.config.mjs`,
+scripts courts en ligne) : rien ne bloque le premier affichage, et une page de l'accueil pèse
+≈ 32 Ko compressés, dont 62 Ko de CSS bruts (octobre 2026, cinq pages). Passer à `'auto'` (une
+feuille commune mise en cache) quand le site dépasse dix pages, ou quand le CSS en ligne d'une
+page dépasse 100 Ko bruts ; mesurer avant et après (Lighthouse, poids de `dist/`).
+
 La CI (`.github/workflows/ci.yml`) refait `check` et `build` sur chaque PR. Le déploiement
 (`.github/workflows/deploy.yml`) ne part plus qu'à la demande (Actions › Deploy › Run workflow),
 une fois les secrets `OVH_HOST`, `OVH_USER`, `OVH_PASSWORD` définis (détails en tête du fichier) :

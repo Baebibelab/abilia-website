@@ -75,7 +75,7 @@ relecture sont dans `docs/AUDIT-2026-10-23-LOTS.md`.
 | 7 | F10 | Mineur | Le bloc bêta ne dit pas que l'achat TestFlight ne suit pas | en cours | #PRLOT7 | Phrase de `docs/monetisation/TESTFLIGHT.md` de l'app, fr et en |
 | 7 | F11 | Dette | Configuration « app en français seulement » contradictoire | en cours | #PRLOT7 | Supprimés ; `inLanguage` tiré de `languages` ; variante `francais` retirée de `variants.sh` |
 | 7 | V4 | Dette | Favicon sans variante sombre, `icon-dark.svg` inutilisé | en cours | #PRLOT7 | Icônes supprimées avec Q2, le favicon reste corail |
-| 7 | P5 | Dette | Styles et scripts dans chaque page | à faire | | Noter le seuil dans CONVENTIONS, rien d'autre |
+| 7 | P5 | Dette | Styles et scripts dans chaque page | en cours | #PRLOT7 | Seuil noté : plus de dix pages ou 100 Ko de CSS en ligne |
 | 7 | F9 | Mineur | Fonctions marquantes absentes, captures fortes inutilisées | décision | | |
 | 7 | L7 | Mineur | Appareils Apple dessinés en CSS | décision | | |
 | app | F7 | Mineur | Capture du hero en MP3 sous une pastille FLAC ; un seul mix | app | | Serveur de démo : album FLAC, genres pour plusieurs humeurs ; captures à refaire |
