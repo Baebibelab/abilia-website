@@ -290,7 +290,7 @@ const en: Record<UIKey, string> = {
     'Andia plays your Jellyfin server’s library in an app built for {devices}: beautiful, fast, and at home everywhere in the system, from the car to the Apple Watch.',
   'hero.platforms': 'For {platforms}',
   'hero.appLanguage': 'Good to know: the app itself is in French for now, as in the screenshots on this page.',
-  'hero.chip.format': 'FLAC · 24-bit / 96 kHz',
+  'hero.chip.format': 'FLAC · 24-bit / 96 kHz',
   'hero.chip.gapless': 'Gapless playback',
   'hero.chip.offline': 'Works offline',
   'hero.chip.eq': '10-band equalizer',
@@ -321,13 +321,13 @@ const en: Record<UIKey, string> = {
   'listen.lead': 'Tap a song and the music starts. Everything else is right there, under your thumb.',
   'listen.nowPlaying.title': 'Artwork, front and center',
   'listen.nowPlaying.text':
-    'A blurred backdrop in the album’s colors, a spectrum that dances with the music, and the format being played, from “MP3 · 256 kbps” to “FLAC · 24-bit / 96 kHz”.',
+    'A blurred backdrop in the album’s colors, a spectrum that dances with the music, and the format being played, from “MP3 · 256 kbps” to “FLAC · 24-bit / 96 kHz”.',
   'listen.lyrics.title': 'Lyrics that keep up',
   'listen.lyrics.text':
     'Synced lyrics scroll beneath the controls, in time with the song. A swipe on the mini player skips to the next song.',
   'listen.eq.title': 'A ten-band equalizer',
   'listen.eq.text':
-    'From 31 Hz to 16 kHz, with presets. Boosted bands are balanced by a slight volume cut, so the sound never clips.',
+    'From 31 Hz to 16 kHz, with presets. Boosted bands are balanced by a slight volume cut, so the sound never clips.',
   'listen.album.title': 'Every page in its own colors',
   'listen.album.text':
     'Albums, artists and playlists take on the hue of their artwork. Tap the heart and the song is saved as a favorite on your server.',
@@ -388,13 +388,13 @@ const en: Record<UIKey, string> = {
     'Downloaded favorites and playlists keep themselves up to date: a new heart, a song added, and it lands on your device by itself. A song shared by two albums or playlists is stored only once.',
   'offline.cache.title': 'A cache that remembers',
   'offline.cache.text':
-    'What you play stays on your device, from 1 to 10 GB as you choose, with your favorites the last to go. Replaying downloads nothing again.',
+    'What you play stays on your device, from 1 to 10 GB as you choose, with your favorites the last to go. Replaying downloads nothing again.',
   'offline.mode.title': 'Offline mode',
   'offline.mode.text':
     'One tap, and the library shows and plays only what’s downloaded, even with a connection. Stations pick from what’s on your device.',
   'offline.quality.title': 'The quality you want',
   'offline.quality.text':
-    'Set separately for Wi-Fi, 4G/5G and downloads, from the original file down to 128 kbps.',
+    'Set separately for Wi-Fi, 4G/5G and downloads, from the original file down to 128 kbps.',
   'rewind.eyebrow': 'Rewind',
   'rewind.title.1': 'Your music,',
   'rewind.title.2': 'looking back.',

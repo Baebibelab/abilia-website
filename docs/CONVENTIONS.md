@@ -241,7 +241,7 @@ qu'aucune ligne ne commence par « : », « € » ou « % » sur un téléphone
 l'insécable s'écrit telle quelle (pas `&nbsp;`, que `ui.ts` ne connaît pas) ; un éditeur qui les
 montre aide. Apostrophe droite (') partout en français, donc une chaîne entre guillemets doubles
 dès qu'elle en contient une. En anglais, les guillemets et apostrophes courbes (“ ” ’) restent,
-comme dans l'app. Vérifier : `grep -c $' ' src/i18n/ui.ts` ne baisse pas, et
+comme dans l'app, et une insécable lie aussi un nombre à son unité (« 96 kHz », « 10 GB »). Vérifier : `grep -c $' ' src/i18n/ui.ts` ne baisse pas, et
 `grep -n "’" src/i18n/ui.ts` ne montre que des lignes anglaises.
 
 **Anglais** : le vocabulaire et la casse de l'app (`Abilia/Resources/Localizable.xcstrings`,
