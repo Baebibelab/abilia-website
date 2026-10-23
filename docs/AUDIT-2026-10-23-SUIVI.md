@@ -77,7 +77,7 @@ relecture sont dans `docs/AUDIT-2026-10-23-LOTS.md`.
 | 7 | V4 | Dette | Favicon sans variante sombre, `icon-dark.svg` inutilisé | en cours | #PRLOT7 | Icônes supprimées avec Q2, le favicon reste corail |
 | 7 | P5 | Dette | Styles et scripts dans chaque page | en cours | #PRLOT7 | Seuil noté : plus de dix pages ou 100 Ko de CSS en ligne |
 | 7 | F9 | Mineur | Fonctions marquantes absentes, captures fortes inutilisées | en cours | #PRLOT7 | Décision : `artiste.jpg` en cinquième étape de Listen, ligne playlists dans Tarifs › gratuit ; Discogs, anniversaires et Qobuz tus. À reporter dans le dépôt de l'app : `docs/screenshots/en/artiste.jpg` montre la biographie en français, non traduite |
-| 7 | L7 | Mineur | Appareils Apple dessinés en CSS | décision | | |
+| 7 | L7 | Mineur | Appareils Apple dessinés en CSS | en cours | #PRLOT7 | Décision : appareils dessinés conservés, règle écrite dans CONVENTIONS |
 | app | F7 | Mineur | Capture du hero en MP3 sous une pastille FLAC ; un seul mix | app | | Serveur de démo : album FLAC, genres pour plusieurs humeurs ; captures à refaire |
 | app | F8 | Mineur | Capture anglaise « En lecture » avec un artefact en bas | app | | `docs/screenshots/en/en-lecture.jpg` à refaire |
 | app | L6 | Mineur | Serveur de démo : compte, domaine, disponibilité | app | | Plausible : documenter dans `docs/LANCEMENT.md` |

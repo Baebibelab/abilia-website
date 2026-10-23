@@ -76,6 +76,12 @@ n'y arrivent pas sur le fond clair : pour un texte, prendre `--coral-text` / `--
 Typographie : la police système (SF Pro sur les appareils Apple, comme l'app), aucune police
 téléchargée. Titres en `font-weight: 800`, interlettrage négatif, tailles en `clamp()`.
 
+Appareils : l'iPhone (`PhoneFrame`, image de partage), l'iPad et le Mac (`BigScreens`), l'Apple
+Watch et l'écran CarPlay (`Everywhere`) sont des dessins stylisés en CSS, gardés en connaissance de
+cause (décision L7 de l'audit du 23 octobre 2026, alors que les règles marketing d'Apple demandent
+ses propres images de produits) : jamais de logo Apple, dessins stylisés sans nom de modèle, aucun
+texte qui les présente comme des photos de produits.
+
 Le fond (`components/Halos.astro`) est commun à toutes les pages : ne pas en ajouter un autre
 par section. Une section peut poser ses propres halos ou dégradés locaux par-dessus.
 
