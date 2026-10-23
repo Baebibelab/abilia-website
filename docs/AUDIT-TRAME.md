@@ -803,7 +803,7 @@ icônes de `public/`, redirections de `public/.htaccess`.
    choix ? `operatingSystem`, `applicationCategory`, `inLanguage`, `image` justes ; seulement sur
    l'accueil (voulu) ; `Organization` ou `WebSite` utiles ?
 6. **Partage** : balises Open Graph et Twitter complètes ; texte de l'image de partage à jour (nom,
-   « Pour iPhone et Apple Watch » écrit en dur dans `og.html`, capture) ; aperçu réel dans Messages,
+   ligne des plateformes, capture de la langue) ; aperçu réel dans Messages,
    WhatsApp, Slack, Discord, Mastodon, LinkedIn (plausible tant que non fait).
 7. **Icônes** : `favicon.svg` (variante sombre ?), `favicon.ico`, `favicon-32.png`,
    `apple-touch-icon.png` (180 px, fond opaque) ; pas de manifeste web (voulu ?).
@@ -966,8 +966,8 @@ maintenance).
    sombres (montre, CarPlay, `AppMock`), textes de la 404 ; `visually-hidden` de `global.css` et
    masquage maison de `.hero__name`.
 7. **Outils du dépôt** : `scripts/og/render.mjs` fonctionne (chemin de Playwright) et refait aussi
-   les icônes ; la ligne des plateformes de `og.html` est écrite à la main (dérive possible avec
-   `config.ts`).
+   les icônes ; ses textes viennent de `ui.ts` (ligne des plateformes par `platforms()`) ;
+   `scripts/check-spectrum.mjs` passe dans `npm run check`.
 8. **Pour la personne suivante** : changer une capture, ajouter une section, changer le domaine,
    lancer cet audit — chaque procédure est écrite et juste.
 
@@ -1160,8 +1160,8 @@ toujours juste ; configurations futures relues (zone 1, point 5) ; image de part
 
 ### Le jour où CarPlay, l'iPad ou le Mac sortent
 
-Le réglage de `src/config.ts` ; la ligne des plateformes de `scripts/og/og.html` et les images de
-partage régénérées ; les variantes `.carplay` relues dans les deux langues ; la section « iPad et
+Le réglage de `src/config.ts` ; les images de partage régénérées (`node scripts/og/render.mjs`, la
+ligne des plateformes suit `platforms()`) ; les variantes `.carplay` relues dans les deux langues ; la section « iPad et
 Mac » avec ses vraies captures ; `operatingSystem` du JSON-LD ; les phrases qui disent ce qui reste
 sur l'iPhone (`screens.note`).
 
