@@ -36,6 +36,12 @@ concurrency:
   group: deploy
   cancel-in-progress: false
 
+permissions:
+  contents: read
+
+env:
+  ASTRO_TELEMETRY_DISABLED: 1
+
 jobs:
   deploy:
     runs-on: ubuntu-latest

@@ -60,7 +60,7 @@ relecture sont dans `docs/AUDIT-2026-10-23-LOTS.md`.
 | 6 | D3 | Mineur | Aucune Content-Security-Policy | décision | | Report-Only d'abord |
 | 6 | D4 | Mineur | Types compressés incomplets | à faire | | = P3 |
 | 6 | P3 | Mineur | `mod_deflate` sans xml ni txt | doublon | | Voir D4 |
-| 6 | D5 | Dette | CI : droits, outils d'audit, télémétrie, dépendances | à faire | | Job « Audit » avec A.1, A.2, A.7 |
+| 6 | D5 | Dette | CI : droits, outils d'audit, télémétrie, dépendances | en cours | #22 | Job « Audit » avec A.1, A.2, A.7 ; secret `APP_REPO_TOKEN` à créer (Actions et Dependabot) ; A.7 rouge jusqu'à L1 |
 | 6 | D6 | Mineur | Mise en ligne non atomique, pas de retour arrière écrit | à faire | | |
 | 6 | D7 | Dette | `Permissions-Policy` obsolète | à faire | | |
 | 6 | D8 | Dette | HSTS sans `includeSubDomains` ni `preload` | décision | | Au changement de domaine |

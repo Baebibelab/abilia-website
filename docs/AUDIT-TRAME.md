@@ -1571,7 +1571,7 @@ Le texte du site, sans son en-tête, contre celui de l'app, sans son titre, sa d
 commentaire HTML ; les deux doivent sortir « identique ». Puis comparer les dates à la main.
 
 ```bash
-APP=../abilia
+APP=${APP:-../abilia}   # le dépôt de l'app (la CI passe APP=.app)
 diff <(awk 'f>=2; /^---$/{f++}' src/content/privacy/fr.md | sed '/./,$!d' | cat -s) \
      <(sed '1,/^\*Mise à jour/d' $APP/docs/PRIVACY.md | grep -v '^<!--' | sed '/./,$!d' | cat -s) && echo "fr identique"
 diff <(awk 'f>=2; /^---$/{f++}' src/content/privacy/en.md | sed '/./,$!d' | cat -s) \

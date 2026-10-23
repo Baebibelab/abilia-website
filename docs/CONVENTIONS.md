@@ -244,7 +244,17 @@ qui garde les passages épinglés, contrairement à `hidden`) : vérifier aussi 
 largeur où les colonnes sont les plus serrées. Repères à garder : Lighthouse à 100 sur les quatre
 catégories, aucune erreur axe, CLS à 0.
 
-La CI (`.github/workflows/ci.yml`) refait `check` et `build` sur chaque PR. Le déploiement
+La CI (`.github/workflows/ci.yml`) refait `check` et `build` sur chaque PR et sur `main`, et son
+job « Audit » lance les outils rapides de `docs/AUDIT-TRAME.md` (annexe A), extraits de la trame à
+chaque fois : `i18n-check` (A.1 : rouge sur une clé sans anglais ou aux repères différents, une clé
+jamais lue n'est qu'un avertissement), `dist-check` (A.2 : rouge sur tout « ✗ »), une page
+`noindex` qui garderait canonique, hreflang, `og:url` ou fiche schema.org, et la copie de la
+politique de confidentialité comparée à celle de l'app (A.7, rouge dès qu'elles divergent). Le
+dépôt de l'app est privé : A.7 lit `docs/PRIVACY*.md` avec le secret `APP_REPO_TOKEN` (jeton à
+grain fin, lecture seule du dépôt `Baebibelab/abilia`), à créer aussi dans les secrets Dependabot.
+Les deux workflows n'ont que le droit `contents: read` et coupent la télémétrie d'Astro
+(`ASTRO_TELEMETRY_DISABLED`). Dependabot (`.github/dependabot.yml`) propose chaque lundi les mises
+à jour npm. Le déploiement
 (`.github/workflows/deploy.yml`) ne part plus qu'à la demande (Actions › Deploy › Run workflow),
 une fois les secrets `OVH_HOST`, `OVH_USER`, `OVH_PASSWORD` et, en SFTP, `OVH_KNOWN_HOSTS` (la clé
 du serveur, épinglée : un serveur qui présente une autre clé est refusé) définis (détails en tête du
