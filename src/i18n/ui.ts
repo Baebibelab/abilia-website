@@ -23,6 +23,7 @@ const fr = {
   'nav.everywhere': 'Partout',
   'nav.pricing': 'Tarifs',
   'nav.privacy': 'Confidentialité',
+  'nav.menu': 'Menu',
   'nav.home': "Accueil d'Andia",
   'nav.language': 'Langue',
   'cta.appStore': "Bientôt sur l'App Store",
@@ -91,6 +92,8 @@ const fr = {
     "Si vous le souhaitez, un morceau s'efface pendant que le suivant monte. Réglable, et jamais à l'intérieur d'un même album.",
   'gapless.trackA': 'Piste 1',
   'gapless.trackB': 'Piste 2',
+  'gapless.diagram':
+    "Frise de deux pistes : la piste 1 s'achève là où la piste 2 commence, sans blanc, et leurs volumes se croisent pendant le fondu enchaîné.",
   'gapless.fact.prepared': "Les pistes suivantes sont prêtes avant d'arriver",
   'gapless.fact.normalized': 'Volume normalisé, sans saturation',
   'gapless.fact.sleep': 'Minuterie de sommeil, après un délai ou à la fin du morceau',
@@ -274,6 +277,7 @@ const en: Record<UIKey, string> = {
   'nav.everywhere': 'Everywhere',
   'nav.pricing': 'Pricing',
   'nav.privacy': 'Privacy',
+  'nav.menu': 'Menu',
   'nav.home': 'Andia home',
   'nav.language': 'Language',
   'cta.appStore': 'Coming soon to the App Store',
@@ -341,6 +345,8 @@ const en: Record<UIKey, string> = {
     'If you like, one song fades out as the next one rises. Adjustable, and never within the same album.',
   'gapless.trackA': 'Track 1',
   'gapless.trackB': 'Track 2',
+  'gapless.diagram':
+    'Diagram of two tracks: track 1 ends right where track 2 begins, with no gap, and their volumes cross during the crossfade.',
   'gapless.fact.prepared': 'Upcoming tracks are ready before they’re due',
   'gapless.fact.normalized': 'Normalized volume, without clipping',
   'gapless.fact.sleep': 'Sleep timer, after a delay or at the end of the track',

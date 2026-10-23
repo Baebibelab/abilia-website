@@ -76,6 +76,10 @@ par section. Une section peut poser ses propres halos ou dégradés locaux par-d
 
 ## Composants partagés
 
+- `Header` : la marque, les quatre ancres de l'accueil, la langue et l'appel App Store ; sous
+  860 px, les ancres, Confidentialité et la langue passent dans un menu `<details>` (« Menu »,
+  utilisable sans JavaScript ; le script le referme après un choix, avec Échap ou un clic à
+  côté). Un lien ajouté à l'en-tête s'ajoute aussi à ce menu.
 - `Section` : `id`, `eyebrow`, `title`, `lead`, `align` (`start` / `center`), puis le contenu ;
   l'en-tête apparaît au scroll. Les ancres du menu sont `features`, `offline`, `everywhere`, `pricing`.
 - `PhoneFrame` : un iPhone dessiné en CSS avec une capture (`src`, `alt`, `width`, `loading`).
@@ -176,7 +180,11 @@ chaque image. `<html>` porte la classe `is-scrolled` dès que la page a défilé
 - **Accessibilité** : tout mouvement (translation, rotation, échelle, parallaxe) va dans
   `@media (prefers-reduced-motion: no-preference)`. Avec « Réduire les animations », le moteur
   révèle tout d'emblée ; seuls des fondus de couleur ou d'opacité restent permis. Les effets de
-  flou et de verre ont un repli sous `prefers-reduced-transparency: reduce`.
+  flou et de verre ont un repli sous `prefers-reduced-transparency: reduce`. Chrome l'expose
+  (version 118 et suivantes) ; Safari, peut-être pas : le réglage iOS « Réduire la
+  transparence » n'a alors aucun effet sur le site (à confirmer sur un iPhone, audit du 23
+  octobre, A6). Il n'y a pas d'autre signal : le verre doit donc rester lisible sans ce repli
+  (fond à 55 % au moins derrière du texte).
 - **Sans JavaScript**, rien ne doit rester caché : les états de départ ne valent que sous
   `html.js` (déjà le cas pour `data-reveal` ; à respecter pour toute animation maison).
 - **Performance** : n'animer que `transform`, `opacity` (et `filter` pour une apparition). Pas
@@ -185,6 +193,13 @@ chaque image. `<html>` porte la classe `is-scrolled` dès que la page a défilé
 - Une boucle infinie (halos, pulsation) se coupe aussi avec « Réduire les animations ».
   Le bloc qui la contient porte `data-loop` : le moteur la met en pause tant qu'il est loin de
   l'écran (le fond, toujours visible, n'en a pas besoin).
+- **Pas de bouton de pause** (décision de l'audit du 23 octobre, A5). Les boucles et les
+  mouvements de plus de cinq secondes (halos, dégradé du titre, spectre et anneau du hero,
+  impulsion de Jellyfin, égaliseur de la montre, point « Bientôt ») sont du décor : ils ne
+  portent aucune information et rien ne se lit en eux. L'exemption de WCAG 2.2.2 est assumée
+  à deux conditions, à garder : tout s'arrête avec « Réduire les animations » (le seul moyen
+  de pause du site), et aucun texte ne se déplace ni ne défile seul. Une animation qui porterait du
+  sens, ou du texte qui défile seul, demanderait une vraie commande de pause.
 - Pas de bibliothèque d'animation (GSAP, Lenis…) sans en discuter : le site n'a aujourd'hui
   aucune dépendance côté navigateur.
 

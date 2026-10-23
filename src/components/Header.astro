@@ -1,8 +1,11 @@
 ---
 // En-tête fixe : transparent en haut de page, en verre dès que la page défile
-// (`html.is-scrolled`, posé par src/scripts/motion.ts).
+// (`html.is-scrolled`, posé par src/scripts/motion.ts). Sous 860 px, les liens passent dans un
+// menu (`<details>` : il s'ouvre et se ferme sans JavaScript ; le script ne fait que le refermer
+// après un choix, avec Échap ou un clic à côté).
 import AppIcon from './AppIcon.astro';
 import AppStoreButton from './AppStoreButton.astro';
+import Glyph from './Glyph.astro';
 import { type Lang, languages, pathFor, useTranslations } from '../i18n/ui';
 
 interface Props {
@@ -44,16 +47,66 @@ const otherLangs = (Object.keys(languages) as Lang[]).filter((l) => l !== lang);
 
     <div class="site-header__actions">
       {
+        // Le nom accessible (« EN – English ») contient le texte visible, pour la commande
+        // vocale (WCAG 2.5.3) : pas d'aria-label qui le remplacerait.
         otherLangs.map((l) => (
-          <a class="lang-switch" href={alternates[l]} hreflang={l} lang={l} aria-label={`${languages[l]}`}>
-            {l.toUpperCase()}
+          <a class="lang-switch" href={alternates[l]} hreflang={l} lang={l}>
+            {l.toUpperCase()}<span class="visually-hidden"> – {languages[l]}</span>
           </a>
         ))
       }
       <AppStoreButton lang={lang} size="small" class="site-header__cta" />
+
+      <details class="menu">
+        <summary class="menu__button">
+          <Glyph name="menu" size={20} />
+          {t('nav.menu')}
+        </summary>
+        <nav class="menu__panel glass" aria-label={t('nav.main')}>
+          <ul>
+            {links.map((link) => (
+              <li>
+                <a href={link.href}>{link.label}</a>
+              </li>
+            ))}
+            <li>
+              <a href={pathFor('privacy', lang)}>{t('nav.privacy')}</a>
+            </li>
+            {otherLangs.map((l) => (
+              <li class="menu__lang">
+                <a href={alternates[l]} hreflang={l} lang={l}>
+                  <Glyph name="globe" size={18} />
+                  {languages[l]}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </details>
     </div>
   </div>
 </header>
+
+<script>
+  // Referme le menu après un choix (une ancre de la même page le laisserait ouvert), avec Échap
+  // (le focus revient au bouton) ou par un clic hors du menu.
+  const menu = document.querySelector<HTMLDetailsElement>('.site-header .menu');
+  if (menu) {
+    const summary = menu.querySelector('summary');
+    menu.addEventListener('click', (event) => {
+      if ((event.target as Element).closest('a')) menu.open = false;
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && menu.open) {
+        menu.open = false;
+        summary?.focus();
+      }
+    });
+    document.addEventListener('click', (event) => {
+      if (menu.open && !menu.contains(event.target as Node)) menu.open = false;
+    });
+  }
+</script>
 
 <style>
   .site-header {
@@ -166,9 +219,87 @@ const otherLangs = (Object.keys(languages) as Lang[]).filter((l) => l !== lang);
     background: var(--glass-bg);
   }
 
+  /* Menu : seulement sous 860 px, où il remplace la barre de liens et le sélecteur de langue. */
+  .menu {
+    display: none;
+  }
+
+  .menu__button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0 16px 0 12px;
+    border-radius: var(--radius-pill);
+    color: var(--text);
+    font-size: 0.95rem;
+    font-weight: 600;
+    list-style: none;
+    cursor: pointer;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+  }
+
+  .menu__button::-webkit-details-marker {
+    display: none;
+  }
+
+  .menu[open] .menu__button {
+    border-color: var(--teal);
+  }
+
+  .menu__panel {
+    position: absolute;
+    top: calc(var(--header-height) - 4px);
+    right: var(--gutter);
+    width: min(280px, calc(100vw - 2 * var(--gutter)));
+    padding: 8px;
+    border-radius: 22px;
+    /* Fond plein, plutôt que le verre : le panneau passe sur le texte de la page. */
+    background: var(--bg-elevated);
+  }
+
+  .menu__panel ul {
+    display: grid;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .menu__panel a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 44px;
+    padding: 0 14px;
+    border-radius: 14px;
+    color: var(--text);
+    font-weight: 500;
+    text-decoration: none;
+  }
+
+  .menu__panel a:hover {
+    background: var(--glass-bg);
+  }
+
+  .menu__lang {
+    margin-top: 6px;
+    padding-top: 6px;
+    border-top: 1px solid var(--border);
+  }
+
+  .menu__lang a {
+    color: var(--text-secondary);
+  }
+
   @media (max-width: 860px) {
-    .site-nav {
+    .site-nav,
+    .lang-switch {
       display: none;
+    }
+
+    .menu {
+      display: block;
     }
 
     .site-header__actions {
