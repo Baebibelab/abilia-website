@@ -32,9 +32,9 @@ const fr = {
   'hero.title.1': 'Toute votre musique,',
   'hero.title.2': 'dans votre poche.',
   'hero.lead':
-    "Andia joue la bibliothèque de votre serveur Jellyfin avec une app pensée pour {devices} : belle, rapide, et qui se fond dans le système, jusque sur l'Apple Watch.",
+    "Andia joue la bibliothèque de votre serveur Jellyfin avec une app pensée pour {devices} : belle, rapide, et qui se fond dans le système.",
   'hero.lead.carplay':
-    "Andia joue la bibliothèque de votre serveur Jellyfin avec une app pensée pour {devices} : belle, rapide, et qui se fond dans le système, jusque dans la voiture et sur l'Apple Watch.",
+    "Andia joue la bibliothèque de votre serveur Jellyfin avec une app pensée pour {devices} : belle, rapide, et qui se fond dans le système, jusque dans la voiture.",
   'hero.platforms': 'Pour {platforms}',
   'hero.appLanguage': "L'app est en français.",
   'hero.chip.format': 'FLAC · 24 bits / 96 kHz',
@@ -74,7 +74,7 @@ const fr = {
     'Les paroles synchronisées défilent sous les commandes, au rythme du morceau. Un geste sur le mini-lecteur passe au suivant.',
   'listen.eq.title': 'Un égaliseur dix bandes',
   'listen.eq.text':
-    'De 31 Hz à 16 kHz, avec des préréglages. Les bandes renforcées sont compensées par une légère baisse du volume, pour ne jamais saturer.',
+    'De 31 Hz à 16 kHz, avec des préréglages. Les bandes renforcées sont compensées par une légère baisse du volume, pour ne jamais saturer. Avec Andia Plus.',
   'listen.album.title': 'Chaque page a ses couleurs',
   'listen.album.text':
     'Albums, artistes et playlists prennent la teinte de leur pochette. Un cœur, et le morceau est marqué en favori sur votre serveur.',
@@ -88,7 +88,7 @@ const fr = {
   'gapless.gapless.text': "La dernière note d'une piste touche la première de la suivante, comme l'artiste l'a voulu.",
   'gapless.crossfade.title': 'Fondu enchaîné',
   'gapless.crossfade.text':
-    "Si vous le souhaitez, un morceau s'efface pendant que le suivant monte. Réglable, et jamais à l'intérieur d'un même album.",
+    "Si vous le souhaitez, un morceau s'efface pendant que le suivant monte. Réglable, et jamais à l'intérieur d'un même album. Avec Andia Plus.",
   'gapless.trackA': 'Piste 1',
   'gapless.trackB': 'Piste 2',
   'gapless.fact.prepared': "Les pistes suivantes sont prêtes avant d'arriver",
@@ -146,7 +146,7 @@ const fr = {
   'rewind.title.1': 'Votre musique,',
   'rewind.title.2': 'en rétrospective.',
   'rewind.lead':
-    "Temps d'écoute, artistes et albums favoris, genres, heures préférées : un récap à feuilleter toute l'année, sur 7 jours, 30 jours, une année ou depuis le début.",
+    "Temps d'écoute, artistes et albums favoris, genres, heures préférées : un récap à feuilleter toute l'année, sur 7 jours, 30 jours, une année ou depuis le début. Avec Andia Plus.",
   'rewind.private': "Calculé sur votre appareil, jamais envoyé nulle part.",
   'rewind.example': "Chiffres d'exemple.",
   'rewind.time.label': "Temps d'écoute",
@@ -168,11 +168,12 @@ const fr = {
     "Écran verrouillé, AirPlay, widget, Siri : votre musique vous suit dans tout le système. Et sur l'Apple Watch, même quand l'iPhone reste à la maison.",
   'everywhere.watch.title': 'Apple Watch',
   'everywhere.watch.text':
-    "Envoyez des albums, des playlists ou vos favoris sur la montre, puis écoutez-les avec des écouteurs Bluetooth, sans iPhone ni réseau. Vos écoutes remontent ensuite à votre serveur.",
+    "Envoyez des albums, des playlists ou vos favoris sur la montre, puis écoutez-les avec des écouteurs Bluetooth, sans iPhone ni réseau. Vos écoutes remontent ensuite à votre serveur. Avec Andia Plus.",
   'everywhere.carplay.title': 'CarPlay',
   'everywhere.carplay.text':
     "Accueil, albums, artistes et playlists sur l'écran de la voiture, avec la lecture aléatoire et « À suivre ».",
   'everywhere.soon': 'Bientôt',
+  'plus.badge': 'Plus',
   'everywhere.lockScreen': 'Écran verrouillé et Centre de contrôle',
   'everywhere.airplay': 'AirPods, enceintes et AirPlay',
   'everywhere.widget': "Widget sur l'écran d'accueil",
@@ -284,9 +285,9 @@ const en: Record<UIKey, string> = {
   'hero.title.1': 'All your music,',
   'hero.title.2': 'in your pocket.',
   'hero.lead':
-    'Andia plays your Jellyfin server’s library in an app built for {devices}: beautiful, fast, and at home everywhere in the system, right down to your Apple Watch.',
+    'Andia plays your Jellyfin server’s library in an app built for {devices}: beautiful, fast, and at home everywhere in the system.',
   'hero.lead.carplay':
-    'Andia plays your Jellyfin server’s library in an app built for {devices}: beautiful, fast, and at home everywhere in the system, from the car to the Apple Watch.',
+    'Andia plays your Jellyfin server’s library in an app built for {devices}: beautiful, fast, and at home everywhere in the system, even in your car.',
   'hero.platforms': 'For {platforms}',
   'hero.appLanguage': 'Good to know: the app itself is in French for now, as in the screenshots on this page.',
   'hero.chip.format': 'FLAC · 24-bit / 96 kHz',
@@ -325,7 +326,7 @@ const en: Record<UIKey, string> = {
     'Synced lyrics scroll beneath the controls, in time with the song. A swipe on the mini player skips to the next track.',
   'listen.eq.title': 'A ten-band equalizer',
   'listen.eq.text':
-    'From 31 Hz to 16 kHz, with presets. Boosted bands are balanced by a slight volume cut, so the sound never clips.',
+    'From 31 Hz to 16 kHz, with presets. Boosted bands are balanced by a slight volume cut, so the sound never clips. With Andia Plus.',
   'listen.album.title': 'Every page in its own colors',
   'listen.album.text':
     'Albums, artists and playlists take on the hue of their artwork. Tap the heart and the track is saved as a favorite on your server.',
@@ -339,7 +340,7 @@ const en: Record<UIKey, string> = {
   'gapless.gapless.text': 'The last note of one track meets the first note of the next, the way the artist intended.',
   'gapless.crossfade.title': 'Crossfade',
   'gapless.crossfade.text':
-    'If you like, one song fades out as the next one rises. Adjustable, and never within the same album.',
+    'If you like, one song fades out as the next one rises. Adjustable, and never within the same album. With Andia Plus.',
   'gapless.trackA': 'Track 1',
   'gapless.trackB': 'Track 2',
   'gapless.fact.prepared': 'Upcoming tracks are ready before they’re due',
@@ -397,7 +398,7 @@ const en: Record<UIKey, string> = {
   'rewind.title.1': 'Your music,',
   'rewind.title.2': 'looking back.',
   'rewind.lead':
-    'Listening time, top artists and albums, genres, favorite hours: a recap to flip through all year long, over 7 days, 30 days, a year or since the very beginning.',
+    'Listening time, top artists and albums, genres, favorite hours: a recap to flip through all year long, over 7 days, 30 days, a year or since the very beginning. With Andia Plus.',
   'rewind.private': 'Computed on your device, never sent anywhere.',
   'rewind.example': 'Example figures.',
   'rewind.time.label': 'Listening time',
@@ -419,11 +420,12 @@ const en: Record<UIKey, string> = {
     'Lock screen, AirPlay, widget, Siri: your music follows you across the system. And on Apple Watch, even when your iPhone stays at home.',
   'everywhere.watch.title': 'Apple Watch',
   'everywhere.watch.text':
-    'Send albums, playlists or your favorites to the watch, then listen with Bluetooth headphones, no iPhone or network needed. Your plays sync back to your server afterwards.',
+    'Send albums, playlists or your favorites to the watch, then listen with Bluetooth headphones, no iPhone or network needed. Your plays sync back to your server afterwards. With Andia Plus.',
   'everywhere.carplay.title': 'CarPlay',
   'everywhere.carplay.text':
     'Home, albums, artists and playlists on your car’s screen, with shuffle and “Up Next”.',
   'everywhere.soon': 'Coming soon',
+  'plus.badge': 'Plus',
   'everywhere.lockScreen': 'Lock screen and Control Center',
   'everywhere.airplay': 'AirPods, speakers and AirPlay',
   'everywhere.widget': 'Home Screen widget',
@@ -516,14 +518,15 @@ export const ui: Record<Lang, Record<UIKey, string>> = { fr, en };
 
 /**
  * Plateformes où l'app est disponible, dans l'ordre où le site les cite : l'iPad, le Mac et
- * CarPlay n'y entrent que le jour où leur réglage de src/config.ts passe à vrai.
+ * CarPlay n'y entrent que le jour où leur réglage de src/config.ts passe à vrai. L'Apple Watch
+ * n'y est pas : l'envoi de musique sur la montre est une fonction d'Andia Plus, que le site ne
+ * présente qu'avec « Avec Andia Plus. » (audit du 23 octobre, F2).
  */
 export function platforms(): string[] {
   return [
     'iPhone',
     ...(IPAD_AVAILABLE ? ['iPad'] : []),
     ...(MAC_AVAILABLE ? ['Mac'] : []),
-    'Apple Watch',
     ...(CARPLAY_AVAILABLE ? ['CarPlay'] : []),
   ];
 }
@@ -537,7 +540,7 @@ function joinList(items: string[], and: string) {
  * Textes d'une langue. Une clé qui a une variante `<clé>.carplay` la donne à la place quand
  * `CARPLAY_AVAILABLE` (src/config.ts) est vrai : d'ici là, le site ne promet CarPlay nulle part,
  * sauf dans la section « Partout » qui le marque « Bientôt ». `{platforms}` devient la liste des
- * plateformes disponibles (« iPhone, iPad et Apple Watch ») et `{devices}` celle des appareils
+ * plateformes disponibles (« iPhone, iPad et Mac ») et `{devices}` celle des appareils
  * qui font tourner l'app elle-même, avec leur article en français (« l'iPhone et l'iPad »).
  */
 export function useTranslations(lang: Lang) {
