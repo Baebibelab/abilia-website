@@ -62,6 +62,8 @@ const fr = {
   'jellyfin.noteLink': 'découvrir Jellyfin',
   'jellyfin.demo':
     "Envie d'essayer d'abord ? Dans l'app, connectez-vous au serveur de démo {server} avec l'identifiant {user} et le mot de passe {password}.",
+  'jellyfin.demo.soon':
+    "Dès la sortie, vous pourrez essayer sans serveur : dans l'app, connectez-vous au serveur de démo {server} avec l'identifiant {user} et le mot de passe {password}.",
   'listen.eyebrow': 'En lecture',
   'listen.title.1': 'Écoutez,',
   'listen.title.2': 'simplement.',
@@ -312,6 +314,8 @@ const en: Record<UIKey, string> = {
   'jellyfin.note': 'You need a Jellyfin server, version 10.9 or later. No server yet? It’s free and open source:',
   'jellyfin.noteLink': 'discover Jellyfin',
   'jellyfin.demo': 'Want to try it first? In the app, sign in to the demo server {server} with the username {user} and the password {password}.',
+  'jellyfin.demo.soon':
+    'Once it’s out, you can try it without a server: in the app, sign in to the demo server {server} with the username {user} and the password {password}.',
   'listen.eyebrow': 'Now Playing',
   'listen.title.1': 'Just',
   'listen.title.2': 'press play.',

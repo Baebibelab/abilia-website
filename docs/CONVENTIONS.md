@@ -116,6 +116,9 @@ Réglages dans `src/config.ts` :
   captures. Une page dans une langue que l'app ne parle pas le dit sous l'appel du hero
   (`hero.appLanguage`) ; aujourd'hui, aucune.
 - `JELLYFIN_URL`.
+- `DEMO_SERVER` : serveur Jellyfin de démo proposé sous la note Jellyfin. La phrase ne paraît
+  qu'une fois l'app installable : avec `APP_STORE_URL` (`jellyfin.demo`), ou avec seulement
+  `TESTFLIGHT_URL`, précédée de « Dès la sortie » (`jellyfin.demo.soon`).
 - `PLUS_PRICE` : prix d'Andia Plus par langue, affiché par « Tarifs » (`null` : « Achat unique »
   sans prix). Le vrai prix est celui de l'App Store : le changer ici le même jour (plan de prix
   dans `docs/monetisation/` du dépôt de l'app).

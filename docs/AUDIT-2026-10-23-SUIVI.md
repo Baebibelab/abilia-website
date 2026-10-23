@@ -46,7 +46,7 @@ relecture sont dans `docs/AUDIT-2026-10-23-LOTS.md`.
 | 4 | P4 | Mineur | Captures un peu floues en densité 3 | en cours | | Assumé (captures à 590 px), noté dans CONVENTIONS ; `widths` inchangé |
 | 4 | N4 | Dette | Survols qui bougent hors de la préférence | en cours | |  |
 | 4 | C2 | Mineur | « Bientôt sur l'App Store » a l'air d'un bouton ; rien pour être prévenu | en cours | | Décision du lot : verre + filet, sans ombre, `cursor: default`, point qui bat dans le hero seulement ; aucun formulaire, le lien de bêta viendra par `TESTFLIGHT_URL` |
-| 4 | C1 | Mineur | La phrase du serveur de démo suppose l'app installée | à faire | | Avec C2 |
+| 4 | C1 | Mineur | La phrase du serveur de démo suppose l'app installée | en cours | | Phrase construite seulement avec `APP_STORE_URL` ou `TESTFLIGHT_URL` ; « Dès la sortie… » (`jellyfin.demo.soon`) tant que seule la bêta l'est |
 | 5 | I1 | Mineur | L'anglais du site s'écarte du catalogue anglais de l'app | à faire | | Liste dans le constat |
 | 5 | I2 | Mineur | `everywhere.siri` différent dans les deux langues | à faire | | |
 | 5 | I3 | Mineur | « Lock screen » / « Lock Screen » | à faire | | |

@@ -7,7 +7,7 @@ import Glyph from '../../Glyph.astro';
 import PhoneFrame from '../../PhoneFrame.astro';
 import Section from '../../Section.astro';
 import { screenshots } from '../../../assets/screenshots';
-import { DEMO_SERVER, JELLYFIN_URL } from '../../../config';
+import { APP_STORE_URL, DEMO_SERVER, JELLYFIN_URL, TESTFLIGHT_URL } from '../../../config';
 import { type Lang, useTranslations } from '../../../i18n/ui';
 
 interface Props {
@@ -27,11 +27,14 @@ const chips = [
 ] as const;
 
 // La phrase du serveur de démo, coupée à ses repères : les valeurs à recopier vont en <code>.
-const demoValues: Record<string, string> | null = DEMO_SERVER
-  ? { server: DEMO_SERVER.url, user: DEMO_SERVER.user, password: DEMO_SERVER.password }
-  : null;
+// Elle suppose l'app installable : rien tant que ni `APP_STORE_URL` ni `TESTFLIGHT_URL` n'est
+// renseigné, et « Dès la sortie… » tant que seule la bêta l'est.
+const demoValues: Record<string, string> | null =
+  DEMO_SERVER && (APP_STORE_URL || TESTFLIGHT_URL)
+    ? { server: DEMO_SERVER.url, user: DEMO_SERVER.user, password: DEMO_SERVER.password }
+    : null;
 const demo = demoValues
-  ? t('jellyfin.demo')
+  ? t(APP_STORE_URL ? 'jellyfin.demo' : 'jellyfin.demo.soon')
       .split(/\{(server|user|password)\}/)
       .map((part, i) => (i % 2 ? { code: demoValues[part] } : { text: part }))
   : null;
