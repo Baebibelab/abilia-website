@@ -19,7 +19,9 @@ const genreColors = ['#ff6b4a', '#bf5af2', '#6dc2b8', '#5e5ce6', '#ffb347', '#ff
 const genres = t('rewind.genres.list')
   .split(',')
   .map((name, i) => ({ name, share: genreShares[i], color: genreColors[i] }));
-const periods = t('rewind.periods').split(',');
+// Le sélecteur de période de l'app (`StatsPeriod.shortTitle`) : 7 jours, 30 jours, l'année en
+// chiffres, Tout. L'année est celle du build, comme le « © » du pied de page.
+const periods = t('rewind.periods').replace('{year}', String(new Date().getFullYear())).split(',');
 
 // Horloge radiale : temps d'écoute par heure (24 valeurs), plus fort le soir.
 const hours = Array.from({ length: 24 }, (_, h) => {

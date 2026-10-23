@@ -8,7 +8,10 @@ l'accueil en fichiers.
 
 - Code, commentaires et messages de commit en français (`feat: …`, `fix: …`), comme l'app.
 - Aucune dépendance côté navigateur sans en discuter ; Astro seul au build.
-- Tout texte visible passe par `src/i18n/ui.ts`, dans les deux langues.
+- Tout texte visible passe par `src/i18n/ui.ts`, dans les deux langues (seule exception : la 404,
+  bilingue par construction). En français, insécables devant « : ; ! ? », entre un nombre et son
+  unité, et apostrophe droite ; en anglais, le vocabulaire et la casse du catalogue de l'app
+  (CONVENTIONS, « Textes et langues »).
 - Tout mouvement sous `prefers-reduced-motion: no-preference` ; rien de caché sans JavaScript.
 - Avant une PR : `npm run check` et `npm run build`, puis un rendu en clair, en sombre, à 390 px
   de large (aucun défilement horizontal) et avec les animations réduites.
