@@ -106,7 +106,8 @@ Réglages dans `src/config.ts` :
   plus bas les fonctions d'Andia Plus) et `{devices}`
   (« pensée pour l'iPhone, l'iPad et le Mac », chapeau du hero), que `useTranslations` remplit
   dans tous les textes de `ui.ts`, et la section paraît, l'autre plateforme y portant « Bientôt ».
-  Penser alors à la ligne des plateformes de `scripts/og/og.html` et aux images de partage.
+  Penser alors à la ligne des plateformes de `scripts/og/og.html`, aux images de partage et à la
+  configuration requise de `jellyfin.note` (« un iPhone sous iOS 17 » : iPadOS 17, macOS 14).
 - `APP_LANGUAGES` : langues de l'interface de l'app (`['fr', 'en']`), qui ont chacune leurs
   captures. Une page dans une langue que l'app ne parle pas le dit sous l'appel du hero
   (`hero.appLanguage`) ; aujourd'hui, aucune.
