@@ -226,3 +226,58 @@ p {
     backdrop-filter: none;
   }
 }
+
+/* Impression (la politique enregistrée en PDF, surtout) : texte sombre sur blanc quel que soit
+   le thème, sans fond animé, sans en-tête fixe répété sur chaque page, sans verre, et tout ce
+   qui attendait son apparition au scroll est visible. */
+@media print {
+  :root {
+    color-scheme: light;
+    --bg: #fff;
+    --bg-elevated: #fff;
+    --text: #000;
+    --text-secondary: #333;
+    --text-tertiary: #444;
+    --border: #ccc;
+    --coral-text: #bd3a18;
+    --teal-text: #247473;
+    --glass-bg: #fff;
+    --glass-border: #ccc;
+  }
+
+  body {
+    background: #fff;
+  }
+
+  .halos,
+  .site-header,
+  .skip-link {
+    display: none !important;
+  }
+
+  .glass {
+    background: #fff;
+    box-shadow: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+
+  .privacy__toc {
+    position: static !important;
+  }
+
+  .privacy {
+    padding-top: 0 !important;
+  }
+
+  h2,
+  h3 {
+    break-after: avoid;
+  }
+}
