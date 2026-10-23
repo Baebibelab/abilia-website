@@ -26,16 +26,16 @@ relecture sont dans `docs/AUDIT-2026-10-23-LOTS.md`.
 | 2 | L8 | Dette | « © 2026 Andia » : titulaire et année | décision | | Avec L3 |
 | 2 | C5 | Mineur | Pas de questions fréquentes | décision | | Reprendre le README de l'app |
 | 2 | D2 | Majeur | En maintenance, l'URL de confidentialité répond 503 | décision | | Laisser passer `/confidentialite/`, `/en/privacy/` et l'assistance, ou rouvrir avant la soumission |
-| 3 | A1 | Majeur | axe : le texte visible du sélecteur de langue n'est pas dans son nom | en cours | | |
-| 3 | V1 | Majeur | La page Confidentialité déborde à 320 px | en cours | | Cause mesurée : le chemin `~/Library/Containers/…` du texte, pas la grille du sommaire |
-| 3 | A2 | Majeur | Texte blanc des cartes de Stations sous 4,5:1 | en cours | | Huit cartes : départ et arrivée assombris (même teinte, même saturation), A.12 ✓ sur les douze, ≥ 4,5 dès t = 0,36 |
-| 3 | A4 | Mineur | Noms accessibles pauvres des illustrations | en cours | | Frise : `aria-label` descriptif (`gapless.diagram`) ; libellés des cartes du Rewind en h3 ; VoiceOver à confirmer sur appareil |
+| 3 | A1 | Majeur | axe : le texte visible du sélecteur de langue n'est pas dans son nom | en cours | #27 | |
+| 3 | V1 | Majeur | La page Confidentialité déborde à 320 px | en cours | #27 | Cause mesurée : le chemin `~/Library/Containers/…` du texte, pas la grille du sommaire |
+| 3 | A2 | Majeur | Texte blanc des cartes de Stations sous 4,5:1 | en cours | #27 | Huit cartes : départ et arrivée assombris (même teinte, même saturation), A.12 ✓ sur les douze, ≥ 4,5 dès t = 0,36 |
+| 3 | A4 | Mineur | Noms accessibles pauvres des illustrations | en cours | #27 | Frise : `aria-label` descriptif (`gapless.diagram`) ; libellés des cartes du Rewind en h3 ; VoiceOver à confirmer sur appareil |
 | 3 | A6 | Mineur | « Réduire la transparence » sans effet dans Safari ? | à confirmer sur appareil | | Plausible, non retracé (pas d'iPhone dans la session) : noté dans CONVENTIONS (« Règles »), rien à corriger côté code |
-| 3 | V2 | Mineur | La pastille « Hors ligne » recouvre la barre d'état de l'iPhone | en cours | | Au-dessus du cadre, même glissement que l'iPhone : ≥ 9 px de l'écran à 320–1440 px, scroll compris |
-| 3 | N6 | Mineur | Apparitions ratées lors d'un défilement rapide | en cours | | `threshold: 0` et filet à l'arrêt du défilement (déjà dépassé, ou bas de page) |
-| 3 | A3 | Mineur | Sous 860 px, le menu disparaît sans remplaçant | en cours | | Décision du lot : menu `<details>` sous 860 px (ancres, Confidentialité, langue), clé `nav.menu` ; Tarifs en deux gestes à 390 px |
-| 3 | A5 | Mineur | Animations de plus de cinq secondes sans pause sur la page | en cours | | Décision du lot : exemption assumée (décor, tout s'arrête avec « Réduire les animations »), écrite dans CONVENTIONS et CLAUDE.md ; aucun bouton |
-| 3 | V3 | Mineur | Pas de feuille d'impression pour la confidentialité | en cours | | `@media print` dans global.css ; PDF Chromium regardé (clair et sombre) ; Safari à confirmer |
+| 3 | V2 | Mineur | La pastille « Hors ligne » recouvre la barre d'état de l'iPhone | en cours | #27 | Au-dessus du cadre, même glissement que l'iPhone : ≥ 9 px de l'écran à 320–1440 px, scroll compris |
+| 3 | N6 | Mineur | Apparitions ratées lors d'un défilement rapide | en cours | #27 | `threshold: 0` et filet à l'arrêt du défilement (déjà dépassé, ou bas de page) |
+| 3 | A3 | Mineur | Sous 860 px, le menu disparaît sans remplaçant | en cours | #27 | Décision du lot : menu `<details>` sous 860 px (ancres, Confidentialité, langue), clé `nav.menu` ; Tarifs en deux gestes à 390 px |
+| 3 | A5 | Mineur | Animations de plus de cinq secondes sans pause sur la page | en cours | #27 | Décision du lot : exemption assumée (décor, tout s'arrête avec « Réduire les animations »), écrite dans CONVENTIONS et CLAUDE.md ; aucun bouton |
+| 3 | V3 | Mineur | Pas de feuille d'impression pour la confidentialité | en cours | #27 | `@media print` dans global.css ; PDF Chromium regardé (clair et sombre) ; Safari à confirmer |
 | 4 | N2 | Mineur | Sur téléphone, l'iPhone du hero et ses pastilles s'estompent avant d'être vus | à faire | | |
 | 4 | V5 | Mineur | La pastille « Enchaînement sans blanc » est coupée entre 861 et ≈ 1 300 px | à faire | | |
 | 4 | N1 | Mineur | Le point « Bientôt » pulse sans fin dans l'en-tête, hors `data-loop` | à faire | | |
