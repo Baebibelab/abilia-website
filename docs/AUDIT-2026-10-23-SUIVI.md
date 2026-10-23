@@ -47,15 +47,15 @@ relecture sont dans `docs/AUDIT-2026-10-23-LOTS.md`.
 | 4 | N4 | Dette | Survols qui bougent hors de la préférence | à faire | | |
 | 4 | C2 | Mineur | « Bientôt sur l'App Store » a l'air d'un bouton ; rien pour être prévenu | décision | | Style distinct tout de suite ; lien TestFlight dès qu'il existe |
 | 4 | C1 | Mineur | La phrase du serveur de démo suppose l'app installée | à faire | | Avec C2 |
-| 5 | I1 | Mineur | L'anglais du site s'écarte du catalogue anglais de l'app | en cours | | Catalogue de l'app clé par clé ; « song » pour morceau partout en anglais, sauf les numéros (« Track 1 ») |
-| 5 | I2 | Mineur | `everywhere.siri` différent dans les deux langues | en cours | | Phrase reconnue de AppShortcuts.xcstrings (« Play my favorites on ${applicationName} ») |
-| 5 | I3 | Mineur | « Lock screen » / « Lock Screen » | en cours | | |
-| 5 | I5 | Mineur | 404 : titre, description et langue français seulement | en cours | | Exception écrite dans CONVENTIONS (« Textes et langues ») |
-| 5 | F4 | Mineur | « dès la première lettre » trop fort pour les morceaux | en cours | | D'après instantMatches : morceaux à la réponse du serveur |
-| 5 | F5 | Mineur | « Toujours à jour » : favoris et playlists suivis seulement | en cours | | D'après AutoDownloads : favoris et playlists téléchargés seulement |
-| 5 | F6 | Mineur | Pastilles de période du Rewind ≠ sélecteur de l'app | en cours | | Décision : 7 jours, 30 jours, année du build, Tout ; « All Time » en anglais, valeur du catalogue (« Tout (période) ») |
-| 5 | C3 | Mineur | Aucune espace insécable en français | en cours | | Le constat comptait 0 insécable (grep sans locale UTF-8) : il y en avait 21, pas partout ; 58 désormais, règle dans CONVENTIONS |
-| 5 | I4 | Dette | Virgule de série en anglais | en cours | | Décision : virgule de série en anglais (list.and.serial), rien en français |
+| 5 | I1 | Mineur | L'anglais du site s'écarte du catalogue anglais de l'app | en cours | #24 | Catalogue de l'app clé par clé ; « song » pour morceau partout en anglais, sauf les numéros (« Track 1 ») |
+| 5 | I2 | Mineur | `everywhere.siri` différent dans les deux langues | en cours | #24 | Phrase reconnue de AppShortcuts.xcstrings (« Play my favorites on ${applicationName} ») |
+| 5 | I3 | Mineur | « Lock screen » / « Lock Screen » | en cours | #24 | |
+| 5 | I5 | Mineur | 404 : titre, description et langue français seulement | en cours | #24 | Exception écrite dans CONVENTIONS (« Textes et langues ») |
+| 5 | F4 | Mineur | « dès la première lettre » trop fort pour les morceaux | en cours | #24 | D'après instantMatches : morceaux à la réponse du serveur |
+| 5 | F5 | Mineur | « Toujours à jour » : favoris et playlists suivis seulement | en cours | #24 | D'après AutoDownloads : favoris et playlists téléchargés seulement |
+| 5 | F6 | Mineur | Pastilles de période du Rewind ≠ sélecteur de l'app | en cours | #24 | Décision : 7 jours, 30 jours, année du build, Tout ; « All Time » en anglais, valeur du catalogue (« Tout (période) ») |
+| 5 | C3 | Mineur | Aucune espace insécable en français | en cours | #24 | Le constat comptait 0 insécable (grep sans locale UTF-8) : il y en avait 21, pas partout ; 58 désormais, règle dans CONVENTIONS |
+| 5 | I4 | Dette | Virgule de série en anglais | en cours | #24 | Décision : virgule de série en anglais (list.and.serial), rien en français |
 | 6 | D1 | Majeur | Le déploiement accepte n'importe quelle clé d'hôte SFTP | à faire | | Secret `OVH_KNOWN_HOSTS` |
 | 6 | D3 | Mineur | Aucune Content-Security-Policy | décision | | Report-Only d'abord |
 | 6 | D4 | Mineur | Types compressés incomplets | à faire | | = P3 |
