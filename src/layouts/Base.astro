@@ -89,9 +89,18 @@ const structuredData = {
     <meta name="twitter:image:alt" content={t('meta.ogImageAlt')} />
     {isHome && <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />}
 
-    <!-- Avant tout rendu : les états de départ des animations ne s'appliquent qu'avec JavaScript. -->
+    <!-- Avant tout rendu : les états de départ des animations ne s'appliquent qu'avec JavaScript.
+         Un module ne s'exécute qu'à la fin de la lecture du HTML, souvent après le premier rendu
+         sur un réseau lent : posée par le moteur, la classe ferait disparaître puis réapparaître
+         le haut de page. Filet : si le moteur (src/scripts/motion.ts) n'a pas démarré au bout de
+         3 s (pas de modules, script bloqué, erreur), la classe saute et tout s'affiche. -->
     <script is:inline>
-      document.documentElement.classList.add('js');
+      (function (root) {
+        root.classList.add('js');
+        window.motionFallback = setTimeout(function () {
+          root.classList.remove('js');
+        }, 3000);
+      })(document.documentElement);
     </script>
     <slot name="head" />
   </head>

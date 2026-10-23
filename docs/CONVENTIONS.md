@@ -81,8 +81,14 @@ par section. Une section peut poser ses propres halos ou dégradés locaux par-d
 - `PhoneFrame` : un iPhone dessiné en CSS avec une capture (`src`, `alt`, `width`, `loading`).
   La largeur se règle aussi par `--phone-width` sur un parent. Le contenu passé entre ses
   balises se pose par-dessus la capture, dans l'écran (le hero y anime le spectre).
+  Netteté : les captures font 590 px de large, et `widths` s'arrête là. Un iPhone affiché à
+  310 px en densité 3 en voudrait 930 : il est un peu moins net sur un iPhone Pro. Compromis
+  assumé (audit du 23 octobre, P4) ; le jour où l'app fournit des captures à la taille du
+  simulateur (1 179 × 2 556), monter `widths` jusqu'à 930 (les calques posés sur la capture,
+  comme `PhoneSpectrum`, sont en pourcentages de la capture et ne changent pas).
 - `AppStoreButton` : pastille « Bientôt sur l'App Store » tant que `APP_STORE_URL`
-  (`src/config.ts`) est vide. Le jour du lancement, utiliser le **badge officiel d'Apple**, tel
+  (`src/config.ts`) est vide ; elle n'a pas l'air d'un bouton (fond de verre, filet, sans ombre,
+  `cursor: default`), et son point ne bat que dans le hero (`pulse`). Le jour du lancement, utiliser le **badge officiel d'Apple**, tel
   quel ; ne jamais dessiner un faux badge ni utiliser le logo Apple ailleurs.
 - `AppIcon` : l'icône en SVG (`size`, `label` si elle doit être lue).
 - `Glyph` : petites icônes au trait (`name`, `size`), décoratives ; en ajouter une = un tracé
@@ -110,6 +116,9 @@ Réglages dans `src/config.ts` :
   captures. Une page dans une langue que l'app ne parle pas le dit sous l'appel du hero
   (`hero.appLanguage`) ; aujourd'hui, aucune.
 - `JELLYFIN_URL`.
+- `DEMO_SERVER` : serveur Jellyfin de démo proposé sous la note Jellyfin. La phrase ne paraît
+  qu'une fois l'app installable : avec `APP_STORE_URL` (`jellyfin.demo`), ou avec seulement
+  `TESTFLIGHT_URL`, précédée de « Dès la sortie » (`jellyfin.demo.soon`).
 - `PLUS_PRICE` : prix d'Andia Plus par langue, affiché par « Tarifs » (`null` : « Achat unique »
   sans prix). Le vrai prix est celui de l'App Store : le changer ici le même jour (plan de prix
   dans `docs/monetisation/` du dépôt de l'app).
@@ -178,7 +187,13 @@ chaque image. `<html>` porte la classe `is-scrolled` dès que la page a défilé
   révèle tout d'emblée ; seuls des fondus de couleur ou d'opacité restent permis. Les effets de
   flou et de verre ont un repli sous `prefers-reduced-transparency: reduce`.
 - **Sans JavaScript**, rien ne doit rester caché : les états de départ ne valent que sous
-  `html.js` (déjà le cas pour `data-reveal` ; à respecter pour toute animation maison).
+  `html.js` (déjà le cas pour `data-reveal` ; à respecter pour toute animation maison). La
+  classe est posée avant le premier rendu par le script en ligne de `Base.astro`, avec un filet :
+  si le moteur n'a pas démarré au bout de 3 s (navigateur sans modules, script bloqué, erreur),
+  elle saute et tout s'affiche ; le moteur annule ce filet en démarrant. Un état de départ qui ne
+  dépend pas de `html.js` (une animation CSS d'entrée, par exemple) doit donc finir visible tout
+  seul. Ne pas poser la classe depuis le module : il s'exécute après la lecture du HTML, souvent
+  après le premier rendu sur réseau lent, et le haut de page disparaîtrait puis réapparaîtrait.
 - **Performance** : n'animer que `transform`, `opacity` (et `filter` pour une apparition). Pas
   d'écouteur `scroll` à soi : passer par `data-scroll` et `--progress`, que le moteur ne calcule
   que pour les éléments proches de l'écran, une fois par image.

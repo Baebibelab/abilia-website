@@ -29,7 +29,15 @@
 // Avec « Réduire les animations », tout est révélé d'emblée ; `--progress` reste calculé (utile
 // pour une couleur ou une opacité), mais le CSS doit réserver les mouvements à
 // `@media (prefers-reduced-motion: no-preference)`. Sans JavaScript, rien n'est caché : les
-// états de départ ne s'appliquent que sous `html.js`.
+// états de départ ne s'appliquent que sous `html.js`. Cette classe est posée avant le premier
+// rendu par `Base.astro`, avec un filet : si ce module n'a pas démarré au bout de 3 s, elle saute
+// et tout s'affiche. Le moteur annule ce filet en tout premier ; arrivé après lui, il remet la
+// classe (passages épinglés) mais révèle tout d'emblée, sans refaire disparaître ce qui est lu.
+
+const root = document.documentElement;
+const late = !root.classList.contains('js');
+clearTimeout((window as Window & { motionFallback?: number }).motionFallback);
+root.classList.add('js');
 
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
@@ -48,7 +56,7 @@ function setupReveal() {
     if (el.dataset.revealDelay) el.style.setProperty('--reveal-delay', `${el.dataset.revealDelay}ms`);
   });
 
-  if (reducedMotion.matches || !('IntersectionObserver' in window)) {
+  if (late || reducedMotion.matches || !('IntersectionObserver' in window)) {
     elements.forEach((el) => el.classList.add('is-revealed'));
     return;
   }
@@ -72,7 +80,6 @@ function setupReveal() {
 }
 
 function setupScrollProgress() {
-  const root = document.documentElement;
   const tracked = Array.from(document.querySelectorAll<HTMLElement>('[data-scroll]'));
   const pageTracked = Array.from(document.querySelectorAll<HTMLElement>('[data-page-progress]'));
   // Seuls les éléments proches de l'écran sont recalculés.
@@ -153,7 +160,6 @@ function setupLoops() {
 
 /** Ajoute `is-scrolled` sur <html> dès que la page a défilé (en-tête en verre, par exemple). */
 function setupScrolledFlag() {
-  const root = document.documentElement;
   const sync = () => root.classList.toggle('is-scrolled', window.scrollY > 8);
   window.addEventListener('scroll', sync, { passive: true });
   sync();

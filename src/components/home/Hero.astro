@@ -6,8 +6,8 @@
 //
 // Au chargement, le titre arrive mot à mot, le texte apparaît (`data-reveal`) et l'iPhone se
 // redresse ; un reflet glisse sur sa vitre quand il tourne ; au scroll
-// (`--progress` du hero), l'iPhone recule en basculant, les pastilles s'écartent et le grand
-// spectre s'aplatit ; à la souris, l'iPhone s'incline vers le pointeur.
+// (`--progress` du hero ; sous 860 px, celui du visuel pour l'iPhone et ses pastilles), l'iPhone
+// recule en basculant, les pastilles s'écartent et le grand spectre s'aplatit ; à la souris, l'iPhone s'incline vers le pointeur.
 // Sans JavaScript ou avec « Réduire les animations » : la même composition, immobile, avec
 // le spectre figé sur une image (voir hero/spectrum.ts).
 import AppIcon from '../AppIcon.astro';
@@ -58,7 +58,7 @@ const chips = [
           {
             firstLine.map((word, index) => (
               <>
-                <span class="hero__word" data-reveal="blur" data-reveal-delay="120">
+                <span class="hero__word" data-reveal="blur">
                   {word}
                 </span>
                 {index < firstLine.length - 1 && ' '}
@@ -66,13 +66,14 @@ const chips = [
             ))
           }
         </span>
-        <span class="gradient-text hero__title-accent" data-reveal="blur" data-reveal-delay="440">
+        <br />
+        <span class="gradient-text hero__title-accent" data-hero-accent data-reveal="blur" data-reveal-delay="240">
           {t('hero.title.2')}
         </span>
       </h1>
-      <p class="hero__lead" data-reveal data-reveal-delay="580">{t('hero.lead')}</p>
-      <div class="hero__actions" data-reveal data-reveal-delay="700">
-        <AppStoreButton lang={lang} />
+      <p class="hero__lead" data-reveal data-reveal-delay="200">{t('hero.lead')}</p>
+      <div class="hero__actions" data-reveal data-reveal-delay="320">
+        <AppStoreButton lang={lang} pulse />
         <a class="button button--ghost" href="#features">
           {t('cta.discover')}
           <svg class="hero__arrow" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
@@ -80,10 +81,10 @@ const chips = [
           </svg>
         </a>
       </div>
-      <p class="hero__platforms" data-reveal="fade" data-reveal-delay="840">{t('hero.platforms')}</p>
+      <p class="hero__platforms" data-reveal="fade" data-reveal-delay="440">{t('hero.platforms')}</p>
       {
         !appSpeaksPageLanguage && (
-          <p class="hero__language" data-reveal="fade" data-reveal-delay="900">
+          <p class="hero__language" data-reveal="fade" data-reveal-delay="500">
             <span class="hero__language-badge" lang="fr" aria-hidden="true">FR</span>
             {t('hero.appLanguage')}
           </p>
@@ -91,7 +92,7 @@ const chips = [
       }
     </div>
 
-    <div class="hero__visual">
+    <div class="hero__visual" data-scroll>
       <div class="hero__orbit" aria-hidden="true">
         <span class="hero__orbit-ring"></span>
       </div>
@@ -136,7 +137,12 @@ const chips = [
 
   // Anime le spectre (barres de l'iPhone et grand spectre), fait battre les halos et incline
   // l'iPhone vers le pointeur. Rien ne tourne hors de l'écran, onglet caché, ou avec
-  // « Réduire les animations » (le rendu figé reste alors en place).
+  // « Réduire les animations » (le rendu figé reste alors en place). 15 images par seconde
+  // suffisent à des barres, et la boucle s'arrête après `IDLE_LIMIT` sans un geste du visiteur
+  // (pointeur, toucher, clavier, défilement) : le spectre se fige là où il en est, et repart au
+  // geste suivant.
+  const FRAME = 1000 / 15;
+  const IDLE_LIMIT = 30_000;
   const hero = document.querySelector<HTMLElement>('[data-hero]');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
@@ -150,20 +156,35 @@ const chips = [
     }));
     const pulses = Array.from(hero.querySelectorAll<HTMLElement>('[data-hero-pulse]'));
     const tilt = hero.querySelector<HTMLElement>('[data-hero-tilt]');
+    // Le dégradé de la fin du titre glisse au rythme de la boucle : animé en CSS
+    // (`background-position`, qui ne passe pas par la carte graphique), il obligeait le
+    // navigateur à préparer 60 images par seconde.
+    const accent = hero.querySelector<HTMLElement>('[data-hero-accent]');
 
     const levels = spectrumAt(STILL_TIME).slice();
     const target = new Array<number>(BAND_COUNT);
     let onScreen = true;
+    // Image demandée (`requestAnimationFrame`) et attente de la suivante (`setTimeout`) : entre
+    // deux images, rien n'est demandé au navigateur, qui n'a pas à préparer d'image pour nous.
     let frame = 0;
+    let timer = 0;
     let last = 0;
     // Le morceau imaginaire reprend là où l'image figée l'avait laissé.
     let clock = STILL_TIME;
+    let lastGesture = performance.now();
+
+    function schedule() {
+      timer = window.setTimeout(() => {
+        timer = 0;
+        frame = requestAnimationFrame(render);
+      }, FRAME - 4);
+    }
 
     function render(now: number) {
-      frame = requestAnimationFrame(render);
-      // 30 images par seconde, comme les barres de l'app.
-      if (now - last < 1000 / 31) return;
-      const elapsed = last ? Math.min(now - last, 100) : 1000 / 30;
+      frame = 0;
+      if (now - lastGesture > IDLE_LIMIT) return;
+      schedule();
+      const elapsed = last ? Math.min(now - last, 150) : FRAME;
       last = now;
       clock += elapsed / 1000;
 
@@ -174,6 +195,9 @@ const chips = [
         cap.el.style.transform = `translateY(${((1 - visible) * 100).toFixed(2)}%)`;
       }
 
+      // Un aller en 10 s, comme l'ancienne animation CSS.
+      accent?.style.setProperty('background-position', `${(-(clock * 20) % 200).toFixed(2)}% 0`);
+
       const kick = kickAt(clock);
       for (const pulse of pulses) {
         pulse.style.opacity = (0.55 + 0.45 * kick).toFixed(3);
@@ -182,14 +206,25 @@ const chips = [
     }
 
     function start() {
-      if (frame || !onScreen || document.hidden || reducedMotion.matches) return;
+      if (frame || timer || !onScreen || document.hidden || reducedMotion.matches) return;
+      if (performance.now() - lastGesture > IDLE_LIMIT) return;
       last = 0;
       frame = requestAnimationFrame(render);
     }
 
+    // Un geste du visiteur relance le spectre arrêté faute d'activité.
+    const wake = () => {
+      lastGesture = performance.now();
+      start();
+    };
+    for (const type of ['pointermove', 'pointerdown', 'keydown', 'scroll', 'wheel', 'touchstart'])
+      window.addEventListener(type, wake, { passive: true });
+
     function stop() {
       cancelAnimationFrame(frame);
+      clearTimeout(timer);
       frame = 0;
+      timer = 0;
     }
 
     new IntersectionObserver(([entry]) => {
@@ -206,6 +241,7 @@ const chips = [
       stop();
       for (const el of [...caps.map((cap) => cap.el), ...pulses, tilt]) el?.style.removeProperty('transform');
       pulses.forEach((pulse) => pulse.style.removeProperty('opacity'));
+      accent?.style.removeProperty('background-position');
       tilt?.style.removeProperty('--tx');
     });
 
@@ -328,19 +364,22 @@ const chips = [
     letter-spacing: -0.04em;
     line-height: 1.02;
     text-wrap: balance;
+    /* La place des jambages de la ligne en dégradé, qui, en ligne, n'en prend plus. */
+    padding-bottom: 0.08em;
   }
 
-  .hero__line {
-    display: block;
-  }
-
-  .hero__word {
-    display: inline-block;
+  /* Mots et lignes du titre restent en ligne (pas de `block` ni d'`inline-block`) : le navigateur
+     compte alors le titre entier comme un seul texte pour le LCP, au lieu de mot par mot. Ils
+     apparaissent par fondu et netteté, sans translation (sans effet sur un élément en ligne).
+     Titre et chapeau, les plus grands textes du premier écran, partent d'une opacité non nulle :
+     ils sont là dès le premier rendu, et le LCP ne dépend plus de la chorégraphie. */
+  :global(html.js) .hero__title [data-reveal]:not(.is-revealed),
+  :global(html.js) .hero__lead:not(.is-revealed) {
+    opacity: 0.3;
   }
 
   .hero__title-accent {
-    display: block;
-    /* Dégradé deux fois plus large que le texte, qui glisse lentement. */
+    /* Dégradé deux fois plus large que le texte, qui glisse lentement (script du hero). */
     background-image: linear-gradient(
       100deg,
       var(--coral) 0%,
@@ -372,8 +411,10 @@ const chips = [
     transition: transform 0.4s var(--ease-out);
   }
 
-  .hero__actions a:hover .hero__arrow {
-    transform: translateY(2px);
+  @media (prefers-reduced-motion: no-preference) {
+    .hero__actions a:hover .hero__arrow {
+      transform: translateY(2px);
+    }
   }
 
   .hero__platforms {
@@ -514,10 +555,30 @@ const chips = [
     --depth: 1.2;
   }
 
+  /* Pastilles de droite : à leur place près de l'iPhone, mais jamais coupées par le bord de la
+     fenêtre. Leur case va de la place voulue (`padding-left`) jusqu'à 24 px du bord de la fenêtre
+     (`--to-window` : de la colonne au bord, marge de la page comprise) ; la pastille s'y cale à
+     gauche quand elle tient, et se range contre la borne sinon. La borne tient donc compte de sa
+     vraie largeur, quelle que soit la langue. */
+  .chip--r,
+  .chip--br {
+    --to-window: calc(max(0px, (100vw - var(--content-width) - 2 * var(--gutter)) / 2) + var(--gutter));
+    left: 0;
+    right: calc(24px - var(--to-window));
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  /* Absorbe la place libre tant qu'il y en a ; sans place libre, `flex-end` range la pastille
+     contre la borne. */
+  .chip--r .chip__inner,
+  .chip--br .chip__inner {
+    margin-right: auto;
+  }
+
   .chip--r {
     top: 38%;
-    /* Sans dépasser de plus de 36 px la colonne (la marge de la page, sur un écran de portable). */
-    left: min(calc(50% + var(--phone-width) * 0.5 - 64px), calc(100% - 140px));
+    padding-left: min(calc(50% + var(--phone-width) * 0.5 - 64px), calc(100% - 140px));
     --dx: 1;
     --dy: -0.2;
     --depth: 0.8;
@@ -533,7 +594,7 @@ const chips = [
 
   .chip--br {
     top: 86%;
-    left: calc(50% + var(--phone-width) * 0.5 - 96px);
+    padding-left: calc(50% + var(--phone-width) * 0.5 - 96px);
     --dx: 1;
     --dy: 0.6;
     --depth: 1.3;
@@ -567,10 +628,6 @@ const chips = [
 
   /* Mouvements : entrée, flottement, scroll. Rien de tout ça avec « Réduire les animations ». */
   @media (prefers-reduced-motion: no-preference) {
-    .hero__title-accent {
-      animation: gradient-slide 10s linear infinite;
-    }
-
     .hero__orbit-ring {
       animation: spin 36s linear infinite;
     }
@@ -597,7 +654,7 @@ const chips = [
 
     .hero__float {
       animation:
-        phone-in 1.6s var(--ease-out) 0.25s both,
+        phone-in 1.6s var(--ease-out) 0.1s both,
         bob 7s ease-in-out 1.85s infinite alternate;
     }
 
@@ -624,12 +681,6 @@ const chips = [
     .hero :global(.wave) {
       transform: scaleY(calc(1 - var(--exit) * 0.75));
       transform-origin: bottom;
-    }
-  }
-
-  @keyframes gradient-slide {
-    to {
-      background-position: -200% 0;
     }
   }
 
@@ -700,6 +751,11 @@ const chips = [
       --phone-width: min(270px, 64vw);
       --rest-y: -6deg;
       padding-block: 8px;
+      /* L'iPhone est sous le texte : sa sortie part de sa propre position (son `--progress`), pas
+         de celle du hero, sinon il s'estompe pendant qu'on le découvre. 0 jusqu'à ce que le
+         visuel ait passé d'un quart le haut de l'écran (à 390 × 844, encore au repos après un
+         écran entier de défilement), 1 quand il l'a quitté. */
+      --exit: max(0, (var(--progress, 0) - 0.75) * 4);
     }
   }
 
@@ -757,6 +813,7 @@ const chips = [
     .chip--br {
       left: auto;
       right: max(0px, calc(50% - var(--phone-width) * 0.5 - 36px));
+      padding-left: 0;
     }
   }
 </style>
