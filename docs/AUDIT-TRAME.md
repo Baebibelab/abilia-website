@@ -1308,7 +1308,10 @@ for (const [url, h] of Object.entries(html)) {
   const all = ids(h);
   const dup = all.filter((id, i) => all.indexOf(id) !== i);
   if (dup.length) problems.push(`id en double : ${[...new Set(dup)].join(', ')}`);
-  for (const [, href] of h.matchAll(/\shref="([^"]+)"/g)) {
+  for (const [, raw] of h.matchAll(/\shref="([^"]+)"/g)) {
+    // Entités décodées : l'adresse d'assistance est un mailto: écrit en entités (`&#109;…`).
+    const href = raw.replace(/&#x([0-9a-f]+);/gi, (_, n) => String.fromCodePoint(parseInt(n, 16)))
+      .replace(/&#(\d+);/g, (_, n) => String.fromCodePoint(+n)).replace(/&amp;/g, '&');
     if (/^(https?:)?\/\//.test(href)) { if (!href.startsWith(site)) external.add(href); continue; }
     if (/^(mailto|tel):/.test(href)) { external.add(href); continue; }
     const [path, hash] = href.split('#');
