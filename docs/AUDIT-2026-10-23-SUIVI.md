@@ -27,7 +27,7 @@ relecture sont dans `docs/AUDIT-2026-10-23-LOTS.md`.
 | 2 | C5 | Mineur | Pas de questions fréquentes | décision | | Reprendre le README de l'app |
 | 2 | D2 | Majeur | En maintenance, l'URL de confidentialité répond 503 | décision | | Laisser passer `/confidentialite/`, `/en/privacy/` et l'assistance, ou rouvrir avant la soumission |
 | 3 | A1 | Majeur | axe : le texte visible du sélecteur de langue n'est pas dans son nom | en cours | | |
-| 3 | V1 | Majeur | La page Confidentialité déborde à 320 px | à faire | | |
+| 3 | V1 | Majeur | La page Confidentialité déborde à 320 px | en cours | | Cause mesurée : le chemin `~/Library/Containers/…` du texte, pas la grille du sommaire |
 | 3 | A2 | Majeur | Texte blanc des cartes de Stations sous 4,5:1 | à faire | | Huit cartes ; outil A.12 pour vérifier |
 | 3 | A4 | Mineur | Noms accessibles pauvres des illustrations | à faire | | |
 | 3 | A6 | Mineur | « Réduire la transparence » sans effet dans Safari ? | à faire | | Plausible : à confirmer sur iPhone avant de corriger |
