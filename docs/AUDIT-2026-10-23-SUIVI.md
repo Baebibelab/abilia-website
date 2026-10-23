@@ -53,7 +53,7 @@ relecture sont dans `docs/AUDIT-2026-10-23-LOTS.md`.
 | 5 | I5 | Mineur | 404 : titre, description et langue français seulement | à faire | | |
 | 5 | F4 | Mineur | « dès la première lettre » trop fort pour les morceaux | en cours | | D'après instantMatches : morceaux à la réponse du serveur |
 | 5 | F5 | Mineur | « Toujours à jour » : favoris et playlists suivis seulement | en cours | | D'après AutoDownloads : favoris et playlists téléchargés seulement |
-| 5 | F6 | Mineur | Pastilles de période du Rewind ≠ sélecteur de l'app | à faire | | |
+| 5 | F6 | Mineur | Pastilles de période du Rewind ≠ sélecteur de l'app | en cours | | Décision : 7 jours, 30 jours, année du build, Tout ; « All Time » en anglais, valeur du catalogue (« Tout (période) ») |
 | 5 | C3 | Mineur | Aucune espace insécable en français | à faire | | Règle à écrire dans CONVENTIONS |
 | 5 | I4 | Dette | Virgule de série en anglais | décision | | |
 | 6 | D1 | Majeur | Le déploiement accepte n'importe quelle clé d'hôte SFTP | à faire | | Secret `OVH_KNOWN_HOSTS` |
