@@ -15,7 +15,7 @@ relecture sont dans `docs/AUDIT-2026-10-23-LOTS.md`.
 | Lot | Constat | Sévérité | Titre | État | PR | Note |
 | ---: | --- | --- | --- | --- | --- | --- |
 | 1 | L1 | Bloquant | La politique de confidentialité publiée n'est plus celle de l'app | en cours | #26 | Recopier `docs/PRIVACY.md` et `PRIVACY.en.md` du 22 octobre, `updated: '2026-10-22'` |
-| 1 | F1 | Majeur | Tarifs oublie le scrobbling, sixième fonction Plus | à faire | | |
+| 1 | F1 | Majeur | Tarifs oublie le scrobbling, sixième fonction Plus | en cours | #26 | |
 | 1 | F2 | Majeur | Cinq fonctions Plus présentées sans dire qu'elles sont payantes | décision | | Pastille « Plus », phrase par section, Apple Watch retirée de « Pour … » ; images de partage à régénérer |
 | 1 | F3 | Majeur | La version d'iOS requise n'est dite nulle part | à faire | | |
 | 1 | L4 | Mineur | La ligne des marques ne couvre pas tous les noms Apple employés | à faire | | |
