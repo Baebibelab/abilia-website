@@ -1,9 +1,31 @@
+# Sur chaque PR et chaque push sur main :
+#   build  `npm run check` et `npm run build`.
+#   audit  les outils de docs/AUDIT-TRAME.md (annexe A) qui ne coûtent qu'une seconde, extraits de
+#          la trame à chaque fois (une correction de l'outil là-bas vaut ici) : i18n-check (A.1),
+#          dist-check (A.2), et la politique de confidentialité comparée mot pour mot à celle de
+#          l'app (A.7). Rouge sur tout « ✗ » de dist-check, toute clé sans anglais ou aux repères
+#          différents, une page noindex qui garde canonique, hreflang ou og:url, une politique qui
+#          n'est plus celle de l'app. Une clé jamais lue n'est qu'un avertissement.
+#
+# Secret du dépôt (Settings › Secrets and variables › Actions, et le même dans « Dependabot », dont
+# les PR ne voient pas les secrets d'Actions) :
+#   APP_REPO_TOKEN  jeton à grain fin, dépôt Baebibelab/abilia seulement, « Contents: Read-only » :
+#                   le dépôt de l'app est privé, le jeton de la CI ne le lit pas. Seuls
+#                   docs/PRIVACY.md, docs/PRIVACY.en.md et PrivacyPolicyView.swift sont récupérés.
+#                   Sans lui (PR d'un fork), l'étape A.7 est sautée avec un avertissement.
+
 name: CI
 
 on:
   pull_request:
   push:
     branches: [main]
+
+permissions:
+  contents: read
+
+env:
+  ASTRO_TELEMETRY_DISABLED: 1
 
 jobs:
   build:
@@ -17,3 +39,78 @@ jobs:
       - run: npm ci
       - run: npm run check
       - run: npm run build
+
+  audit:
+    name: Audit
+    runs-on: ubuntu-latest
+    env:
+      HAS_APP_TOKEN: ${{ secrets.APP_REPO_TOKEN != '' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci && npm run build
+
+      - name: Outils extraits de la trame
+        run: |
+          mkdir -p "$RUNNER_TEMP/tools"
+          # La boucle de l'annexe A de docs/AUDIT-TRAME.md, réduite aux outils lancés ici.
+          for pair in A.1:js:i18n-check.mjs A.2:js:dist-check.mjs A.7:bash:privacy-diff.sh; do
+            IFS=: read -r sec lang name <<< "$pair"
+            awk -v sec="^### $sec " -v fence="^\`\`\`$lang\$" '$0 ~ sec {f=1} f && $0 ~ fence {p=1; next} p && /^```$/ {exit} p' \
+              docs/AUDIT-TRAME.md > "$RUNNER_TEMP/tools/$name"
+            [ -s "$RUNNER_TEMP/tools/$name" ] || { echo "::error::$sec introuvable dans docs/AUDIT-TRAME.md"; exit 1; }
+          done
+
+      - name: Textes (A.1)
+        run: |
+          node "$RUNNER_TEMP/tools/i18n-check.mjs" . | tee "$RUNNER_TEMP/i18n.txt"
+          grep '^jamais lue' "$RUNNER_TEMP/i18n.txt" | sed 's/^/::warning::/' || true
+          ! grep -E '^(sans anglais|repères différents|anglais sans français)' "$RUNNER_TEMP/i18n.txt"
+
+      - name: Site construit (A.2)
+        run: |
+          node "$RUNNER_TEMP/tools/dist-check.mjs" dist https://abilia-music.app | tee "$RUNNER_TEMP/dist.txt"
+          ! grep '✗' "$RUNNER_TEMP/dist.txt"
+
+      - name: Pages noindex sans canonique ni hreflang
+        run: |
+          status=0
+          for f in $(grep -rl --include='*.html' '<meta name="robots" content="noindex' dist); do
+            if grep -qE 'rel="canonical"|rel="alternate" hreflang=|property="og:url"|application/ld\+json' "$f"; then
+              echo "::error file=$f::page noindex avec canonique, hreflang, og:url ou fiche schema.org"
+              status=1
+            else
+              echo "✓ $f"
+            fi
+          done
+          exit $status
+
+      - name: Politique de l'app (sparse)
+        id: app
+        if: env.HAS_APP_TOKEN == 'true'
+        uses: actions/checkout@v4
+        with:
+          repository: Baebibelab/abilia
+          token: ${{ secrets.APP_REPO_TOKEN }}
+          path: .app
+          persist-credentials: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            docs/PRIVACY.md
+            docs/PRIVACY.en.md
+            Abilia/Features/Settings/PrivacyPolicyView.swift
+
+      - name: Politique de confidentialité (A.7)
+        env:
+          HAS_APP: ${{ steps.app.outcome == 'success' }}
+        run: |
+          if [ "$HAS_APP" != true ]; then
+            echo "::warning::Secret APP_REPO_TOKEN absent : politique non comparée à celle de l'app (voir l'en-tête de ci.yml)."
+            exit 0
+          fi
+          APP=.app bash "$RUNNER_TEMP/tools/privacy-diff.sh" | tee "$RUNNER_TEMP/privacy.txt"
+          grep -qx 'fr identique' "$RUNNER_TEMP/privacy.txt" || { echo "::error::src/content/privacy/fr.md n'est plus docs/PRIVACY.md de l'app"; exit 1; }
+          grep -qx 'en identique' "$RUNNER_TEMP/privacy.txt" || { echo "::error::src/content/privacy/en.md n'est plus docs/PRIVACY.en.md de l'app"; exit 1; }

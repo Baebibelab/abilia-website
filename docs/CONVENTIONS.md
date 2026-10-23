@@ -26,6 +26,7 @@ src/
 public/                 copié tel quel : .htaccess (OVH), favicons, apple-touch-icon,
                         og/ (images de partage)
 scripts/og/             modèle des images de partage et rendu des icônes PNG (render.mjs)
+scripts/csp.mjs         empreintes des scripts en ligne pour la CSP de dist/.htaccess (npm run build)
 ```
 
 L'accueil est découpé pour que plusieurs personnes y travaillent sans se marcher dessus :
@@ -93,8 +94,8 @@ par section. Une section peut poser ses propres halos ou dégradés locaux par-d
 Réglages dans `src/config.ts` :
 
 - `APP_STORE_URL` et `APP_STORE_ID` : le jour du lancement, le lien et l'identifiant de l'app ;
-  le bouton devient un lien, la fiche schema.org reçoit l'adresse, Safari sur iPhone affiche sa
-  bannière d'app.
+  le bouton devient un lien, la fiche schema.org reçoit l'adresse (son offre gratuite, `offers`,
+  passe de `OutOfStock` à `InStock`), Safari sur iPhone affiche sa bannière d'app.
 - `CARPLAY_AVAILABLE`, à passer à `true` le jour où Apple accorde le droit CarPlay. D'ici là, la
   section « Partout » le marque « Bientôt » et rien d'autre n'en parle : une clé de `ui.ts` qui a
   une variante `<clé>.carplay` (description, hero) la donne à la place quand c'est vrai, sans
@@ -244,13 +245,65 @@ qui garde les passages épinglés, contrairement à `hidden`) : vérifier aussi 
 largeur où les colonnes sont les plus serrées. Repères à garder : Lighthouse à 100 sur les quatre
 catégories, aucune erreur axe, CLS à 0.
 
-La CI (`.github/workflows/ci.yml`) refait `check` et `build` sur chaque PR. Le déploiement
+La CI (`.github/workflows/ci.yml`) refait `check` et `build` sur chaque PR et sur `main`, et son
+job « Audit » lance les outils rapides de `docs/AUDIT-TRAME.md` (annexe A), extraits de la trame à
+chaque fois : `i18n-check` (A.1 : rouge sur une clé sans anglais ou aux repères différents, une clé
+jamais lue n'est qu'un avertissement), `dist-check` (A.2 : rouge sur tout « ✗ »), une page
+`noindex` qui garderait canonique, hreflang, `og:url` ou fiche schema.org, et la copie de la
+politique de confidentialité comparée à celle de l'app (A.7, rouge dès qu'elles divergent). Le
+dépôt de l'app est privé : A.7 lit `docs/PRIVACY*.md` avec le secret `APP_REPO_TOKEN` (jeton à
+grain fin, lecture seule du dépôt `Baebibelab/abilia`), à créer aussi dans les secrets Dependabot.
+Les deux workflows n'ont que le droit `contents: read` et coupent la télémétrie d'Astro
+(`ASTRO_TELEMETRY_DISABLED`). Dependabot (`.github/dependabot.yml`) propose chaque lundi les mises
+à jour npm. Le déploiement
 (`.github/workflows/deploy.yml`) ne part plus qu'à la demande (Actions › Deploy › Run workflow),
-une fois les secrets `OVH_HOST`, `OVH_USER`, `OVH_PASSWORD` définis (détails en tête du fichier) :
+une fois les secrets `OVH_HOST`, `OVH_USER`, `OVH_PASSWORD` et, en SFTP, `OVH_KNOWN_HOSTS` (la clé
+du serveur, épinglée : un serveur qui présente une autre clé est refusé) définis (détails en tête du
+fichier) :
 mode `site` pour envoyer `dist/`, mode `maintenance` pour envoyer `maintenance/` (toute adresse
 répond 503 avec une page d'attente autonome, hors Astro et hors `ui.ts`). Les règles
 Apache (redirection vers le domaine principal, HTTPS, cache, page 404, en-têtes de sécurité) sont
 dans `public/.htaccess`.
+
+L'envoi du mode `site` se fait en deux temps : `_astro/` d'abord (ressources dont le nom porte une
+empreinte, jamais supprimées à ce moment-là), puis les pages et le reste, avec `--delete` quand
+`OVH_DELETE` est vrai. Une page nouvelle ne cite donc jamais un fichier pas encore arrivé ; pendant
+quelques secondes, d'anciennes pages côtoient les nouvelles ressources, ce qui ne casse rien.
+
+**Revenir à la version précédente** (une mise en ligne qui casse le site) :
+
+1. Tout de suite, si le site est inutilisable : Run workflow en mode `maintenance` (une page
+   d'attente en 503, les fichiers restent sur le serveur).
+2. Annuler la PR fautive sur `main` (`git revert -m 1 <commit de fusion>` dans une PR, ou le bouton
+   « Revert » de GitHub), la fusionner, puis Run workflow sur `main` en mode `site` : le workflow
+   reconstruit tout depuis le code, rien n'est gardé de l'envoi précédent.
+3. En urgence, sans attendre une PR : pousser une étiquette sur le dernier commit sain
+   (`git tag retour-<date> <commit> && git push origin retour-<date>`) et lancer Run workflow en
+   choisissant cette étiquette dans « Use workflow from ». C'est alors le `deploy.yml` de ce
+   commit qui tourne : il doit être postérieur à l'épinglage de la clé SFTP (lot 6 de l'audit du
+   23 octobre), sinon passer par l'étape 2. Supprimer l'étiquette une fois `main` réparé.
+
+Sans `OVH_DELETE`, des fichiers d'une version plus récente peuvent rester sur le serveur après un
+retour arrière ; ils sont inoffensifs (aucune page ne les cite) et partent au prochain envoi avec
+`OVH_DELETE`.
+
+**Content-Security-Policy** (`public/.htaccess`) : `default-src 'none'`, images et styles du site
+(styles en ligne permis, `data:` pour les images), scripts du site plus les empreintes SHA-256 des
+scripts en ligne, ni `<base>`, ni formulaire, ni cadre. `npm run build` lance `scripts/csp.mjs`
+après Astro : il hache chaque `<script>` en ligne exécutable de `dist/` (pas le JSON-LD, qui ne
+s'exécute pas) et remplace le repère `{{CSP_SCRIPT_HASHES}}` de `dist/.htaccess`. Il échoue si une
+page charge un script d'un autre site ou porte un attribut `on…=` : la politique les bloquerait.
+Conséquences pour le code : aucun script, style, police ni image venant d'ailleurs que du site, aucun
+gestionnaire `onclick=` ; un script en ligne de plus est pris en compte tout seul. Elle est en
+`Content-Security-Policy-Report-Only` (rien n'est bloqué, les violations vont dans la console) tant
+que le site est en maintenance. **Passer en mode strict** après la réouverture, une fois A.9 et une
+visite des pages (console ouverte, clair et sombre, animations réduites) sans violation : renommer
+l'en-tête en `Content-Security-Policy` dans `public/.htaccess`, et mettre à jour cette phrase.
+
+**HSTS** reste `max-age=31536000` seul, sans `includeSubDomains` ni `preload`, jusqu'au changement
+de domaine (décision D8 de l'audit du 23 octobre) : précharger un domaine qu'on va quitter n'a pas
+de sens, et le serveur de démo vit sur un autre nom. Le jour du nouveau domaine, décider s'il porte
+`includeSubDomains` (tous ses sous-domaines en https, celui de la démo compris) et `preload`.
 
 Domaine principal : `https://abilia-music.app` (`site` dans `astro.config.mjs`, repris par les
 liens canoniques, hreflang, Open Graph, `robots.txt` et le plan du site). `abilia-music.fr` et les
