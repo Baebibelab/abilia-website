@@ -58,8 +58,8 @@ relecture sont dans `docs/AUDIT-2026-10-23-LOTS.md`.
 | 5 | I4 | Dette | Virgule de série en anglais | décision | | |
 | 6 | D1 | Majeur | Le déploiement accepte n'importe quelle clé d'hôte SFTP | en cours | #22 | Secret `OVH_KNOWN_HOSTS` à créer avant le prochain déploiement ; FTP chiffré imposé |
 | 6 | D3 | Mineur | Aucune Content-Security-Policy | décision | | Report-Only d'abord |
-| 6 | D4 | Mineur | Types compressés incomplets | à faire | | = P3 |
-| 6 | P3 | Mineur | `mod_deflate` sans xml ni txt | doublon | | Voir D4 |
+| 6 | D4 | Mineur | Types compressés incomplets | en cours | #22 | = P3 ; `content-encoding` à vérifier en production (A.9) |
+| 6 | P3 | Mineur | `mod_deflate` sans xml ni txt | doublon | #22 | Voir D4, corrigé avec lui |
 | 6 | D5 | Dette | CI : droits, outils d'audit, télémétrie, dépendances | en cours | #22 | Job « Audit » avec A.1, A.2, A.7 ; secret `APP_REPO_TOKEN` à créer (Actions et Dependabot) ; A.7 rouge jusqu'à L1 |
 | 6 | D6 | Mineur | Mise en ligne non atomique, pas de retour arrière écrit | à faire | | |
 | 6 | D7 | Dette | `Permissions-Policy` obsolète | à faire | | |
