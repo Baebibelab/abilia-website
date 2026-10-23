@@ -67,7 +67,7 @@ const chips = [
           }
         </span>
         <br />
-        <span class="gradient-text hero__title-accent" data-reveal="blur" data-reveal-delay="240">
+        <span class="gradient-text hero__title-accent" data-hero-accent data-reveal="blur" data-reveal-delay="240">
           {t('hero.title.2')}
         </span>
       </h1>
@@ -137,7 +137,12 @@ const chips = [
 
   // Anime le spectre (barres de l'iPhone et grand spectre), fait battre les halos et incline
   // l'iPhone vers le pointeur. Rien ne tourne hors de l'écran, onglet caché, ou avec
-  // « Réduire les animations » (le rendu figé reste alors en place).
+  // « Réduire les animations » (le rendu figé reste alors en place). 15 images par seconde
+  // suffisent à des barres, et la boucle s'arrête après `IDLE_LIMIT` sans un geste du visiteur
+  // (pointeur, toucher, clavier, défilement) : le spectre se fige là où il en est, et repart au
+  // geste suivant.
+  const FRAME = 1000 / 15;
+  const IDLE_LIMIT = 30_000;
   const hero = document.querySelector<HTMLElement>('[data-hero]');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
@@ -151,20 +156,35 @@ const chips = [
     }));
     const pulses = Array.from(hero.querySelectorAll<HTMLElement>('[data-hero-pulse]'));
     const tilt = hero.querySelector<HTMLElement>('[data-hero-tilt]');
+    // Le dégradé de la fin du titre glisse au rythme de la boucle : animé en CSS
+    // (`background-position`, qui ne passe pas par la carte graphique), il obligeait le
+    // navigateur à préparer 60 images par seconde.
+    const accent = hero.querySelector<HTMLElement>('[data-hero-accent]');
 
     const levels = spectrumAt(STILL_TIME).slice();
     const target = new Array<number>(BAND_COUNT);
     let onScreen = true;
+    // Image demandée (`requestAnimationFrame`) et attente de la suivante (`setTimeout`) : entre
+    // deux images, rien n'est demandé au navigateur, qui n'a pas à préparer d'image pour nous.
     let frame = 0;
+    let timer = 0;
     let last = 0;
     // Le morceau imaginaire reprend là où l'image figée l'avait laissé.
     let clock = STILL_TIME;
+    let lastGesture = performance.now();
+
+    function schedule() {
+      timer = window.setTimeout(() => {
+        timer = 0;
+        frame = requestAnimationFrame(render);
+      }, FRAME - 4);
+    }
 
     function render(now: number) {
-      frame = requestAnimationFrame(render);
-      // 30 images par seconde, comme les barres de l'app.
-      if (now - last < 1000 / 31) return;
-      const elapsed = last ? Math.min(now - last, 100) : 1000 / 30;
+      frame = 0;
+      if (now - lastGesture > IDLE_LIMIT) return;
+      schedule();
+      const elapsed = last ? Math.min(now - last, 150) : FRAME;
       last = now;
       clock += elapsed / 1000;
 
@@ -175,6 +195,9 @@ const chips = [
         cap.el.style.transform = `translateY(${((1 - visible) * 100).toFixed(2)}%)`;
       }
 
+      // Un aller en 10 s, comme l'ancienne animation CSS.
+      accent?.style.setProperty('background-position', `${(-(clock * 20) % 200).toFixed(2)}% 0`);
+
       const kick = kickAt(clock);
       for (const pulse of pulses) {
         pulse.style.opacity = (0.55 + 0.45 * kick).toFixed(3);
@@ -183,14 +206,25 @@ const chips = [
     }
 
     function start() {
-      if (frame || !onScreen || document.hidden || reducedMotion.matches) return;
+      if (frame || timer || !onScreen || document.hidden || reducedMotion.matches) return;
+      if (performance.now() - lastGesture > IDLE_LIMIT) return;
       last = 0;
       frame = requestAnimationFrame(render);
     }
 
+    // Un geste du visiteur relance le spectre arrêté faute d'activité.
+    const wake = () => {
+      lastGesture = performance.now();
+      start();
+    };
+    for (const type of ['pointermove', 'pointerdown', 'keydown', 'scroll', 'wheel', 'touchstart'])
+      window.addEventListener(type, wake, { passive: true });
+
     function stop() {
       cancelAnimationFrame(frame);
+      clearTimeout(timer);
       frame = 0;
+      timer = 0;
     }
 
     new IntersectionObserver(([entry]) => {
@@ -207,6 +241,7 @@ const chips = [
       stop();
       for (const el of [...caps.map((cap) => cap.el), ...pulses, tilt]) el?.style.removeProperty('transform');
       pulses.forEach((pulse) => pulse.style.removeProperty('opacity'));
+      accent?.style.removeProperty('background-position');
       tilt?.style.removeProperty('--tx');
     });
 
@@ -344,7 +379,7 @@ const chips = [
   }
 
   .hero__title-accent {
-    /* Dégradé deux fois plus large que le texte, qui glisse lentement. */
+    /* Dégradé deux fois plus large que le texte, qui glisse lentement (script du hero). */
     background-image: linear-gradient(
       100deg,
       var(--coral) 0%,
@@ -591,10 +626,6 @@ const chips = [
 
   /* Mouvements : entrée, flottement, scroll. Rien de tout ça avec « Réduire les animations ». */
   @media (prefers-reduced-motion: no-preference) {
-    .hero__title-accent {
-      animation: gradient-slide 10s linear infinite;
-    }
-
     .hero__orbit-ring {
       animation: spin 36s linear infinite;
     }
@@ -648,12 +679,6 @@ const chips = [
     .hero :global(.wave) {
       transform: scaleY(calc(1 - var(--exit) * 0.75));
       transform-origin: bottom;
-    }
-  }
-
-  @keyframes gradient-slide {
-    to {
-      background-position: -200% 0;
     }
   }
 

@@ -68,7 +68,6 @@ const bars = Array.from({ length: BAND_COUNT * 2 }, (_, j) => {
       color-mix(in oklab, var(--coral) var(--warmth), var(--purple))
     );
     transform: translateY(calc((1 - max(0.06, 0.08 + 0.92 * var(--level, 0))) * 100%));
-    will-change: transform;
   }
 
   @media (prefers-color-scheme: dark) {
