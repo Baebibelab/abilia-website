@@ -15,7 +15,11 @@ interface Props {
   alternates: Record<Lang, string>;
   title?: string;
   description?: string;
-  /** Pages qui ne doivent pas être indexées (404…). */
+  /**
+   * Pages qui ne doivent pas être indexées (404…) : ni canonique, ni hreflang, ni `og:url`, ni
+   * fiche schema.org, qui les donneraient pour une autre page. Le sélecteur de langue garde
+   * `alternates`.
+   */
   noindex?: boolean;
 }
 
@@ -29,8 +33,9 @@ const ogLocale = { fr: 'fr_FR', en: 'en_US' } satisfies Record<Lang, string>;
 // Images de partage rendues par scripts/og/render.mjs (une par langue, 1200 × 630).
 const ogImage = new URL(`/og/andia-${lang}.jpg`, site).href;
 
-// Fiche de l'app pour les moteurs de recherche (schema.org), sur l'accueil seulement.
-const isHome = alternates[lang] === routes.home[lang];
+// Fiche de l'app pour les moteurs de recherche (schema.org), sur l'accueil seulement (la 404 passe
+// les adresses de l'accueil à `alternates`, d'où le `noindex`).
+const isHome = !noindex && alternates[lang] === routes.home[lang];
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'MobileApplication',
@@ -53,13 +58,17 @@ const structuredData = {
     <title>{pageTitle}</title>
     <meta name="description" content={pageDescription} />
     {noindex && <meta name="robots" content="noindex" />}
-    <link rel="canonical" href={canonical} />
     {
-      (Object.keys(languages) as Lang[]).map((l) => (
-        <link rel="alternate" hreflang={l} href={new URL(alternates[l], site).href} />
-      ))
+      !noindex && (
+        <>
+          <link rel="canonical" href={canonical} />
+          {(Object.keys(languages) as Lang[]).map((l) => (
+            <link rel="alternate" hreflang={l} href={new URL(alternates[l], site).href} />
+          ))}
+          <link rel="alternate" hreflang="x-default" href={new URL(alternates[defaultLang], site).href} />
+        </>
+      )
     }
-    <link rel="alternate" hreflang="x-default" href={new URL(alternates[defaultLang], site).href} />
 
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
@@ -72,7 +81,7 @@ const structuredData = {
     <meta property="og:site_name" content="Andia" />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={pageDescription} />
-    <meta property="og:url" content={canonical} />
+    {!noindex && <meta property="og:url" content={canonical} />}
     <meta property="og:locale" content={ogLocale[lang]} />
     {
       (Object.keys(languages) as Lang[])

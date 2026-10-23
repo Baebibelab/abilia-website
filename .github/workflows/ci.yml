@@ -79,7 +79,7 @@ jobs:
         run: |
           status=0
           for f in $(grep -rl --include='*.html' '<meta name="robots" content="noindex' dist); do
-            if grep -qE 'rel="canonical"|hreflang=|property="og:url"|application/ld\+json' "$f"; then
+            if grep -qE 'rel="canonical"|rel="alternate" hreflang=|property="og:url"|application/ld\+json' "$f"; then
               echo "::error file=$f::page noindex avec canonique, hreflang, og:url ou fiche schema.org"
               status=1
             else

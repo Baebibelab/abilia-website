@@ -64,7 +64,7 @@ relecture sont dans `docs/AUDIT-2026-10-23-LOTS.md`.
 | 6 | D6 | Mineur | Mise en ligne non atomique, pas de retour arrière écrit | en cours | #22 | Deux `mirror` ; retour arrière dans CONVENTIONS ; essai en mode maintenance à faire |
 | 6 | D7 | Dette | `Permissions-Policy` obsolète | en cours | #22 | `browsing-topics=()` à la place d'`interest-cohort` |
 | 6 | D8 | Dette | HSTS sans `includeSubDomains` ni `preload` | décision | | Au changement de domaine |
-| 6 | S1 | Mineur | La 404 déclare l'accueil comme canonique | à faire | | |
+| 6 | S1 | Mineur | La 404 déclare l'accueil comme canonique | en cours | #22 | Ni canonique, ni hreflang, ni `og:url`, ni fiche schema.org sous `noindex` ; contrôlé par le job Audit |
 | 6 | S2 | Dette | Fiche schema.org sans `offers` | décision | | |
 | 7 | Q1 | Dette | Quatre clés de texte jamais lues | à faire | | |
 | 7 | Q2 | Dette | Fichiers et dessins morts | à faire | | Ou utiliser `recherche.jpg` (F9) |
