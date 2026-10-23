@@ -6,8 +6,8 @@
 //
 // Au chargement, le titre arrive mot à mot, le texte apparaît (`data-reveal`) et l'iPhone se
 // redresse ; un reflet glisse sur sa vitre quand il tourne ; au scroll
-// (`--progress` du hero), l'iPhone recule en basculant, les pastilles s'écartent et le grand
-// spectre s'aplatit ; à la souris, l'iPhone s'incline vers le pointeur.
+// (`--progress` du hero ; sous 860 px, celui du visuel pour l'iPhone et ses pastilles), l'iPhone
+// recule en basculant, les pastilles s'écartent et le grand spectre s'aplatit ; à la souris, l'iPhone s'incline vers le pointeur.
 // Sans JavaScript ou avec « Réduire les animations » : la même composition, immobile, avec
 // le spectre figé sur une image (voir hero/spectrum.ts).
 import AppIcon from '../AppIcon.astro';
@@ -91,7 +91,7 @@ const chips = [
       }
     </div>
 
-    <div class="hero__visual">
+    <div class="hero__visual" data-scroll>
       <div class="hero__orbit" aria-hidden="true">
         <span class="hero__orbit-ring"></span>
       </div>
@@ -700,6 +700,10 @@ const chips = [
       --phone-width: min(270px, 64vw);
       --rest-y: -6deg;
       padding-block: 8px;
+      /* L'iPhone est sous le texte : sa sortie part de sa propre position (son `--progress`), pas
+         de celle du hero, sinon il s'estompe pendant qu'on le découvre. 0 tant qu'il est entier
+         à l'écran (son haut passe le haut de l'écran vers 0,6), 1 quand il l'a quitté. */
+      --exit: max(0, (var(--progress, 0) - 0.6) * 2.5);
     }
   }
 

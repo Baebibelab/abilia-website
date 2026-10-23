@@ -36,7 +36,7 @@ relecture sont dans `docs/AUDIT-2026-10-23-LOTS.md`.
 | 3 | A3 | Mineur | Sous 860 px, le menu disparaît sans remplaçant | décision | | |
 | 3 | A5 | Mineur | Animations de plus de cinq secondes sans pause sur la page | décision | | Exemption à écrire dans CONVENTIONS, ou bouton |
 | 3 | V3 | Mineur | Pas de feuille d'impression pour la confidentialité | à faire | | Plausible : à confirmer par une impression |
-| 4 | N2 | Mineur | Sur téléphone, l'iPhone du hero et ses pastilles s'estompent avant d'être vus | à faire | | |
+| 4 | N2 | Mineur | Sur téléphone, l'iPhone du hero et ses pastilles s'estompent avant d'être vus | en cours | | Sortie tirée du `--progress` de `.hero__visual` sous 860 px |
 | 4 | V5 | Mineur | La pastille « Enchaînement sans blanc » est coupée entre 861 et ≈ 1 300 px | à faire | | |
 | 4 | N1 | Mineur | Le point « Bientôt » pulse sans fin dans l'en-tête, hors `data-loop` | à faire | | |
 | 4 | N3 | Mineur | Si le moteur ne se charge pas, tout `data-reveal` reste invisible | à faire | | |
