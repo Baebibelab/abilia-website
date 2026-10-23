@@ -1,0 +1,331 @@
+---
+// Page « Assistance », commune aux deux langues : même en-tête, même sommaire et même carte en
+// verre que la page Confidentialité (components/privacy/PrivacyPage.astro), puis trois parties :
+// l'adresse pour nous écrire, les questions fréquentes (reprises du README de l'app, réécrites
+// pour le site) et les mentions légales (LCEN, art. 6-III), avec un mot sur le site lui-même.
+// L'adresse e-mail, l'éditeur et l'hébergeur viennent de src/config.ts, les textes de ui.ts.
+import { HOST, JELLYFIN_URL, PUBLISHER, SUPPORT_EMAIL } from '../../config';
+import { type Lang, type UIKey, pathFor, supportSections, useTranslations } from '../../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const ids = {
+  contact: supportSections.contact[lang],
+  faq: supportSections.faq[lang],
+  legal: supportSections.legal[lang],
+};
+
+const sections = [
+  { id: ids.contact, title: t('support.contact.title') },
+  { id: ids.faq, title: t('support.faq.title') },
+  { id: ids.legal, title: t('support.legal.title') },
+];
+
+// Les huit questions du README de l'app, dans son ordre. Une réponse peut finir par un lien. Les
+// clés sont écrites en entier pour qu'une recherche dans le code (ou i18n-check) les trouve.
+type Faq = { q: UIKey; a: UIKey; link?: { label: UIKey; href: string } };
+const faqs: Faq[] = [
+  {
+    q: 'support.faq.server.q',
+    a: 'support.faq.server.a',
+    link: { label: 'support.faq.server.link', href: JELLYFIN_URL },
+  },
+  { q: 'support.faq.free.q', a: 'support.faq.free.a' },
+  { q: 'support.faq.offline.q', a: 'support.faq.offline.a' },
+  { q: 'support.faq.normalization.q', a: 'support.faq.normalization.a' },
+  { q: 'support.faq.watch.q', a: 'support.faq.watch.a' },
+  { q: 'support.faq.certificate.q', a: 'support.faq.certificate.a' },
+  { q: 'support.faq.http.q', a: 'support.faq.http.a' },
+  {
+    q: 'support.faq.data.q',
+    a: 'support.faq.data.a',
+    link: { label: 'support.faq.data.link', href: pathFor('privacy', lang) },
+  },
+];
+
+// L'adresse n'est jamais écrite en clair : chaque caractère du lien `mailto:` devient une entité
+// HTML, que le navigateur décode, et le texte du lien est une phrase (« Écrire à l'assistance »).
+const escapeHtml = (text: string) =>
+  text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+const encodedMailto = [...`mailto:${SUPPORT_EMAIL}`].map((char) => `&#${char.codePointAt(0)};`).join('');
+const mailLink = (className: string) =>
+  `<a class="${className}" href="${encodedMailto}">${escapeHtml(t('support.contact.cta'))}</a>`;
+
+const phoneHref = `tel:${HOST.phone.replace(/\s/g, '')}`;
+---
+
+<article class="support container">
+  <header class="support__header" data-reveal-stagger="90">
+    <p class="support__eyebrow" data-reveal>{t('support.eyebrow')}</p>
+    <h1 class="support__title" data-reveal="blur">{t('support.heading')}</h1>
+    <p class="support__lead" data-reveal>{t('support.lead')}</p>
+  </header>
+
+  <div class="support__layout">
+    <nav class="support__toc" aria-labelledby="support-toc">
+      <h2 id="support-toc" class="support__toc-title">{t('support.toc')}</h2>
+      <ol role="list">
+        {
+          sections.map((section) => (
+            <li>
+              <a href={`#${section.id}`}>{section.title}</a>
+            </li>
+          ))
+        }
+      </ol>
+    </nav>
+
+    <div class="support__body glass" data-reveal>
+      <div class="prose">
+        <section aria-labelledby={ids.contact}>
+          <h2 id={ids.contact}>{t('support.contact.title')}</h2>
+          <p>{t('support.contact.text')}</p>
+          <p class="support__cta"><Fragment set:html={mailLink('button button--primary')} /></p>
+        </section>
+
+        <section aria-labelledby={ids.faq}>
+          <h2 id={ids.faq}>{t('support.faq.title')}</h2>
+          {
+            faqs.map((faq) => (
+              <div class="support__faq">
+                <h3>{t(faq.q)}</h3>
+                <p>
+                  {t(faq.a)}
+                  {faq.link && (
+                    <>
+                      {' '}
+                      <a href={faq.link.href} rel={faq.link.href.startsWith('http') ? 'noopener' : undefined}>
+                        {t(faq.link.label)}
+                      </a>
+                    </>
+                  )}
+                </p>
+              </div>
+            ))
+          }
+        </section>
+
+        <section aria-labelledby={ids.legal}>
+          <h2 id={ids.legal}>{t('support.legal.title')}</h2>
+
+          <h3>{t('support.legal.publisher')}</h3>
+          <p>
+            {PUBLISHER.name}
+            <br />
+            {PUBLISHER.address ?? t('support.legal.publisherAddressAtHost')}
+            <br />
+            {t('support.legal.contact')} <Fragment set:html={mailLink('')} />
+          </p>
+
+          <h3>{t('support.legal.director')}</h3>
+          <p>{PUBLISHER.director}</p>
+
+          <h3>{t('support.legal.host')}</h3>
+          <p>
+            {HOST.name}
+            <br />
+            {HOST.address}
+            <br />
+            <a href={phoneHref}>{HOST.phone}</a>
+          </p>
+
+          <h3>{t('support.legal.site')}</h3>
+          <p>{t('support.legal.siteText')}</p>
+        </section>
+      </div>
+      <p class="support__back">
+        <a class="button button--ghost" href={pathFor('home', lang)}>{t('privacy.back')}</a>
+      </p>
+    </div>
+  </div>
+</article>
+
+<style>
+  .support {
+    padding-top: calc(var(--header-height) + clamp(40px, 7vw, 96px));
+  }
+
+  .support__header {
+    display: grid;
+    justify-items: center;
+    gap: 14px;
+    text-align: center;
+  }
+
+  .support__eyebrow {
+    color: var(--coral-text);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .support__title {
+    font-size: clamp(2.3rem, 6vw, 4.2rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1.04;
+    text-wrap: balance;
+  }
+
+  .support__lead {
+    max-width: 52ch;
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    text-wrap: balance;
+  }
+
+  /* Sommaire + texte, comme la page Confidentialité */
+
+  .support__layout {
+    display: grid;
+    grid-template-columns: 240px minmax(0, 1fr);
+    align-items: start;
+    gap: clamp(24px, 4vw, 56px);
+    max-width: 1040px;
+    margin: clamp(40px, 6vw, 72px) auto 0;
+  }
+
+  .support__toc {
+    position: sticky;
+    top: calc(var(--header-height) + 24px);
+  }
+
+  .support__toc-title {
+    margin-bottom: 10px;
+    color: var(--text-secondary);
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .support__toc ol {
+    display: grid;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-left: 1px solid var(--border);
+  }
+
+  .support__toc a {
+    display: flex;
+    align-items: center;
+    min-height: 40px;
+    margin-left: -1px;
+    padding: 4px 0 4px 16px;
+    border-left: 2px solid transparent;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition:
+      color 0.25s,
+      border-color 0.25s;
+  }
+
+  .support__toc a:hover {
+    color: var(--text);
+    border-left-color: var(--teal);
+  }
+
+  .support__body {
+    min-width: 0;
+    padding: clamp(24px, 4vw, 52px);
+  }
+
+  .prose {
+    max-width: 68ch;
+    font-size: 1.04rem;
+    line-height: 1.7;
+    overflow-wrap: break-word;
+  }
+
+  .prose p {
+    color: var(--text-secondary);
+  }
+
+  .prose p + p {
+    margin-top: 1em;
+  }
+
+  .prose a:not(.button) {
+    color: var(--teal-text);
+    text-underline-offset: 3px;
+  }
+
+  .prose section + section h2 {
+    margin-top: 2.2em;
+  }
+
+  .prose h2 {
+    margin-bottom: 0.55em;
+    font-size: 1.35rem;
+    font-weight: 750;
+    letter-spacing: -0.02em;
+    scroll-margin-top: calc(var(--header-height) + 24px);
+  }
+
+  .prose h2::before {
+    content: '';
+    display: block;
+    width: 28px;
+    height: 3px;
+    margin-bottom: 14px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--coral), var(--purple));
+  }
+
+  .prose h3 {
+    margin: 1.5em 0 0.35em;
+    color: var(--text);
+    font-size: 1.05rem;
+    font-weight: 700;
+  }
+
+  .support__faq h3 {
+    margin-top: 1.4em;
+  }
+
+  .prose p.support__cta {
+    margin-top: 1.4em;
+  }
+
+  .support__back {
+    margin-top: 40px;
+  }
+
+  @media (max-width: 900px) {
+    .support__layout {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    /* Sur téléphone, le sommaire précède le texte, sans rester collé. */
+    .support__toc {
+      position: static;
+    }
+
+    .support__toc ol {
+      border-left: 0;
+    }
+
+    .support__toc a {
+      min-height: 44px;
+      padding-left: 0;
+      border-left: 0;
+      border-bottom: 1px solid var(--border);
+    }
+  }
+
+  @media (max-width: 520px) {
+    .support__body {
+      padding: 22px 20px;
+      border-radius: 22px;
+    }
+  }
+</style>

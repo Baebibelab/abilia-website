@@ -1,7 +1,7 @@
 ---
 import AppIcon from './AppIcon.astro';
-import { JELLYFIN_URL } from '../config';
-import { type Lang, pathFor, useTranslations } from '../i18n/ui';
+import { FIRST_YEAR, JELLYFIN_URL, PUBLISHER } from '../config';
+import { type Lang, pathFor, supportSections, useTranslations } from '../i18n/ui';
 
 interface Props {
   lang: Lang;
@@ -9,7 +9,11 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
+// Le « © » porte le nom de l'éditeur (mentions légales de la page Assistance), de la première année
+// de publication à celle du build : « 2026 », puis « 2026–2027 »…
 const year = new Date().getFullYear();
+const years = year > FIRST_YEAR ? `${FIRST_YEAR}–${year}` : `${FIRST_YEAR}`;
+const support = pathFor('support', lang);
 ---
 
 <footer class="site-footer">
@@ -21,12 +25,14 @@ const year = new Date().getFullYear();
         <span class="site-footer__tagline">{t('footer.tagline')}</span>
       </div>
       <nav aria-label={t('footer.nav')}>
+        <a class="site-footer__link" href={support}>{t('footer.support')}</a>
         <a class="site-footer__link" href={pathFor('privacy', lang)}>{t('footer.privacy')}</a>
+        <a class="site-footer__link" href={`${support}#${supportSections.legal[lang]}`}>{t('footer.legal')}</a>
       </nav>
     </div>
     <div class="site-footer__legal">
       <p>
-        © {year} Andia · <a href={JELLYFIN_URL} rel="noopener">Jellyfin</a> — {t('footer.jellyfin')}
+        © {years} {PUBLISHER.name} · <a href={JELLYFIN_URL} rel="noopener">Jellyfin</a> — {t('footer.jellyfin')}
       </p>
       <p>{t('footer.apple')}</p>
     </div>
@@ -66,6 +72,12 @@ const year = new Date().getFullYear();
     display: grid;
     justify-items: start;
     gap: 8px;
+  }
+
+  .site-footer__start nav {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 20px;
   }
 
   .site-footer__link {

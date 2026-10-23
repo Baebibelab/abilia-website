@@ -17,12 +17,13 @@ const fr = {
     "Andia est un lecteur de musique pour {platforms} qui joue votre serveur Jellyfin : rapide, beau, hors ligne, sans compte tiers ni pistage.",
   'meta.ogImageAlt': "L'icône d'Andia, « Toute votre musique, dans votre poche » et l'écran En lecture de l'app",
   'nav.skip': 'Aller au contenu',
-  'nav.main': "Sections de l'accueil",
+  'nav.main': 'Menu principal',
   'nav.features': 'Fonctionnalités',
   'nav.offline': 'Hors ligne',
   'nav.everywhere': 'Partout',
   'nav.pricing': 'Tarifs',
   'nav.privacy': 'Confidentialité',
+  'nav.support': 'Assistance',
   'nav.home': "Accueil d'Andia",
   'nav.language': 'Langue',
   'cta.appStore': "Bientôt sur l'App Store",
@@ -244,6 +245,8 @@ const fr = {
   'footer.jellyfin': "Andia n'est pas affiliée au projet Jellyfin.",
   'footer.apple': 'Apple, iPhone, iPad, Mac, Apple Watch, CarPlay et App Store sont des marques d’Apple Inc.',
   'footer.privacy': 'Politique de confidentialité',
+  'footer.support': 'Assistance',
+  'footer.legal': 'Mentions légales',
   'footer.nav': 'Liens du pied de page',
   'privacy.title': 'Politique de confidentialité',
   'privacy.description':
@@ -258,6 +261,53 @@ const fr = {
   'privacy.toc': 'Sur cette page',
   'privacy.translationNote': '',
   'privacy.back': "Retour à l'accueil",
+  'support.title': 'Assistance',
+  'support.description':
+    "Questions fréquentes sur Andia, l'adresse pour nous écrire et les mentions légales du site.",
+  'support.eyebrow': 'Assistance',
+  'support.heading': 'Besoin d’aide ?',
+  'support.lead': 'Les réponses aux questions les plus fréquentes, comment nous écrire, et qui édite ce site.',
+  'support.toc': 'Sur cette page',
+  'support.contact.title': 'Nous écrire',
+  'support.contact.text':
+    "Une question, un problème, une idée ? Écrivez-nous, en français ou en anglais. Pour un problème, indiquez la version d'Andia (Réglages › À propos) et celle de votre serveur Jellyfin : cela nous aide à comprendre ce qui se passe.",
+  'support.contact.cta': 'Écrire à l’assistance',
+  'support.faq.title': 'Questions fréquentes',
+  'support.faq.server.q': 'Ai-je besoin d’un serveur Jellyfin ?',
+  'support.faq.server.a':
+    "Oui. Andia est un lecteur pour votre propre serveur Jellyfin : il vous faut un serveur Jellyfin 10.9 ou plus récent, et un iPhone sous iOS 17 ou plus récent. Pas encore de serveur ? Jellyfin est gratuit et open source.",
+  'support.faq.server.link': 'Découvrir Jellyfin',
+  'support.faq.free.q': 'Est-ce gratuit ?',
+  'support.faq.free.a':
+    "Oui : écouter votre bibliothèque, télécharger, les stations, les radios en direct, le widget et Siri sont gratuits, sans abonnement ni publicité. Andia Plus, un achat unique dans l'app, partagé avec votre famille, ajoute le Rewind, l'envoi à l'Apple Watch, l'égaliseur, le fondu enchaîné, le choix des bibliothèques musicales affichées et l'envoi de vos écoutes à Last.fm et ListenBrainz.",
+  'support.faq.offline.q': 'Ça marche hors ligne ?',
+  'support.faq.offline.a':
+    "Oui : téléchargez vos albums, vos playlists ou vos favoris (bouton de téléchargement sur leur page, ou appui long) et écoutez-les sans connexion. Le mode hors ligne de la bibliothèque n'affiche et ne joue alors que ce qui est téléchargé.",
+  'support.faq.normalization.q': 'La normalisation du volume ne change rien ?',
+  'support.faq.normalization.a':
+    'Elle s’appuie sur l’analyse de votre serveur : Jellyfin 10.9 ou plus récent, avec la tâche planifiée « Normalisation audio » exécutée au moins une fois.',
+  'support.faq.watch.q': 'L’Apple Watch se connecte-t-elle à mon serveur ?',
+  'support.faq.watch.a':
+    "Non : c'est l'iPhone qui télécharge la musique et l'envoie à la montre (en MP3 à 256 kb/s, ou telle quelle si elle est déjà téléchargée sur l'iPhone en MP3 ou en AAC). La montre la lit ensuite sans iPhone ni réseau, avec des écouteurs Bluetooth. L'envoi à l'Apple Watch fait partie d'Andia Plus.",
+  'support.faq.certificate.q': 'Mon serveur utilise un certificat auto-signé : ça marche ?',
+  'support.faq.certificate.a':
+    "Oui. À la première connexion, Andia vous montre l'empreinte du certificat ; une fois que vous lui faites confiance, ce certificat précis est accepté pour ce serveur, et lui seul. S'il change un jour, Andia vous prévient avant de continuer.",
+  'support.faq.http.q': 'Et un serveur en simple http:// sur Internet ?',
+  'support.faq.http.a':
+    "Oui. Andia se connecte à l'adresse que vous lui donnez, en http:// comme en https://, par nom de domaine ou par adresse IP. Hors de votre réseau local, une connexion en http:// fait circuler votre mot de passe et votre musique en clair : Andia vous en avertit avant que vous tapiez le mot de passe, puis vous laisse choisir. Si votre serveur répond aussi en https://, préférez cette adresse.",
+  'support.faq.data.q': 'Ma musique est-elle envoyée quelque part ?',
+  'support.faq.data.a':
+    "Non. Votre musique ne passe que par votre serveur, sans service intermédiaire. Seuls des services facultatifs reçoivent quelque chose : l'annuaire Radio Browser (les radios en direct), Discogs (le titre et l'artiste d'un album, pour sa note), Ticketmaster (le nom d'un artiste, pour ses concerts) et, si vous reliez un compte, Last.fm ou ListenBrainz (le titre, l'artiste, l'album et la date de vos écoutes).",
+  'support.faq.data.link': 'Lire la politique de confidentialité',
+  'support.legal.title': 'Mentions légales',
+  'support.legal.publisher': 'Éditeur',
+  'support.legal.publisherAddressAtHost': "Adresse communiquée à l'hébergeur.",
+  'support.legal.contact': 'Contact :',
+  'support.legal.director': 'Directeur de la publication',
+  'support.legal.host': 'Hébergeur',
+  'support.legal.site': 'Ce site',
+  'support.legal.siteText':
+    "Ce site ne dépose aucun cookie, n'enregistre rien dans votre navigateur, ne mesure pas son audience et ne charge rien depuis un autre site. Comme tout hébergeur, OVH tient des journaux d'accès (adresse IP, page demandée, date et heure, navigateur), conservés pendant la durée légale d'un an. La politique de confidentialité, elle, porte sur l'app.",
 };
 
 export type UIKey = keyof typeof fr;
@@ -268,12 +318,13 @@ const en: Record<UIKey, string> = {
     'Andia is a music player for {platforms} that plays your Jellyfin server: fast, beautiful, offline-ready, with no third-party account and no tracking.',
   'meta.ogImageAlt': 'The Andia icon, “All your music, in your pocket” and the app’s Now Playing screen',
   'nav.skip': 'Skip to content',
-  'nav.main': 'Home sections',
+  'nav.main': 'Main menu',
   'nav.features': 'Features',
   'nav.offline': 'Offline',
   'nav.everywhere': 'Everywhere',
   'nav.pricing': 'Pricing',
   'nav.privacy': 'Privacy',
+  'nav.support': 'Support',
   'nav.home': 'Andia home',
   'nav.language': 'Language',
   'cta.appStore': 'Coming soon to the App Store',
@@ -493,6 +544,8 @@ const en: Record<UIKey, string> = {
   'footer.jellyfin': 'Andia is not affiliated with the Jellyfin project.',
   'footer.apple': 'Apple, iPhone, iPad, Mac, Apple Watch, CarPlay and App Store are trademarks of Apple Inc.',
   'footer.privacy': 'Privacy policy',
+  'footer.support': 'Support',
+  'footer.legal': 'Legal Notice',
   'footer.nav': 'Footer links',
   'privacy.title': 'Privacy policy',
   'privacy.description':
@@ -508,6 +561,52 @@ const en: Record<UIKey, string> = {
   'privacy.translationNote':
     'This is a translation for your convenience; the French version is the reference.',
   'privacy.back': 'Back to home',
+  'support.title': 'Support',
+  'support.description': 'Frequently asked questions about Andia, how to reach us, and the legal notice for this website.',
+  'support.eyebrow': 'Support',
+  'support.heading': 'Need Help?',
+  'support.lead': 'Answers to the most frequent questions, how to reach us, and who publishes this website.',
+  'support.toc': 'On this page',
+  'support.contact.title': 'Contact Us',
+  'support.contact.text':
+    "A question, a problem, an idea? Write to us, in English or in French. If something isn't working, include your Andia version (Settings › About) and your Jellyfin server version: it helps us understand what's going on.",
+  'support.contact.cta': 'Email Support',
+  'support.faq.title': 'Frequently Asked Questions',
+  'support.faq.server.q': 'Do I need a Jellyfin server?',
+  'support.faq.server.a':
+    'Yes. Andia plays music from your own Jellyfin server: you need Jellyfin 10.9 or later, and an iPhone running iOS 17 or later. No server yet? Jellyfin is free and open source.',
+  'support.faq.server.link': 'Discover Jellyfin',
+  'support.faq.free.q': 'Is it free?',
+  'support.faq.free.a':
+    'Yes: listening to your library, downloads, stations, live radio, the widget and Siri are free, with no subscription and no ads. Andia Plus, a one-time in-app purchase shared with your family, adds Rewind, sending music to your Apple Watch, the equalizer, crossfade, choosing which music libraries to show, and scrobbling your listens to Last.fm and ListenBrainz.',
+  'support.faq.offline.q': 'Does it work offline?',
+  'support.faq.offline.a':
+    "Yes: download your albums, playlists or favorites (the download button on their page, or a long press) and listen without a connection. The library's Offline Mode then shows and plays only what's downloaded.",
+  'support.faq.normalization.q': 'Volume normalization makes no difference?',
+  'support.faq.normalization.a':
+    'It relies on your server’s analysis: Jellyfin 10.9 or later, with the “Audio Normalization” scheduled task run at least once.',
+  'support.faq.watch.q': 'Does the Apple Watch connect to my server?',
+  'support.faq.watch.a':
+    "No: your iPhone downloads the music and sends it to the watch (as 256 kbps MP3, or as is if it's already downloaded on the iPhone as MP3 or AAC). The watch then plays it without your iPhone or a network, with Bluetooth headphones. Sending music to the Apple Watch is part of Andia Plus.",
+  'support.faq.certificate.q': 'My server uses a self-signed certificate. Does that work?',
+  'support.faq.certificate.a':
+    "Yes. The first time you connect, Andia shows you the certificate's fingerprint; once you trust it, that exact certificate is accepted for that server, and only that one. If it ever changes, Andia warns you before going any further.",
+  'support.faq.http.q': 'What about a plain http:// server on the internet?',
+  'support.faq.http.a':
+    "Yes. Andia connects to the address you give it, over http:// or https://, by domain name or IP address. Outside your local network, an http:// connection sends your password and your music unencrypted: Andia warns you before you type your password, then lets you choose. If your server also answers over https://, use that address instead.",
+  'support.faq.data.q': 'Is my music sent anywhere?',
+  'support.faq.data.a':
+    "No. Your music only goes through your server, with no service in between. Only optional services receive anything: the Radio Browser directory (live radio), Discogs (an album's title and artist, for its rating), Ticketmaster (an artist's name, for their concerts) and, if you link an account, Last.fm or ListenBrainz (the title, artist, album and date of your listens).",
+  'support.faq.data.link': 'Read the Privacy Policy',
+  'support.legal.title': 'Legal Notice',
+  'support.legal.publisher': 'Publisher',
+  'support.legal.publisherAddressAtHost': 'Address provided to the hosting provider.',
+  'support.legal.contact': 'Contact:',
+  'support.legal.director': 'Director of Publication',
+  'support.legal.host': 'Hosting Provider',
+  'support.legal.site': 'This Website',
+  'support.legal.siteText':
+    "This website sets no cookies, stores nothing in your browser, doesn't measure its audience and loads nothing from any other site. Like any hosting provider, OVH keeps access logs (IP address, page requested, date and time, browser), retained for the legal period of one year. The privacy policy itself is about the app.",
 };
 
 export const ui: Record<Lang, Record<UIKey, string>> = { fr, en };
@@ -563,6 +662,7 @@ export function useTranslations(lang: Lang) {
 export const routes = {
   home: { fr: '/', en: '/en/' },
   privacy: { fr: '/confidentialite/', en: '/en/privacy/' },
+  support: { fr: '/assistance/', en: '/en/support/' },
 } as const satisfies Record<string, Record<Lang, string>>;
 
 export type Route = keyof typeof routes;
@@ -570,3 +670,11 @@ export type Route = keyof typeof routes;
 export function pathFor(route: Route, lang: Lang) {
   return routes[route][lang];
 }
+
+// Ancres des sections de la page Assistance, dans chaque langue : le pied de page lie les
+// mentions légales, et l'adresse d'assistance donnée à App Store Connect peut viser le contact.
+export const supportSections = {
+  contact: { fr: 'nous-ecrire', en: 'contact' },
+  faq: { fr: 'questions-frequentes', en: 'faq' },
+  legal: { fr: 'mentions-legales', en: 'legal-notice' },
+} as const satisfies Record<string, Record<Lang, string>>;

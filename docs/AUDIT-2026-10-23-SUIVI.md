@@ -20,11 +20,11 @@ relecture sont dans `docs/AUDIT-2026-10-23-LOTS.md`.
 | 1 | F3 | Majeur | La version d'iOS requise n'est dite nulle part | à faire | | |
 | 1 | L4 | Mineur | La ligne des marques ne couvre pas tous les noms Apple employés | à faire | | |
 | 1 | C4 | Mineur | Pastille « Votre musique reste sur votre serveur » inexacte | à faire | | |
-| 2 | L2 | Majeur | Aucune adresse d'assistance ni de contact | décision | | Page `/assistance/` + `/en/support/` recommandée |
-| 2 | L3 | Majeur | Aucune mention légale | décision | | Éditeur, directeur de la publication, hébergeur OVH ; lié au statut DSA |
-| 2 | L5 | Mineur | La politique ne dit rien du site lui-même | décision | | Paragraphe « Ce site » hors de la copie de l'app |
-| 2 | L8 | Dette | « © 2026 Andia » : titulaire et année | décision | | Avec L3 |
-| 2 | C5 | Mineur | Pas de questions fréquentes | décision | | Reprendre le README de l'app |
+| 2 | L2 | Majeur | Aucune adresse d'assistance ni de contact | en cours | PR | Décidé : page `/assistance/` + `/en/support/` (menu, pied de page). Adresse `SUPPORT_EMAIL` encore à fournir (marqueur dans `src/config.ts`) |
+| 2 | L3 | Majeur | Aucune mention légale | en cours (incomplet) | PR | Section « Mentions légales » de la page Assistance, hébergeur OVH SAS. Éditeur, adresse et directeur de la publication à fournir (marqueurs `PUBLISHER` dans `src/config.ts`) |
+| 2 | L5 | Mineur | La politique ne dit rien du site lui-même | en cours | PR | Paragraphe « Ce site » dans les mentions légales, hors de la copie de l'app |
+| 2 | L8 | Dette | « © 2026 Andia » : titulaire et année | en cours (incomplet) | PR | « © 2026 » puis « 2026–année » au nom de `PUBLISHER.name`, encore à fournir |
+| 2 | C5 | Mineur | Pas de questions fréquentes | en cours | PR | Les huit questions du README de l'app, réécrites, sur la page Assistance |
 | 2 | D2 | Majeur | En maintenance, l'URL de confidentialité répond 503 | décision | | Laisser passer `/confidentialite/`, `/en/privacy/` et l'assistance, ou rouvrir avant la soumission |
 | 3 | A1 | Majeur | axe : le texte visible du sélecteur de langue n'est pas dans son nom | à faire | | |
 | 3 | V1 | Majeur | La page Confidentialité déborde à 320 px | à faire | | |

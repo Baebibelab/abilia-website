@@ -1142,15 +1142,17 @@ raison) · **reporté** (avec la condition) · **doublon** · **app** (à report
    `browser-pass` à 390 et 1440 px au moins, `axe-pass` sans violation, politique identique à
    celle de l'app (A.7).
 4. Rendu regardé : clair, sombre, 390 px, 1024 px, animations réduites, sans JavaScript.
-5. Après l'envoi : accueil, `/en/`, confidentialité dans les deux langues, une adresse inconnue
+5. Après l'envoi : accueil, `/en/`, confidentialité et assistance dans les deux langues, une adresse inconnue
    (404), un ancien domaine (301), les en-têtes (A.9).
 
 ### Le jour du changement de domaine
 
 Les quatre endroits de `docs/CONVENTIONS.md` (`site` d'`astro.config.mjs`, `SITE_URL` par défaut de
 `deploy.yml`, redirections de `public/.htaccess`, le paragraphe lui-même), plus : `DEMO_SERVER` si
-son domaine change, les images de partage régénérées, l'URL de confidentialité (et d'assistance)
-donnée à App Store Connect, les anciennes adresses testées en 301 avec leur chemin, Search Console.
+son domaine change, les images de partage régénérées, les URL données à App Store Connect
+(« URL de la politique de confidentialité » : `https://<domaine>/confidentialite/` ; « URL
+d'assistance » : `https://<domaine>/assistance/`, avec l'adresse `SUPPORT_EMAIL` de `src/config.ts`
+comme adresse de support), les anciennes adresses testées en 301 avec leur chemin, Search Console.
 
 ### Le jour du lancement sur l'App Store
 
