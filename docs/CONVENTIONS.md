@@ -266,7 +266,10 @@ La CI (`.github/workflows/ci.yml`) refait `check` et `build` sur chaque PR. Le d
 (`.github/workflows/deploy.yml`) ne part plus qu'à la demande (Actions › Deploy › Run workflow),
 une fois les secrets `OVH_HOST`, `OVH_USER`, `OVH_PASSWORD` définis (détails en tête du fichier) :
 mode `site` pour envoyer `dist/`, mode `maintenance` pour envoyer `maintenance/` (toute adresse
-répond 503 avec une page d'attente autonome, hors Astro et hors `ui.ts`). Les règles
+répond 503 avec une page d'attente autonome, hors Astro et hors `ui.ts`, sauf la confidentialité
+et l'assistance dans les deux langues, avec `/_astro/`, `/og/` et les icônes, servies depuis les
+fichiers du dernier envoi en mode `site` : App Store Connect et son relecteur doivent pouvoir les
+ouvrir). Une page qu'App Store Connect doit voir s'ajoute aussi à `maintenance/.htaccess`. Les règles
 Apache (redirection vers le domaine principal, HTTPS, cache, page 404, en-têtes de sécurité) sont
 dans `public/.htaccess`.
 

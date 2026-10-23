@@ -25,7 +25,7 @@ relecture sont dans `docs/AUDIT-2026-10-23-LOTS.md`.
 | 2 | L5 | Mineur | La politique ne dit rien du site lui-même | en cours | PR | Paragraphe « Ce site » dans les mentions légales, hors de la copie de l'app |
 | 2 | L8 | Dette | « © 2026 Andia » : titulaire et année | en cours (incomplet) | PR | « © 2026 » puis « 2026–année » au nom de `PUBLISHER.name`, encore à fournir |
 | 2 | C5 | Mineur | Pas de questions fréquentes | en cours | PR | Les huit questions du README de l'app, réécrites, sur la page Assistance |
-| 2 | D2 | Majeur | En maintenance, l'URL de confidentialité répond 503 | décision | | Laisser passer `/confidentialite/`, `/en/privacy/` et l'assistance, ou rouvrir avant la soumission |
+| 2 | D2 | Majeur | En maintenance, l'URL de confidentialité répond 503 | en cours | PR | `maintenance/.htaccess` laisse passer confidentialité, assistance, `/_astro/`, `/og/`, icônes ; il faut un envoi en mode « site » avant de repasser en maintenance pour que `/assistance/` existe sur le serveur |
 | 3 | A1 | Majeur | axe : le texte visible du sélecteur de langue n'est pas dans son nom | à faire | | |
 | 3 | V1 | Majeur | La page Confidentialité déborde à 320 px | à faire | | |
 | 3 | A2 | Majeur | Texte blanc des cartes de Stations sous 4,5:1 | à faire | | Huit cartes ; outil A.12 pour vérifier |
