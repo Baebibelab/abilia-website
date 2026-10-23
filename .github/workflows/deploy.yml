@@ -2,7 +2,8 @@
 # le push sur main ne déploie plus, le temps de valider le nouveau nom de l'app (Andia).
 #   mode maintenance  envoie maintenance/ : toute adresse répond 503 avec une page d'attente
 #                     (les fichiers du site restent sur le serveur, OVH_DELETE est ignoré).
-#   mode site         construit et envoie dist/, ce qui remet le .htaccess du site.
+#   mode site         construit et envoie dist/, ce qui remet le .htaccess du site : _astro/
+#                     d'abord, puis le reste (voir l'étape d'envoi).
 #
 # Secrets du dépôt (Settings › Secrets and variables › Actions) :
 #   OVH_HOST       serveur FTP / SFTP de l'hébergement (ex. ftp.cluster0XX.hosting.ovh.net)
@@ -90,6 +91,15 @@ jobs:
             printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
             chmod 600 ~/.ssh/known_hosts
           fi
+          # Mode site : les ressources hachées de _astro/ d'abord (sans rien supprimer), puis les pages
+          # et le reste, de sorte qu'une page nouvelle ne cite jamais un fichier pas encore envoyé.
+          # Les anciennes ressources ne partent (OVH_DELETE) qu'à la fin du second envoi, une fois
+          # toutes les pages remplacées. Retour arrière : docs/CONVENTIONS.md, « Vérifier et mettre
+          # en ligne ».
+          ASSETS=""
+          if [ "$SOURCE" = dist/ ] && [ -d dist/_astro ]; then
+            ASSETS="mirror --reverse --verbose --parallel=4 --exclude-glob .DS_Store 'dist/_astro/' '$REMOTE_DIR/_astro/';"
+          fi
           # Le mot de passe passe par l'environnement (LFTP_PASSWORD, --env-password), jamais par la ligne de commande.
           export LFTP_PASSWORD="$PASSWORD"
           lftp -c "
@@ -100,5 +110,6 @@ jobs:
             set ssl:verify-certificate yes;
             set net:max-retries 3;
             open --user '$USER' --env-password '$PROTOCOL://$HOST';
+            $ASSETS
             mirror --reverse --verbose --parallel=4 $DELETE --exclude-glob .DS_Store '$SOURCE' '$REMOTE_DIR/';
           "

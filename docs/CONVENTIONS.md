@@ -264,6 +264,28 @@ répond 503 avec une page d'attente autonome, hors Astro et hors `ui.ts`). Les r
 Apache (redirection vers le domaine principal, HTTPS, cache, page 404, en-têtes de sécurité) sont
 dans `public/.htaccess`.
 
+L'envoi du mode `site` se fait en deux temps : `_astro/` d'abord (ressources dont le nom porte une
+empreinte, jamais supprimées à ce moment-là), puis les pages et le reste, avec `--delete` quand
+`OVH_DELETE` est vrai. Une page nouvelle ne cite donc jamais un fichier pas encore arrivé ; pendant
+quelques secondes, d'anciennes pages côtoient les nouvelles ressources, ce qui ne casse rien.
+
+**Revenir à la version précédente** (une mise en ligne qui casse le site) :
+
+1. Tout de suite, si le site est inutilisable : Run workflow en mode `maintenance` (une page
+   d'attente en 503, les fichiers restent sur le serveur).
+2. Annuler la PR fautive sur `main` (`git revert -m 1 <commit de fusion>` dans une PR, ou le bouton
+   « Revert » de GitHub), la fusionner, puis Run workflow sur `main` en mode `site` : le workflow
+   reconstruit tout depuis le code, rien n'est gardé de l'envoi précédent.
+3. En urgence, sans attendre une PR : pousser une étiquette sur le dernier commit sain
+   (`git tag retour-<date> <commit> && git push origin retour-<date>`) et lancer Run workflow en
+   choisissant cette étiquette dans « Use workflow from ». C'est alors le `deploy.yml` de ce
+   commit qui tourne : il doit être postérieur à l'épinglage de la clé SFTP (lot 6 de l'audit du
+   23 octobre), sinon passer par l'étape 2. Supprimer l'étiquette une fois `main` réparé.
+
+Sans `OVH_DELETE`, des fichiers d'une version plus récente peuvent rester sur le serveur après un
+retour arrière ; ils sont inoffensifs (aucune page ne les cite) et partent au prochain envoi avec
+`OVH_DELETE`.
+
 Domaine principal : `https://abilia-music.app` (`site` dans `astro.config.mjs`, repris par les
 liens canoniques, hreflang, Open Graph, `robots.txt` et le plan du site). `abilia-music.fr` et les
 « www » sont rattachés au même hébergement OVH (multisite, dossier `www`, certificat SSL activé
