@@ -70,7 +70,7 @@ relecture sont dans `docs/AUDIT-2026-10-23-LOTS.md`.
 | 7 | Q2 | Dette | Fichiers et dessins morts | en cours | #PRLOT7 | `artiste.jpg` employée par F9 ; `recherche.jpg` et `reglages.jpg` supprimées |
 | 7 | Q3 | Dette | Commentaires et modèle de partage en retard | en cours | #PRLOT7 | |
 | 7 | Q4 | Dette | Styles recopiés d'une section à l'autre | en cours | #PRLOT7 | `DeviceCard`, `.note`, `.card-row`, `.badge-soon`, `.visually-hidden-narrow` ; rendu identique (captures d'éléments avant / après) |
-| 7 | Q5 | Dette | Calculs liés à une capture sans contrôle écrit | à faire | | |
+| 7 | Q5 | Dette | Calculs liés à une capture sans contrôle écrit | en cours | #PRLOT7 | `scripts/check-spectrum.mjs` dans `npm run check` ; `cards` de Rewind laissé (quatre articles écrits à la main) |
 | 7 | Q6 | Dette | README et CONVENTIONS à tenir à jour | à faire | | Avec les lots 1, 2, 5 |
 | 7 | F10 | Mineur | Le bloc bêta ne dit pas que l'achat TestFlight ne suit pas | à faire | | Visible seulement avec `TESTFLIGHT_URL` |
 | 7 | F11 | Dette | Configuration « app en français seulement » contradictoire | à faire | | Supprimer `hero.appLanguage` et `APP_LANGUAGES` |

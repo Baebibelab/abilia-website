@@ -26,6 +26,7 @@ src/
 public/                 copié tel quel : .htaccess (OVH), favicons, apple-touch-icon,
                         og/ (images de partage)
 scripts/og/             modèle des images de partage et rendu des icônes PNG (render.mjs)
+scripts/check-spectrum.mjs  contrôle du spectre du hero contre les captures (npm run check)
 ```
 
 L'accueil est découpé pour que plusieurs personnes y travaillent sans se marcher dessus :
@@ -226,6 +227,11 @@ doit rester celui de l'app (`PrivacyPolicyView`). `en.md` est de même la copie 
 `docs/PRIVACY.en.md` (la politique anglaise de l'app, depuis qu'elle est traduite), dans le même
 commit ; le français fait foi.
 
+**Captures** : `en-lecture.jpg` porte le spectre animé du hero (`hero/PhoneSpectrum.astro`), posé
+en pixels sur la rangée de points de la capture. `npm run check` lance `scripts/check-spectrum.mjs`,
+qui retrouve les points et la couleur du fond dans les deux langues : une nouvelle capture dont
+la mise en page a bougé le fait échouer ; remesurer alors les nombres du composant.
+
 **Images de partage** : `public/og/andia-<langue>.jpg` (1200 × 630), rendues depuis
 `scripts/og/og.html` par `node scripts/og/render.mjs` (Playwright installé sur la machine, pas
 dans le projet), qui refait aussi `apple-touch-icon.png` et `favicon-32.png`. Leurs textes sont
@@ -241,7 +247,7 @@ traduction, pas un mot à mot.
 ```bash
 npm install
 npm run dev       # http://localhost:4321, rechargement à chaud
-npm run check     # types et textes manquants
+npm run check     # types, textes manquants, spectre du hero posé sur la capture
 npm run build     # site statique dans dist/
 npm run preview   # sert dist/ comme en production
 ```
