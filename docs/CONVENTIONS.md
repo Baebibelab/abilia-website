@@ -300,6 +300,11 @@ que le site est en maintenance. **Passer en mode strict** après la réouverture
 visite des pages (console ouverte, clair et sombre, animations réduites) sans violation : renommer
 l'en-tête en `Content-Security-Policy` dans `public/.htaccess`, et mettre à jour cette phrase.
 
+**HSTS** reste `max-age=31536000` seul, sans `includeSubDomains` ni `preload`, jusqu'au changement
+de domaine (décision D8 de l'audit du 23 octobre) : précharger un domaine qu'on va quitter n'a pas
+de sens, et le serveur de démo vit sur un autre nom. Le jour du nouveau domaine, décider s'il porte
+`includeSubDomains` (tous ses sous-domaines en https, celui de la démo compris) et `preload`.
+
 Domaine principal : `https://abilia-music.app` (`site` dans `astro.config.mjs`, repris par les
 liens canoniques, hreflang, Open Graph, `robots.txt` et le plan du site). `abilia-music.fr` et les
 « www » sont rattachés au même hébergement OVH (multisite, dossier `www`, certificat SSL activé
