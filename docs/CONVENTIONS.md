@@ -12,20 +12,22 @@ src/
                         français, en anglais dans en/, servies par screenshots(lang) (index.ts)
                         ; ipad.jpg et mac.jpg (facultatives, bigScreenshots(lang)) : tant
                         qu'elles manquent, la section iPad et Mac dessine l'écran en CSS
-  components/           briques partagées (Header, Footer, Section, PhoneFrame, AppIcon…)
+  components/           briques partagées (Header, Footer, Section, PhoneFrame, DeviceCard,
+                        FeatureCard, AppIcon…)
   components/home/      l'accueil : Home.astro assemble Hero.astro puis sections/*.astro
   components/privacy/   la page Confidentialité (mise en page commune aux deux langues)
-  content/privacy/      le texte de la politique : fr.md (copie de l'app), en.md (traduction)
+  content/privacy/      le texte de la politique : fr.md et en.md, copies de celles de l'app
   i18n/ui.ts            tous les textes (fr + en) et la table des pages (`routes`)
   layouts/Base.astro    <head> (SEO, Open Graph, icônes), fond animé, en-tête, pied de page
   pages/                pages françaises ; pages/en/ leurs équivalents anglais ;
                         robots.txt.ts et sitemap.xml.ts, générés à partir de `routes`
   scripts/motion.ts     moteur d'animation au scroll (data-reveal, data-scroll)
-  styles/global.css     couleurs, typographie, boutons, verre
+  styles/global.css     couleurs, typographie, boutons, verre, classes partagées (.note…)
   styles/motion.css     états des apparitions data-reveal
 public/                 copié tel quel : .htaccess (OVH), favicons, apple-touch-icon,
                         og/ (images de partage)
 scripts/og/             modèle des images de partage et rendu des icônes PNG (render.mjs)
+scripts/check-spectrum.mjs  contrôle du spectre du hero contre les captures (npm run check)
 ```
 
 L'accueil est découpé pour que plusieurs personnes y travaillent sans se marcher dessus :
@@ -62,7 +64,11 @@ Variables CSS (`src/styles/global.css`), toujours elles plutôt qu'une couleur e
 Classes utilitaires : `.container` (largeur de contenu + marges, 16 px minimum sur téléphone),
 `.glass` (carte en verre, comme `glassCard()`), `.gradient-text` (corail → violet → sarcelle,
 pour un mot ou une ligne de titre, pas un paragraphe), `.button` + `.button--primary` /
-`.button--ghost`, `.visually-hidden`.
+`.button--ghost`, `.visually-hidden` (et `.visually-hidden-narrow`, sous 520 px seulement),
+`.note` (note discrète sous un bloc de section), `.card-row` (rangée de trois `FeatureCard`, une
+colonne sous 900 px), `.badge-soon` (pastille « Bientôt »). Une section n'y ajuste que sa marge ou
+sa couleur ; un style qui sert à deux sections va dans `global.css` ou dans un composant partagé,
+jamais recopié.
 
 Contraste : tout texte atteint 4,5:1 (WCAG AA) en clair comme en sombre. `--coral` et `--teal`
 n'y arrivent pas sur le fond clair : pour un texte, prendre `--coral-text` / `--teal-text`, et
@@ -70,6 +76,12 @@ n'y arrivent pas sur le fond clair : pour un texte, prendre `--coral-text` / `--
 
 Typographie : la police système (SF Pro sur les appareils Apple, comme l'app), aucune police
 téléchargée. Titres en `font-weight: 800`, interlettrage négatif, tailles en `clamp()`.
+
+Appareils : l'iPhone (`PhoneFrame`, image de partage), l'iPad et le Mac (`BigScreens`), l'Apple
+Watch et l'écran CarPlay (`Everywhere`) sont des dessins stylisés en CSS, gardés en connaissance de
+cause (décision L7 de l'audit du 23 octobre 2026, alors que les règles marketing d'Apple demandent
+ses propres images de produits) : jamais de logo Apple, dessins stylisés sans nom de modèle, aucun
+texte qui les présente comme des photos de produits.
 
 Le fond (`components/Halos.astro`) est commun à toutes les pages : ne pas en ajouter un autre
 par section. Une section peut poser ses propres halos ou dégradés locaux par-dessus.
@@ -87,6 +99,9 @@ par section. Une section peut poser ses propres halos ou dégradés locaux par-d
 - `AppIcon` : l'icône en SVG (`size`, `label` si elle doit être lue).
 - `Glyph` : petites icônes au trait (`name`, `size`), décoratives ; en ajouter une = un tracé
   24 × 24 de plus dans la table du composant.
+- `DeviceCard` : carte d'appareil en verre des sections « iPad et Mac » et « Partout » (`icon`,
+  `title`, `text`, `soon` pour la pastille « Bientôt », `halo`, `haloAt`, `decorative`), le
+  dessin ou la capture de l'appareil entre ses balises.
 - `FeatureCard` : carte en verre avec une icône blanche sur pastille de couleur (`icon`, `tone`,
   `title`, `text`), comme les catégories des Réglages de l'app.
 
@@ -105,10 +120,7 @@ Réglages dans `src/config.ts` :
   `{platforms}` (« Pour iPhone, iPad, Mac et Apple Watch », description) et `{devices}`
   (« pensée pour l'iPhone, l'iPad et le Mac », chapeau du hero), que `useTranslations` remplit
   dans tous les textes de `ui.ts`, et la section paraît, l'autre plateforme y portant « Bientôt ».
-  Penser alors à la ligne des plateformes de `scripts/og/og.html` et aux images de partage.
-- `APP_LANGUAGES` : langues de l'interface de l'app (`['fr', 'en']`), qui ont chacune leurs
-  captures. Une page dans une langue que l'app ne parle pas le dit sous l'appel du hero
-  (`hero.appLanguage`) ; aujourd'hui, aucune.
+  Penser alors à régénérer les images de partage (leur ligne des plateformes suit `platforms()`).
 - `JELLYFIN_URL`.
 - `PLUS_PRICE` : prix d'Andia Plus par langue, affiché par « Tarifs » (`null` : « Achat unique »
   sans prix). Le vrai prix est celui de l'App Store : le changer ici le même jour (plan de prix
@@ -118,7 +130,7 @@ Réglages dans `src/config.ts` :
   bouton d'achat ici.
 
 Les sections de l'accueil, dans l'ordre : `Jellyfin` (`#features`), `Listen` (visite épinglée
-En lecture, paroles, égaliseur, page d'album), `Gapless` (enchaînement et fondu), `Stations`,
+En lecture, paroles, égaliseur, page d'album, page d'artiste), `Gapless` (enchaînement et fondu), `Stations`,
 `Offline` (`#offline`), `Rewind`, `BigScreens` (`#ipad-mac`, iPad et Mac, voir
 `IPAD_AVAILABLE`), `Everywhere` (`#everywhere`, Apple Watch et CarPlay), `Pricing` (`#pricing`, gratuit et Andia
 Plus, bêta ; même répartition que `docs/monetisation/README.md` de l'app).
@@ -204,7 +216,9 @@ const t = useTranslations(lang);
 ```
 
 Les composants reçoivent toujours `lang` en prop. Les textes alternatifs des captures vont
-aussi dans `ui.ts` (`screenshot.*`).
+aussi dans `ui.ts` (`screenshot.*`). Une langue du site est une langue de l'app : ses captures
+existent dans cette langue (`src/assets/screenshots/<langue>/`) et la fiche schema.org la déclare
+(`inLanguage`, tirée de `languages`).
 
 **Nouvelle page** : l'ajouter à `routes` dans `ui.ts` avec son adresse dans chaque langue (les
 adresses peuvent différer, par ex. `/confidentialite/` et `/en/privacy/`), puis créer
@@ -219,10 +233,17 @@ doit rester celui de l'app (`PrivacyPolicyView`). `en.md` est de même la copie 
 `docs/PRIVACY.en.md` (la politique anglaise de l'app, depuis qu'elle est traduite), dans le même
 commit ; le français fait foi.
 
+**Captures** : `en-lecture.jpg` porte le spectre animé du hero (`hero/PhoneSpectrum.astro`), posé
+en pixels sur la rangée de points de la capture. `npm run check` lance `scripts/check-spectrum.mjs`,
+qui retrouve les points et la couleur du fond dans les deux langues : une nouvelle capture dont
+la mise en page a bougé le fait échouer ; remesurer alors les nombres du composant.
+
 **Images de partage** : `public/og/andia-<langue>.jpg` (1200 × 630), rendues depuis
 `scripts/og/og.html` par `node scripts/og/render.mjs` (Playwright installé sur la machine, pas
-dans le projet), qui refait aussi `apple-touch-icon.png` et `favicon-32.png`. Les régénérer quand
-le titre, la capture En lecture ou les plateformes changent.
+dans le projet), qui refait aussi `apple-touch-icon.png` et `favicon-32.png`. Leurs textes sont
+ceux du hero, lus dans `ui.ts` (`hero.eyebrow`, `hero.title.1`, `hero.title.2`, `hero.platforms`,
+dont `{platforms}` suit `src/config.ts`), et la capture est l'En lecture de la langue. Les
+régénérer quand le titre, la capture En lecture ou les plateformes changent.
 
 Ton : celui du README de l'app, chaleureux et concret, en vouvoyant ; l'anglais est une vraie
 traduction, pas un mot à mot.
@@ -232,7 +253,7 @@ traduction, pas un mot à mot.
 ```bash
 npm install
 npm run dev       # http://localhost:4321, rechargement à chaud
-npm run check     # types et textes manquants
+npm run check     # types, textes manquants, spectre du hero posé sur la capture
 npm run build     # site statique dans dist/
 npm run preview   # sert dist/ comme en production
 ```
@@ -243,6 +264,12 @@ Un halo ou une pastille qui déborde d'une section doit être coupé par elle (`
 qui garde les passages épinglés, contrairement à `hidden`) : vérifier aussi vers 1024 px, la
 largeur où les colonnes sont les plus serrées. Repères à garder : Lighthouse à 100 sur les quatre
 catégories, aucune erreur axe, CLS à 0.
+
+Styles et scripts vont dans chaque page (`inlineStylesheets: 'always'` dans `astro.config.mjs`,
+scripts courts en ligne) : rien ne bloque le premier affichage, et une page de l'accueil pèse
+≈ 32 Ko compressés, dont 62 Ko de CSS bruts (octobre 2026, cinq pages). Passer à `'auto'` (une
+feuille commune mise en cache) quand le site dépasse dix pages, ou quand le CSS en ligne d'une
+page dépasse 100 Ko bruts ; mesurer avant et après (Lighthouse, poids de `dist/`).
 
 La CI (`.github/workflows/ci.yml`) refait `check` et `build` sur chaque PR. Le déploiement
 (`.github/workflows/deploy.yml`) ne part plus qu'à la demande (Actions › Deploy › Run workflow),

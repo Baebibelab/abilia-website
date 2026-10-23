@@ -17,6 +17,7 @@ const t = useTranslations(lang);
 
 const free = [
   t('pricing.free.library'),
+  t('pricing.free.playlists'),
   t('pricing.free.playback'),
   t('pricing.free.offline'),
   t('pricing.free.stations'),
@@ -161,9 +162,7 @@ const plusPrice = PLUS_PRICE ? t('pricing.plus.price').replace('{price}', PLUS_P
   .note {
     max-width: 640px;
     margin: 28px auto 0;
-    text-align: center;
     color: var(--text-secondary);
-    font-size: 0.95rem;
   }
 
   .beta {

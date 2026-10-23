@@ -1,12 +1,13 @@
 # Site d'Andia
 
 Le site vitrine d'[Andia](https://github.com/Baebibelab/abilia), le lecteur de musique pour
-Jellyfin sur iPhone et Apple Watch (bientôt iPad et Mac). Site statique [Astro](https://astro.build), en
+Jellyfin sur iPhone, avec l'Apple Watch en Andia Plus (bientôt iPad et Mac). Site statique [Astro](https://astro.build), en
 français et en anglais, animé au scroll, hébergé chez OVH.
 
 ```bash
 npm install
 npm run dev       # http://localhost:4321
+npm run check     # types, textes, spectre du hero sur sa capture
 npm run build     # site statique dans dist/
 ```
 

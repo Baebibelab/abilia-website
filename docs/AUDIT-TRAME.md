@@ -12,8 +12,10 @@ changement de prix ou de plateforme, refonte d'une animation. Les rapports vont 
 `docs/AUDIT-<AAAA-MM-JJ>.md`, avec leur suivi `docs/AUDIT-<AAAA-MM-JJ>-SUIVI.md`, puis dans
 `docs/archive/` une fois clos.
 
-Aucun audit du site n'a encore été mené (trame créée le 21 octobre 2026) : le premier part de zéro,
-tout se lit et rien ne se présume sain. **Pour lancer un audit, le prompt prêt à coller est au § 10.**
+Trame créée le 21 octobre 2026 ; premier audit le 23 octobre 2026 (`docs/AUDIT-2026-10-23.md`, suivi
+`docs/AUDIT-2026-10-23-SUIVI.md`), qui a ajouté les outils A.10 à A.13 et corrigé A.4 et A.5. Le
+suivant re-vérifie ses corrections (§ 1, dernier principe). **Pour lancer un audit, le prompt prêt à
+coller est au § 10.**
 
 ## 1. Principes
 
@@ -129,12 +131,15 @@ réattribués dans un même rapport. Les constats sont des titres de niveau 4 (`
 3. **Lecture par zone (en parallèle s'il y a plusieurs relecteurs).** Onze zones, chacune avec ses
    fichiers, son contrat et ses points de contrôle (§ 5). Chaque relecteur rend ses constats au
    format du § 3, plus : points sains, zones fragiles, trous d'outillage.
-4. **Mesures (1 h).** Les outils de l'annexe A, dans cet ordre : `i18n-check`, `dist-check`,
-   `screenshots-check`, les configurations futures (`variants.sh`, puis `dist-check` et une lecture
-   de chaque `dist-<variante>/`), `browser-pass` (matrice complète, captures dans `$W/shots`,
-   **regardées** une par une aux largeurs 390 et 1440, clair et sombre), `axe-pass`, Lighthouse
-   (quatre pages, mobile et bureau, trois passages, médiane). Les sorties brutes restent dans `$W` ;
-   le rapport reprend les tableaux et les lignes en défaut.
+4. **Mesures (1 h 30).** Les outils de l'annexe A, dans cet ordre : `i18n-check`, `dist-check`,
+   `screenshots-check`, `gradient-contrast` (A.12), les configurations futures (`variants.sh`, puis
+   `dist-check` et une lecture de chaque `dist-<variante>/`), `axe-pass`, `browser-pass` (matrice
+   complète : ses contrôles comptent, ses captures pleine page ne se regardent pas, voir A.4),
+   `page-strip` (A.10 : captures écran par écran dans `$W/strips`, **regardées** une par une aux
+   largeurs 390 et 1440, clair et sombre), `depth` (A.13), Lighthouse (quatre pages, mobile et
+   bureau, trois passages, médiane), puis `idle-cost` (A.11) une fois Lighthouse terminé (un autre
+   navigateur fausserait ses mesures). Les sorties brutes restent dans `$W` ; le rapport reprend les
+   tableaux et les lignes en défaut.
 5. **Parcours de compréhension (30 min, zone 2).** Les personas et les huit questions du visiteur,
    en lisant le site comme eux, à 390 px puis à 1440 px, en français puis en anglais.
 6. **Vérification croisée.** Chaque constat Bloquant ou Majeur est retracé par quelqu'un d'autre
@@ -345,7 +350,9 @@ existe et son prix, sans bouton d'achat).
      sur l'App Store » ↔ achat universel, `DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER`.
 3. **Gratuit et Andia Plus.**
    - Les deux listes de `Pricing.astro` ↔ le tableau « Résumé » de `docs/monetisation/README.md` ↔
-     les cas de `PlusFeature` (`Abilia/Core/Store/AbiliaPlus.swift`) : les mêmes fonctions payantes,
+     les cas de `PlusFeature` (`Abilia/Core/Store/AbiliaPlus.swift` ; six au 22 octobre 2026 :
+     Rewind, Apple Watch, égaliseur, fondu enchaîné, choix des bibliothèques, scrobbling Last.fm et
+     ListenBrainz — compter les cas, pas se fier à une liste de mémoire) : les mêmes fonctions payantes,
      rien de payant dans la colonne gratuite, rien de gratuit présenté comme payant ; ce que la
      monétisation déclare gratuit (CarPlay, iPad et Mac, paroles, playlists…) et que le site tait.
    - Chaque mention d'une fonction Plus hors de « Tarifs » (pastille « Égaliseur 10 bandes » du
@@ -379,10 +386,9 @@ existe et son prix, sans bouton d'achat).
    « Bientôt » sur la plateforme pas encore sortie ; `screens.note` / `screens.note.carplay` ;
    JSON-LD (`operatingSystem` quand le Mac sort, `downloadUrl`, `installUrl`), balise
    `apple-itunes-app` ; bouton App Store devenu lien (badge officiel exigé, zone 9, point 6) ; bloc de
-   la bêta ; tarifs sans prix ; note Jellyfin sans le serveur de démo ; `hero.appLanguage` affiché
-   sur la page anglaise (son texte anglais est-il encore vrai ?). Ce que `config.ts` demande de faire
-   à la main ce jour-là (ligne des plateformes de `scripts/og/og.html`, images de partage) figure
-   dans les listes de contrôle du § 9.
+   la bêta ; tarifs sans prix ; note Jellyfin sans le serveur de démo. Ce que `config.ts` demande
+   de faire à la main ce jour-là (images de partage, dont la ligne des plateformes suit
+   `platforms()`) figure dans les listes de contrôle du § 9.
 6. **Captures.**
    - `screenshots-check.sh` (annexe A.8) : chaque capture identique à celle de l'app (hors
      recadrage du Mac), aucune manquante ; les captures de l'app que le site n'utilise pas (omission
@@ -435,7 +441,7 @@ vouvoyant ; l'anglais est une vraie traduction, pas un mot à mot ») ; le vocab
 **Points de contrôle** :
 
 1. **Les huit questions du visiteur.** Pour chacune : où est la réponse (section, profondeur en
-   écrans à 390 et à 1440 px — `scrollY / innerHeight`), est-elle claire sans jargon, est-elle
+   écrans à 390 et à 1440 px — `scrollY / innerHeight`, donnée par A.13), est-elle claire sans jargon, est-elle
    juste ? (1) Qu'est-ce que c'est ? (2) Pour qui, et que me faut-il (un serveur Jellyfin, sa
    version, un iPhone et sa version d'iOS) ? (3) Combien ça coûte, et qu'est-ce qui est payant ?
    (4) Où et quand l'obtenir ? (5) Puis-je essayer sans serveur ? (6) Que deviennent mes données ?
@@ -508,7 +514,7 @@ vouvoyant ; l'anglais est une vraie traduction, pas un mot à mot ») ; le vocab
 **Fichiers** : `src/i18n/ui.ts` (dont `routes`, `useTranslations`, `platforms()`),
 `src/components/Header.astro` (sélecteur), `src/layouts/Base.astro` (`lang`, hreflang,
 `og:locale`), `src/pages/404.astro`, `src/content/privacy/*.md`, `src/assets/screenshots/index.ts`,
-`src/config.ts` (`APP_LANGUAGES`), `scripts/og/og.html`.
+`scripts/og/og.html` et `render.mjs` (textes lus dans `ui.ts`, capture de la langue).
 
 **Contrat** : `CLAUDE.md` du site (« Tout texte visible passe par `src/i18n/ui.ts`, dans les deux
 langues ») ; `docs/CONVENTIONS.md` (« Textes et langues »).
@@ -562,11 +568,12 @@ couleur).
 **Points de contrôle** :
 
 1. **axe** (annexe A.5) sur chaque page, à 390 et 1440 px, en clair et en sombre : zéro violation
-   attendue ; chaque résultat « à vérifier à la main » tranché. Contraste remesuré à la main au pire
-   endroit, là où axe ne sait pas : texte sur le halo le plus clair, sur le verre, `.gradient-text`
-   (chaque extrémité du dégradé contre le fond), `--text-tertiary`, textes corail et sarcelle,
-   pastilles posées sur les captures, texte blanc des cartes de `Stations` sur l'extrémité claire de
-   leur dégradé, badge « Bientôt », états survolés.
+   attendue ; chaque résultat « à vérifier à la main » tranché (A.5 en imprime les règles et les
+   premiers nœuds). Contraste remesuré à la main au pire endroit, là où axe ne sait pas : texte sur
+   le halo le plus clair, sur le verre, `.gradient-text` (chaque extrémité du dégradé contre le
+   fond), `--text-tertiary`, textes corail et sarcelle, pastilles posées sur les captures, texte
+   blanc des cartes de `Stations` sur leur dégradé (A.12 le calcule à la position du texte : 4,5:1
+   exigé, le texte fait moins de 18,66 px), badge « Bientôt », états survolés.
 2. **Structure** : un seul `h1` par page ; titres sans saut de niveau (sections en `h2`, cartes en
    `h3`) ; repères (`header`, deux `nav` aux noms distincts, `main`, `footer`) ; listes stylées
    gardant leur sémantique (`role="list"` pour Safari) ; chaque `article` a-t-il un titre ?
@@ -748,9 +755,10 @@ la page, « rien ne bloque le premier affichage »).
    spectre, huit iPhone de `Listen`).
 4. **JavaScript** : poids des modules dans la page ; travail au chargement (requêtes de tous les
    `[data-reveal]`, observateurs) et à chaque image (moteur, hero à 30 images par seconde qui écrit
-   72 `transform` et les pulsations) ; tâches longues (TBT) ; coût au repos sur le hero (moniteur de
-   performance : processeur en % page immobile, à processeur ralenti ; impact énergétique dans
-   Safari, plausible).
+   72 `transform` et les pulsations) ; tâches longues (TBT) ; coût au repos sur le hero (A.11 :
+   script, style, mise en page et tâches par seconde, page immobile puis en défilement, à
+   processeur normal et ralenti quatre fois, avec et sans « Réduire les animations » ; impact
+   énergétique dans Safari, plausible).
 5. **Composition** : nombre d'éléments en `backdrop-filter` à l'écran en même temps, `will-change`
    (une couche par barre de spectre ?), couches fixes animées de grande taille (halos, grain
    `feTurbulence` recalculé ?), `mask-image` sur l'anneau qui tourne, `filter: drop-shadow` animé du
@@ -795,7 +803,7 @@ icônes de `public/`, redirections de `public/.htaccess`.
    choix ? `operatingSystem`, `applicationCategory`, `inLanguage`, `image` justes ; seulement sur
    l'accueil (voulu) ; `Organization` ou `WebSite` utiles ?
 6. **Partage** : balises Open Graph et Twitter complètes ; texte de l'image de partage à jour (nom,
-   « Pour iPhone et Apple Watch » écrit en dur dans `og.html`, capture) ; aperçu réel dans Messages,
+   ligne des plateformes, capture de la langue) ; aperçu réel dans Messages,
    WhatsApp, Slack, Discord, Mastodon, LinkedIn (plausible tant que non fait).
 7. **Icônes** : `favicon.svg` (variante sombre ?), `favicon.ico`, `favicon-32.png`,
    `apple-touch-icon.png` (180 px, fond opaque) ; pas de manifeste web (voulu ?).
@@ -948,7 +956,7 @@ maintenance).
 3. **Commentaires et docs face au code** : commentaire de `Section.astro` (ancres citées), de
    `config.ts` (prix, CarPlay), de `screenshots/index.ts`, de `PhoneSpectrum.astro` (mesures), de
    `.htaccess`, du hero ; `README.md` (« iPhone et Apple Watch (bientôt iPad et Mac) ») ;
-   `CONVENTIONS.md` (ordre des sections, `APP_LANGUAGES` : « aujourd'hui, aucune ») ; `CLAUDE.md`.
+   `CONVENTIONS.md` (ordre des sections, classes partagées) ; `CLAUDE.md`.
 4. **TypeScript** : `astro check` à zéro erreur, avertissement et suggestion ; pas de `any`, peu de
    `as`, aucune assertion non nulle injustifiée.
 5. **Fragilités** : calculs liés à une capture précise (spectre du hero) ou à un nombre d'éléments
@@ -958,8 +966,8 @@ maintenance).
    sombres (montre, CarPlay, `AppMock`), textes de la 404 ; `visually-hidden` de `global.css` et
    masquage maison de `.hero__name`.
 7. **Outils du dépôt** : `scripts/og/render.mjs` fonctionne (chemin de Playwright) et refait aussi
-   les icônes ; la ligne des plateformes de `og.html` est écrite à la main (dérive possible avec
-   `config.ts`).
+   les icônes ; ses textes viennent de `ui.ts` (ligne des plateformes par `platforms()`) ;
+   `scripts/check-spectrum.mjs` passe dans `npm run check`.
 8. **Pour la personne suivante** : changer une capture, ajouter une section, changer le domaine,
    lancer cet audit — chaque procédure est écrite et juste.
 
@@ -1152,8 +1160,8 @@ toujours juste ; configurations futures relues (zone 1, point 5) ; image de part
 
 ### Le jour où CarPlay, l'iPad ou le Mac sortent
 
-Le réglage de `src/config.ts` ; la ligne des plateformes de `scripts/og/og.html` et les images de
-partage régénérées ; les variantes `.carplay` relues dans les deux langues ; la section « iPad et
+Le réglage de `src/config.ts` ; les images de partage régénérées (`node scripts/og/render.mjs`, la
+ligne des plateformes suit `platforms()`) ; les variantes `.carplay` relues dans les deux langues ; la section « iPad et
 Mac » avec ses vraies captures ; `operatingSystem` du JSON-LD ; les phrases qui disent ce qui reste
 sur l'iPhone (`screens.note`).
 
@@ -1202,8 +1210,8 @@ comptent le plus, les décisions à prendre, et ce qui reste à vérifier sur ap
 
 Des scripts sans dépendance du projet, à copier dans le dossier de travail (`$W/tools`), jamais
 dans le dépôt : l'audit ne change pas le code. Ils ont été écrits et essayés sur ce dépôt le 21
-octobre 2026 (Node 22, Playwright 1.56, axe-core 4, Lighthouse 13) ; un outil qui se trompe se
-corrige ici (§ 4, étape 10). Leur sortie suit une convention : « ✗ » à expliquer, « · » mesure ou
+octobre 2026 (Node 22, Playwright 1.56, axe-core 4, Lighthouse 13), complétés le 23 octobre 2026
+par A.10 à A.13 (premier audit) ; un outil qui se trompe se corrige ici (§ 4, étape 10). Leur sortie suit une convention : « ✗ » à expliquer, « · » mesure ou
 résultat attendu, « ✓ » rien à signaler.
 
 Extraire tous les outils d'un coup, depuis la racine du site :
@@ -1211,7 +1219,8 @@ Extraire tous les outils d'un coup, depuis la racine du site :
 ```bash
 mkdir -p $W/tools
 for pair in A.1:js:i18n-check.mjs A.2:js:dist-check.mjs A.3:bash:variants.sh A.4:js:browser-pass.mjs \
-            A.5:js:axe-pass.mjs A.6:js:lh-summary.mjs A.8:bash:screenshots-check.sh; do
+            A.5:js:axe-pass.mjs A.6:js:lh-summary.mjs A.8:bash:screenshots-check.sh \
+            A.10:js:page-strip.mjs A.11:js:idle-cost.mjs A.12:js:gradient-contrast.mjs A.13:js:depth.mjs; do
   IFS=: read -r sec lang name <<< "$pair"
   awk -v sec="^### $sec " -v fence="^\`\`\`$lang\$" '$0 ~ sec {f=1} f && $0 ~ fence {p=1; next} p && /^```$/ {exit} p' \
     docs/AUDIT-TRAME.md > "$W/tools/$name"
@@ -1331,7 +1340,7 @@ console.log(`\nLiens externes (à ouvrir un par un) :\n  ${[...external].join('\
 ### A.3 Configurations futures : `variants.sh`
 
 Construit le site sous chaque configuration à venir de `src/config.ts` (CarPlay, iPad, Mac, tout,
-lien App Store, bêta, sans prix, sans serveur de démo, app en français seulement), un
+lien App Store, bêta, sans prix, sans serveur de démo), un
 `dist-<variante>/` chacune, dans la copie de travail ; `config.ts` est remis en place à la fin.
 Une substitution qui ne change rien (le fichier a évolué) est signalée : adapter alors la ligne
 `sed`. `bash $W/tools/variants.sh $W/site` (une à deux minutes).
@@ -1353,7 +1362,6 @@ declare -A variants=(
   [testflight]='s#TESTFLIGHT_URL: string | null = null#TESTFLIGHT_URL: string | null = "https://testflight.apple.com/join/XXXXXXXX"#'
   [sansprix]="s#PLUS_PRICE: Record<'fr' | 'en', string> | null = {[^}]*}#PLUS_PRICE: Record<'fr' | 'en', string> | null = null#"
   [sansdemo]='/DEMO_SERVER:/,/};/c\export const DEMO_SERVER: { url: string; user: string; password: string } | null = null;'
-  [francais]="s#APP_LANGUAGES: readonly string\[\] = \['fr', 'en'\]#APP_LANGUAGES: readonly string[] = ['fr']#"
 )
 for name in "${!variants[@]}"; do
   cp .audit-config.ts.orig src/config.ts
@@ -1371,9 +1379,18 @@ Chaque page × 320 / 390 / 768 / 1024 / 1440 px × clair / sombre × animations 
 plus sans JavaScript à 390 et 1440 px, plus une mesure de LCP, CLS et blocage à 390 px sous un
 processeur ralenti quatre fois : défilement horizontal (et les éléments qui débordent), texte resté
 invisible après avoir tout fait défiler (hors `data-reveal-repeat`, voulu), erreurs de la console,
-requêtes en échec ou hors du site, statut de la page inconnue. Les captures pleine page (second
-argument) se regardent. `node $W/tools/browser-pass.mjs http://localhost:4321 $W/shots` (une
+requêtes en échec ou hors du site, statut de la page inconnue. `node $W/tools/browser-pass.mjs http://localhost:4321 $W/shots` (une
 dizaine de minutes ; `PAGES=/,/en/ WIDTHS=390` pour restreindre).
+
+Ses captures pleine page (second argument) **ne se regardent pas** sur ce site : pour les prendre,
+Chromium agrandit la fenêtre à la hauteur du document, ce qui change `100svh`, `--progress` et tout
+ce qui en dépend (le hero est capturé en train de sortir, texte estompé et pastilles absentes, le
+passage épinglé de `Listen` s'étire sur des milliers de pixels). Les contrôles de l'outil
+(débordement, texte invisible, console, requêtes, statut) sont faits avant la capture et restent
+justes ; les captures qu'on regarde viennent de A.10. Autre limite, vue le 23 octobre : le
+défilement par demi-écrans peut laisser une apparition non révélée (élément jamais entré dans la
+zone d'observation entre deux pas) et un « texte invisible » qui ne se reproduit pas d'une passe à
+l'autre ; relancer la passe avant d'en faire un constat.
 
 ```js
 // Passe navigateur du site servi par `npm run preview` : pour chaque page × largeur × thème ×
@@ -1504,6 +1521,8 @@ for (const path of (process.env.PAGES ?? '/,/en/,/confidentialite/,/en/privacy/,
         axe.run(document, { runOnly: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa', 'best-practice'] }));
       console.log(`${violations.length ? '✗' : '✓'} ${path} ${width}px ${colorScheme} : ${violations.length} violation(s), ${incomplete.length} à vérifier à la main`);
       for (const v of violations) console.log(`    ${v.id} (${v.impact}) × ${v.nodes.length} : ${v.nodes.slice(0, 3).map((n) => n.target.join(' ')).join(' | ')}`);
+      // Les nœuds qu'axe ne sait pas trancher (contraste sur dégradé ou sur verre…) : à mesurer à la main.
+      for (const i of incomplete) console.log(`    · à vérifier : ${i.id} × ${i.nodes.length} : ${i.nodes.slice(0, 4).map((n) => n.target.join(' ')).join(' | ')}`);
       await context.close();
     }
 await browser.close();
@@ -1604,4 +1623,155 @@ for url in "$SITE/" "$SITE/en/" "$SITE/confidentialite/" "$SITE/en/privacy/" "$S
 done
 # Ressources hachées : un an, immuables ; une image du build
 curl -sSI "$SITE$(curl -sS "$SITE/" | grep -oE '/_astro/[^"]+\.(avif|webp|jpg)' | head -1)" | grep -iE "^(HTTP|cache-control|content-type)"
+```
+
+### A.10 Captures écran par écran : `page-strip.mjs`
+
+Pour chaque page × largeur × thème, la page défile d'un écran à la fois, attend les apparitions
+et enregistre la fenêtre telle qu'un visiteur la voit (jamais de capture « pleine page », voir
+A.4). Ce sont ces captures qu'on regarde une par une (§ 4, étape 4) : 390 et 1440 px, clair et
+sombre, une vingtaine d'écrans par page. `node $W/tools/page-strip.mjs http://localhost:4321
+$W/strips` (`PAGES=/,/en/ WIDTHS=390 SCHEMES=light` pour restreindre). Pour une largeur ou un cas
+particulier (téléphone en paysage, écran bas, zoom), changer `WIDTHS` et la hauteur dans le script.
+
+```js
+// Captures écran par écran (jamais « pleine page » : Chromium agrandit alors la fenêtre à la
+// hauteur du document, ce qui change `100svh`, `--progress` et tout ce qui en dépend — le hero
+// s'estompe, le passage épinglé de Listen explose). Pour chaque page × largeur × thème : la page
+// défile d'un écran à la fois, attend les apparitions, et enregistre la fenêtre telle qu'un
+// visiteur la voit. Usage : PLAYWRIGHT_MODULE=… node page-strip.mjs [base] <dossier>
+// (PAGES=/,/en/ WIDTHS=390,1440 SCHEMES=light,dark pour restreindre).
+const { chromium } = await import(process.env.PLAYWRIGHT_MODULE ?? 'playwright');
+const base = (process.argv[2] ?? 'http://localhost:4321').replace(/\/$/, '');
+const out = process.argv[3] ?? 'strips';
+const pages = (process.env.PAGES ?? '/,/en/,/confidentialite/').split(',');
+const widths = (process.env.WIDTHS ?? '390,1440').split(',').map(Number);
+const schemes = (process.env.SCHEMES ?? 'light,dark').split(',');
+const browser = await chromium.launch();
+for (const path of pages) for (const width of widths) for (const colorScheme of schemes) {
+  const height = width < 500 ? 844 : 900;
+  const context = await browser.newContext({ viewport: { width, height }, colorScheme, deviceScaleFactor: 1 });
+  const page = await context.newPage();
+  await page.goto(base + path, { waitUntil: 'load' });
+  await page.waitForTimeout(2500);
+  const total = await page.evaluate(() => document.documentElement.scrollHeight);
+  let n = 0;
+  for (let y = 0; y < total; y += height) {
+    await page.evaluate((y) => scrollTo(0, y), y);
+    await page.waitForTimeout(1100);
+    await page.screenshot({ path: `${out}/${path.replace(/\W+/g, '_') || '_'}_${width}_${colorScheme}_${String(n).padStart(2, '0')}.png` });
+    n++;
+  }
+  console.log(`· ${path} ${width}px ${colorScheme} : ${n} écrans (${total} px)`);
+  await context.close();
+}
+await browser.close();
+```
+
+### A.11 Coût au repos et au défilement : `idle-cost.mjs`
+
+Ce que la page coûte quand elle ne fait rien : temps de script, de recalcul des styles, de mise
+en page et de tâches par seconde (`Performance.getMetrics` du protocole DevTools), page immobile
+sur le hero (le spectre à 30 images par seconde), puis pendant un défilement lent de toute la
+page, puis immobile au milieu ; à processeur normal et ralenti quatre fois ; avec et sans
+« Réduire les animations ». À lancer seul, après Lighthouse. Les valeurs se comparent entre elles
+(avant / après une correction, hero / milieu de page) plus qu'à l'absolu. Repères du 23 octobre
+2026 : hero immobile 152 ms/s de tâches (÷ 1) et 786 ms/s (÷ 4) ; milieu de page 20 et 64 ms/s ;
+tout à 0 avec « Réduire les animations ».
+
+```js
+// Coût au repos et au défilement, mesuré par le protocole DevTools (Performance.getMetrics) :
+// temps de script, de style, de mise en page et de tâches par seconde, page immobile sur le hero
+// (le spectre à 30 i/s), puis pendant un défilement lent, puis immobile au milieu de la page ;
+// à processeur normal et ralenti quatre fois ; avec et sans « Réduire les animations ».
+// Usage : PLAYWRIGHT_MODULE=… node idle-cost.mjs [base] — « · » : mesure, à comparer entre elles.
+const { chromium } = await import(process.env.PLAYWRIGHT_MODULE ?? 'playwright');
+const base = (process.argv[2] ?? 'http://localhost:4321').replace(/\/$/, '');
+const browser = await chromium.launch();
+const SECONDS = 5;
+async function sample(cdp, label) {
+  const read = async () => Object.fromEntries((await cdp.send('Performance.getMetrics')).metrics.map((m) => [m.name, m.value]));
+  const a = await read();
+  await new Promise((r) => setTimeout(r, SECONDS * 1000));
+  const b = await read();
+  const d = (k) => (((b[k] - a[k]) / SECONDS) * 1000).toFixed(0);
+  console.log(`    · ${label.padEnd(26)} script ${d('ScriptDuration')} ms/s · style ${d('RecalcStyleDuration')} ms/s (${((b.RecalcStyleCount - a.RecalcStyleCount) / SECONDS).toFixed(0)}/s) · layout ${d('LayoutDuration')} ms/s (${((b.LayoutCount - a.LayoutCount) / SECONDS).toFixed(0)}/s) · tâches ${d('TaskDuration')} ms/s`);
+}
+for (const reducedMotion of ['no-preference', 'reduce'])
+  for (const rate of [1, 4]) {
+    const context = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion, deviceScaleFactor: 2 });
+    const page = await context.newPage();
+    const cdp = await context.newCDPSession(page);
+    await cdp.send('Performance.enable');
+    await cdp.send('Emulation.setCPUThrottlingRate', { rate });
+    await page.goto(base + '/', { waitUntil: 'load' });
+    await page.waitForTimeout(2500);
+    console.log(`  390 px, animations ${reducedMotion}, processeur ÷${rate}`);
+    await sample(cdp, 'immobile sur le hero');
+    const scroll = page.evaluate(async (s) => { const end = document.documentElement.scrollHeight - innerHeight; const start = performance.now(); while (performance.now() - start < s * 1000) { scrollTo(0, ((performance.now() - start) / (s * 1000)) * end); await new Promise((r) => requestAnimationFrame(r)); } }, SECONDS);
+    await sample(cdp, 'défilement lent (page entière)');
+    await scroll;
+    await page.evaluate(() => scrollTo(0, document.documentElement.scrollHeight * 0.45));
+    await page.waitForTimeout(800);
+    await sample(cdp, 'immobile au milieu de la page');
+    await context.close();
+  }
+await browser.close();
+```
+
+### A.12 Contraste du texte sur les dégradés : `gradient-contrast.mjs`
+
+axe range tout texte posé sur un dégradé en « à vérifier à la main ». Cet outil lit les couleurs
+`from` / `to` des cartes de `Stations.astro` et calcule le contraste du blanc sur la couleur
+interpolée là où se trouve le texte (bas de carte, t ≈ 0,42 à 0,77 d'un dégradé à 145° sur
+196 × 128 px). Seuil 4,5:1 (texte gras de 17 px). Si la mise en page des cartes change (position du
+texte, angle), ajuster les trois valeurs de `t`. `node $W/tools/gradient-contrast.mjs .` depuis la
+racine du site.
+
+```js
+// Contraste du texte blanc des cartes de Stations (src/components/home/sections/Stations.astro)
+// sur leur dégradé à 145°, là où se trouve le texte (bas de carte : t ≈ 0,42 à 0,77 du dégradé
+// pour une carte de 196 × 128 px). axe ne mesure pas un texte sur dégradé. Seuil : 4,5:1 (texte
+// gras de 17 px, sous le seuil « grand texte » de 18,66 px).
+// Usage : node gradient-contrast.mjs <racine du site> — « ✗ » sous 4,5 au point le plus clair.
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+const src = readFileSync(join(process.argv[2] ?? '.', 'src/components/home/sections/Stations.astro'), 'utf8');
+const cards = [...src.matchAll(/key: '([^']+)'[^}]*from: '(#[0-9a-f]{6})', to: '(#[0-9a-f]{6})'/gi)].map((m) => [m[1], m[2], m[3]]);
+const hex = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
+const lum = (c) => { const f = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; }; return 0.2126 * f(c[0]) + 0.7152 * f(c[1]) + 0.0722 * f(c[2]); };
+const contrast = (a, b) => { const [l1, l2] = [lum(a), lum(b)].sort((x, y) => y - x); return (l1 + 0.05) / (l2 + 0.05); };
+const mix = (a, b, t) => a.map((v, i) => Math.round(v + (b[i] - v) * t));
+for (const [key, from, to] of cards) {
+  const ratios = [0.42, 0.6, 0.77].map((t) => contrast([255, 255, 255], mix(hex(from), hex(to), t)));
+  console.log(`${ratios[0] < 4.5 ? '✗' : '✓'} ${key.padEnd(26)} blanc sur ${from} → ${to} : ${ratios.map((r) => r.toFixed(2)).join(' / ')} (t = 0,42 / 0,60 / 0,77)`);
+}
+console.log(`${cards.length} cartes`);
+```
+
+### A.13 Profondeur des sections : `depth.mjs`
+
+La position de chaque section de l'accueil en écrans (`scrollY / innerHeight`), à 390 et 1440 px
+dans les deux langues, et la longueur totale de la page : la base des « huit questions du
+visiteur » (zone 2, point 1). `node $W/tools/depth.mjs http://localhost:4321`.
+
+```js
+// Profondeur de chaque section (en écrans, scrollY / innerHeight) à 390 et 1440 px, et longueur totale de la page.
+const { chromium } = await import(process.env.PLAYWRIGHT_MODULE ?? 'playwright');
+const base = (process.argv[2] ?? 'http://localhost:4321').replace(/\/$/, '');
+const browser = await chromium.launch();
+for (const path of ['/', '/en/']) for (const width of [390, 1440]) {
+  const context = await browser.newContext({ viewport: { width, height: width === 390 ? 844 : 900 } });
+  const page = await context.newPage();
+  await page.goto(base + path, { waitUntil: 'load' });
+  const r = await page.evaluate(() => {
+    const h = innerHeight;
+    const rows = [...document.querySelectorAll('main section[id], footer')].map(s => `${s.id || 'footer'} ${(s.getBoundingClientRect().top + scrollY) / h | 0}.${Math.round(((s.getBoundingClientRect().top + scrollY) / h % 1) * 10)}`);
+    const note = document.querySelector('.note');
+    return `${rows.join(' · ')} · total ${(document.documentElement.scrollHeight / h).toFixed(1)} écrans · note Jellyfin ${((note.getBoundingClientRect().top + scrollY) / h).toFixed(1)}`;
+  });
+  console.log(`${path} ${width}px : ${r}`);
+  await context.close();
+}
+await browser.close();
 ```

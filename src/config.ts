@@ -9,13 +9,6 @@ export const APP_STORE_URL: string | null = null;
  */
 export const APP_STORE_ID: string | null = null;
 
-/**
- * Langues de l'interface de l'app, qui ont chacune leurs captures (`src/assets/screenshots/`). Une
- * page dans une autre langue prévient ses visiteurs que l'app (et donc les captures) est en
- * français.
- */
-export const APP_LANGUAGES: readonly string[] = ['fr', 'en'];
-
 /** Site du projet Jellyfin, cité là où le site explique qu'il faut un serveur. */
 export const JELLYFIN_URL = 'https://jellyfin.org';
 
