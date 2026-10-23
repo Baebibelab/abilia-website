@@ -426,7 +426,7 @@ const en: Record<UIKey, string> = {
   'everywhere.lockScreen': 'Lock screen and Control Center',
   'everywhere.airplay': 'AirPods, speakers and AirPlay',
   'everywhere.widget': 'Home Screen widget',
-  'everywhere.siri': 'Siri and Shortcuts',
+  'everywhere.siri': '“Hey Siri, play my favorites on Andia”',
   'everywhere.a11y': 'VoiceOver and larger text sizes',
   'everywhere.home': 'Home',
   'everywhere.albums': 'Albums',
