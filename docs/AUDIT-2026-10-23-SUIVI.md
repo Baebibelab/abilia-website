@@ -49,7 +49,7 @@ relecture sont dans `docs/AUDIT-2026-10-23-LOTS.md`.
 | 4 | C1 | Mineur | La phrase du serveur de démo suppose l'app installée | à faire | | Avec C2 |
 | 5 | I1 | Mineur | L'anglais du site s'écarte du catalogue anglais de l'app | en cours | | Catalogue de l'app clé par clé ; « song » pour morceau partout en anglais, sauf les numéros (« Track 1 ») |
 | 5 | I2 | Mineur | `everywhere.siri` différent dans les deux langues | en cours | | Phrase reconnue de AppShortcuts.xcstrings (« Play my favorites on ${applicationName} ») |
-| 5 | I3 | Mineur | « Lock screen » / « Lock Screen » | à faire | | |
+| 5 | I3 | Mineur | « Lock screen » / « Lock Screen » | en cours | | |
 | 5 | I5 | Mineur | 404 : titre, description et langue français seulement | à faire | | |
 | 5 | F4 | Mineur | « dès la première lettre » trop fort pour les morceaux | à faire | | |
 | 5 | F5 | Mineur | « Toujours à jour » : favoris et playlists suivis seulement | à faire | | |

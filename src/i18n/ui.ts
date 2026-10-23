@@ -369,7 +369,7 @@ const en: Record<UIKey, string> = {
   'stations.continue.text': 'When the queue ends, songs close to the last one you heard take over.',
   'stations.live.title': 'Live Radio',
   'stations.live.text':
-    'Your country’s most popular stations, search by name and your favorites, with the current song on the lock screen.',
+    'Your country’s most popular stations, search by name and your favorites, with the current song on the Lock Screen.',
   'stations.moodsNote': 'Mood mixes are built from the genres in your library.',
   'offline.eyebrow': 'Offline',
   'offline.title.1': 'Take your music',
@@ -415,7 +415,7 @@ const en: Record<UIKey, string> = {
   'everywhere.title.1': 'Wherever',
   'everywhere.title.2': 'you go.',
   'everywhere.lead':
-    'Lock screen, AirPlay, widget, Siri: your music follows you across the system. And on Apple Watch, even when your iPhone stays at home.',
+    'Lock Screen, AirPlay, widget, Siri: your music follows you across the system. And on Apple Watch, even when your iPhone stays at home.',
   'everywhere.watch.title': 'Apple Watch',
   'everywhere.watch.text':
     'Send albums, playlists or your favorites to the watch, then listen with Bluetooth headphones, no iPhone or network needed. Your plays sync back to your server afterwards.',
@@ -423,7 +423,7 @@ const en: Record<UIKey, string> = {
   'everywhere.carplay.text':
     'Home, albums, artists and playlists on your car’s screen, with shuffle and “Up Next”.',
   'everywhere.soon': 'Coming soon',
-  'everywhere.lockScreen': 'Lock screen and Control Center',
+  'everywhere.lockScreen': 'Lock Screen and Control Center',
   'everywhere.airplay': 'AirPods, speakers and AirPlay',
   'everywhere.widget': 'Home Screen widget',
   'everywhere.siri': '“Hey Siri, play my favorites on Andia”',
