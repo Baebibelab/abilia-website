@@ -133,7 +133,7 @@ const fr = {
   'offline.progress.detail': '42 pistes',
   'offline.sync.title': 'Toujours à jour',
   'offline.sync.text':
-    "Un nouveau cœur, un morceau ajouté à la playlist : il arrive tout seul sur votre appareil. Un morceau partagé par deux albums ou playlists n'est stocké qu'une fois.",
+    "Vos favoris et les playlists téléchargés se tiennent à jour : un nouveau cœur, un morceau ajouté, et il arrive tout seul sur votre appareil. Un morceau partagé par deux albums ou playlists n'est stocké qu'une fois.",
   'offline.cache.title': 'Un cache qui se souvient',
   'offline.cache.text':
     "Ce que vous écoutez reste sur votre appareil, de 1 à 10 Go au choix, vos favoris en dernier à partir. Réécouter ne re-télécharge rien.",
@@ -384,7 +384,7 @@ const en: Record<UIKey, string> = {
   'offline.progress.detail': '42 songs',
   'offline.sync.title': 'Always up to date',
   'offline.sync.text':
-    'A new heart, a track added to a playlist: it lands on your device by itself. A track shared by two albums or playlists is stored only once.',
+    'Downloaded favorites and playlists keep themselves up to date: a new heart, a song added, and it lands on your device by itself. A song shared by two albums or playlists is stored only once.',
   'offline.cache.title': 'A cache that remembers',
   'offline.cache.text':
     'What you play stays on your device, from 1 to 10 GB as you choose, with your favorites the last to go. Replaying downloads nothing again.',
