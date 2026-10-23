@@ -26,6 +26,7 @@ src/
 public/                 copié tel quel : .htaccess (OVH), favicons, apple-touch-icon,
                         og/ (images de partage)
 scripts/og/             modèle des images de partage et rendu des icônes PNG (render.mjs)
+scripts/csp.mjs         empreintes des scripts en ligne pour la CSP de dist/.htaccess (npm run build)
 ```
 
 L'accueil est découpé pour que plusieurs personnes y travaillent sans se marcher dessus :
@@ -285,6 +286,19 @@ quelques secondes, d'anciennes pages côtoient les nouvelles ressources, ce qui 
 Sans `OVH_DELETE`, des fichiers d'une version plus récente peuvent rester sur le serveur après un
 retour arrière ; ils sont inoffensifs (aucune page ne les cite) et partent au prochain envoi avec
 `OVH_DELETE`.
+
+**Content-Security-Policy** (`public/.htaccess`) : `default-src 'none'`, images et styles du site
+(styles en ligne permis, `data:` pour les images), scripts du site plus les empreintes SHA-256 des
+scripts en ligne, ni `<base>`, ni formulaire, ni cadre. `npm run build` lance `scripts/csp.mjs`
+après Astro : il hache chaque `<script>` en ligne exécutable de `dist/` (pas le JSON-LD, qui ne
+s'exécute pas) et remplace le repère `{{CSP_SCRIPT_HASHES}}` de `dist/.htaccess`. Il échoue si une
+page charge un script d'un autre site ou porte un attribut `on…=` : la politique les bloquerait.
+Conséquences pour le code : aucun script, style, police ni image venant d'ailleurs que du site, aucun
+gestionnaire `onclick=` ; un script en ligne de plus est pris en compte tout seul. Elle est en
+`Content-Security-Policy-Report-Only` (rien n'est bloqué, les violations vont dans la console) tant
+que le site est en maintenance. **Passer en mode strict** après la réouverture, une fois A.9 et une
+visite des pages (console ouverte, clair et sombre, animations réduites) sans violation : renommer
+l'en-tête en `Content-Security-Policy` dans `public/.htaccess`, et mettre à jour cette phrase.
 
 Domaine principal : `https://abilia-music.app` (`site` dans `astro.config.mjs`, repris par les
 liens canoniques, hreflang, Open Graph, `robots.txt` et le plan du site). `abilia-music.fr` et les

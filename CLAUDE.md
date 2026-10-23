@@ -10,6 +10,9 @@ l'accueil en fichiers.
 - Aucune dépendance côté navigateur sans en discuter ; Astro seul au build.
 - Tout texte visible passe par `src/i18n/ui.ts`, dans les deux langues.
 - Tout mouvement sous `prefers-reduced-motion: no-preference` ; rien de caché sans JavaScript.
+- Rien qui vienne d'ailleurs que du site (scripts, styles, polices, images) ni d'attribut `on…=` :
+  la CSP de `public/.htaccess` les bloque. Les empreintes des scripts en ligne sont calculées par
+  `npm run build` (`scripts/csp.mjs`), jamais recopiées à la main.
 - Avant une PR : `npm run check` et `npm run build`, puis un rendu en clair, en sombre, à 390 px
   de large (aucun défilement horizontal) et avec les animations réduites.
 - Audit du site : méthode, points de contrôle et outils dans
