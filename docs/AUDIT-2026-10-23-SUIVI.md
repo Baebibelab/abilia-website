@@ -66,7 +66,7 @@ relecture sont dans `docs/AUDIT-2026-10-23-LOTS.md`.
 | 6 | D8 | Dette | HSTS sans `includeSubDomains` ni `preload` | décision | | Au changement de domaine |
 | 6 | S1 | Mineur | La 404 déclare l'accueil comme canonique | à faire | | |
 | 6 | S2 | Dette | Fiche schema.org sans `offers` | décision | | |
-| 7 | Q1 | Dette | Quatre clés de texte jamais lues | à faire | | |
+| 7 | Q1 | Dette | Quatre clés de texte jamais lues | en cours | #PRLOT7 | |
 | 7 | Q2 | Dette | Fichiers et dessins morts | à faire | | Ou utiliser `recherche.jpg` (F9) |
 | 7 | Q3 | Dette | Commentaires et modèle de partage en retard | à faire | | |
 | 7 | Q4 | Dette | Styles recopiés d'une section à l'autre | à faire | | |
