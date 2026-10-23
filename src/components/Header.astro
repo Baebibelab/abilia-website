@@ -44,9 +44,11 @@ const otherLangs = (Object.keys(languages) as Lang[]).filter((l) => l !== lang);
 
     <div class="site-header__actions">
       {
+        // Le nom accessible (« EN – English ») contient le texte visible, pour la commande
+        // vocale (WCAG 2.5.3) : pas d'aria-label qui le remplacerait.
         otherLangs.map((l) => (
-          <a class="lang-switch" href={alternates[l]} hreflang={l} lang={l} aria-label={`${languages[l]}`}>
-            {l.toUpperCase()}
+          <a class="lang-switch" href={alternates[l]} hreflang={l} lang={l}>
+            {l.toUpperCase()}<span class="visually-hidden"> – {languages[l]}</span>
           </a>
         ))
       }
