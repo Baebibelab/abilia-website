@@ -1,8 +1,13 @@
 # Mode maintenance (envoyé par le workflow Deploy, mode « maintenance ») : remplace le .htaccess
-# du site sur OVH. Toute adresse répond 503 avec maintenance.html ; les fichiers du site restent
-# sur le serveur, et un déploiement en mode « site » remet le vrai .htaccess.
+# du site sur OVH. Toute adresse répond 503 avec maintenance.html, sauf les pages qu'App Store
+# Connect et son relecteur doivent pouvoir ouvrir (confidentialité et assistance, dans les deux
+# langues) et ce qu'elles chargent (scripts et images de /_astro/, images de partage, icônes) :
+# les fichiers du site restent sur le serveur, ces pages y sont donc servies telles quelles (à
+# condition qu'un déploiement en mode « site » les y ait mises). Un déploiement en mode « site »
+# remet le vrai .htaccess.
 
 Options -Indexes
+DirectoryIndex index.html
 ErrorDocument 503 /maintenance.html
 
 <IfModule mod_rewrite.c>
@@ -12,6 +17,10 @@ ErrorDocument 503 /maintenance.html
   RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [L,R=301]
 
   RewriteCond %{REQUEST_URI} !^/maintenance\.html$
+  RewriteCond %{REQUEST_URI} !^/(confidentialite|assistance)(/|$)
+  RewriteCond %{REQUEST_URI} !^/en/(privacy|support)(/|$)
+  RewriteCond %{REQUEST_URI} !^/(_astro|og)/
+  RewriteCond %{REQUEST_URI} !^/(favicon\.svg|favicon\.ico|favicon-32\.png|apple-touch-icon\.png)$
   RewriteRule ^ - [R=503,L]
 </IfModule>
 

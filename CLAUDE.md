@@ -15,6 +15,10 @@ l'accueil en fichiers.
 - Audit du site : méthode, points de contrôle et outils dans
   [docs/AUDIT-TRAME.md](docs/AUDIT-TRAME.md). Un audit ne corrige rien : il écrit
   `docs/AUDIT-<date>.md` et son suivi, les corrections viennent ensuite par lots.
+- Adresse d'assistance, éditeur et hébergeur : `src/config.ts` (`SUPPORT_EMAIL`, `PUBLISHER`,
+  `HOST`), lus par la page Assistance (`/assistance/`, `/en/support/` : contact, questions
+  fréquentes, mentions légales) et le « © » du pied de page. L'adresse n'est jamais écrite en clair
+  dans le texte visible.
 - Captures de l'app : `src/assets/screenshots/` en français, `src/assets/screenshots/en/` en
   anglais, sous les mêmes noms (copiées de `docs/screenshots/` et `docs/screenshots/en/` du dépôt
   de l'app ; les remplacer là-bas aussi quand elles changent). Les sections les prennent par

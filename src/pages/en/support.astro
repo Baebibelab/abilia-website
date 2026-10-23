@@ -1,0 +1,11 @@
+---
+import SupportPage from '../../components/support/SupportPage.astro';
+import Base from '../../layouts/Base.astro';
+import { routes, useTranslations } from '../../i18n/ui';
+
+const t = useTranslations('en');
+---
+
+<Base lang="en" alternates={routes.support} title={t('support.title')} description={t('support.description')}>
+  <SupportPage lang="en" />
+</Base>

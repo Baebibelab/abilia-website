@@ -15,6 +15,7 @@ src/
   components/           briques partagées (Header, Footer, Section, PhoneFrame, AppIcon…)
   components/home/      l'accueil : Home.astro assemble Hero.astro puis sections/*.astro
   components/privacy/   la page Confidentialité (mise en page commune aux deux langues)
+  components/support/   la page Assistance : contact, questions fréquentes, mentions légales
   content/privacy/      le texte de la politique : fr.md (copie de l'app), en.md (traduction)
   i18n/ui.ts            tous les textes (fr + en) et la table des pages (`routes`)
   layouts/Base.astro    <head> (SEO, Open Graph, icônes), fond animé, en-tête, pied de page
@@ -113,6 +114,13 @@ Réglages dans `src/config.ts` :
 - `PLUS_PRICE` : prix d'Andia Plus par langue, affiché par « Tarifs » (`null` : « Achat unique »
   sans prix). Le vrai prix est celui de l'App Store : le changer ici le même jour (plan de prix
   dans `docs/monetisation/` du dépôt de l'app).
+- `SUPPORT_EMAIL` : adresse d'assistance, la seule du site. La page Assistance la met dans un
+  lien `mailto:` encodé en entités HTML, jamais en clair dans le texte visible (le lien dit
+  « Écrire à l'assistance ») ; c'est aussi l'adresse de support d'App Store Connect.
+- `PUBLISHER` (nom, adresse ou `null` pour « adresse communiquée à l'hébergeur », directeur de
+  la publication) et `HOST` (OVH) : les mentions légales (LCEN, art. 6-III) de la page
+  Assistance ; le « © » du pied de page porte `PUBLISHER.name`, de `FIRST_YEAR` à l'année du
+  build. Un changement d'éditeur ou d'hébergeur se fait là, et nulle part ailleurs.
 - `TESTFLIGHT_URL` : lien public de la bêta TestFlight ; renseigné, « Tarifs » propose « Rejoindre
   la bêta ». Le site ne vend rien : Andia Plus s'achète dans l'app (guideline 3.1.1), jamais de
   bouton d'achat ici.
@@ -219,6 +227,16 @@ doit rester celui de l'app (`PrivacyPolicyView`). `en.md` est de même la copie 
 `docs/PRIVACY.en.md` (la politique anglaise de l'app, depuis qu'elle est traduite), dans le même
 commit ; le français fait foi.
 
+**Assistance** (`/assistance/`, `/en/support/`, `components/support/SupportPage.astro`) : même
+mise en page que la Confidentialité (en-tête, sommaire, carte en verre), trois parties dont les
+ancres sont dans `supportSections` de `ui.ts` (le pied de page lie les mentions légales). Les
+questions fréquentes reprennent celles du `README.md` de l'app, réécrites pour le site (clés
+`support.faq.<sujet>.q` / `.a`) : une réponse qui change dans l'app change ici. Les mentions
+légales finissent par « Ce site » : ce que le site lui-même fait de ses visiteurs (aucun cookie,
+aucune mesure d'audience, les journaux d'accès de l'hébergeur), qui n'a pas sa place dans la
+politique, copie de celle de l'app. Si le site se met un jour à poser un cookie ou à charger
+quelque chose d'ailleurs, ce paragraphe change dans la même PR.
+
 **Images de partage** : `public/og/andia-<langue>.jpg` (1200 × 630), rendues depuis
 `scripts/og/og.html` par `node scripts/og/render.mjs` (Playwright installé sur la machine, pas
 dans le projet), qui refait aussi `apple-touch-icon.png` et `favicon-32.png`. Les régénérer quand
@@ -248,7 +266,10 @@ La CI (`.github/workflows/ci.yml`) refait `check` et `build` sur chaque PR. Le d
 (`.github/workflows/deploy.yml`) ne part plus qu'à la demande (Actions › Deploy › Run workflow),
 une fois les secrets `OVH_HOST`, `OVH_USER`, `OVH_PASSWORD` définis (détails en tête du fichier) :
 mode `site` pour envoyer `dist/`, mode `maintenance` pour envoyer `maintenance/` (toute adresse
-répond 503 avec une page d'attente autonome, hors Astro et hors `ui.ts`). Les règles
+répond 503 avec une page d'attente autonome, hors Astro et hors `ui.ts`, sauf la confidentialité
+et l'assistance dans les deux langues, avec `/_astro/`, `/og/` et les icônes, servies depuis les
+fichiers du dernier envoi en mode `site` : App Store Connect et son relecteur doivent pouvoir les
+ouvrir). Une page qu'App Store Connect doit voir s'ajoute aussi à `maintenance/.htaccess`. Les règles
 Apache (redirection vers le domaine principal, HTTPS, cache, page 404, en-têtes de sécurité) sont
 dans `public/.htaccess`.
 
@@ -262,4 +283,5 @@ Ce domaine date du nom précédent de l'app (Abilia) : le site est en maintenanc
 le domaine à quatre endroits : `site` dans `astro.config.mjs`, la valeur par défaut de `SITE_URL`
 dans `.github/workflows/deploy.yml`, les redirections de `public/.htaccess` (anciens domaines et
 « www » vers le nouveau), et ce paragraphe ; puis régénérer les images de partage (`scripts/og/`)
-et donner l'URL `/confidentialite` (et `/en/privacy`) à App Store Connect.
+et donner les URL `/confidentialite/` (politique) et `/assistance/` (assistance) à App Store
+Connect (liste de contrôle du § 9 de `docs/AUDIT-TRAME.md`).
