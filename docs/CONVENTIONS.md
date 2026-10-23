@@ -12,16 +12,17 @@ src/
                         français, en anglais dans en/, servies par screenshots(lang) (index.ts)
                         ; ipad.jpg et mac.jpg (facultatives, bigScreenshots(lang)) : tant
                         qu'elles manquent, la section iPad et Mac dessine l'écran en CSS
-  components/           briques partagées (Header, Footer, Section, PhoneFrame, AppIcon…)
+  components/           briques partagées (Header, Footer, Section, PhoneFrame, DeviceCard,
+                        FeatureCard, AppIcon…)
   components/home/      l'accueil : Home.astro assemble Hero.astro puis sections/*.astro
   components/privacy/   la page Confidentialité (mise en page commune aux deux langues)
-  content/privacy/      le texte de la politique : fr.md (copie de l'app), en.md (traduction)
+  content/privacy/      le texte de la politique : fr.md et en.md, copies de celles de l'app
   i18n/ui.ts            tous les textes (fr + en) et la table des pages (`routes`)
   layouts/Base.astro    <head> (SEO, Open Graph, icônes), fond animé, en-tête, pied de page
   pages/                pages françaises ; pages/en/ leurs équivalents anglais ;
                         robots.txt.ts et sitemap.xml.ts, générés à partir de `routes`
   scripts/motion.ts     moteur d'animation au scroll (data-reveal, data-scroll)
-  styles/global.css     couleurs, typographie, boutons, verre
+  styles/global.css     couleurs, typographie, boutons, verre, classes partagées (.note…)
   styles/motion.css     états des apparitions data-reveal
 public/                 copié tel quel : .htaccess (OVH), favicons, apple-touch-icon,
                         og/ (images de partage)

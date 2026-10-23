@@ -71,7 +71,7 @@ relecture sont dans `docs/AUDIT-2026-10-23-LOTS.md`.
 | 7 | Q3 | Dette | Commentaires et modèle de partage en retard | en cours | #PRLOT7 | |
 | 7 | Q4 | Dette | Styles recopiés d'une section à l'autre | en cours | #PRLOT7 | `DeviceCard`, `.note`, `.card-row`, `.badge-soon`, `.visually-hidden-narrow` ; rendu identique (captures d'éléments avant / après) |
 | 7 | Q5 | Dette | Calculs liés à une capture sans contrôle écrit | en cours | #PRLOT7 | `scripts/check-spectrum.mjs` dans `npm run check` ; `cards` de Rewind laissé (quatre articles écrits à la main) |
-| 7 | Q6 | Dette | README et CONVENTIONS à tenir à jour | à faire | | Avec les lots 1, 2, 5 |
+| 7 | Q6 | Dette | README et CONVENTIONS à tenir à jour | en cours | #PRLOT7 | Relus contre le code après ce lot ; assistance (L2) et insécables (C3) laissées aux lots 2 et 5 |
 | 7 | F10 | Mineur | Le bloc bêta ne dit pas que l'achat TestFlight ne suit pas | en cours | #PRLOT7 | Phrase de `docs/monetisation/TESTFLIGHT.md` de l'app, fr et en |
 | 7 | F11 | Dette | Configuration « app en français seulement » contradictoire | en cours | #PRLOT7 | Supprimés ; `inLanguage` tiré de `languages` ; variante `francais` retirée de `variants.sh` |
 | 7 | V4 | Dette | Favicon sans variante sombre, `icon-dark.svg` inutilisé | en cours | #PRLOT7 | Icônes supprimées avec Q2, le favicon reste corail |
