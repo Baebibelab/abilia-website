@@ -233,6 +233,23 @@ le titre, la capture En lecture ou les plateformes changent.
 Ton : celui du README de l'app, chaleureux et concret, en vouvoyant ; l'anglais est une vraie
 traduction, pas un mot à mot.
 
+**Typographie française** (dictionnaire `fr` de `ui.ts`, `PLUS_PRICE` de `src/config.ts`, et
+tout texte français assemblé dans un composant, comme le « % » des genres du Rewind) : une espace
+insécable (`U+00A0`) devant « : ; ! ? » et « », après « », et entre un nombre et son unité ou ce
+qu'il compte (« 96 kHz », « 128 kb/s », « 10 Go », « 7,99 € », « +32 % », « 42 pistes »), pour
+qu'aucune ligne ne commence par « : », « € » ou « % » sur un téléphone étroit. Dans le code,
+l'insécable s'écrit telle quelle (pas `&nbsp;`, que `ui.ts` ne connaît pas) ; un éditeur qui les
+montre aide. Apostrophe droite (') partout en français, donc une chaîne entre guillemets doubles
+dès qu'elle en contient une. En anglais, les guillemets et apostrophes courbes (“ ” ’) restent,
+comme dans l'app. Vérifier : `grep -c $' ' src/i18n/ui.ts` ne baisse pas, et
+`grep -n "’" src/i18n/ui.ts` ne montre que des lignes anglaises.
+
+**Anglais** : le vocabulaire et la casse de l'app (`Abilia/Resources/Localizable.xcstrings`,
+glossaire de « Localization » dans `CLAUDE.md` de l'app) : un libellé qui nomme un écran, une
+carte ou un réglage de l'app reprend sa valeur anglaise telle quelle (« Favorite Songs »,
+« Recently Added », « Live Radio », « Lock Screen »), Title Case pour les titres et libellés,
+« song » pour morceau (« track » seulement pour un numéro de piste).
+
 ## Vérifier et mettre en ligne
 
 ```bash
