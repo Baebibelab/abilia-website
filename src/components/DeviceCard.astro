@@ -1,0 +1,119 @@
+---
+// Carte d'appareil en verre (sections « iPad et Mac » et « Partout ») : l'appareil dessiné ou sa
+// capture sur un halo, puis le titre avec son glyphe (et « Bientôt » tant que la plateforme
+// n'est pas sortie) et un court texte. Le visuel est le contenu passé entre les balises ; les
+// attributs restants (`data-reveal`…) passent sur la carte.
+//
+//   <DeviceCard icon="watch" title="…" text="…" halo="coral" haloAt="30% 30%" data-reveal="up">…</DeviceCard>
+//
+// Halo : `teal` (sarcelle au centre, indigo à `haloAt`) ou `coral` (corail, violet). Marges du
+// visuel réglables par la section : `--device-visual-padding` et `--device-visual-min-height`,
+// et leurs variantes `-narrow` sous 480 px.
+import Glyph from './Glyph.astro';
+
+interface Props {
+  icon: Parameters<typeof Glyph>[0]['name'];
+  title: string;
+  text: string;
+  /** Texte de la pastille « Bientôt » ; absente si rien n'est donné. */
+  soon?: string | null;
+  halo?: 'teal' | 'coral';
+  /** Position du second halo, en pourcentages du visuel. */
+  haloAt?: string;
+  /** Visuel décoratif (dessin), caché aux lecteurs d'écran. */
+  decorative?: boolean;
+  class?: string;
+  visualClass?: string;
+  [attr: string]: unknown;
+}
+
+const {
+  icon,
+  title,
+  text,
+  soon = null,
+  halo = 'teal',
+  haloAt = '25% 30%',
+  decorative = false,
+  class: className,
+  visualClass,
+  ...attrs
+} = Astro.props;
+const side = halo === 'teal' ? 'indigo' : 'purple';
+---
+
+<article class:list={['device-card', 'glass', className]} {...attrs}>
+  <div
+    class:list={['device-card__visual', visualClass]}
+    style={`--halo-main: var(--halo-${halo}); --halo-side: var(--halo-${side}); --halo-at: ${haloAt}`}
+    aria-hidden={decorative ? 'true' : undefined}
+  >
+    <slot />
+  </div>
+  <div class="device-card__text">
+    <h3>
+      <Glyph name={icon} size={24} />{title}
+      {soon && <span class="badge-soon">{soon}</span>}
+    </h3>
+    <p>{text}</p>
+  </div>
+</article>
+
+<style>
+  .device-card {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    overflow: hidden;
+    text-align: start;
+  }
+
+  .device-card__visual {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: var(--device-visual-min-height, 330px);
+    padding: var(--device-visual-padding, 36px 24px);
+    isolation: isolate;
+  }
+
+  .device-card__visual::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      radial-gradient(closest-side at 50% 55%, var(--halo-main), transparent),
+      radial-gradient(closest-side at var(--halo-at), var(--halo-side), transparent);
+  }
+
+  .device-card__text {
+    display: grid;
+    align-content: start;
+    gap: 10px;
+    padding: 0 clamp(22px, 3vw, 32px) clamp(24px, 3vw, 32px);
+  }
+
+  .device-card__text h3 {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-size: 1.45rem;
+    font-weight: 750;
+  }
+
+  .device-card__text h3 :global(.glyph) {
+    color: var(--teal);
+  }
+
+  .device-card__text p {
+    color: var(--text-secondary);
+  }
+
+  @media (max-width: 480px) {
+    .device-card__visual {
+      min-height: var(--device-visual-min-height-narrow, 260px);
+      padding: var(--device-visual-padding-narrow, 28px 14px);
+    }
+  }
+</style>

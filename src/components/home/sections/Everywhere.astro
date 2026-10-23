@@ -3,6 +3,7 @@
 // (pas d'image d'Apple), chacun dans sa carte, qui flottent au scroll ; puis une rangée de
 // pastilles pour le reste du système. CarPlay porte « Bientôt » tant que `CARPLAY_AVAILABLE`
 // (src/config.ts) est faux.
+import DeviceCard from '../../DeviceCard.astro';
 import Glyph from '../../Glyph.astro';
 import Section from '../../Section.astro';
 import { CARPLAY_AVAILABLE } from '../../../config';
@@ -36,72 +37,75 @@ const system = [
   <Fragment slot="title">{t('everywhere.title.1')}<br /><span class="gradient-text">{t('everywhere.title.2')}</span></Fragment>
 
   <div class="duo" data-scroll data-loop>
-    <article class="device-card glass" data-reveal="up">
-      <div class="device-card__visual device-card__visual--watch" aria-hidden="true">
-        <div class="watch">
-          <span class="watch__band watch__band--top"></span>
-          <span class="watch__band watch__band--bottom"></span>
-          <span class="watch__crown"></span>
-          <div class="watch__body">
-            <div class="watch__screen">
-              <p class="watch__title">{t('everywhere.watchList')}</p>
-              <div class="watch__row">
-                <span class="watch__art watch__art--heart"><Glyph name="heart" size={14} /></span>
-                <span class="watch__name">{t('everywhere.favorites')}</span>
-              </div>
-              <div class="watch__row">
-                <span class="watch__art" style="--a: #ff6b4a; --b: #bf5af2"></span>
-                <span class="watch__lines"><i></i><i></i></span>
-              </div>
-              <div class="watch__row">
-                <span class="watch__art" style="--a: #2e8888; --b: #5e5ce6"></span>
-                <span class="watch__lines"><i></i><i></i></span>
-              </div>
-              <div class="watch__eq"><i></i><i></i><i></i><i></i></div>
+    <DeviceCard
+      icon="watch"
+      title={t('everywhere.watch.title')}
+      text={t('everywhere.watch.text')}
+      halo="coral"
+      haloAt="30% 30%"
+      decorative
+      visualClass="watch-visual"
+      data-reveal="up"
+    >
+      <div class="watch">
+        <span class="watch__band watch__band--top"></span>
+        <span class="watch__band watch__band--bottom"></span>
+        <span class="watch__crown"></span>
+        <div class="watch__body">
+          <div class="watch__screen">
+            <p class="watch__title">{t('everywhere.watchList')}</p>
+            <div class="watch__row">
+              <span class="watch__art watch__art--heart"><Glyph name="heart" size={14} /></span>
+              <span class="watch__name">{t('everywhere.favorites')}</span>
             </div>
+            <div class="watch__row">
+              <span class="watch__art" style="--a: #ff6b4a; --b: #bf5af2"></span>
+              <span class="watch__lines"><i></i><i></i></span>
+            </div>
+            <div class="watch__row">
+              <span class="watch__art" style="--a: #2e8888; --b: #5e5ce6"></span>
+              <span class="watch__lines"><i></i><i></i></span>
+            </div>
+            <div class="watch__eq"><i></i><i></i><i></i><i></i></div>
           </div>
         </div>
       </div>
-      <div class="device-card__text">
-        <h3><Glyph name="watch" size={24} />{t('everywhere.watch.title')}</h3>
-        <p>{t('everywhere.watch.text')}</p>
-      </div>
-    </article>
+    </DeviceCard>
 
-    <article class="device-card glass" data-reveal="up" data-reveal-delay="120">
-      <div class="device-card__visual device-card__visual--car" aria-hidden="true">
-        <div class="car">
-          <div class="car__sidebar">
-            <span class="car__time">9:41</span>
-            <span class="car__app"></span>
-            <span class="car__app car__app--2"></span>
-            <span class="car__app car__app--3"></span>
+    <DeviceCard
+      icon="car"
+      title={t('everywhere.carplay.title')}
+      text={t('everywhere.carplay.text')}
+      soon={CARPLAY_AVAILABLE ? null : t('everywhere.soon')}
+      haloAt="75% 30%"
+      decorative
+      data-reveal="up"
+      data-reveal-delay="120"
+    >
+      <div class="car">
+        <div class="car__sidebar">
+          <span class="car__time">9:41</span>
+          <span class="car__app"></span>
+          <span class="car__app car__app--2"></span>
+          <span class="car__app car__app--3"></span>
+        </div>
+        <div class="car__main">
+          <div class="car__tabs">
+            {carTabs.map((tab, i) => <span class:list={{ 'is-active': i === 0 }}>{tab}</span>)}
           </div>
-          <div class="car__main">
-            <div class="car__tabs">
-              {carTabs.map((tab, i) => <span class:list={{ 'is-active': i === 0 }}>{tab}</span>)}
-            </div>
-            <ul class="car__list">
-              {
-                carRows.map((row) => (
-                  <li>
-                    <Glyph name={row.icon} size={16} />
-                    {row.label}
-                  </li>
-                ))
-              }
-            </ul>
-          </div>
+          <ul class="car__list">
+            {
+              carRows.map((row) => (
+                <li>
+                  <Glyph name={row.icon} size={16} />
+                  {row.label}
+                </li>
+              ))
+            }
+          </ul>
         </div>
       </div>
-      <div class="device-card__text">
-        <h3>
-          <Glyph name="car" size={24} />{t('everywhere.carplay.title')}
-          {!CARPLAY_AVAILABLE && <span class="soon">{t('everywhere.soon')}</span>}
-        </h3>
-        <p>{t('everywhere.carplay.text')}</p>
-      </div>
-    </article>
+    </DeviceCard>
   </div>
 
   <ul class="system" role="list" data-reveal-stagger="80">
@@ -123,76 +127,10 @@ const system = [
     gap: 22px;
   }
 
-  .device-card {
-    display: grid;
-    grid-template-rows: auto 1fr;
-    overflow: hidden;
-    text-align: start;
-  }
-
-  .device-card__visual {
-    position: relative;
-    display: grid;
-    place-items: center;
-    min-height: 330px;
-    padding: 36px 24px;
-    isolation: isolate;
-  }
-
-  .device-card__visual::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background:
-      radial-gradient(closest-side at 50% 55%, var(--halo-coral), transparent),
-      radial-gradient(closest-side at 30% 30%, var(--halo-purple), transparent);
-  }
-
-  .device-card__visual--watch {
+  /* La montre déborde de son visuel au scroll : coupée par lui, plus d'air au-dessus et dessous. */
+  .duo :global(.watch-visual) {
     overflow: clip;
     padding-block: 64px;
-  }
-
-  .device-card__visual--car::before {
-    background:
-      radial-gradient(closest-side at 50% 55%, var(--halo-teal), transparent),
-      radial-gradient(closest-side at 75% 30%, var(--halo-indigo), transparent);
-  }
-
-  .device-card__text {
-    display: grid;
-    align-content: start;
-    gap: 10px;
-    padding: 0 clamp(22px, 3vw, 32px) clamp(24px, 3vw, 32px);
-  }
-
-  .device-card__text h3 {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 10px;
-    font-size: 1.45rem;
-    font-weight: 750;
-  }
-
-  .device-card__text h3 :global(.glyph) {
-    color: var(--teal);
-  }
-
-  .device-card__text p {
-    color: var(--text-secondary);
-  }
-
-  .soon {
-    padding: 3px 10px;
-    border-radius: var(--radius-pill);
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--coral-text);
-    background: color-mix(in srgb, var(--coral) 10%, transparent);
   }
 
   /* Apple Watch dessinée : boîtier, couronne, bracelet, et la liste de ce qui est sur la montre. */
@@ -509,12 +447,7 @@ const system = [
   }
 
   @media (max-width: 480px) {
-    .device-card__visual {
-      min-height: 260px;
-      padding: 28px 14px;
-    }
-
-    .device-card__visual--watch {
+    .duo :global(.watch-visual) {
       padding-block: 56px;
     }
 

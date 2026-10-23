@@ -77,7 +77,7 @@ const rows = [
 
   <p class="note" data-reveal="fade">{t('stations.moodsNote')}</p>
 
-  <div class="cards" data-reveal-stagger="110">
+  <div class="card-row" data-reveal-stagger="110">
     <FeatureCard icon="radio" tone="purple" title={t('stations.radio.title')} text={t('stations.radio.text')} data-reveal />
     <FeatureCard icon="infinity" tone="teal" title={t('stations.continue.title')} text={t('stations.continue.text')} data-reveal />
     <FeatureCard icon="globe" tone="coral" title={t('stations.live.title')} text={t('stations.live.text')} data-reveal />
@@ -172,22 +172,11 @@ const rows = [
 
   .note {
     margin-top: 20px;
-    color: var(--text-tertiary);
-    font-size: 0.95rem;
+    text-align: start;
   }
 
-  .cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+  .card-row {
     margin-top: clamp(40px, 5vw, 64px);
-  }
-
-  @media (max-width: 900px) {
-    .cards {
-      grid-template-columns: 1fr;
-      max-width: 560px;
-    }
   }
 
   @media (max-width: 480px) {

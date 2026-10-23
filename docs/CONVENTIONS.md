@@ -62,7 +62,11 @@ Variables CSS (`src/styles/global.css`), toujours elles plutôt qu'une couleur e
 Classes utilitaires : `.container` (largeur de contenu + marges, 16 px minimum sur téléphone),
 `.glass` (carte en verre, comme `glassCard()`), `.gradient-text` (corail → violet → sarcelle,
 pour un mot ou une ligne de titre, pas un paragraphe), `.button` + `.button--primary` /
-`.button--ghost`, `.visually-hidden`.
+`.button--ghost`, `.visually-hidden` (et `.visually-hidden-narrow`, sous 520 px seulement),
+`.note` (note discrète sous un bloc de section), `.card-row` (rangée de trois `FeatureCard`, une
+colonne sous 900 px), `.badge-soon` (pastille « Bientôt »). Une section n'y ajuste que sa marge ou
+sa couleur ; un style qui sert à deux sections va dans `global.css` ou dans un composant partagé,
+jamais recopié.
 
 Contraste : tout texte atteint 4,5:1 (WCAG AA) en clair comme en sombre. `--coral` et `--teal`
 n'y arrivent pas sur le fond clair : pour un texte, prendre `--coral-text` / `--teal-text`, et
@@ -87,6 +91,9 @@ par section. Une section peut poser ses propres halos ou dégradés locaux par-d
 - `AppIcon` : l'icône en SVG (`size`, `label` si elle doit être lue).
 - `Glyph` : petites icônes au trait (`name`, `size`), décoratives ; en ajouter une = un tracé
   24 × 24 de plus dans la table du composant.
+- `DeviceCard` : carte d'appareil en verre des sections « iPad et Mac » et « Partout » (`icon`,
+  `title`, `text`, `soon` pour la pastille « Bientôt », `halo`, `haloAt`, `decorative`), le
+  dessin ou la capture de l'appareil entre ses balises.
 - `FeatureCard` : carte en verre avec une icône blanche sur pastille de couleur (`icon`, `tone`,
   `title`, `text`), comme les catégories des Réglages de l'app.
 
