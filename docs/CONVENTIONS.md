@@ -178,7 +178,13 @@ chaque image. `<html>` porte la classe `is-scrolled` dès que la page a défilé
   révèle tout d'emblée ; seuls des fondus de couleur ou d'opacité restent permis. Les effets de
   flou et de verre ont un repli sous `prefers-reduced-transparency: reduce`.
 - **Sans JavaScript**, rien ne doit rester caché : les états de départ ne valent que sous
-  `html.js` (déjà le cas pour `data-reveal` ; à respecter pour toute animation maison).
+  `html.js` (déjà le cas pour `data-reveal` ; à respecter pour toute animation maison). La
+  classe est posée avant le premier rendu par le script en ligne de `Base.astro`, avec un filet :
+  si le moteur n'a pas démarré au bout de 3 s (navigateur sans modules, script bloqué, erreur),
+  elle saute et tout s'affiche ; le moteur annule ce filet en démarrant. Un état de départ qui ne
+  dépend pas de `html.js` (une animation CSS d'entrée, par exemple) doit donc finir visible tout
+  seul. Ne pas poser la classe depuis le module : il s'exécute après la lecture du HTML, souvent
+  après le premier rendu sur réseau lent, et le haut de page disparaîtrait puis réapparaîtrait.
 - **Performance** : n'animer que `transform`, `opacity` (et `filter` pour une apparition). Pas
   d'écouteur `scroll` à soi : passer par `data-scroll` et `--progress`, que le moteur ne calcule
   que pour les éléments proches de l'écran, une fois par image.
