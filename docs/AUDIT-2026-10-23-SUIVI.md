@@ -43,7 +43,7 @@ relecture sont dans `docs/AUDIT-2026-10-23-LOTS.md`.
 | 4 | N5 | Mineur | Le chapeau du hero est l'élément LCP, retardé par la chorégraphie | en cours | | = P1. Titre à 0 ms, chapeau à 200 ms, iPhone à 100 ms ; titre en ligne et titre + chapeau dès le premier rendu (opacité 0,3) ; `fetchpriority` retiré de la capture |
 | 4 | P1 | Mineur | La chorégraphie du hero coûte du LCP | doublon | | Voir N5 (corrigé avec, même PR) |
 | 4 | P2 | Mineur | Spectre et halos tournent en permanence sur le hero | en cours | | Spectre à 15 i/s planifié par `setTimeout`, `will-change` retiré des 72 barres, arrêt après 30 s sans geste ; dégradé du titre glissé par la boucle (il forçait 60 images/s) ; mesures A.11 dans la PR |
-| 4 | P4 | Mineur | Captures un peu floues en densité 3 | à faire | | Captures à 1 179 × 2 556 côté app, sinon assumer |
+| 4 | P4 | Mineur | Captures un peu floues en densité 3 | en cours | | Assumé (captures à 590 px), noté dans CONVENTIONS ; `widths` inchangé |
 | 4 | N4 | Dette | Survols qui bougent hors de la préférence | en cours | |  |
 | 4 | C2 | Mineur | « Bientôt sur l'App Store » a l'air d'un bouton ; rien pour être prévenu | décision | | Style distinct tout de suite ; lien TestFlight dès qu'il existe |
 | 4 | C1 | Mineur | La phrase du serveur de démo suppose l'app installée | à faire | | Avec C2 |

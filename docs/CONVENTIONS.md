@@ -81,6 +81,11 @@ par section. Une section peut poser ses propres halos ou dégradés locaux par-d
 - `PhoneFrame` : un iPhone dessiné en CSS avec une capture (`src`, `alt`, `width`, `loading`).
   La largeur se règle aussi par `--phone-width` sur un parent. Le contenu passé entre ses
   balises se pose par-dessus la capture, dans l'écran (le hero y anime le spectre).
+  Netteté : les captures font 590 px de large, et `widths` s'arrête là. Un iPhone affiché à
+  310 px en densité 3 en voudrait 930 : il est un peu moins net sur un iPhone Pro. Compromis
+  assumé (audit du 23 octobre, P4) ; le jour où l'app fournit des captures à la taille du
+  simulateur (1 179 × 2 556), monter `widths` jusqu'à 930 (les calques posés sur la capture,
+  comme `PhoneSpectrum`, sont en pourcentages de la capture et ne changent pas).
 - `AppStoreButton` : pastille « Bientôt sur l'App Store » tant que `APP_STORE_URL`
   (`src/config.ts`) est vide. Le jour du lancement, utiliser le **badge officiel d'Apple**, tel
   quel ; ne jamais dessiner un faux badge ni utiliser le logo Apple ailleurs.
