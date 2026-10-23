@@ -9,7 +9,8 @@ Lots (ordre de correction suggéré du rapport) : 1 politique et promesses · 2 
 écrire · 3 accessibilité et mise en page mesurées · 4 hero et animations sur téléphone · 5 anglais
 et vocabulaire de l'app · 6 hébergement, déploiement et CI · 7 dette et outillage · app : dépôt de
 l'app. Les décisions se prennent avant les lots 1, 2 et 6 (section « Décisions à prendre » du
-rapport).
+rapport). Les prompts de chaque lot, le prompt de contexte du projet de correction et le prompt de
+relecture sont dans `docs/AUDIT-2026-10-23-LOTS.md`.
 
 | Lot | Constat | Sévérité | Titre | État | PR | Note |
 | ---: | --- | --- | --- | --- | --- | --- |
