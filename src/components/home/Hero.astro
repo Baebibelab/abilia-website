@@ -411,8 +411,10 @@ const chips = [
     transition: transform 0.4s var(--ease-out);
   }
 
-  .hero__actions a:hover .hero__arrow {
-    transform: translateY(2px);
+  @media (prefers-reduced-motion: no-preference) {
+    .hero__actions a:hover .hero__arrow {
+      transform: translateY(2px);
+    }
   }
 
   .hero__platforms {
