@@ -76,6 +76,10 @@ par section. Une section peut poser ses propres halos ou dégradés locaux par-d
 
 ## Composants partagés
 
+- `Header` : la marque, les quatre ancres de l'accueil, la langue et l'appel App Store ; sous
+  860 px, les ancres, Confidentialité et la langue passent dans un menu `<details>` (« Menu »,
+  utilisable sans JavaScript ; le script le referme après un choix, avec Échap ou un clic à
+  côté). Un lien ajouté à l'en-tête s'ajoute aussi à ce menu.
 - `Section` : `id`, `eyebrow`, `title`, `lead`, `align` (`start` / `center`), puis le contenu ;
   l'en-tête apparaît au scroll. Les ancres du menu sont `features`, `offline`, `everywhere`, `pricing`.
 - `PhoneFrame` : un iPhone dessiné en CSS avec une capture (`src`, `alt`, `width`, `loading`).

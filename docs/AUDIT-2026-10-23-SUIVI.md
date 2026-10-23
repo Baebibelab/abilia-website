@@ -33,7 +33,7 @@ relecture sont dans `docs/AUDIT-2026-10-23-LOTS.md`.
 | 3 | A6 | Mineur | « Réduire la transparence » sans effet dans Safari ? | à confirmer sur appareil | | Plausible, non retracé (pas d'iPhone dans la session) : noté dans CONVENTIONS (« Règles »), rien à corriger côté code |
 | 3 | V2 | Mineur | La pastille « Hors ligne » recouvre la barre d'état de l'iPhone | en cours | | Au-dessus du cadre, même glissement que l'iPhone : ≥ 9 px de l'écran à 320–1440 px, scroll compris |
 | 3 | N6 | Mineur | Apparitions ratées lors d'un défilement rapide | en cours | | `threshold: 0` et filet à l'arrêt du défilement (déjà dépassé, ou bas de page) |
-| 3 | A3 | Mineur | Sous 860 px, le menu disparaît sans remplaçant | décision | | |
+| 3 | A3 | Mineur | Sous 860 px, le menu disparaît sans remplaçant | en cours | | Décision du lot : menu `<details>` sous 860 px (ancres, Confidentialité, langue), clé `nav.menu` ; Tarifs en deux gestes à 390 px |
 | 3 | A5 | Mineur | Animations de plus de cinq secondes sans pause sur la page | décision | | Exemption à écrire dans CONVENTIONS, ou bouton |
 | 3 | V3 | Mineur | Pas de feuille d'impression pour la confidentialité | en cours | | `@media print` dans global.css ; PDF Chromium regardé (clair et sombre) ; Safari à confirmer |
 | 4 | N2 | Mineur | Sur téléphone, l'iPhone du hero et ses pastilles s'estompent avant d'être vus | à faire | | |
