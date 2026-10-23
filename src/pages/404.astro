@@ -1,11 +1,20 @@
 ---
 // Page introuvable, servie par OVH pour toute adresse inconnue (ErrorDocument dans
-// public/.htaccess). Une seule page pour les deux langues : le texte anglais suit le français.
+// public/.htaccess). Une seule page pour les deux langues : le texte anglais suit le français,
+// dans le titre et la description comme dans la page. C'est la seule page dont les textes ne
+// passent pas par src/i18n/ui.ts : elle les dit dans les deux langues à la fois, ce que
+// `useTranslations` ne sait pas faire (exception écrite dans docs/CONVENTIONS.md).
 import Base from '../layouts/Base.astro';
 import { routes } from '../i18n/ui';
 ---
 
-<Base lang="fr" alternates={routes.home} title="Page introuvable" noindex>
+<Base
+  lang="fr"
+  alternates={routes.home}
+  title="Page introuvable · Page not found"
+  description="Cette page s'est perdue en route. This page got lost on the way."
+  noindex
+>
   <section class="not-found container">
     <p class="not-found__code gradient-text" data-reveal="blur">404</p>
     <h1 data-reveal>Cette page s'est perdue en route.</h1>

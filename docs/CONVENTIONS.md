@@ -206,6 +206,12 @@ const t = useTranslations(lang);
 Les composants reçoivent toujours `lang` en prop. Les textes alternatifs des captures vont
 aussi dans `ui.ts` (`screenshot.*`).
 
+**Exception : la 404** (`src/pages/404.astro`). OVH sert une seule page introuvable pour toutes
+les adresses, quelle que soit la langue : elle parle les deux à la fois, le français puis
+l'anglais (`lang="en"` sur les parties anglaises), dans son titre (« Page introuvable · Page not
+found »), sa description et son corps. Ses textes restent donc dans le fichier, et c'est la seule
+page dans ce cas.
+
 **Nouvelle page** : l'ajouter à `routes` dans `ui.ts` avec son adresse dans chaque langue (les
 adresses peuvent différer, par ex. `/confidentialite/` et `/en/privacy/`), puis créer
 `src/pages/<page>.astro` et `src/pages/en/<page>.astro`, qui passent `alternates={routes.<page>}`,
