@@ -245,7 +245,8 @@ const fr = {
   'screenshot.album': "Page d'un album aux couleurs de sa pochette",
   'footer.tagline': 'Votre musique, votre serveur.',
   'footer.jellyfin': "Andia n'est pas affiliée au projet Jellyfin.",
-  'footer.apple': 'Apple, iPhone, iPad, Mac, Apple Watch, CarPlay et App Store sont des marques d’Apple Inc.',
+  'footer.apple':
+    'Apple, iPhone, iPad, Mac, macOS, iOS, iPadOS, Apple Watch, CarPlay, AirPlay, AirPods, Siri, VoiceOver, iCloud, Time Machine, TestFlight et App Store sont des marques d’Apple Inc.',
   'footer.privacy': 'Politique de confidentialité',
   'footer.nav': 'Liens du pied de page',
   'privacy.title': 'Politique de confidentialité',
@@ -497,7 +498,8 @@ const en: Record<UIKey, string> = {
   'screenshot.album': 'An album page in the colors of its artwork',
   'footer.tagline': 'Your music, your server.',
   'footer.jellyfin': 'Andia is not affiliated with the Jellyfin project.',
-  'footer.apple': 'Apple, iPhone, iPad, Mac, Apple Watch, CarPlay and App Store are trademarks of Apple Inc.',
+  'footer.apple':
+    'Apple, iPhone, iPad, Mac, macOS, iOS, iPadOS, Apple Watch, CarPlay, AirPlay, AirPods, Siri, VoiceOver, iCloud, Time Machine, TestFlight and App Store are trademarks of Apple Inc.',
   'footer.privacy': 'Privacy policy',
   'footer.nav': 'Footer links',
   'privacy.title': 'Privacy policy',
