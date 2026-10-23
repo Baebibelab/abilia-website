@@ -258,7 +258,7 @@ const fr = {
   'privacy.summary.noData': 'Aucune donnée collectée',
   'privacy.summary.noTracking': 'Ni publicité, ni pistage',
   'privacy.summary.onDevice': 'Statistiques calculées sur l’appareil',
-  'privacy.summary.yourServer': 'Votre musique reste sur votre serveur',
+  'privacy.summary.yourServer': 'Votre musique ne passe que par votre serveur',
   'privacy.toc': 'Sur cette page',
   'privacy.translationNote': '',
   'privacy.back': "Retour à l'accueil",
@@ -511,7 +511,7 @@ const en: Record<UIKey, string> = {
   'privacy.summary.noData': 'No data collected',
   'privacy.summary.noTracking': 'No ads, no tracking',
   'privacy.summary.onDevice': 'Stats computed on your device',
-  'privacy.summary.yourServer': 'Your music stays on your server',
+  'privacy.summary.yourServer': 'Your music only goes through your server',
   'privacy.toc': 'On this page',
   'privacy.translationNote':
     'This is a translation for your convenience; the French version is the reference.',
