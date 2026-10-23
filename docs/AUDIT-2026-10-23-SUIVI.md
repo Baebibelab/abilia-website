@@ -51,7 +51,7 @@ relecture sont dans `docs/AUDIT-2026-10-23-LOTS.md`.
 | 5 | I2 | Mineur | `everywhere.siri` différent dans les deux langues | en cours | | Phrase reconnue de AppShortcuts.xcstrings (« Play my favorites on ${applicationName} ») |
 | 5 | I3 | Mineur | « Lock screen » / « Lock Screen » | en cours | | |
 | 5 | I5 | Mineur | 404 : titre, description et langue français seulement | à faire | | |
-| 5 | F4 | Mineur | « dès la première lettre » trop fort pour les morceaux | à faire | | |
+| 5 | F4 | Mineur | « dès la première lettre » trop fort pour les morceaux | en cours | | D'après instantMatches : morceaux à la réponse du serveur |
 | 5 | F5 | Mineur | « Toujours à jour » : favoris et playlists suivis seulement | à faire | | |
 | 5 | F6 | Mineur | Pastilles de période du Rewind ≠ sélecteur de l'app | à faire | | |
 | 5 | C3 | Mineur | Aucune espace insécable en français | à faire | | Règle à écrire dans CONVENTIONS |

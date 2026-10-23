@@ -50,7 +50,8 @@ const fr = {
   'jellyfin.library.text':
     "Albums, artistes, playlists et genres, avec un index A–Z. Les pages d'artiste ont leur photo et leur biographie, les albums sur plusieurs disques se lisent d'un seul tenant. Toutes les bibliothèques musicales du serveur s'affichent par défaut ; avec Andia Plus, choisissez celles à afficher.",
   'jellyfin.search.title': 'Une recherche instantanée',
-  'jellyfin.search.text': "Morceaux, albums, artistes et playlists s'affichent dès la première lettre.",
+  'jellyfin.search.text':
+    "Albums, artistes et playlists s'affichent dès la première lettre, les morceaux dès la réponse du serveur.",
   'jellyfin.secure.title': 'Une connexion sûre',
   'jellyfin.secure.text':
     "Vos identifiants restent dans le trousseau de votre appareil. Certificat auto-signé ? Andia vous montre son empreinte, puis n'accepte que lui.",
@@ -301,7 +302,8 @@ const en: Record<UIKey, string> = {
   'jellyfin.library.text':
     'Albums, artists, playlists and genres, with an A–Z index. Artist pages have their photo and biography, and multi-disc albums play straight through. All the music libraries on your server show up by default; with Andia Plus, choose which ones to show.',
   'jellyfin.search.title': 'Instant search',
-  'jellyfin.search.text': 'Songs, albums, artists and playlists show up from the very first letter.',
+  'jellyfin.search.text':
+    'Albums, artists and playlists show up from the very first letter, songs as soon as the server answers.',
   'jellyfin.secure.title': 'A secure connection',
   'jellyfin.secure.text':
     'Your credentials stay in your device’s keychain. Self-signed certificate? Andia shows you its fingerprint, then trusts that one alone.',
