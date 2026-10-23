@@ -6,6 +6,8 @@
 //   <PhoneFrame src={enLecture} alt="…" />
 //   <PhoneFrame src={album} alt="…" width={260} loading="eager" />
 //
+// `loading="eager"` pour une capture du premier écran, sans `fetchpriority="high"` : le LCP du
+// hero est son titre, et une image prioritaire retardait le LCP simulé par Lighthouse.
 // La largeur se règle aussi en CSS, par la variable `--phone-width` du parent.
 // Le contenu passé entre les balises se pose par-dessus la capture, dans l'écran (le hero y
 // anime le spectre de l'écran En lecture).
@@ -34,7 +36,6 @@ const { src, alt, width = 300, loading = 'lazy', class: className } = Astro.prop
       sizes={`(max-width: 480px) min(${width}px, 70vw), ${width}px`}
       loading={loading}
       decoding="async"
-      fetchpriority={loading === 'eager' ? 'high' : undefined}
     />
     <slot />
   </div>

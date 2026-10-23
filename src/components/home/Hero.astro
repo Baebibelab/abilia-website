@@ -58,7 +58,7 @@ const chips = [
           {
             firstLine.map((word, index) => (
               <>
-                <span class="hero__word" data-reveal="blur" data-reveal-delay="120">
+                <span class="hero__word" data-reveal="blur">
                   {word}
                 </span>
                 {index < firstLine.length - 1 && ' '}
@@ -66,12 +66,13 @@ const chips = [
             ))
           }
         </span>
-        <span class="gradient-text hero__title-accent" data-reveal="blur" data-reveal-delay="440">
+        <br />
+        <span class="gradient-text hero__title-accent" data-reveal="blur" data-reveal-delay="240">
           {t('hero.title.2')}
         </span>
       </h1>
-      <p class="hero__lead" data-reveal data-reveal-delay="580">{t('hero.lead')}</p>
-      <div class="hero__actions" data-reveal data-reveal-delay="700">
+      <p class="hero__lead" data-reveal data-reveal-delay="200">{t('hero.lead')}</p>
+      <div class="hero__actions" data-reveal data-reveal-delay="320">
         <AppStoreButton lang={lang} />
         <a class="button button--ghost" href="#features">
           {t('cta.discover')}
@@ -80,10 +81,10 @@ const chips = [
           </svg>
         </a>
       </div>
-      <p class="hero__platforms" data-reveal="fade" data-reveal-delay="840">{t('hero.platforms')}</p>
+      <p class="hero__platforms" data-reveal="fade" data-reveal-delay="440">{t('hero.platforms')}</p>
       {
         !appSpeaksPageLanguage && (
-          <p class="hero__language" data-reveal="fade" data-reveal-delay="900">
+          <p class="hero__language" data-reveal="fade" data-reveal-delay="500">
             <span class="hero__language-badge" lang="fr" aria-hidden="true">FR</span>
             {t('hero.appLanguage')}
           </p>
@@ -328,18 +329,21 @@ const chips = [
     letter-spacing: -0.04em;
     line-height: 1.02;
     text-wrap: balance;
+    /* La place des jambages de la ligne en dégradé, qui, en ligne, n'en prend plus. */
+    padding-bottom: 0.08em;
   }
 
-  .hero__line {
-    display: block;
-  }
-
-  .hero__word {
-    display: inline-block;
+  /* Mots et lignes du titre restent en ligne (pas de `block` ni d'`inline-block`) : le navigateur
+     compte alors le titre entier comme un seul texte pour le LCP, au lieu de mot par mot. Ils
+     apparaissent par fondu et netteté, sans translation (sans effet sur un élément en ligne).
+     Titre et chapeau, les plus grands textes du premier écran, partent d'une opacité non nulle :
+     ils sont là dès le premier rendu, et le LCP ne dépend plus de la chorégraphie. */
+  :global(html.js) .hero__title [data-reveal]:not(.is-revealed),
+  :global(html.js) .hero__lead:not(.is-revealed) {
+    opacity: 0.3;
   }
 
   .hero__title-accent {
-    display: block;
     /* Dégradé deux fois plus large que le texte, qui glisse lentement. */
     background-image: linear-gradient(
       100deg,
@@ -617,7 +621,7 @@ const chips = [
 
     .hero__float {
       animation:
-        phone-in 1.6s var(--ease-out) 0.25s both,
+        phone-in 1.6s var(--ease-out) 0.1s both,
         bob 7s ease-in-out 1.85s infinite alternate;
     }
 

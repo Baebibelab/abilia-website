@@ -40,8 +40,8 @@ relecture sont dans `docs/AUDIT-2026-10-23-LOTS.md`.
 | 4 | V5 | Mineur | La pastille « Enchaînement sans blanc » est coupée entre 861 et ≈ 1 300 px | en cours | | Borne à 24 px du bord de la fenêtre, en largeur réelle de pastille ; « Égaliseur 10 bandes » (`.chip--br`) avait le même défaut à 870 et 1 000 px |
 | 4 | N1 | Mineur | Le point « Bientôt » pulse sans fin dans l'en-tête, hors `data-loop` | à faire | | |
 | 4 | N3 | Mineur | Si le moteur ne se charge pas, tout `data-reveal` reste invisible | à faire | | |
-| 4 | N5 | Mineur | Le chapeau du hero est l'élément LCP, retardé par la chorégraphie | à faire | | = P1 |
-| 4 | P1 | Mineur | La chorégraphie du hero coûte du LCP | doublon | | Voir N5 |
+| 4 | N5 | Mineur | Le chapeau du hero est l'élément LCP, retardé par la chorégraphie | en cours | | = P1. Titre à 0 ms, chapeau à 200 ms, iPhone à 100 ms ; titre en ligne et titre + chapeau dès le premier rendu (opacité 0,3) ; `fetchpriority` retiré de la capture |
+| 4 | P1 | Mineur | La chorégraphie du hero coûte du LCP | doublon | | Voir N5 (corrigé avec, même PR) |
 | 4 | P2 | Mineur | Spectre et halos tournent en permanence sur le hero | à faire | | Mesures de l'outil A.11 dans le rapport |
 | 4 | P4 | Mineur | Captures un peu floues en densité 3 | à faire | | Captures à 1 179 × 2 556 côté app, sinon assumer |
 | 4 | N4 | Dette | Survols qui bougent hors de la préférence | à faire | | |
