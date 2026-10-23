@@ -55,14 +55,14 @@ const cards = [-1.5, -0.5, 0.5, 1.5];
 
   <div class="deck" data-scroll>
     <article class="story story--time" style={`--dx: ${cards[0]}; --dy: ${Math.abs(cards[0])}`} data-reveal="up">
-      <p class="story__label">{t('rewind.time.label')}</p>
+      <h3 class="story__label">{t('rewind.time.label')}</h3>
       <p class="story__big">{t('rewind.time.value')}</p>
       <p class="story__detail">{t('rewind.time.detail')}</p>
       <p class="story__pill">{t('rewind.time.trend')}</p>
     </article>
 
     <article class="story story--genres" style={`--dx: ${cards[1]}; --dy: ${Math.abs(cards[1])}`} data-reveal="up">
-      <p class="story__label">{t('rewind.genres.label')}</p>
+      <h3 class="story__label">{t('rewind.genres.label')}</h3>
       <div class="palette" aria-hidden="true">
         {genres.map((g) => <span style={`flex: ${g.share}; background: ${g.color}`} />)}
       </div>
@@ -80,7 +80,7 @@ const cards = [-1.5, -0.5, 0.5, 1.5];
     </article>
 
     <article class="story story--hours" style={`--dx: ${cards[2]}; --dy: ${Math.abs(cards[2])}`} data-reveal="up">
-      <p class="story__label">{t('rewind.hours.label')}</p>
+      <h3 class="story__label">{t('rewind.hours.label')}</h3>
       <svg class="clock" viewBox="-75 -75 150 150" aria-hidden="true" focusable="false">
         <circle r="26" class="clock__face"></circle>
         {clockBars.map((b) => <line x1={b.x1} y1={b.y1} x2={b.x2} y2={b.y2} class:list={{ hot: b.hot }} />)}
@@ -89,7 +89,7 @@ const cards = [-1.5, -0.5, 0.5, 1.5];
     </article>
 
     <article class="story story--loop" style={`--dx: ${cards[3]}; --dy: ${Math.abs(cards[3])}`} data-reveal="up">
-      <p class="story__label">{t('rewind.loop.label')}</p>
+      <h3 class="story__label">{t('rewind.loop.label')}</h3>
       <span class="loop" aria-hidden="true"><Glyph name="refresh" size={40} /></span>
       <p class="story__big story__big--small">{t('rewind.loop.value')}</p>
       <p class="story__detail">{t('rewind.loop.detail')}</p>
@@ -184,8 +184,11 @@ const cards = [-1.5, -0.5, 0.5, 1.5];
     --c2: #ff6b4a;
   }
 
+  /* Titre de la carte (h3 sous le h2 de la section), à l'allure d'un surtitre. */
   .story__label {
+    font-family: var(--font-sans);
     font-size: 0.78rem;
+    line-height: 1.55;
     font-weight: 700;
     letter-spacing: 0.1em;
     text-transform: uppercase;
