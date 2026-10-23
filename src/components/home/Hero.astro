@@ -535,7 +535,9 @@ const chips = [
 
   .chip--br {
     top: 86%;
-    left: calc(50% + var(--phone-width) * 0.5 - 96px);
+    /* Comme la pastille de droite : pas plus de 36 px hors de la colonne, pour que la pastille
+       « Plus » reste à l'écran (≈ 15,5rem de large en français). */
+    left: min(calc(50% + var(--phone-width) * 0.5 - 96px), calc(100% + 36px - 15.5rem));
     --dx: 1;
     --dy: 0.6;
     --depth: 1.3;
