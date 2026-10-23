@@ -47,7 +47,7 @@ relecture sont dans `docs/AUDIT-2026-10-23-LOTS.md`.
 | 4 | N4 | Dette | Survols qui bougent hors de la préférence | à faire | | |
 | 4 | C2 | Mineur | « Bientôt sur l'App Store » a l'air d'un bouton ; rien pour être prévenu | décision | | Style distinct tout de suite ; lien TestFlight dès qu'il existe |
 | 4 | C1 | Mineur | La phrase du serveur de démo suppose l'app installée | à faire | | Avec C2 |
-| 5 | I1 | Mineur | L'anglais du site s'écarte du catalogue anglais de l'app | à faire | | Liste dans le constat |
+| 5 | I1 | Mineur | L'anglais du site s'écarte du catalogue anglais de l'app | en cours | | Catalogue de l'app clé par clé ; « song » pour morceau partout en anglais, sauf les numéros (« Track 1 ») |
 | 5 | I2 | Mineur | `everywhere.siri` différent dans les deux langues | à faire | | |
 | 5 | I3 | Mineur | « Lock screen » / « Lock Screen » | à faire | | |
 | 5 | I5 | Mineur | 404 : titre, description et langue français seulement | à faire | | |
