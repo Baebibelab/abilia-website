@@ -4,16 +4,20 @@
 // Le jour du lancement : Apple impose son badge officiel « Télécharger dans l'App Store »
 // (https://developer.apple.com/app-store/marketing/guidelines/), tel quel et dans la langue de
 // la page. Ne pas dessiner un faux badge ni utiliser le logo Apple ici.
+//
+// `pulse` : le point de « Bientôt » bat doucement (le hero seulement : dans l'en-tête fixe, la
+// boucle tournerait toute la visite). La pastille porte alors `data-loop`.
 import { APP_STORE_URL } from '../config';
 import { type Lang, useTranslations } from '../i18n/ui';
 
 interface Props {
   lang: Lang;
   size?: 'small' | 'large';
+  pulse?: boolean;
   class?: string;
 }
 
-const { lang, size = 'large', class: className } = Astro.props;
+const { lang, size = 'large', pulse = false, class: className } = Astro.props;
 const t = useTranslations(lang);
 ---
 
@@ -23,8 +27,11 @@ const t = useTranslations(lang);
       {t('cta.download')}
     </a>
   ) : (
-    <span class:list={['button', 'button--primary', 'app-store', 'app-store--soon', `app-store--${size}`, className]}>
-      <span class="app-store__dot" aria-hidden="true"></span>
+    <span
+      class:list={['button', 'button--primary', 'app-store', 'app-store--soon', `app-store--${size}`, className]}
+      data-loop={pulse ? '' : undefined}
+    >
+      <span class:list={['app-store__dot', { 'app-store__dot--pulse': pulse }]} aria-hidden="true"></span>
       {t('cta.appStore')}
     </span>
   )
@@ -42,20 +49,36 @@ const t = useTranslations(lang);
   }
 
   .app-store__dot {
+    position: relative;
     width: 8px;
     height: 8px;
     border-radius: 50%;
     background: var(--coral);
-    box-shadow: 0 0 0 0 rgb(255 107 74 / 0.6);
-    animation: pulse 2.4s var(--ease-out) infinite;
+  }
+
+  /* L'onde qui part du point : un disque qui grandit en s'effaçant (`transform` et `opacity`
+     seulement, sans repeindre la pastille). */
+  @media (prefers-reduced-motion: no-preference) {
+    .app-store__dot--pulse::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: var(--coral);
+      opacity: 0;
+      animation: pulse 2.4s var(--ease-out) infinite;
+    }
   }
 
   @keyframes pulse {
-    70% {
-      box-shadow: 0 0 0 8px rgb(255 107 74 / 0);
+    0% {
+      opacity: 0.6;
+      transform: scale(1);
     }
+    70%,
     100% {
-      box-shadow: 0 0 0 0 rgb(255 107 74 / 0);
+      opacity: 0;
+      transform: scale(3);
     }
   }
 </style>
