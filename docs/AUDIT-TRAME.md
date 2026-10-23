@@ -386,10 +386,9 @@ existe et son prix, sans bouton d'achat).
    « Bientôt » sur la plateforme pas encore sortie ; `screens.note` / `screens.note.carplay` ;
    JSON-LD (`operatingSystem` quand le Mac sort, `downloadUrl`, `installUrl`), balise
    `apple-itunes-app` ; bouton App Store devenu lien (badge officiel exigé, zone 9, point 6) ; bloc de
-   la bêta ; tarifs sans prix ; note Jellyfin sans le serveur de démo ; `hero.appLanguage` affiché
-   sur la page anglaise (son texte anglais est-il encore vrai ?). Ce que `config.ts` demande de faire
-   à la main ce jour-là (ligne des plateformes de `scripts/og/og.html`, images de partage) figure
-   dans les listes de contrôle du § 9.
+   la bêta ; tarifs sans prix ; note Jellyfin sans le serveur de démo. Ce que `config.ts` demande
+   de faire à la main ce jour-là (images de partage, dont la ligne des plateformes suit
+   `platforms()`) figure dans les listes de contrôle du § 9.
 6. **Captures.**
    - `screenshots-check.sh` (annexe A.8) : chaque capture identique à celle de l'app (hors
      recadrage du Mac), aucune manquante ; les captures de l'app que le site n'utilise pas (omission
@@ -515,7 +514,7 @@ vouvoyant ; l'anglais est une vraie traduction, pas un mot à mot ») ; le vocab
 **Fichiers** : `src/i18n/ui.ts` (dont `routes`, `useTranslations`, `platforms()`),
 `src/components/Header.astro` (sélecteur), `src/layouts/Base.astro` (`lang`, hreflang,
 `og:locale`), `src/pages/404.astro`, `src/content/privacy/*.md`, `src/assets/screenshots/index.ts`,
-`src/config.ts` (`APP_LANGUAGES`), `scripts/og/og.html`.
+`scripts/og/og.html` et `render.mjs` (textes lus dans `ui.ts`, capture de la langue).
 
 **Contrat** : `CLAUDE.md` du site (« Tout texte visible passe par `src/i18n/ui.ts`, dans les deux
 langues ») ; `docs/CONVENTIONS.md` (« Textes et langues »).
@@ -957,7 +956,7 @@ maintenance).
 3. **Commentaires et docs face au code** : commentaire de `Section.astro` (ancres citées), de
    `config.ts` (prix, CarPlay), de `screenshots/index.ts`, de `PhoneSpectrum.astro` (mesures), de
    `.htaccess`, du hero ; `README.md` (« iPhone et Apple Watch (bientôt iPad et Mac) ») ;
-   `CONVENTIONS.md` (ordre des sections, `APP_LANGUAGES` : « aujourd'hui, aucune ») ; `CLAUDE.md`.
+   `CONVENTIONS.md` (ordre des sections, classes partagées) ; `CLAUDE.md`.
 4. **TypeScript** : `astro check` à zéro erreur, avertissement et suggestion ; pas de `any`, peu de
    `as`, aucune assertion non nulle injustifiée.
 5. **Fragilités** : calculs liés à une capture précise (spectre du hero) ou à un nombre d'éléments
@@ -1341,7 +1340,7 @@ console.log(`\nLiens externes (à ouvrir un par un) :\n  ${[...external].join('\
 ### A.3 Configurations futures : `variants.sh`
 
 Construit le site sous chaque configuration à venir de `src/config.ts` (CarPlay, iPad, Mac, tout,
-lien App Store, bêta, sans prix, sans serveur de démo, app en français seulement), un
+lien App Store, bêta, sans prix, sans serveur de démo), un
 `dist-<variante>/` chacune, dans la copie de travail ; `config.ts` est remis en place à la fin.
 Une substitution qui ne change rien (le fichier a évolué) est signalée : adapter alors la ligne
 `sed`. `bash $W/tools/variants.sh $W/site` (une à deux minutes).
@@ -1363,7 +1362,6 @@ declare -A variants=(
   [testflight]='s#TESTFLIGHT_URL: string | null = null#TESTFLIGHT_URL: string | null = "https://testflight.apple.com/join/XXXXXXXX"#'
   [sansprix]="s#PLUS_PRICE: Record<'fr' | 'en', string> | null = {[^}]*}#PLUS_PRICE: Record<'fr' | 'en', string> | null = null#"
   [sansdemo]='/DEMO_SERVER:/,/};/c\export const DEMO_SERVER: { url: string; user: string; password: string } | null = null;'
-  [francais]="s#APP_LANGUAGES: readonly string\[\] = \['fr', 'en'\]#APP_LANGUAGES: readonly string[] = ['fr']#"
 )
 for name in "${!variants[@]}"; do
   cp .audit-config.ts.orig src/config.ts

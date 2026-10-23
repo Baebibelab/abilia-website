@@ -114,9 +114,6 @@ Réglages dans `src/config.ts` :
   (« pensée pour l'iPhone, l'iPad et le Mac », chapeau du hero), que `useTranslations` remplit
   dans tous les textes de `ui.ts`, et la section paraît, l'autre plateforme y portant « Bientôt ».
   Penser alors à régénérer les images de partage (leur ligne des plateformes suit `platforms()`).
-- `APP_LANGUAGES` : langues de l'interface de l'app (`['fr', 'en']`), qui ont chacune leurs
-  captures. Une page dans une langue que l'app ne parle pas le dit sous l'appel du hero
-  (`hero.appLanguage`) ; aujourd'hui, aucune.
 - `JELLYFIN_URL`.
 - `PLUS_PRICE` : prix d'Andia Plus par langue, affiché par « Tarifs » (`null` : « Achat unique »
   sans prix). Le vrai prix est celui de l'App Store : le changer ici le même jour (plan de prix
@@ -212,7 +209,9 @@ const t = useTranslations(lang);
 ```
 
 Les composants reçoivent toujours `lang` en prop. Les textes alternatifs des captures vont
-aussi dans `ui.ts` (`screenshot.*`).
+aussi dans `ui.ts` (`screenshot.*`). Une langue du site est une langue de l'app : ses captures
+existent dans cette langue (`src/assets/screenshots/<langue>/`) et la fiche schema.org la déclare
+(`inLanguage`, tirée de `languages`).
 
 **Nouvelle page** : l'ajouter à `routes` dans `ui.ts` avec son adresse dans chaque langue (les
 adresses peuvent différer, par ex. `/confidentialite/` et `/en/privacy/`), puis créer

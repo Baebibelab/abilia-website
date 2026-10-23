@@ -16,7 +16,6 @@ import PhoneFrame from '../PhoneFrame.astro';
 import PhoneSpectrum from './hero/PhoneSpectrum.astro';
 import WaveSpectrum from './hero/WaveSpectrum.astro';
 import { screenshots } from '../../assets/screenshots';
-import { APP_LANGUAGES } from '../../config';
 import { type Lang, useTranslations } from '../../i18n/ui';
 
 interface Props {
@@ -25,7 +24,6 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
-const appSpeaksPageLanguage = APP_LANGUAGES.includes(lang);
 // La première ligne du titre arrive mot à mot.
 const firstLine = t('hero.title.1').split(' ');
 
@@ -81,14 +79,6 @@ const chips = [
         </a>
       </div>
       <p class="hero__platforms" data-reveal="fade" data-reveal-delay="840">{t('hero.platforms')}</p>
-      {
-        !appSpeaksPageLanguage && (
-          <p class="hero__language" data-reveal="fade" data-reveal-delay="900">
-            <span class="hero__language-badge" lang="fr" aria-hidden="true">FR</span>
-            {t('hero.appLanguage')}
-          </p>
-        )
-      }
     </div>
 
     <div class="hero__visual">
@@ -380,29 +370,6 @@ const chips = [
     color: var(--text-tertiary);
     font-size: 0.9rem;
     font-weight: 500;
-  }
-
-  /* Page dans une langue que l'app ne parle pas encore : on le dit avant qu'on la télécharge. */
-  .hero__language {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    max-width: 34em;
-    margin-top: -12px;
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-    text-align: start;
-  }
-
-  .hero__language-badge {
-    flex: none;
-    padding: 2px 7px;
-    border-radius: 6px;
-    border: 1px solid var(--border);
-    color: var(--text);
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.06em;
   }
 
   /* iPhone et décor */

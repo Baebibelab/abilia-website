@@ -34,7 +34,6 @@ const fr = {
   'hero.lead.carplay':
     "Andia joue la bibliothèque de votre serveur Jellyfin avec une app pensée pour {devices} : belle, rapide, et qui se fond dans le système, jusque dans la voiture et sur l'Apple Watch.",
   'hero.platforms': 'Pour {platforms}',
-  'hero.appLanguage': "L'app est en français.",
   'hero.chip.format': 'FLAC · 24 bits / 96 kHz',
   'hero.chip.gapless': 'Enchaînement sans blanc',
   'hero.chip.offline': 'Hors ligne',
@@ -281,7 +280,6 @@ const en: Record<UIKey, string> = {
   'hero.lead.carplay':
     'Andia plays your Jellyfin server’s library in an app built for {devices}: beautiful, fast, and at home everywhere in the system, from the car to the Apple Watch.',
   'hero.platforms': 'For {platforms}',
-  'hero.appLanguage': 'Good to know: the app itself is in French for now, as in the screenshots on this page.',
   'hero.chip.format': 'FLAC · 24-bit / 96 kHz',
   'hero.chip.gapless': 'Gapless playback',
   'hero.chip.offline': 'Works offline',
