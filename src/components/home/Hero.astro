@@ -752,9 +752,10 @@ const chips = [
       --rest-y: -6deg;
       padding-block: 8px;
       /* L'iPhone est sous le texte : sa sortie part de sa propre position (son `--progress`), pas
-         de celle du hero, sinon il s'estompe pendant qu'on le découvre. 0 tant qu'il est entier
-         à l'écran (son haut passe le haut de l'écran vers 0,6), 1 quand il l'a quitté. */
-      --exit: max(0, (var(--progress, 0) - 0.6) * 2.5);
+         de celle du hero, sinon il s'estompe pendant qu'on le découvre. 0 jusqu'à ce que le
+         visuel ait passé d'un quart le haut de l'écran (à 390 × 844, encore au repos après un
+         écran entier de défilement), 1 quand il l'a quitté. */
+      --exit: max(0, (var(--progress, 0) - 0.75) * 4);
     }
   }
 
