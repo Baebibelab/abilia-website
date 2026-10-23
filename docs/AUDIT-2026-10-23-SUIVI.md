@@ -28,7 +28,7 @@ relecture sont dans `docs/AUDIT-2026-10-23-LOTS.md`.
 | 2 | D2 | Majeur | En maintenance, l'URL de confidentialité répond 503 | décision | | Laisser passer `/confidentialite/`, `/en/privacy/` et l'assistance, ou rouvrir avant la soumission |
 | 3 | A1 | Majeur | axe : le texte visible du sélecteur de langue n'est pas dans son nom | en cours | | |
 | 3 | V1 | Majeur | La page Confidentialité déborde à 320 px | en cours | | Cause mesurée : le chemin `~/Library/Containers/…` du texte, pas la grille du sommaire |
-| 3 | A2 | Majeur | Texte blanc des cartes de Stations sous 4,5:1 | à faire | | Huit cartes ; outil A.12 pour vérifier |
+| 3 | A2 | Majeur | Texte blanc des cartes de Stations sous 4,5:1 | en cours | | Huit cartes : départ et arrivée assombris (même teinte, même saturation), A.12 ✓ sur les douze, ≥ 4,5 dès t = 0,36 |
 | 3 | A4 | Mineur | Noms accessibles pauvres des illustrations | à faire | | |
 | 3 | A6 | Mineur | « Réduire la transparence » sans effet dans Safari ? | à faire | | Plausible : à confirmer sur iPhone avant de corriger |
 | 3 | V2 | Mineur | La pastille « Hors ligne » recouvre la barre d'état de l'iPhone | à faire | | |
