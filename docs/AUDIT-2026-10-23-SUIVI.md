@@ -55,7 +55,7 @@ relecture sont dans `docs/AUDIT-2026-10-23-LOTS.md`.
 | 5 | F5 | Mineur | « Toujours à jour » : favoris et playlists suivis seulement | en cours | | D'après AutoDownloads : favoris et playlists téléchargés seulement |
 | 5 | F6 | Mineur | Pastilles de période du Rewind ≠ sélecteur de l'app | en cours | | Décision : 7 jours, 30 jours, année du build, Tout ; « All Time » en anglais, valeur du catalogue (« Tout (période) ») |
 | 5 | C3 | Mineur | Aucune espace insécable en français | en cours | | Le constat comptait 0 insécable (grep sans locale UTF-8) : il y en avait 21, pas partout ; 58 désormais, règle dans CONVENTIONS |
-| 5 | I4 | Dette | Virgule de série en anglais | décision | | |
+| 5 | I4 | Dette | Virgule de série en anglais | en cours | | Décision : virgule de série en anglais (list.and.serial), rien en français |
 | 6 | D1 | Majeur | Le déploiement accepte n'importe quelle clé d'hôte SFTP | à faire | | Secret `OVH_KNOWN_HOSTS` |
 | 6 | D3 | Mineur | Aucune Content-Security-Policy | décision | | Report-Only d'abord |
 | 6 | D4 | Mineur | Types compressés incomplets | à faire | | = P3 |

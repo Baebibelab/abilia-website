@@ -248,7 +248,9 @@ comme dans l'app. Vérifier : `grep -c $' ' src/i18n/ui.ts` ne baisse pas, et
 glossaire de « Localization » dans `CLAUDE.md` de l'app) : un libellé qui nomme un écran, une
 carte ou un réglage de l'app reprend sa valeur anglaise telle quelle (« Favorite Songs »,
 « Recently Added », « Live Radio », « Lock Screen »), Title Case pour les titres et libellés,
-« song » pour morceau (« track » seulement pour un numéro de piste).
+« song » pour morceau (« track » seulement pour un numéro de piste). Les listes de trois éléments
+ou plus prennent la virgule de série (« iPhone, iPad, Mac, and Apple Watch ») : `list.and.serial`
+de `ui.ts`, que `joinList` emploie dès trois éléments ; le français n'en met jamais.
 
 ## Vérifier et mettre en ligne
 

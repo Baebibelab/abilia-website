@@ -214,6 +214,7 @@ const fr = {
   'pricing.beta.cta': 'Rejoindre la bêta',
   'everywhere.watchList': 'Sur la montre',
   'list.and': ' et ',
+  'list.and.serial': ' et ',
   'device.iphone': "l'iPhone",
   'device.ipad': "l'iPad",
   'device.mac': 'le Mac',
@@ -465,6 +466,7 @@ const en: Record<UIKey, string> = {
   'pricing.beta.cta': 'Join the Beta',
   'everywhere.watchList': 'On the Watch',
   'list.and': ' and ',
+  'list.and.serial': ', and ',
   'device.iphone': 'iPhone',
   'device.ipad': 'iPad',
   'device.mac': 'Mac',
@@ -528,9 +530,14 @@ export function platforms(): string[] {
   ];
 }
 
-/** « a, b et c » / « a, b and c ». */
-function joinList(items: string[], and: string) {
-  return items.length < 2 ? items.join('') : `${items.slice(0, -1).join(', ')}${and}${items.at(-1)}`;
+/**
+ * « a et b », « a, b et c » / « a and b », « a, b, and c » : à partir de trois éléments, le
+ * dernier se joint par `list.and.serial` (la virgule de série en anglais, rien de plus en
+ * français).
+ */
+function joinList(items: string[], and: string, serialAnd: string) {
+  if (items.length < 2) return items.join('');
+  return `${items.slice(0, -1).join(', ')}${items.length > 2 ? serialAnd : and}${items.at(-1)}`;
 }
 
 /**
@@ -543,14 +550,15 @@ function joinList(items: string[], and: string) {
 export function useTranslations(lang: Lang) {
   const dict = ui[lang];
   const and = dict['list.and'];
+  const serialAnd = dict['list.and.serial'];
   const devices = [
     dict['device.iphone'],
     ...(IPAD_AVAILABLE ? [dict['device.ipad']] : []),
     ...(MAC_AVAILABLE ? [dict['device.mac']] : []),
   ];
   const values: Record<string, string> = {
-    platforms: joinList(platforms(), and),
-    devices: joinList(devices, and),
+    platforms: joinList(platforms(), and, serialAnd),
+    devices: joinList(devices, and, serialAnd),
   };
   return (key: UIKey): string => {
     const variant = `${key}.carplay`;
