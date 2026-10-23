@@ -56,7 +56,7 @@ relecture sont dans `docs/AUDIT-2026-10-23-LOTS.md`.
 | 5 | F6 | Mineur | Pastilles de période du Rewind ≠ sélecteur de l'app | à faire | | |
 | 5 | C3 | Mineur | Aucune espace insécable en français | à faire | | Règle à écrire dans CONVENTIONS |
 | 5 | I4 | Dette | Virgule de série en anglais | décision | | |
-| 6 | D1 | Majeur | Le déploiement accepte n'importe quelle clé d'hôte SFTP | à faire | | Secret `OVH_KNOWN_HOSTS` |
+| 6 | D1 | Majeur | Le déploiement accepte n'importe quelle clé d'hôte SFTP | en cours | #22 | Secret `OVH_KNOWN_HOSTS` à créer avant le prochain déploiement ; FTP chiffré imposé |
 | 6 | D3 | Mineur | Aucune Content-Security-Policy | décision | | Report-Only d'abord |
 | 6 | D4 | Mineur | Types compressés incomplets | à faire | | = P3 |
 | 6 | P3 | Mineur | `mod_deflate` sans xml ni txt | doublon | | Voir D4 |

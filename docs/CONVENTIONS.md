@@ -246,7 +246,9 @@ catégories, aucune erreur axe, CLS à 0.
 
 La CI (`.github/workflows/ci.yml`) refait `check` et `build` sur chaque PR. Le déploiement
 (`.github/workflows/deploy.yml`) ne part plus qu'à la demande (Actions › Deploy › Run workflow),
-une fois les secrets `OVH_HOST`, `OVH_USER`, `OVH_PASSWORD` définis (détails en tête du fichier) :
+une fois les secrets `OVH_HOST`, `OVH_USER`, `OVH_PASSWORD` et, en SFTP, `OVH_KNOWN_HOSTS` (la clé
+du serveur, épinglée : un serveur qui présente une autre clé est refusé) définis (détails en tête du
+fichier) :
 mode `site` pour envoyer `dist/`, mode `maintenance` pour envoyer `maintenance/` (toute adresse
 répond 503 avec une page d'attente autonome, hors Astro et hors `ui.ts`). Les règles
 Apache (redirection vers le domaine principal, HTTPS, cache, page 404, en-têtes de sécurité) sont

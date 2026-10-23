@@ -8,8 +8,14 @@
 #   OVH_HOST       serveur FTP / SFTP de l'hébergement (ex. ftp.cluster0XX.hosting.ovh.net)
 #   OVH_USER       identifiant FTP
 #   OVH_PASSWORD   mot de passe FTP
+#   OVH_KNOWN_HOSTS  clés publiques du serveur SFTP, au format known_hosts (obligatoire en sftp) :
+#                  sortie de `ssh-keyscan -t ed25519,rsa <OVH_HOST>`. ssh-keyscan ne prouve rien
+#                  à lui seul : comparer l'empreinte (`ssh-keyscan … | ssh-keygen -lf -`) à celle
+#                  d'une première connexion faite d'un autre réseau, ou à celle que donne OVH.
+#                  À refaire si OVH change la clé (le déploiement échoue alors, c'est voulu).
 # Variables du dépôt (facultatives) :
-#   OVH_PROTOCOL   sftp (défaut, offres Pro et Performance) ou ftp (offre Perso)
+#   OVH_PROTOCOL   sftp (défaut, offres Pro et Performance) ou ftp (offre Perso : FTP chiffré
+#                  imposé, certificat du serveur vérifié)
 #   OVH_REMOTE_DIR dossier du site sur l'hébergement (défaut : www)
 #   OVH_DELETE     true pour supprimer du serveur les fichiers qui ne sont plus dans le build
 #   SITE_URL       adresse publique du site (défaut : https://abilia-music.app)
@@ -64,13 +70,28 @@ jobs:
           REMOTE_DIR: ${{ vars.OVH_REMOTE_DIR || 'www' }}
           DELETE: ${{ inputs.mode == 'site' && vars.OVH_DELETE == 'true' && '--delete' || '' }}
           SOURCE: ${{ inputs.mode == 'site' && 'dist/' || 'maintenance/' }}
+          KNOWN_HOSTS: ${{ secrets.OVH_KNOWN_HOSTS }}
         run: |
           sudo apt-get update -qq && sudo apt-get install -y -qq lftp
+          # Clé du serveur épinglée : sans elle, lftp accepterait n'importe quel serveur se faisant
+          # passer pour OVH (le runner est neuf à chaque fois) et lui donnerait le mot de passe.
+          if [ "$PROTOCOL" = sftp ]; then
+            if [ -z "$KNOWN_HOSTS" ]; then
+              echo "::error::Secret OVH_KNOWN_HOSTS absent : clé du serveur SFTP inconnue, rien n'est envoyé (voir l'en-tête du workflow)."
+              exit 1
+            fi
+            install -d -m 700 ~/.ssh
+            printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+            chmod 600 ~/.ssh/known_hosts
+          fi
           # Le mot de passe passe par l'environnement (LFTP_PASSWORD, --env-password), jamais par la ligne de commande.
           export LFTP_PASSWORD="$PASSWORD"
           lftp -c "
-            set sftp:auto-confirm yes;
-            set ftp:ssl-allow yes;
+            set sftp:auto-confirm no;
+            set sftp:connect-program 'ssh -a -x -o StrictHostKeyChecking=yes -o UserKnownHostsFile=$HOME/.ssh/known_hosts';
+            set ftp:ssl-force yes;
+            set ftp:ssl-protect-data yes;
+            set ssl:verify-certificate yes;
             set net:max-retries 3;
             open --user '$USER' --env-password '$PROTOCOL://$HOST';
             mirror --reverse --verbose --parallel=4 $DELETE --exclude-glob .DS_Store '$SOURCE' '$REMOTE_DIR/';
