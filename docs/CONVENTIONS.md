@@ -176,7 +176,11 @@ chaque image. `<html>` porte la classe `is-scrolled` dès que la page a défilé
 - **Accessibilité** : tout mouvement (translation, rotation, échelle, parallaxe) va dans
   `@media (prefers-reduced-motion: no-preference)`. Avec « Réduire les animations », le moteur
   révèle tout d'emblée ; seuls des fondus de couleur ou d'opacité restent permis. Les effets de
-  flou et de verre ont un repli sous `prefers-reduced-transparency: reduce`.
+  flou et de verre ont un repli sous `prefers-reduced-transparency: reduce`. Chrome l'expose
+  (version 118 et suivantes) ; Safari, peut-être pas : le réglage iOS « Réduire la
+  transparence » n'a alors aucun effet sur le site (à confirmer sur un iPhone, audit du 23
+  octobre, A6). Il n'y a pas d'autre signal : le verre doit donc rester lisible sans ce repli
+  (fond à 55 % au moins derrière du texte).
 - **Sans JavaScript**, rien ne doit rester caché : les états de départ ne valent que sous
   `html.js` (déjà le cas pour `data-reveal` ; à respecter pour toute animation maison).
 - **Performance** : n'animer que `transform`, `opacity` (et `filter` pour une apparition). Pas

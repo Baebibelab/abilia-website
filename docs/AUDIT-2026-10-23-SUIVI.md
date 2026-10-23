@@ -30,7 +30,7 @@ relecture sont dans `docs/AUDIT-2026-10-23-LOTS.md`.
 | 3 | V1 | Majeur | La page Confidentialité déborde à 320 px | en cours | | Cause mesurée : le chemin `~/Library/Containers/…` du texte, pas la grille du sommaire |
 | 3 | A2 | Majeur | Texte blanc des cartes de Stations sous 4,5:1 | en cours | | Huit cartes : départ et arrivée assombris (même teinte, même saturation), A.12 ✓ sur les douze, ≥ 4,5 dès t = 0,36 |
 | 3 | A4 | Mineur | Noms accessibles pauvres des illustrations | en cours | | Frise : `aria-label` descriptif (`gapless.diagram`) ; libellés des cartes du Rewind en h3 ; VoiceOver à confirmer sur appareil |
-| 3 | A6 | Mineur | « Réduire la transparence » sans effet dans Safari ? | à faire | | Plausible : à confirmer sur iPhone avant de corriger |
+| 3 | A6 | Mineur | « Réduire la transparence » sans effet dans Safari ? | à confirmer sur appareil | | Plausible, non retracé (pas d'iPhone dans la session) : noté dans CONVENTIONS (« Règles »), rien à corriger côté code |
 | 3 | V2 | Mineur | La pastille « Hors ligne » recouvre la barre d'état de l'iPhone | en cours | | Au-dessus du cadre, même glissement que l'iPhone : ≥ 9 px de l'écran à 320–1440 px, scroll compris |
 | 3 | N6 | Mineur | Apparitions ratées lors d'un défilement rapide | en cours | | `threshold: 0` et filet à l'arrêt du défilement (déjà dépassé, ou bas de page) |
 | 3 | A3 | Mineur | Sous 860 px, le menu disparaît sans remplaçant | décision | | |
