@@ -29,12 +29,13 @@ const appSpeaksPageLanguage = APP_LANGUAGES.includes(lang);
 // La première ligne du titre arrive mot à mot.
 const firstLine = t('hero.title.1').split(' ');
 
-// Pastilles autour de l'iPhone : position (classe), profondeur de parallaxe, icône.
+// Pastilles autour de l'iPhone : position (classe), profondeur de parallaxe, icône, et la
+// pastille « Plus » d'une fonction d'Andia Plus.
 const chips = [
   { key: 'hero.chip.format', place: 'tl', icon: 'wave' },
   { key: 'hero.chip.gapless', place: 'r', icon: 'loop' },
   { key: 'hero.chip.offline', place: 'l', icon: 'download' },
-  { key: 'hero.chip.eq', place: 'br', icon: 'sliders' },
+  { key: 'hero.chip.eq', place: 'br', icon: 'sliders', plus: true },
 ] as const;
 ---
 
@@ -122,6 +123,7 @@ const chips = [
                   {chip.icon === 'sliders' && <path d="M6 4v16M12 4v16M18 4v16M3.5 14h5M9.5 8h5M15.5 16h5" />}
                 </svg>
                 {t(chip.key)}
+                {'plus' in chip && <span class="chip__plus">{t('plus.badge')}</span>}
               </span>
             </li>
           ))
@@ -533,7 +535,9 @@ const chips = [
 
   .chip--br {
     top: 86%;
-    left: calc(50% + var(--phone-width) * 0.5 - 96px);
+    /* Comme la pastille de droite : pas plus de 36 px hors de la colonne, pour que la pastille
+       « Plus » reste à l'écran (≈ 15,5rem de large en français). */
+    left: min(calc(50% + var(--phone-width) * 0.5 - 96px), calc(100% + 36px - 15.5rem));
     --dx: 1;
     --dy: 0.6;
     --depth: 1.3;
@@ -563,6 +567,18 @@ const chips = [
   .chip--tl .chip__icon,
   .chip--br .chip__icon {
     stroke: var(--coral);
+  }
+
+  /* Fonction d'Andia Plus : même pastille que « Bientôt » dans la section Partout. */
+  .chip__plus {
+    padding: 2px 8px;
+    border-radius: var(--radius-pill);
+    font-size: 0.75em;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--coral-text);
+    background: color-mix(in srgb, var(--coral) 10%, transparent);
   }
 
   /* Mouvements : entrée, flottement, scroll. Rien de tout ça avec « Réduire les animations ». */

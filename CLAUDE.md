@@ -9,6 +9,8 @@ l'accueil en fichiers.
 - Code, commentaires et messages de commit en français (`feat: …`, `fix: …`), comme l'app.
 - Aucune dépendance côté navigateur sans en discuter ; Astro seul au build.
 - Tout texte visible passe par `src/i18n/ui.ts`, dans les deux langues.
+- Une fonction d'Andia Plus se dit comme telle (« Avec Andia Plus. », pastille « Plus ») et n'entre
+  jamais dans « Pour … » : voir « Fonctions d'Andia Plus » dans CONVENTIONS.
 - Tout mouvement sous `prefers-reduced-motion: no-preference` ; rien de caché sans JavaScript.
 - Avant une PR : `npm run check` et `npm run build`, puis un rendu en clair, en sombre, à 390 px
   de large (aucun défilement horizontal) et avec les animations réduites.
