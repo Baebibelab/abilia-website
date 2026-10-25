@@ -1,0 +1,14 @@
+# Veille des dépendances npm (Astro et outils du build) : une PR par mise à jour, chaque lundi.
+# Une PR de Dependabot passe par la même CI ; le secret APP_REPO_TOKEN du job « Audit » doit aussi
+# exister dans les secrets Dependabot (voir l'en-tête de .github/workflows/ci.yml).
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      timezone: Europe/Paris
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: 'chore'
