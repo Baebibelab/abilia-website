@@ -535,9 +535,13 @@ const chips = [
 
   .chip--br {
     top: 86%;
-    /* Comme la pastille de droite : pas plus de 36 px hors de la colonne, pour que la pastille
-       « Plus » reste à l'écran (≈ 15,5rem de large en français). */
-    left: min(calc(50% + var(--phone-width) * 0.5 - 96px), calc(100% + 36px - 15.5rem));
+    /* Comme la pastille de droite : pas plus de 36 px hors de la colonne, et jamais plus que la
+       marge de la page (moins 4 px), pour que la pastille « Plus » reste à l'écran (≈ 16rem de
+       large en français). */
+    left: min(
+      calc(50% + var(--phone-width) * 0.5 - 96px),
+      calc(100% + min(36px, var(--gutter) - 4px) - 16.25rem)
+    );
     --dx: 1;
     --dy: 0.6;
     --depth: 1.3;
@@ -571,9 +575,9 @@ const chips = [
 
   /* Fonction d'Andia Plus : même pastille que « Bientôt » dans la section Partout. */
   .chip__plus {
-    padding: 2px 8px;
+    padding: 3px 10px;
     border-radius: var(--radius-pill);
-    font-size: 0.75em;
+    font-size: 0.75rem;
     font-weight: 700;
     letter-spacing: 0.06em;
     text-transform: uppercase;
