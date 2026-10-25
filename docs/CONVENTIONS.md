@@ -102,10 +102,12 @@ Réglages dans `src/config.ts` :
 - `IPAD_AVAILABLE` et `MAC_AVAILABLE`, à passer à `true` le jour où l'app sort sur iPad, sur Mac
   (PR #222 et #223 de l'app). D'ici là, la section « iPad et Mac » n'est construite qu'avec
   `npm run dev` (pour la relire) et aucune page publiée n'en parle ; ensuite, la plateforme rejoint
-  `{platforms}` (« Pour iPhone, iPad, Mac et Apple Watch », description) et `{devices}`
+  `{platforms}` (« Pour iPhone, iPad et Mac », description ; l'Apple Watch n'y entre pas, voir
+  plus bas les fonctions d'Andia Plus) et `{devices}`
   (« pensée pour l'iPhone, l'iPad et le Mac », chapeau du hero), que `useTranslations` remplit
   dans tous les textes de `ui.ts`, et la section paraît, l'autre plateforme y portant « Bientôt ».
-  Penser alors à la ligne des plateformes de `scripts/og/og.html` et aux images de partage.
+  Penser alors à la ligne des plateformes de `scripts/og/og.html`, aux images de partage et à la
+  configuration requise de `jellyfin.note` (« un iPhone sous iOS 17 » : iPadOS 17, macOS 14).
 - `APP_LANGUAGES` : langues de l'interface de l'app (`['fr', 'en']`), qui ont chacune leurs
   captures. Une page dans une langue que l'app ne parle pas le dit sous l'appel du hero
   (`hero.appLanguage`) ; aujourd'hui, aucune.
@@ -122,6 +124,15 @@ En lecture, paroles, égaliseur, page d'album), `Gapless` (enchaînement et fond
 `Offline` (`#offline`), `Rewind`, `BigScreens` (`#ipad-mac`, iPad et Mac, voir
 `IPAD_AVAILABLE`), `Everywhere` (`#everywhere`, Apple Watch et CarPlay), `Pricing` (`#pricing`, gratuit et Andia
 Plus, bêta ; même répartition que `docs/monetisation/README.md` de l'app).
+
+Fonctions d'Andia Plus (`PlusFeature` de l'app : Rewind, Apple Watch, égaliseur, fondu enchaîné,
+bibliothèques affichées, scrobbling) : « Tarifs » les liste toutes, et partout ailleurs le site dit
+qu'elles sont payantes, comme l'app avec sa pastille « Plus ». Une phrase courte dans le texte de
+la section ou de la carte (« Avec Andia Plus. » / « With Andia Plus. », ou en fin de phrase comme
+`jellyfin.library.text`) ; une pastille `plus.badge` (même rendu que « Bientôt ») là où il n'y a
+qu'un libellé, comme la pastille « Égaliseur 10 bandes » du hero. Elles n'entrent pas dans les
+phrases « Pour … » ni dans la description : l'Apple Watch n'est pas dans `platforms()`. Une
+nouvelle fonction Plus de l'app = une ligne dans « Tarifs » et sa mention là où le site en parle.
 
 ## Animations
 

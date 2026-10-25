@@ -32,9 +32,9 @@ const fr = {
   'hero.title.1': 'Toute votre musique,',
   'hero.title.2': 'dans votre poche.',
   'hero.lead':
-    "Andia joue la bibliothèque de votre serveur Jellyfin avec une app pensée pour {devices} : belle, rapide, et qui se fond dans le système, jusque sur l'Apple Watch.",
+    "Andia joue la bibliothèque de votre serveur Jellyfin avec une app pensée pour {devices} : belle, rapide, et qui se fond dans le système.",
   'hero.lead.carplay':
-    "Andia joue la bibliothèque de votre serveur Jellyfin avec une app pensée pour {devices} : belle, rapide, et qui se fond dans le système, jusque dans la voiture et sur l'Apple Watch.",
+    "Andia joue la bibliothèque de votre serveur Jellyfin avec une app pensée pour {devices} : belle, rapide, et qui se fond dans le système, jusque dans la voiture.",
   'hero.platforms': 'Pour {platforms}',
   'hero.appLanguage': "L'app est en français.",
   'hero.chip.format': 'FLAC · 24 bits / 96 kHz',
@@ -58,7 +58,8 @@ const fr = {
   'jellyfin.chip.away': 'Sur Internet',
   'jellyfin.chip.keychain': 'Trousseau iOS',
   'jellyfin.chip.noAccount': 'Aucun compte tiers',
-  'jellyfin.note': "Il vous faut un serveur Jellyfin 10.9 ou plus récent. Pas encore de serveur ? C'est gratuit et open source :",
+  'jellyfin.note':
+    "Il vous faut un iPhone sous iOS 17 ou plus récent et un serveur Jellyfin 10.9 ou plus récent. Pas encore de serveur ? C'est gratuit et open source :",
   'jellyfin.noteLink': 'découvrir Jellyfin',
   'jellyfin.demo':
     "Envie d'essayer d'abord ? Dans l'app, connectez-vous au serveur de démo {server} avec l'identifiant {user} et le mot de passe {password}.",
@@ -74,7 +75,7 @@ const fr = {
     'Les paroles synchronisées défilent sous les commandes, au rythme du morceau. Un geste sur le mini-lecteur passe au suivant.',
   'listen.eq.title': 'Un égaliseur dix bandes',
   'listen.eq.text':
-    'De 31 Hz à 16 kHz, avec des préréglages. Les bandes renforcées sont compensées par une légère baisse du volume, pour ne jamais saturer.',
+    'De 31 Hz à 16 kHz, avec des préréglages. Les bandes renforcées sont compensées par une légère baisse du volume, pour ne jamais saturer. Avec Andia Plus.',
   'listen.album.title': 'Chaque page a ses couleurs',
   'listen.album.text':
     'Albums, artistes et playlists prennent la teinte de leur pochette. Un cœur, et le morceau est marqué en favori sur votre serveur.',
@@ -88,7 +89,7 @@ const fr = {
   'gapless.gapless.text': "La dernière note d'une piste touche la première de la suivante, comme l'artiste l'a voulu.",
   'gapless.crossfade.title': 'Fondu enchaîné',
   'gapless.crossfade.text':
-    "Si vous le souhaitez, un morceau s'efface pendant que le suivant monte. Réglable, et jamais à l'intérieur d'un même album.",
+    "Si vous le souhaitez, un morceau s'efface pendant que le suivant monte. Réglable, et jamais à l'intérieur d'un même album. Avec Andia Plus.",
   'gapless.trackA': 'Piste 1',
   'gapless.trackB': 'Piste 2',
   'gapless.fact.prepared': "Les pistes suivantes sont prêtes avant d'arriver",
@@ -146,7 +147,7 @@ const fr = {
   'rewind.title.1': 'Votre musique,',
   'rewind.title.2': 'en rétrospective.',
   'rewind.lead':
-    "Temps d'écoute, artistes et albums favoris, genres, heures préférées : un récap à feuilleter toute l'année, sur 7 jours, 30 jours, une année ou depuis le début.",
+    "Temps d'écoute, artistes et albums favoris, genres, heures préférées : un récap à feuilleter toute l'année, sur 7 jours, 30 jours, une année ou depuis le début. Avec Andia Plus.",
   'rewind.private': "Calculé sur votre appareil, jamais envoyé nulle part.",
   'rewind.example': "Chiffres d'exemple.",
   'rewind.time.label': "Temps d'écoute",
@@ -165,14 +166,15 @@ const fr = {
   'everywhere.title.1': 'Partout',
   'everywhere.title.2': 'avec vous.',
   'everywhere.lead':
-    "Écran verrouillé, AirPlay, widget, Siri : votre musique vous suit dans tout le système. Et sur l'Apple Watch, même quand l'iPhone reste à la maison.",
+    "Écran verrouillé, AirPlay, widget, Siri : votre musique vous suit dans tout le système. Et, avec Andia Plus, sur l'Apple Watch, même quand l'iPhone reste à la maison.",
   'everywhere.watch.title': 'Apple Watch',
   'everywhere.watch.text':
-    "Envoyez des albums, des playlists ou vos favoris sur la montre, puis écoutez-les avec des écouteurs Bluetooth, sans iPhone ni réseau. Vos écoutes remontent ensuite à votre serveur.",
+    "Envoyez des albums, des playlists ou vos favoris sur la montre, puis écoutez-les avec des écouteurs Bluetooth, sans iPhone ni réseau. Vos écoutes remontent ensuite à votre serveur. Avec Andia Plus.",
   'everywhere.carplay.title': 'CarPlay',
   'everywhere.carplay.text':
     "Accueil, albums, artistes et playlists sur l'écran de la voiture, avec la lecture aléatoire et « À suivre ».",
   'everywhere.soon': 'Bientôt',
+  'plus.badge': 'Plus',
   'everywhere.lockScreen': 'Écran verrouillé et Centre de contrôle',
   'everywhere.airplay': 'AirPods, enceintes et AirPlay',
   'everywhere.widget': "Widget sur l'écran d'accueil",
@@ -206,6 +208,7 @@ const fr = {
   'pricing.plus.eq': 'Égaliseur 10 bandes et préréglages',
   'pricing.plus.crossfade': 'Fondu enchaîné réglable',
   'pricing.plus.libraries': 'Toutes vos bibliothèques musicales par défaut, ou seulement celles que vous choisissez',
+  'pricing.plus.scrobbling': 'Vos écoutes envoyées à Last.fm et ListenBrainz, même hors ligne',
   'pricing.plus.family': 'Partagé avec votre famille, sur tous vos appareils',
   'pricing.note': "Andia Plus s'achète dans l'app (Réglages › Andia Plus) et se restaure sur vos autres appareils. Le prix peut varier selon le pays.",
   'pricing.beta.title': "Envie de l'essayer avant tout le monde ?",
@@ -242,7 +245,8 @@ const fr = {
   'screenshot.album': "Page d'un album aux couleurs de sa pochette",
   'footer.tagline': 'Votre musique, votre serveur.',
   'footer.jellyfin': "Andia n'est pas affiliée au projet Jellyfin.",
-  'footer.apple': 'Apple, iPhone, iPad, Mac, Apple Watch, CarPlay et App Store sont des marques d’Apple Inc.',
+  'footer.apple':
+    'Apple, iPhone, iPad, Mac, macOS, iOS, iPadOS, Apple Watch, CarPlay, AirPlay, AirPods, Siri, VoiceOver, iCloud, Time Machine, TestFlight et App Store sont des marques d’Apple Inc., déposées aux États-Unis et dans d’autres pays et régions.',
   'footer.privacy': 'Politique de confidentialité',
   'footer.nav': 'Liens du pied de page',
   'privacy.title': 'Politique de confidentialité',
@@ -254,7 +258,7 @@ const fr = {
   'privacy.summary.noData': 'Aucune donnée collectée',
   'privacy.summary.noTracking': 'Ni publicité, ni pistage',
   'privacy.summary.onDevice': 'Statistiques calculées sur l’appareil',
-  'privacy.summary.yourServer': 'Votre musique reste sur votre serveur',
+  'privacy.summary.yourServer': 'Votre musique ne passe que par votre serveur',
   'privacy.toc': 'Sur cette page',
   'privacy.translationNote': '',
   'privacy.back': "Retour à l'accueil",
@@ -283,9 +287,9 @@ const en: Record<UIKey, string> = {
   'hero.title.1': 'All your music,',
   'hero.title.2': 'in your pocket.',
   'hero.lead':
-    'Andia plays your Jellyfin server’s library in an app built for {devices}: beautiful, fast, and at home everywhere in the system, right down to your Apple Watch.',
+    'Andia plays your Jellyfin server’s library in an app built for {devices}: beautiful, fast, and at home everywhere in the system.',
   'hero.lead.carplay':
-    'Andia plays your Jellyfin server’s library in an app built for {devices}: beautiful, fast, and at home everywhere in the system, from the car to the Apple Watch.',
+    'Andia plays your Jellyfin server’s library in an app built for {devices}: beautiful, fast, and at home everywhere in the system, even in your car.',
   'hero.platforms': 'For {platforms}',
   'hero.appLanguage': 'Good to know: the app itself is in French for now, as in the screenshots on this page.',
   'hero.chip.format': 'FLAC · 24-bit / 96 kHz',
@@ -309,7 +313,8 @@ const en: Record<UIKey, string> = {
   'jellyfin.chip.away': 'Over the internet',
   'jellyfin.chip.keychain': 'iOS keychain',
   'jellyfin.chip.noAccount': 'No third-party account',
-  'jellyfin.note': 'You need a Jellyfin server, version 10.9 or later. No server yet? It’s free and open source:',
+  'jellyfin.note':
+    'You need an iPhone running iOS 17 or later and a Jellyfin server, version 10.9 or later. No server yet? It’s free and open source:',
   'jellyfin.noteLink': 'discover Jellyfin',
   'jellyfin.demo': 'Want to try it first? In the app, sign in to the demo server {server} with the username {user} and the password {password}.',
   'listen.eyebrow': 'Now Playing',
@@ -324,7 +329,7 @@ const en: Record<UIKey, string> = {
     'Synced lyrics scroll beneath the controls, in time with the song. A swipe on the mini player skips to the next track.',
   'listen.eq.title': 'A ten-band equalizer',
   'listen.eq.text':
-    'From 31 Hz to 16 kHz, with presets. Boosted bands are balanced by a slight volume cut, so the sound never clips.',
+    'From 31 Hz to 16 kHz, with presets. Boosted bands are balanced by a slight volume cut, so the sound never clips. With Andia Plus.',
   'listen.album.title': 'Every page in its own colors',
   'listen.album.text':
     'Albums, artists and playlists take on the hue of their artwork. Tap the heart and the track is saved as a favorite on your server.',
@@ -338,7 +343,7 @@ const en: Record<UIKey, string> = {
   'gapless.gapless.text': 'The last note of one track meets the first note of the next, the way the artist intended.',
   'gapless.crossfade.title': 'Crossfade',
   'gapless.crossfade.text':
-    'If you like, one song fades out as the next one rises. Adjustable, and never within the same album.',
+    'If you like, one song fades out as the next one rises. Adjustable, and never within the same album. With Andia Plus.',
   'gapless.trackA': 'Track 1',
   'gapless.trackB': 'Track 2',
   'gapless.fact.prepared': 'Upcoming tracks are ready before they’re due',
@@ -396,7 +401,7 @@ const en: Record<UIKey, string> = {
   'rewind.title.1': 'Your music,',
   'rewind.title.2': 'looking back.',
   'rewind.lead':
-    'Listening time, top artists and albums, genres, favorite hours: a recap to flip through all year long, over 7 days, 30 days, a year or since the very beginning.',
+    'Listening time, top artists and albums, genres, favorite hours: a recap to flip through all year long, over 7 days, 30 days, a year or since the very beginning. With Andia Plus.',
   'rewind.private': 'Computed on your device, never sent anywhere.',
   'rewind.example': 'Example figures.',
   'rewind.time.label': 'Listening time',
@@ -415,14 +420,15 @@ const en: Record<UIKey, string> = {
   'everywhere.title.1': 'Wherever',
   'everywhere.title.2': 'you go.',
   'everywhere.lead':
-    'Lock screen, AirPlay, widget, Siri: your music follows you across the system. And on Apple Watch, even when your iPhone stays at home.',
+    'Lock screen, AirPlay, widget, Siri: your music follows you across the system. And with Andia Plus, on Apple Watch, even when your iPhone stays at home.',
   'everywhere.watch.title': 'Apple Watch',
   'everywhere.watch.text':
-    'Send albums, playlists or your favorites to the watch, then listen with Bluetooth headphones, no iPhone or network needed. Your plays sync back to your server afterwards.',
+    'Send albums, playlists or your favorites to the watch, then listen with Bluetooth headphones, no iPhone or network needed. Your plays sync back to your server afterwards. With Andia Plus.',
   'everywhere.carplay.title': 'CarPlay',
   'everywhere.carplay.text':
     'Home, albums, artists and playlists on your car’s screen, with shuffle and “Up Next”.',
   'everywhere.soon': 'Coming soon',
+  'plus.badge': 'Plus',
   'everywhere.lockScreen': 'Lock screen and Control Center',
   'everywhere.airplay': 'AirPods, speakers and AirPlay',
   'everywhere.widget': 'Home Screen widget',
@@ -456,6 +462,7 @@ const en: Record<UIKey, string> = {
   'pricing.plus.eq': 'Ten-band equalizer with presets',
   'pricing.plus.crossfade': 'Adjustable crossfade',
   'pricing.plus.libraries': 'All your music libraries by default, or only the ones you pick',
+  'pricing.plus.scrobbling': 'Your listens sent to Last.fm and ListenBrainz, even offline',
   'pricing.plus.family': 'Shared with your family, on all your devices',
   'pricing.note': 'Andia Plus is bought in the app (Settings › Andia Plus) and restored on your other devices. Prices may vary by country.',
   'pricing.beta.title': 'Want to try it before everyone else?',
@@ -491,7 +498,8 @@ const en: Record<UIKey, string> = {
   'screenshot.album': 'An album page in the colors of its artwork',
   'footer.tagline': 'Your music, your server.',
   'footer.jellyfin': 'Andia is not affiliated with the Jellyfin project.',
-  'footer.apple': 'Apple, iPhone, iPad, Mac, Apple Watch, CarPlay and App Store are trademarks of Apple Inc.',
+  'footer.apple':
+    'Apple, iPhone, iPad, Mac, macOS, iOS, iPadOS, Apple Watch, CarPlay, AirPlay, AirPods, Siri, VoiceOver, iCloud, Time Machine, TestFlight and App Store are trademarks of Apple Inc., registered in the U.S. and other countries and regions.',
   'footer.privacy': 'Privacy policy',
   'footer.nav': 'Footer links',
   'privacy.title': 'Privacy policy',
@@ -503,7 +511,7 @@ const en: Record<UIKey, string> = {
   'privacy.summary.noData': 'No data collected',
   'privacy.summary.noTracking': 'No ads, no tracking',
   'privacy.summary.onDevice': 'Stats computed on your device',
-  'privacy.summary.yourServer': 'Your music stays on your server',
+  'privacy.summary.yourServer': 'Your music only goes through your server',
   'privacy.toc': 'On this page',
   'privacy.translationNote':
     'This is a translation for your convenience; the French version is the reference.',
@@ -514,14 +522,15 @@ export const ui: Record<Lang, Record<UIKey, string>> = { fr, en };
 
 /**
  * Plateformes où l'app est disponible, dans l'ordre où le site les cite : l'iPad, le Mac et
- * CarPlay n'y entrent que le jour où leur réglage de src/config.ts passe à vrai.
+ * CarPlay n'y entrent que le jour où leur réglage de src/config.ts passe à vrai. L'Apple Watch
+ * n'y est pas : l'envoi de musique sur la montre est une fonction d'Andia Plus, que le site ne
+ * présente qu'avec « Avec Andia Plus. » (audit du 23 octobre, F2).
  */
 export function platforms(): string[] {
   return [
     'iPhone',
     ...(IPAD_AVAILABLE ? ['iPad'] : []),
     ...(MAC_AVAILABLE ? ['Mac'] : []),
-    'Apple Watch',
     ...(CARPLAY_AVAILABLE ? ['CarPlay'] : []),
   ];
 }
@@ -535,7 +544,7 @@ function joinList(items: string[], and: string) {
  * Textes d'une langue. Une clé qui a une variante `<clé>.carplay` la donne à la place quand
  * `CARPLAY_AVAILABLE` (src/config.ts) est vrai : d'ici là, le site ne promet CarPlay nulle part,
  * sauf dans la section « Partout » qui le marque « Bientôt ». `{platforms}` devient la liste des
- * plateformes disponibles (« iPhone, iPad et Apple Watch ») et `{devices}` celle des appareils
+ * plateformes disponibles (« iPhone, iPad et Mac ») et `{devices}` celle des appareils
  * qui font tourner l'app elle-même, avec leur article en français (« l'iPhone et l'iPad »).
  */
 export function useTranslations(lang: Lang) {
