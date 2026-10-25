@@ -166,7 +166,7 @@ const fr = {
   'everywhere.title.1': 'Partout',
   'everywhere.title.2': 'avec vous.',
   'everywhere.lead':
-    "Écran verrouillé, AirPlay, widget, Siri : votre musique vous suit dans tout le système. Et sur l'Apple Watch, même quand l'iPhone reste à la maison.",
+    "Écran verrouillé, AirPlay, widget, Siri : votre musique vous suit dans tout le système. Et, avec Andia Plus, sur l'Apple Watch, même quand l'iPhone reste à la maison.",
   'everywhere.watch.title': 'Apple Watch',
   'everywhere.watch.text':
     "Envoyez des albums, des playlists ou vos favoris sur la montre, puis écoutez-les avec des écouteurs Bluetooth, sans iPhone ni réseau. Vos écoutes remontent ensuite à votre serveur. Avec Andia Plus.",
@@ -246,7 +246,7 @@ const fr = {
   'footer.tagline': 'Votre musique, votre serveur.',
   'footer.jellyfin': "Andia n'est pas affiliée au projet Jellyfin.",
   'footer.apple':
-    'Apple, iPhone, iPad, Mac, macOS, iOS, iPadOS, Apple Watch, CarPlay, AirPlay, AirPods, Siri, VoiceOver, iCloud, Time Machine, TestFlight et App Store sont des marques d’Apple Inc.',
+    'Apple, iPhone, iPad, Mac, macOS, iOS, iPadOS, Apple Watch, CarPlay, AirPlay, AirPods, Siri, VoiceOver, iCloud, Time Machine, TestFlight et App Store sont des marques d’Apple Inc..',
   'footer.privacy': 'Politique de confidentialité',
   'footer.nav': 'Liens du pied de page',
   'privacy.title': 'Politique de confidentialité',
@@ -420,7 +420,7 @@ const en: Record<UIKey, string> = {
   'everywhere.title.1': 'Wherever',
   'everywhere.title.2': 'you go.',
   'everywhere.lead':
-    'Lock screen, AirPlay, widget, Siri: your music follows you across the system. And on Apple Watch, even when your iPhone stays at home.',
+    'Lock screen, AirPlay, widget, Siri: your music follows you across the system. And with Andia Plus, on Apple Watch, even when your iPhone stays at home.',
   'everywhere.watch.title': 'Apple Watch',
   'everywhere.watch.text':
     'Send albums, playlists or your favorites to the watch, then listen with Bluetooth headphones, no iPhone or network needed. Your plays sync back to your server afterwards. With Andia Plus.',
@@ -499,7 +499,7 @@ const en: Record<UIKey, string> = {
   'footer.tagline': 'Your music, your server.',
   'footer.jellyfin': 'Andia is not affiliated with the Jellyfin project.',
   'footer.apple':
-    'Apple, iPhone, iPad, Mac, macOS, iOS, iPadOS, Apple Watch, CarPlay, AirPlay, AirPods, Siri, VoiceOver, iCloud, Time Machine, TestFlight and App Store are trademarks of Apple Inc.',
+    'Apple, iPhone, iPad, Mac, macOS, iOS, iPadOS, Apple Watch, CarPlay, AirPlay, AirPods, Siri, VoiceOver, iCloud, Time Machine, TestFlight and App Store are trademarks of Apple Inc..',
   'footer.privacy': 'Privacy policy',
   'footer.nav': 'Footer links',
   'privacy.title': 'Privacy policy',
