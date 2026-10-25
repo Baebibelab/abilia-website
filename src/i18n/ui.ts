@@ -246,7 +246,7 @@ const fr = {
   'footer.tagline': 'Votre musique, votre serveur.',
   'footer.jellyfin': "Andia n'est pas affiliée au projet Jellyfin.",
   'footer.apple':
-    'Apple, iPhone, iPad, Mac, macOS, iOS, iPadOS, Apple Watch, CarPlay, AirPlay, AirPods, Siri, VoiceOver, iCloud, Time Machine, TestFlight et App Store sont des marques d’Apple Inc..',
+    'Apple, iPhone, iPad, Mac, macOS, iOS, iPadOS, Apple Watch, CarPlay, AirPlay, AirPods, Siri, VoiceOver, iCloud, Time Machine, TestFlight et App Store sont des marques d’Apple Inc., déposées aux États-Unis et dans d’autres pays et régions.',
   'footer.privacy': 'Politique de confidentialité',
   'footer.nav': 'Liens du pied de page',
   'privacy.title': 'Politique de confidentialité',
@@ -499,7 +499,7 @@ const en: Record<UIKey, string> = {
   'footer.tagline': 'Your music, your server.',
   'footer.jellyfin': 'Andia is not affiliated with the Jellyfin project.',
   'footer.apple':
-    'Apple, iPhone, iPad, Mac, macOS, iOS, iPadOS, Apple Watch, CarPlay, AirPlay, AirPods, Siri, VoiceOver, iCloud, Time Machine, TestFlight and App Store are trademarks of Apple Inc..',
+    'Apple, iPhone, iPad, Mac, macOS, iOS, iPadOS, Apple Watch, CarPlay, AirPlay, AirPods, Siri, VoiceOver, iCloud, Time Machine, TestFlight and App Store are trademarks of Apple Inc., registered in the U.S. and other countries and regions.',
   'footer.privacy': 'Privacy policy',
   'footer.nav': 'Footer links',
   'privacy.title': 'Privacy policy',
