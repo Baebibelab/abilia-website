@@ -14,28 +14,28 @@ relecture sont dans `docs/AUDIT-2026-10-23-LOTS.md`.
 
 | Lot | Constat | Sévérité | Titre | État | PR | Note |
 | ---: | --- | --- | --- | --- | --- | --- |
-| 1 | L1 | Bloquant | La politique de confidentialité publiée n'est plus celle de l'app | à faire | | Recopier `docs/PRIVACY.md` et `PRIVACY.en.md` du 22 octobre, `updated: '2026-10-22'` |
-| 1 | F1 | Majeur | Tarifs oublie le scrobbling, sixième fonction Plus | à faire | | |
-| 1 | F2 | Majeur | Cinq fonctions Plus présentées sans dire qu'elles sont payantes | décision | | Pastille « Plus », phrase par section, Apple Watch retirée de « Pour … » ; images de partage à régénérer |
-| 1 | F3 | Majeur | La version d'iOS requise n'est dite nulle part | à faire | | |
-| 1 | L4 | Mineur | La ligne des marques ne couvre pas tous les noms Apple employés | à faire | | |
-| 1 | C4 | Mineur | Pastille « Votre musique reste sur votre serveur » inexacte | à faire | | |
+| 1 | L1 | Bloquant | La politique de confidentialité publiée n'est plus celle de l'app | en cours | #26 | Recopier `docs/PRIVACY.md` et `PRIVACY.en.md` du 22 octobre, `updated: '2026-10-22'` |
+| 1 | F1 | Majeur | Tarifs oublie le scrobbling, sixième fonction Plus | en cours | #26 | |
+| 1 | F2 | Majeur | Cinq fonctions Plus présentées sans dire qu'elles sont payantes | en cours | #26 | Décidé le 23 octobre : « Avec Andia Plus. » (égaliseur, fondu, Rewind, Apple Watch), pastille « Plus » sur « Égaliseur 10 bandes », Apple Watch retirée de `platforms()`, du chapeau du hero et de `og.html` ; images de partage régénérées |
+| 1 | F3 | Majeur | La version d'iOS requise n'est dite nulle part | en cours | #26 | |
+| 1 | L4 | Mineur | La ligne des marques ne couvre pas tous les noms Apple employés | en cours | #26 | |
+| 1 | C4 | Mineur | Pastille « Votre musique reste sur votre serveur » inexacte | en cours | #26 | |
 | 2 | L2 | Majeur | Aucune adresse d'assistance ni de contact | décision | | Page `/assistance/` + `/en/support/` recommandée |
 | 2 | L3 | Majeur | Aucune mention légale | décision | | Éditeur, directeur de la publication, hébergeur OVH ; lié au statut DSA |
 | 2 | L5 | Mineur | La politique ne dit rien du site lui-même | décision | | Paragraphe « Ce site » hors de la copie de l'app |
 | 2 | L8 | Dette | « © 2026 Andia » : titulaire et année | décision | | Avec L3 |
 | 2 | C5 | Mineur | Pas de questions fréquentes | décision | | Reprendre le README de l'app |
 | 2 | D2 | Majeur | En maintenance, l'URL de confidentialité répond 503 | décision | | Laisser passer `/confidentialite/`, `/en/privacy/` et l'assistance, ou rouvrir avant la soumission |
-| 3 | A1 | Majeur | axe : le texte visible du sélecteur de langue n'est pas dans son nom | à faire | | |
-| 3 | V1 | Majeur | La page Confidentialité déborde à 320 px | à faire | | |
-| 3 | A2 | Majeur | Texte blanc des cartes de Stations sous 4,5:1 | à faire | | Huit cartes ; outil A.12 pour vérifier |
-| 3 | A4 | Mineur | Noms accessibles pauvres des illustrations | à faire | | |
-| 3 | A6 | Mineur | « Réduire la transparence » sans effet dans Safari ? | à faire | | Plausible : à confirmer sur iPhone avant de corriger |
-| 3 | V2 | Mineur | La pastille « Hors ligne » recouvre la barre d'état de l'iPhone | à faire | | |
-| 3 | N6 | Mineur | Apparitions ratées lors d'un défilement rapide | à faire | | |
-| 3 | A3 | Mineur | Sous 860 px, le menu disparaît sans remplaçant | décision | | |
-| 3 | A5 | Mineur | Animations de plus de cinq secondes sans pause sur la page | décision | | Exemption à écrire dans CONVENTIONS, ou bouton |
-| 3 | V3 | Mineur | Pas de feuille d'impression pour la confidentialité | à faire | | Plausible : à confirmer par une impression |
+| 3 | A1 | Majeur | axe : le texte visible du sélecteur de langue n'est pas dans son nom | en cours | #27 | |
+| 3 | V1 | Majeur | La page Confidentialité déborde à 320 px | en cours | #27 | Cause mesurée : le chemin `~/Library/Containers/…` du texte, pas la grille du sommaire |
+| 3 | A2 | Majeur | Texte blanc des cartes de Stations sous 4,5:1 | en cours | #27 | Huit cartes : départ et arrivée assombris (même teinte, même saturation), A.12 ✓ sur les douze, ≥ 4,5 dès t = 0,36 |
+| 3 | A4 | Mineur | Noms accessibles pauvres des illustrations | en cours | #27 | Frise : `aria-label` descriptif (`gapless.diagram`) ; libellés des cartes du Rewind en h3 ; VoiceOver à confirmer sur appareil |
+| 3 | A6 | Mineur | « Réduire la transparence » sans effet dans Safari ? | à confirmer sur appareil | | Plausible, non retracé (pas d'iPhone dans la session) : noté dans CONVENTIONS (« Règles »), rien à corriger côté code |
+| 3 | V2 | Mineur | La pastille « Hors ligne » recouvre la barre d'état de l'iPhone | en cours | #27 | Au-dessus du cadre, même glissement que l'iPhone : ≥ 9 px de l'écran à 320–1440 px, scroll compris |
+| 3 | N6 | Mineur | Apparitions ratées lors d'un défilement rapide | en cours | #27 | `threshold: 0` et filet à l'arrêt du défilement (déjà dépassé, ou bas de page) |
+| 3 | A3 | Mineur | Sous 860 px, le menu disparaît sans remplaçant | en cours | #27 | Décision du lot : menu `<details>` sous 860 px (ancres, Confidentialité, langue), clé `nav.menu` ; Tarifs en deux gestes à 390 px |
+| 3 | A5 | Mineur | Animations de plus de cinq secondes sans pause sur la page | en cours | #27 | Décision du lot : exemption assumée (décor, tout s'arrête avec « Réduire les animations »), écrite dans CONVENTIONS et CLAUDE.md ; aucun bouton |
+| 3 | V3 | Mineur | Pas de feuille d'impression pour la confidentialité | en cours | #27 | `@media print` dans global.css ; PDF Chromium regardé (clair et sombre) ; Safari à confirmer |
 | 4 | N2 | Mineur | Sur téléphone, l'iPhone du hero et ses pastilles s'estompent avant d'être vus | en cours | #28 | Sortie tirée du `--progress` de `.hero__visual` sous 860 px |
 | 4 | V5 | Mineur | La pastille « Enchaînement sans blanc » est coupée entre 861 et ≈ 1 300 px | en cours | #28 | Borne à 24 px du bord de la fenêtre, en largeur réelle de pastille ; « Égaliseur 10 bandes » (`.chip--br`) avait le même défaut à 870 et 1 000 px |
 | 4 | N1 | Mineur | Le point « Bientôt » pulse sans fin dans l'en-tête, hors `data-loop` | en cours | #28 | Pulsation sous `no-preference`, en `transform` + `opacity` d'un `::after`, dans le hero seulement (`pulse`, `data-loop`) ; l'en-tête garde un point fixe |
@@ -56,16 +56,16 @@ relecture sont dans `docs/AUDIT-2026-10-23-LOTS.md`.
 | 5 | F6 | Mineur | Pastilles de période du Rewind ≠ sélecteur de l'app | à faire | | |
 | 5 | C3 | Mineur | Aucune espace insécable en français | à faire | | Règle à écrire dans CONVENTIONS |
 | 5 | I4 | Dette | Virgule de série en anglais | décision | | |
-| 6 | D1 | Majeur | Le déploiement accepte n'importe quelle clé d'hôte SFTP | à faire | | Secret `OVH_KNOWN_HOSTS` |
-| 6 | D3 | Mineur | Aucune Content-Security-Policy | décision | | Report-Only d'abord |
-| 6 | D4 | Mineur | Types compressés incomplets | à faire | | = P3 |
-| 6 | P3 | Mineur | `mod_deflate` sans xml ni txt | doublon | | Voir D4 |
-| 6 | D5 | Dette | CI : droits, outils d'audit, télémétrie, dépendances | à faire | | Job « Audit » avec A.1, A.2, A.7 |
-| 6 | D6 | Mineur | Mise en ligne non atomique, pas de retour arrière écrit | à faire | | |
-| 6 | D7 | Dette | `Permissions-Policy` obsolète | à faire | | |
-| 6 | D8 | Dette | HSTS sans `includeSubDomains` ni `preload` | décision | | Au changement de domaine |
-| 6 | S1 | Mineur | La 404 déclare l'accueil comme canonique | à faire | | |
-| 6 | S2 | Dette | Fiche schema.org sans `offers` | décision | | |
+| 6 | D1 | Majeur | Le déploiement accepte n'importe quelle clé d'hôte SFTP | en cours | #22 | Secret `OVH_KNOWN_HOSTS` à créer avant le prochain déploiement ; FTP chiffré imposé |
+| 6 | D3 | Mineur | Aucune Content-Security-Policy | en cours | #22 | Décidé : stricte en Report-Only, empreintes au build (`scripts/csp.mjs`) ; mode strict après la réouverture (CONVENTIONS) |
+| 6 | D4 | Mineur | Types compressés incomplets | en cours | #22 | = P3 ; `content-encoding` à vérifier en production (A.9) |
+| 6 | P3 | Mineur | `mod_deflate` sans xml ni txt | doublon | #22 | Voir D4, corrigé avec lui |
+| 6 | D5 | Dette | CI : droits, outils d'audit, télémétrie, dépendances | en cours | #22 | Job « Audit » avec A.1, A.2, A.7 ; secret `APP_REPO_TOKEN` à créer (Actions et Dependabot) ; A.7 rouge jusqu'à L1 |
+| 6 | D6 | Mineur | Mise en ligne non atomique, pas de retour arrière écrit | en cours | #22 | Deux `mirror` ; retour arrière dans CONVENTIONS ; essai en mode maintenance à faire |
+| 6 | D7 | Dette | `Permissions-Policy` obsolète | en cours | #22 | `browsing-topics=()` à la place d'`interest-cohort` |
+| 6 | D8 | Dette | HSTS sans `includeSubDomains` ni `preload` | reporté | #22 | Décidé : inchangé jusqu'au changement de domaine (CONVENTIONS, « Vérifier et mettre en ligne ») |
+| 6 | S1 | Mineur | La 404 déclare l'accueil comme canonique | en cours | #22 | Ni canonique, ni hreflang, ni `og:url`, ni fiche schema.org sous `noindex` ; contrôlé par le job Audit |
+| 6 | S2 | Dette | Fiche schema.org sans `offers` | en cours | #22 | Décidé : `Offer` à 0 EUR, `OutOfStock` puis `InStock` selon `APP_STORE_URL` (pas `PreOrder` : rien ne se précommande) ; test des résultats enrichis après la réouverture |
 | 7 | Q1 | Dette | Quatre clés de texte jamais lues | à faire | | |
 | 7 | Q2 | Dette | Fichiers et dessins morts | à faire | | Ou utiliser `recherche.jpg` (F9) |
 | 7 | Q3 | Dette | Commentaires et modèle de partage en retard | à faire | | |

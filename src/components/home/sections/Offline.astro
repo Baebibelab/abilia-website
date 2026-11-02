@@ -91,8 +91,11 @@ const shot = screenshots(lang).downloads;
     position: absolute;
   }
 
+  /* Au-dessus de l'iPhone, jamais sur son écran (l'heure et l'îlot restent visibles) : le bas
+     de la pastille s'arrête avant le haut du cadre (40 px de marge de .visual), à toutes les
+     largeurs. */
   .float--status {
-    top: 6%;
+    top: -8px;
     left: 0;
   }
 
@@ -212,8 +215,9 @@ const shot = screenshots(lang).downloads;
       transform: translateY(calc((var(--progress, 0.5) - 0.5) * 70px));
     }
 
+    /* Même glissement que l'iPhone, pour rester au-dessus de lui pendant le scroll. */
     .float--status {
-      transform: translateY(calc((var(--progress, 0.5) - 0.5) * -40px));
+      transform: translateY(calc((var(--progress, 0.5) - 0.5) * -50px));
     }
   }
 
