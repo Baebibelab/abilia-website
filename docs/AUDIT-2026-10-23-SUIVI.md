@@ -41,25 +41,25 @@ relecture sont dans `docs/AUDIT-2026-10-23-LOTS.md`.
 | 4 | N1 | Mineur | Le point « Bientôt » pulse sans fin dans l'en-tête, hors `data-loop` | en cours | #28 | Pulsation sous `no-preference`, en `transform` + `opacity` d'un `::after`, dans le hero seulement (`pulse`, `data-loop`) ; l'en-tête garde un point fixe |
 | 4 | N3 | Mineur | Si le moteur ne se charge pas, tout `data-reveal` reste invisible | en cours | #28 | Filet de 3 s plutôt que classe posée par le module (qui clignotait sur réseau lent, mesuré) : choix à confirmer par Romain |
 | 4 | N5 | Mineur | Le chapeau du hero est l'élément LCP, retardé par la chorégraphie | en cours | #28 | = P1. Titre à 0 ms, chapeau à 200 ms, iPhone à 100 ms ; titre en ligne et titre + chapeau dès le premier rendu (opacité 0,3) ; `fetchpriority` retiré de la capture |
-| 4 | P1 | Mineur | La chorégraphie du hero coûte du LCP | doublon | #28 | Voir N5 (corrigé avec, même PR) |
+| 4 | P1 | Mineur | La chorégraphie du hero coûte du LCP | doublon | | Voir N5 |
 | 4 | P2 | Mineur | Spectre et halos tournent en permanence sur le hero | en cours | #28 | Spectre à 15 i/s planifié par `setTimeout`, `will-change` retiré des 72 barres, arrêt après 30 s sans geste ; dégradé du titre glissé par la boucle (il forçait 60 images/s) ; mesures A.11 dans la PR |
 | 4 | P4 | Mineur | Captures un peu floues en densité 3 | en cours | #28 | Assumé (captures à 590 px), noté dans CONVENTIONS ; `widths` inchangé |
 | 4 | N4 | Dette | Survols qui bougent hors de la préférence | en cours | #28 |  |
 | 4 | C2 | Mineur | « Bientôt sur l'App Store » a l'air d'un bouton ; rien pour être prévenu | en cours | #28 | Décision du lot : verre + filet, sans ombre, `cursor: default`, point qui bat dans le hero seulement ; aucun formulaire, le lien de bêta viendra par `TESTFLIGHT_URL` |
 | 4 | C1 | Mineur | La phrase du serveur de démo suppose l'app installée | en cours | #28 | Phrase construite seulement avec `APP_STORE_URL` ou `TESTFLIGHT_URL` ; « Dès la sortie… » (`jellyfin.demo.soon`) tant que seule la bêta l'est |
-| 5 | I1 | Mineur | L'anglais du site s'écarte du catalogue anglais de l'app | à faire | | Liste dans le constat |
-| 5 | I2 | Mineur | `everywhere.siri` différent dans les deux langues | à faire | | |
-| 5 | I3 | Mineur | « Lock screen » / « Lock Screen » | à faire | | |
-| 5 | I5 | Mineur | 404 : titre, description et langue français seulement | à faire | | |
-| 5 | F4 | Mineur | « dès la première lettre » trop fort pour les morceaux | à faire | | |
-| 5 | F5 | Mineur | « Toujours à jour » : favoris et playlists suivis seulement | à faire | | |
-| 5 | F6 | Mineur | Pastilles de période du Rewind ≠ sélecteur de l'app | à faire | | |
-| 5 | C3 | Mineur | Aucune espace insécable en français | à faire | | Règle à écrire dans CONVENTIONS |
-| 5 | I4 | Dette | Virgule de série en anglais | décision | | |
+| 5 | I1 | Mineur | L'anglais du site s'écarte du catalogue anglais de l'app | en cours | #24 | Catalogue de l'app clé par clé ; « song » pour morceau partout en anglais, sauf les numéros (« Track 1 ») |
+| 5 | I2 | Mineur | `everywhere.siri` différent dans les deux langues | en cours | #24 | Phrase reconnue de AppShortcuts.xcstrings (« Play my favorites on ${applicationName} ») |
+| 5 | I3 | Mineur | « Lock screen » / « Lock Screen » | en cours | #24 | |
+| 5 | I5 | Mineur | 404 : titre, description et langue français seulement | en cours | #24 | Exception écrite dans CONVENTIONS (« Textes et langues ») |
+| 5 | F4 | Mineur | « dès la première lettre » trop fort pour les morceaux | en cours | #24 | D'après instantMatches : morceaux à la réponse du serveur |
+| 5 | F5 | Mineur | « Toujours à jour » : favoris et playlists suivis seulement | en cours | #24 | D'après AutoDownloads : favoris et playlists téléchargés seulement |
+| 5 | F6 | Mineur | Pastilles de période du Rewind ≠ sélecteur de l'app | en cours | #24 | Décision : 7 jours, 30 jours, année du build, Tout ; « All Time » en anglais, valeur du catalogue (« Tout (période) ») |
+| 5 | C3 | Mineur | Aucune espace insécable en français | en cours | #24 | Le constat comptait 0 insécable (grep sans locale UTF-8) : il y en avait 21, pas partout ; 58 désormais, règle dans CONVENTIONS |
+| 5 | I4 | Dette | Virgule de série en anglais | en cours | #24 | Décision : virgule de série en anglais (list.and.serial), rien en français |
 | 6 | D1 | Majeur | Le déploiement accepte n'importe quelle clé d'hôte SFTP | en cours | #22 | Secret `OVH_KNOWN_HOSTS` à créer avant le prochain déploiement ; FTP chiffré imposé |
 | 6 | D3 | Mineur | Aucune Content-Security-Policy | en cours | #22 | Décidé : stricte en Report-Only, empreintes au build (`scripts/csp.mjs`) ; mode strict après la réouverture (CONVENTIONS) |
 | 6 | D4 | Mineur | Types compressés incomplets | en cours | #22 | = P3 ; `content-encoding` à vérifier en production (A.9) |
-| 6 | P3 | Mineur | `mod_deflate` sans xml ni txt | doublon | #22 | Voir D4, corrigé avec lui |
+| 6 | P3 | Mineur | `mod_deflate` sans xml ni txt | doublon | | Voir D4 |
 | 6 | D5 | Dette | CI : droits, outils d'audit, télémétrie, dépendances | en cours | #22 | Job « Audit » avec A.1, A.2, A.7 ; secret `APP_REPO_TOKEN` à créer (Actions et Dependabot) ; A.7 rouge jusqu'à L1 |
 | 6 | D6 | Mineur | Mise en ligne non atomique, pas de retour arrière écrit | en cours | #22 | Deux `mirror` ; retour arrière dans CONVENTIONS ; essai en mode maintenance à faire |
 | 6 | D7 | Dette | `Permissions-Policy` obsolète | en cours | #22 | `browsing-topics=()` à la place d'`interest-cohort` |
