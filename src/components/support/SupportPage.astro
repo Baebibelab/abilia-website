@@ -3,7 +3,9 @@
 // verre que la page Confidentialité (components/privacy/PrivacyPage.astro), puis trois parties :
 // l'adresse pour nous écrire, les questions fréquentes (reprises du README de l'app, réécrites
 // pour le site) et les mentions légales (LCEN, art. 6-III), avec un mot sur le site lui-même.
-// L'adresse e-mail, l'éditeur et l'hébergeur viennent de src/config.ts, les textes de ui.ts.
+// L'adresse e-mail, l'éditeur et l'hébergeur viennent de src/config.ts, les textes de ui.ts. Tant
+// que l'adresse (`SUPPORT_EMAIL`) ou l'éditeur (`PUBLISHER`) manquent, leur partie n'est pas
+// construite : la page reste juste, avec les questions fréquentes, l'hébergeur et « Ce site ».
 import { HOST, JELLYFIN_URL, PUBLISHER, SUPPORT_EMAIL } from '../../config';
 import { type Lang, type UIKey, pathFor, supportSections, useTranslations } from '../../i18n/ui';
 
@@ -21,7 +23,7 @@ const ids = {
 };
 
 const sections = [
-  { id: ids.contact, title: t('support.contact.title') },
+  ...(SUPPORT_EMAIL ? [{ id: ids.contact, title: t('support.contact.title') }] : []),
   { id: ids.faq, title: t('support.faq.title') },
   { id: ids.legal, title: t('support.legal.title') },
 ];
@@ -52,7 +54,7 @@ const faqs: Faq[] = [
 // HTML, que le navigateur décode, et le texte du lien est une phrase (« Écrire à l'assistance »).
 const escapeHtml = (text: string) =>
   text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-const encodedMailto = [...`mailto:${SUPPORT_EMAIL}`].map((char) => `&#${char.codePointAt(0)};`).join('');
+const encodedMailto = [...`mailto:${SUPPORT_EMAIL ?? ''}`].map((char) => `&#${char.codePointAt(0)};`).join('');
 const mailLink = (className: string) =>
   `<a class="${className}" href="${encodedMailto}">${escapeHtml(t('support.contact.cta'))}</a>`;
 
@@ -63,7 +65,7 @@ const phoneHref = `tel:${HOST.phone.replace(/\s/g, '')}`;
   <header class="support__header" data-reveal-stagger="90">
     <p class="support__eyebrow" data-reveal>{t('support.eyebrow')}</p>
     <h1 class="support__title" data-reveal="blur">{t('support.heading')}</h1>
-    <p class="support__lead" data-reveal>{t('support.lead')}</p>
+    <p class="support__lead" data-reveal>{t(SUPPORT_EMAIL ? 'support.lead' : 'support.lead.noContact')}</p>
   </header>
 
   <div class="support__layout">
@@ -82,11 +84,17 @@ const phoneHref = `tel:${HOST.phone.replace(/\s/g, '')}`;
 
     <div class="support__body glass" data-reveal>
       <div class="prose">
-        <section aria-labelledby={ids.contact}>
-          <h2 id={ids.contact}>{t('support.contact.title')}</h2>
-          <p>{t('support.contact.text')}</p>
-          <p class="support__cta"><Fragment set:html={mailLink('button button--primary')} /></p>
-        </section>
+        {
+          SUPPORT_EMAIL && (
+            <section aria-labelledby={ids.contact}>
+              <h2 id={ids.contact}>{t('support.contact.title')}</h2>
+              <p>{t('support.contact.text')}</p>
+              <p class="support__cta">
+                <Fragment set:html={mailLink('button button--primary')} />
+              </p>
+            </section>
+          )
+        }
 
         <section aria-labelledby={ids.faq}>
           <h2 id={ids.faq}>{t('support.faq.title')}</h2>
@@ -113,17 +121,27 @@ const phoneHref = `tel:${HOST.phone.replace(/\s/g, '')}`;
         <section aria-labelledby={ids.legal}>
           <h2 id={ids.legal}>{t('support.legal.title')}</h2>
 
-          <h3>{t('support.legal.publisher')}</h3>
-          <p>
-            {PUBLISHER.name}
-            <br />
-            {PUBLISHER.address ?? t('support.legal.publisherAddressAtHost')}
-            <br />
-            {t('support.legal.contact')} <Fragment set:html={mailLink('')} />
-          </p>
+          {
+            PUBLISHER && (
+              <>
+                <h3>{t('support.legal.publisher')}</h3>
+                <p>
+                  {PUBLISHER.name}
+                  <br />
+                  {PUBLISHER.address ?? t('support.legal.publisherAddressAtHost')}
+                  {SUPPORT_EMAIL && (
+                    <>
+                      <br />
+                      {t('support.legal.contact')} <Fragment set:html={mailLink('')} />
+                    </>
+                  )}
+                </p>
 
-          <h3>{t('support.legal.director')}</h3>
-          <p>{PUBLISHER.director}</p>
+                <h3>{t('support.legal.director')}</h3>
+                <p>{PUBLISHER.director}</p>
+              </>
+            )
+          }
 
           <h3>{t('support.legal.host')}</h3>
           <p>

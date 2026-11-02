@@ -144,11 +144,16 @@ Réglages dans `src/config.ts` :
   dans `docs/monetisation/` du dépôt de l'app).
 - `SUPPORT_EMAIL` : adresse d'assistance, la seule du site. La page Assistance la met dans un
   lien `mailto:` encodé en entités HTML, jamais en clair dans le texte visible (le lien dit
-  « Écrire à l'assistance ») ; c'est aussi l'adresse de support d'App Store Connect.
+  « Écrire à l'assistance ») ; c'est aussi l'adresse de support d'App Store Connect. `null` tant
+  qu'elle n'existe pas (elle attend le domaine définitif) : la page paraît sans « Nous écrire », et
+  son chapeau et sa description (`support.lead.noContact`, `support.description.noContact`) ne
+  promettent pas d'adresse.
 - `PUBLISHER` (nom, adresse ou `null` pour « adresse communiquée à l'hébergeur », directeur de
   la publication) et `HOST` (OVH) : les mentions légales (LCEN, art. 6-III) de la page
   Assistance ; le « © » du pied de page porte `PUBLISHER.name`, de `FIRST_YEAR` à l'année du
-  build. Un changement d'éditeur ou d'hébergeur se fait là, et nulle part ailleurs.
+  build. Un changement d'éditeur ou d'hébergeur se fait là, et nulle part ailleurs. `PUBLISHER`
+  à `null` tant qu'il n'est pas fixé : les mentions légales ne donnent que l'hébergeur et « Ce
+  site », et le « © » porte « Andia ».
 - `TESTFLIGHT_URL` : lien public de la bêta TestFlight ; renseigné, « Tarifs » propose « Rejoindre
   la bêta ». Le site ne vend rien : Andia Plus s'achète dans l'app (guideline 3.1.1), jamais de
   bouton d'achat ici.

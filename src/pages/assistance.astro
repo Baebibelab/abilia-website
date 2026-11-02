@@ -1,11 +1,12 @@
 ---
 import SupportPage from '../components/support/SupportPage.astro';
 import Base from '../layouts/Base.astro';
+import { SUPPORT_EMAIL } from '../config';
 import { routes, useTranslations } from '../i18n/ui';
 
 const t = useTranslations('fr');
 ---
 
-<Base lang="fr" alternates={routes.support} title={t('support.title')} description={t('support.description')}>
+<Base lang="fr" alternates={routes.support} title={t('support.title')} description={t(SUPPORT_EMAIL ? 'support.description' : 'support.description.noContact')}>
   <SupportPage lang="fr" />
 </Base>

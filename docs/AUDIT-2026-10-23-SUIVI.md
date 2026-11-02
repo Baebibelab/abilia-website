@@ -20,10 +20,10 @@ relecture sont dans `docs/AUDIT-2026-10-23-LOTS.md`.
 | 1 | F3 | Majeur | La version d'iOS requise n'est dite nulle part | en cours | #26 | |
 | 1 | L4 | Mineur | La ligne des marques ne couvre pas tous les noms Apple employés | en cours | #26 | |
 | 1 | C4 | Mineur | Pastille « Votre musique reste sur votre serveur » inexacte | en cours | #26 | |
-| 2 | L2 | Majeur | Aucune adresse d'assistance ni de contact | en cours | #23 | Décidé : page `/assistance/` + `/en/support/` (menu, pied de page). Adresse `SUPPORT_EMAIL` encore à fournir (marqueur dans `src/config.ts`) |
-| 2 | L3 | Majeur | Aucune mention légale | en cours (incomplet) | #23 | Section « Mentions légales » de la page Assistance, hébergeur OVH SAS. Éditeur, adresse et directeur de la publication à fournir (marqueurs `PUBLISHER` dans `src/config.ts`) |
+| 2 | L2 | Majeur | Aucune adresse d'assistance ni de contact | reporté | #23 | Reporté : attend domaine/mail. Page `/assistance/` + `/en/support/` publiée par #23 (questions fréquentes, mentions légales) ; « Nous écrire » n'est construite qu'avec `SUPPORT_EMAIL` (à `null` dans `src/config.ts`), à remplir le jour où l'adresse existe |
+| 2 | L3 | Majeur | Aucune mention légale | reporté | #23 | Reporté : attend l'identité de l'éditeur. #23 publie l'hébergeur (OVH SAS) et « Ce site » ; éditeur, adresse et directeur de la publication ne paraissent qu'avec `PUBLISHER` (à `null` dans `src/config.ts`) |
 | 2 | L5 | Mineur | La politique ne dit rien du site lui-même | en cours | #23 | Paragraphe « Ce site » dans les mentions légales, hors de la copie de l'app |
-| 2 | L8 | Dette | « © 2026 Andia » : titulaire et année | en cours (incomplet) | #23 | « © 2026 » puis « 2026–année » au nom de `PUBLISHER.name`, encore à fournir |
+| 2 | L8 | Dette | « © 2026 Andia » : titulaire et année | reporté | #23 | Reporté avec L3 : années faites par #23 (« 2026 », puis « 2026–année ») ; le titulaire reste « Andia » tant que `PUBLISHER` est `null` |
 | 2 | C5 | Mineur | Pas de questions fréquentes | en cours | #23 | Les huit questions du README de l'app, réécrites, sur la page Assistance |
 | 2 | D2 | Majeur | En maintenance, l'URL de confidentialité répond 503 | en cours | #23 | `maintenance/.htaccess` laisse passer confidentialité, assistance, `/_astro/`, `/og/`, icônes ; il faut un envoi en mode « site » avant de repasser en maintenance pour que `/assistance/` existe sur le serveur |
 | 3 | A1 | Majeur | axe : le texte visible du sélecteur de langue n'est pas dans son nom | en cours | #27 | |

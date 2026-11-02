@@ -66,20 +66,19 @@ export const TESTFLIGHT_URL: string | null = null;
  * ses mentions légales. Elle n'apparaît jamais en clair dans le texte visible : la page l'écrit
  * dans un lien `mailto:` encodé en entités HTML (une protection minimale contre les robots qui
  * ramassent les adresses). C'est aussi l'adresse de support à donner à App Store Connect, avec
- * l'URL de la page.
+ * l'URL de la page. `null` tant qu'elle n'existe pas (elle attend le domaine définitif) : la page
+ * paraît alors sans sa partie « Nous écrire », et son chapeau ne promet pas d'adresse.
  */
-export const SUPPORT_EMAIL = 'a-fournir@example.invalid'; // À FOURNIR
+export const SUPPORT_EMAIL: string | null = null;
 
 /**
  * Éditeur du site (LCEN, art. 6-III), lu par les mentions légales de la page Assistance et par
  * le « © » du pied de page, qui porte son nom. `address` à `null` : un particulier peut ne pas
- * publier son adresse, qu'il a confiée à l'hébergeur, et la page le dit à la place.
+ * publier son adresse, qu'il a confiée à l'hébergeur, et la page le dit à la place. `null` tant
+ * qu'il n'est pas fixé : les mentions légales ne donnent alors que l'hébergeur et « Ce site », et
+ * le « © » porte « Andia ».
  */
-export const PUBLISHER: { name: string; address: string | null; director: string } = {
-  name: '[À FOURNIR : nom de l’éditeur]',
-  address: '[À FOURNIR : adresse de l’éditeur, ou null]',
-  director: '[À FOURNIR : directeur de la publication]',
-};
+export const PUBLISHER: { name: string; address: string | null; director: string } | null = null;
 
 /** Hébergeur du site (LCEN, art. 6-III) : nom, adresse et téléphone, dans les mentions légales. */
 export const HOST = {

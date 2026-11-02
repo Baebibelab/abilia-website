@@ -98,7 +98,7 @@ const fr = {
   'gapless.trackA': 'Piste 1',
   'gapless.trackB': 'Piste 2',
   'gapless.diagram':
-    "Frise de deux pistes : la piste 1 s'achève là où la piste 2 commence, sans blanc, et leurs volumes se croisent pendant le fondu enchaîné.",
+    "Frise de deux pistes : la piste 1 s'achève là où la piste 2 commence, sans blanc, et leurs volumes se croisent pendant le fondu enchaîné.",
   'gapless.fact.prepared': "Les pistes suivantes sont prêtes avant d'arriver",
   'gapless.fact.normalized': 'Volume normalisé, sans saturation',
   'gapless.fact.sleep': 'Minuterie de sommeil, après un délai ou à la fin du morceau',
@@ -276,16 +276,18 @@ const fr = {
   'support.title': 'Assistance',
   'support.description':
     "Questions fréquentes sur Andia, l'adresse pour nous écrire et les mentions légales du site.",
+  'support.description.noContact': 'Questions fréquentes sur Andia et mentions légales du site.',
   'support.eyebrow': 'Assistance',
-  'support.heading': 'Besoin d’aide ?',
+  'support.heading': "Besoin d'aide ?",
   'support.lead': 'Les réponses aux questions les plus fréquentes, comment nous écrire, et qui édite ce site.',
+  'support.lead.noContact': 'Les réponses aux questions les plus fréquentes, et qui héberge ce site.',
   'support.toc': 'Sur cette page',
   'support.contact.title': 'Nous écrire',
   'support.contact.text':
     "Une question, un problème, une idée ? Écrivez-nous, en français ou en anglais. Pour un problème, indiquez la version d'Andia (Réglages › À propos) et celle de votre serveur Jellyfin : cela nous aide à comprendre ce qui se passe.",
-  'support.contact.cta': 'Écrire à l’assistance',
+  'support.contact.cta': "Écrire à l'assistance",
   'support.faq.title': 'Questions fréquentes',
-  'support.faq.server.q': 'Ai-je besoin d’un serveur Jellyfin ?',
+  'support.faq.server.q': "Ai-je besoin d'un serveur Jellyfin ?",
   'support.faq.server.a':
     "Oui. Andia est un lecteur pour votre propre serveur Jellyfin : il vous faut un serveur Jellyfin 10.9 ou plus récent, et un iPhone sous iOS 17 ou plus récent. Pas encore de serveur ? Jellyfin est gratuit et open source.",
   'support.faq.server.link': 'Découvrir Jellyfin',
@@ -297,8 +299,8 @@ const fr = {
     "Oui : téléchargez vos albums, vos playlists ou vos favoris (bouton de téléchargement sur leur page, ou appui long) et écoutez-les sans connexion. Le mode hors ligne de la bibliothèque n'affiche et ne joue alors que ce qui est téléchargé.",
   'support.faq.normalization.q': 'La normalisation du volume ne change rien ?',
   'support.faq.normalization.a':
-    'Elle s’appuie sur l’analyse de votre serveur : Jellyfin 10.9 ou plus récent, avec la tâche planifiée « Normalisation audio » exécutée au moins une fois.',
-  'support.faq.watch.q': 'L’Apple Watch se connecte-t-elle à mon serveur ?',
+    "Elle s'appuie sur l'analyse de votre serveur : Jellyfin 10.9 ou plus récent, avec la tâche planifiée « Normalisation audio » exécutée au moins une fois.",
+  'support.faq.watch.q': "L'Apple Watch se connecte-t-elle à mon serveur ?",
   'support.faq.watch.a':
     "Non : c'est l'iPhone qui télécharge la musique et l'envoie à la montre (en MP3 à 256 kb/s, ou telle quelle si elle est déjà téléchargée sur l'iPhone en MP3 ou en AAC). La montre la lit ensuite sans iPhone ni réseau, avec des écouteurs Bluetooth. L'envoi à l'Apple Watch fait partie d'Andia Plus.",
   'support.faq.certificate.q': 'Mon serveur utilise un certificat auto-signé : ça marche ?',
@@ -587,9 +589,11 @@ const en: Record<UIKey, string> = {
   'privacy.back': 'Back to home',
   'support.title': 'Support',
   'support.description': 'Frequently asked questions about Andia, how to reach us, and the legal notice for this website.',
+  'support.description.noContact': 'Frequently asked questions about Andia, and the legal notice for this website.',
   'support.eyebrow': 'Support',
   'support.heading': 'Need Help?',
   'support.lead': 'Answers to the most frequent questions, how to reach us, and who publishes this website.',
+  'support.lead.noContact': 'Answers to the most frequent questions, and who hosts this website.',
   'support.toc': 'On this page',
   'support.contact.title': 'Contact Us',
   'support.contact.text':
