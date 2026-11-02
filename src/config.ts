@@ -22,7 +22,9 @@ export const JELLYFIN_URL = 'https://jellyfin.org';
 /**
  * Serveur Jellyfin de démo (musique libre de droits), proposé sous la note Jellyfin pour essayer
  * l'app sans serveur. Les valeurs remplacent `{server}`, `{user}` et `{password}` dans
- * `jellyfin.demo` ; mettre `null` pour retirer la phrase.
+ * `jellyfin.demo` ; mettre `null` pour retirer la phrase. Elle ne paraît qu'une fois l'app
+ * installable : avec `APP_STORE_URL`, ou, précédée de « Dès la sortie » (`jellyfin.demo.soon`),
+ * avec seulement `TESTFLIGHT_URL`.
  */
 export const DEMO_SERVER: { url: string; user: string; password: string } | null = {
   url: 'https://demo.andia-music.app',

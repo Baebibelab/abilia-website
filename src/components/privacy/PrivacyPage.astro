@@ -226,10 +226,14 @@ const translationNote = t('privacy.translationNote');
     font-size: 0.95rem;
   }
 
+  /* `anywhere` : un mot plus large que la ligne (le chemin `~/Library/Containers/…` de la
+     politique) se coupe, et ne compte plus dans la largeur minimale de la colonne, qu'il
+     élargissait au-delà de l'écran à 320 px. */
   .prose {
     max-width: 68ch;
     font-size: 1.04rem;
     line-height: 1.7;
+    overflow-wrap: anywhere;
   }
 
   .prose :global(p) {
@@ -270,8 +274,10 @@ const translationNote = t('privacy.translationNote');
   }
 
   @media (max-width: 900px) {
+    /* `minmax(0, 1fr)` et non `1fr` (minimum `auto`) : la colonne ne s'élargit jamais au
+       contenu le plus large, elle reste celle de l'écran. */
     .privacy__layout {
-      grid-template-columns: 1fr;
+      grid-template-columns: minmax(0, 1fr);
     }
 
     /* Sur téléphone, le sommaire précède le texte, sans rester collé. */
