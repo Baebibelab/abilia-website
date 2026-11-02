@@ -36,17 +36,17 @@ relecture sont dans `docs/AUDIT-2026-10-23-LOTS.md`.
 | 3 | A3 | Mineur | Sous 860 px, le menu disparaît sans remplaçant | en cours | #27 | Décision du lot : menu `<details>` sous 860 px (ancres, Confidentialité, langue), clé `nav.menu` ; Tarifs en deux gestes à 390 px |
 | 3 | A5 | Mineur | Animations de plus de cinq secondes sans pause sur la page | en cours | #27 | Décision du lot : exemption assumée (décor, tout s'arrête avec « Réduire les animations »), écrite dans CONVENTIONS et CLAUDE.md ; aucun bouton |
 | 3 | V3 | Mineur | Pas de feuille d'impression pour la confidentialité | en cours | #27 | `@media print` dans global.css ; PDF Chromium regardé (clair et sombre) ; Safari à confirmer |
-| 4 | N2 | Mineur | Sur téléphone, l'iPhone du hero et ses pastilles s'estompent avant d'être vus | à faire | | |
-| 4 | V5 | Mineur | La pastille « Enchaînement sans blanc » est coupée entre 861 et ≈ 1 300 px | à faire | | |
-| 4 | N1 | Mineur | Le point « Bientôt » pulse sans fin dans l'en-tête, hors `data-loop` | à faire | | |
-| 4 | N3 | Mineur | Si le moteur ne se charge pas, tout `data-reveal` reste invisible | à faire | | |
-| 4 | N5 | Mineur | Le chapeau du hero est l'élément LCP, retardé par la chorégraphie | à faire | | = P1 |
-| 4 | P1 | Mineur | La chorégraphie du hero coûte du LCP | doublon | | Voir N5 |
-| 4 | P2 | Mineur | Spectre et halos tournent en permanence sur le hero | à faire | | Mesures de l'outil A.11 dans le rapport |
-| 4 | P4 | Mineur | Captures un peu floues en densité 3 | à faire | | Captures à 1 179 × 2 556 côté app, sinon assumer |
-| 4 | N4 | Dette | Survols qui bougent hors de la préférence | à faire | | |
-| 4 | C2 | Mineur | « Bientôt sur l'App Store » a l'air d'un bouton ; rien pour être prévenu | décision | | Style distinct tout de suite ; lien TestFlight dès qu'il existe |
-| 4 | C1 | Mineur | La phrase du serveur de démo suppose l'app installée | à faire | | Avec C2 |
+| 4 | N2 | Mineur | Sur téléphone, l'iPhone du hero et ses pastilles s'estompent avant d'être vus | en cours | #28 | Sortie tirée du `--progress` de `.hero__visual` sous 860 px |
+| 4 | V5 | Mineur | La pastille « Enchaînement sans blanc » est coupée entre 861 et ≈ 1 300 px | en cours | #28 | Borne à 24 px du bord de la fenêtre, en largeur réelle de pastille ; « Égaliseur 10 bandes » (`.chip--br`) avait le même défaut à 870 et 1 000 px |
+| 4 | N1 | Mineur | Le point « Bientôt » pulse sans fin dans l'en-tête, hors `data-loop` | en cours | #28 | Pulsation sous `no-preference`, en `transform` + `opacity` d'un `::after`, dans le hero seulement (`pulse`, `data-loop`) ; l'en-tête garde un point fixe |
+| 4 | N3 | Mineur | Si le moteur ne se charge pas, tout `data-reveal` reste invisible | en cours | #28 | Filet de 3 s plutôt que classe posée par le module (qui clignotait sur réseau lent, mesuré) : choix à confirmer par Romain |
+| 4 | N5 | Mineur | Le chapeau du hero est l'élément LCP, retardé par la chorégraphie | en cours | #28 | = P1. Titre à 0 ms, chapeau à 200 ms, iPhone à 100 ms ; titre en ligne et titre + chapeau dès le premier rendu (opacité 0,3) ; `fetchpriority` retiré de la capture |
+| 4 | P1 | Mineur | La chorégraphie du hero coûte du LCP | doublon | #28 | Voir N5 (corrigé avec, même PR) |
+| 4 | P2 | Mineur | Spectre et halos tournent en permanence sur le hero | en cours | #28 | Spectre à 15 i/s planifié par `setTimeout`, `will-change` retiré des 72 barres, arrêt après 30 s sans geste ; dégradé du titre glissé par la boucle (il forçait 60 images/s) ; mesures A.11 dans la PR |
+| 4 | P4 | Mineur | Captures un peu floues en densité 3 | en cours | #28 | Assumé (captures à 590 px), noté dans CONVENTIONS ; `widths` inchangé |
+| 4 | N4 | Dette | Survols qui bougent hors de la préférence | en cours | #28 |  |
+| 4 | C2 | Mineur | « Bientôt sur l'App Store » a l'air d'un bouton ; rien pour être prévenu | en cours | #28 | Décision du lot : verre + filet, sans ombre, `cursor: default`, point qui bat dans le hero seulement ; aucun formulaire, le lien de bêta viendra par `TESTFLIGHT_URL` |
+| 4 | C1 | Mineur | La phrase du serveur de démo suppose l'app installée | en cours | #28 | Phrase construite seulement avec `APP_STORE_URL` ou `TESTFLIGHT_URL` ; « Dès la sortie… » (`jellyfin.demo.soon`) tant que seule la bêta l'est |
 | 5 | I1 | Mineur | L'anglais du site s'écarte du catalogue anglais de l'app | à faire | | Liste dans le constat |
 | 5 | I2 | Mineur | `everywhere.siri` différent dans les deux langues | à faire | | |
 | 5 | I3 | Mineur | « Lock screen » / « Lock Screen » | à faire | | |

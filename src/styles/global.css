@@ -185,8 +185,10 @@ p {
     background-color 0.3s var(--ease-out);
 }
 
-.button:hover {
-  transform: translateY(-2px);
+@media (prefers-reduced-motion: no-preference) {
+  .button:hover {
+    transform: translateY(-2px);
+  }
 }
 
 .button--primary {
