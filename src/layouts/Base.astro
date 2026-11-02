@@ -15,7 +15,11 @@ interface Props {
   alternates: Record<Lang, string>;
   title?: string;
   description?: string;
-  /** Pages qui ne doivent pas être indexées (404…). */
+  /**
+   * Pages qui ne doivent pas être indexées (404…) : ni canonique, ni hreflang, ni `og:url`, ni
+   * fiche schema.org, qui les donneraient pour une autre page. Le sélecteur de langue garde
+   * `alternates`.
+   */
   noindex?: boolean;
 }
 
@@ -29,8 +33,9 @@ const ogLocale = { fr: 'fr_FR', en: 'en_US' } satisfies Record<Lang, string>;
 // Images de partage rendues par scripts/og/render.mjs (une par langue, 1200 × 630).
 const ogImage = new URL(`/og/andia-${lang}.jpg`, site).href;
 
-// Fiche de l'app pour les moteurs de recherche (schema.org), sur l'accueil seulement.
-const isHome = alternates[lang] === routes.home[lang];
+// Fiche de l'app pour les moteurs de recherche (schema.org), sur l'accueil seulement (la 404 passe
+// les adresses de l'accueil à `alternates`, d'où le `noindex`).
+const isHome = !noindex && alternates[lang] === routes.home[lang];
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'MobileApplication',
@@ -42,6 +47,15 @@ const structuredData = {
   applicationCategory: 'MultimediaApplication',
   // Les langues du site sont celles de l'app, qui a ses captures dans chacune.
   inLanguage: Object.keys(languages),
+  // L'app est gratuite (Andia Plus s'achète dans l'app) : une offre à 0, disponible le jour où
+  // APP_STORE_URL est renseigné, indisponible jusque-là (pas « PreOrder » : rien ne se précommande).
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'EUR',
+    availability: APP_STORE_URL ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+    ...(APP_STORE_URL ? { url: APP_STORE_URL } : {}),
+  },
   ...(APP_STORE_URL ? { downloadUrl: APP_STORE_URL, installUrl: APP_STORE_URL } : {}),
 };
 ---
@@ -54,13 +68,17 @@ const structuredData = {
     <title>{pageTitle}</title>
     <meta name="description" content={pageDescription} />
     {noindex && <meta name="robots" content="noindex" />}
-    <link rel="canonical" href={canonical} />
     {
-      (Object.keys(languages) as Lang[]).map((l) => (
-        <link rel="alternate" hreflang={l} href={new URL(alternates[l], site).href} />
-      ))
+      !noindex && (
+        <>
+          <link rel="canonical" href={canonical} />
+          {(Object.keys(languages) as Lang[]).map((l) => (
+            <link rel="alternate" hreflang={l} href={new URL(alternates[l], site).href} />
+          ))}
+          <link rel="alternate" hreflang="x-default" href={new URL(alternates[defaultLang], site).href} />
+        </>
+      )
     }
-    <link rel="alternate" hreflang="x-default" href={new URL(alternates[defaultLang], site).href} />
 
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
@@ -73,7 +91,7 @@ const structuredData = {
     <meta property="og:site_name" content="Andia" />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={pageDescription} />
-    <meta property="og:url" content={canonical} />
+    {!noindex && <meta property="og:url" content={canonical} />}
     <meta property="og:locale" content={ogLocale[lang]} />
     {
       (Object.keys(languages) as Lang[])
@@ -90,9 +108,18 @@ const structuredData = {
     <meta name="twitter:image:alt" content={t('meta.ogImageAlt')} />
     {isHome && <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />}
 
-    <!-- Avant tout rendu : les états de départ des animations ne s'appliquent qu'avec JavaScript. -->
+    <!-- Avant tout rendu : les états de départ des animations ne s'appliquent qu'avec JavaScript.
+         Un module ne s'exécute qu'à la fin de la lecture du HTML, souvent après le premier rendu
+         sur un réseau lent : posée par le moteur, la classe ferait disparaître puis réapparaître
+         le haut de page. Filet : si le moteur (src/scripts/motion.ts) n'a pas démarré au bout de
+         3 s (pas de modules, script bloqué, erreur), la classe saute et tout s'affiche. -->
     <script is:inline>
-      document.documentElement.classList.add('js');
+      (function (root) {
+        root.classList.add('js');
+        window.motionFallback = setTimeout(function () {
+          root.classList.remove('js');
+        }, 3000);
+      })(document.documentElement);
     </script>
     <slot name="head" />
   </head>
