@@ -1141,15 +1141,17 @@ raison) · **reporté** (avec la condition) · **doublon** · **app** (à report
    `browser-pass` à 390 et 1440 px au moins, `axe-pass` sans violation, politique identique à
    celle de l'app (A.7).
 4. Rendu regardé : clair, sombre, 390 px, 1024 px, animations réduites, sans JavaScript.
-5. Après l'envoi : accueil, `/en/`, confidentialité dans les deux langues, une adresse inconnue
+5. Après l'envoi : accueil, `/en/`, confidentialité et assistance dans les deux langues, une adresse inconnue
    (404), un ancien domaine (301), les en-têtes (A.9).
 
 ### Le jour du changement de domaine
 
 Les quatre endroits de `docs/CONVENTIONS.md` (`site` d'`astro.config.mjs`, `SITE_URL` par défaut de
 `deploy.yml`, redirections de `public/.htaccess`, le paragraphe lui-même), plus : `DEMO_SERVER` si
-son domaine change, les images de partage régénérées, l'URL de confidentialité (et d'assistance)
-donnée à App Store Connect, les anciennes adresses testées en 301 avec leur chemin, Search Console.
+son domaine change, les images de partage régénérées, les URL données à App Store Connect
+(« URL de la politique de confidentialité » : `https://<domaine>/confidentialite/` ; « URL
+d'assistance » : `https://<domaine>/assistance/`, avec l'adresse `SUPPORT_EMAIL` de `src/config.ts`
+comme adresse de support), les anciennes adresses testées en 301 avec leur chemin, Search Console.
 
 ### Le jour du lancement sur l'App Store
 
@@ -1305,7 +1307,10 @@ for (const [url, h] of Object.entries(html)) {
   const all = ids(h);
   const dup = all.filter((id, i) => all.indexOf(id) !== i);
   if (dup.length) problems.push(`id en double : ${[...new Set(dup)].join(', ')}`);
-  for (const [, href] of h.matchAll(/\shref="([^"]+)"/g)) {
+  for (const [, raw] of h.matchAll(/\shref="([^"]+)"/g)) {
+    // Entités décodées : l'adresse d'assistance est un mailto: écrit en entités (`&#109;…`).
+    const href = raw.replace(/&#x([0-9a-f]+);/gi, (_, n) => String.fromCodePoint(parseInt(n, 16)))
+      .replace(/&#(\d+);/g, (_, n) => String.fromCodePoint(+n)).replace(/&amp;/g, '&');
     if (/^(https?:)?\/\//.test(href)) { if (!href.startsWith(site)) external.add(href); continue; }
     if (/^(mailto|tel):/.test(href)) { external.add(href); continue; }
     const [path, hash] = href.split('#');
@@ -1362,6 +1367,7 @@ declare -A variants=(
   [testflight]='s#TESTFLIGHT_URL: string | null = null#TESTFLIGHT_URL: string | null = "https://testflight.apple.com/join/XXXXXXXX"#'
   [sansprix]="s#PLUS_PRICE: Record<'fr' | 'en', string> | null = {[^}]*}#PLUS_PRICE: Record<'fr' | 'en', string> | null = null#"
   [sansdemo]='/DEMO_SERVER:/,/};/c\export const DEMO_SERVER: { url: string; user: string; password: string } | null = null;'
+  [assistance]='s#SUPPORT_EMAIL: string | null = null#SUPPORT_EMAIL: string | null = "assistance@example.org"#; s#\(PUBLISHER: .*\) | null = null#\1 | null = { name: "Éditeur", address: null, director: "Directeur" }#'
 )
 for name in "${!variants[@]}"; do
   cp .audit-config.ts.orig src/config.ts

@@ -60,3 +60,32 @@ export const PLUS_PRICE: Record<'fr' | 'en', string> | null = { fr: '7,99 €',
  * si la bêta ferme.
  */
 export const TESTFLIGHT_URL: string | null = null;
+
+/**
+ * Adresse e-mail d'assistance, donnée par la page Assistance (`/assistance/`, `/en/support/`) et
+ * ses mentions légales. Elle n'apparaît jamais en clair dans le texte visible : la page l'écrit
+ * dans un lien `mailto:` encodé en entités HTML (une protection minimale contre les robots qui
+ * ramassent les adresses). C'est aussi l'adresse de support à donner à App Store Connect, avec
+ * l'URL de la page. `null` tant qu'elle n'existe pas (elle attend le domaine définitif) : la page
+ * paraît alors sans sa partie « Nous écrire », et son chapeau ne promet pas d'adresse.
+ */
+export const SUPPORT_EMAIL: string | null = null;
+
+/**
+ * Éditeur du site (LCEN, art. 6-III), lu par les mentions légales de la page Assistance et par
+ * le « © » du pied de page, qui porte son nom. `address` à `null` : un particulier peut ne pas
+ * publier son adresse, qu'il a confiée à l'hébergeur, et la page le dit à la place. `null` tant
+ * qu'il n'est pas fixé : les mentions légales ne donnent alors que l'hébergeur et « Ce site », et
+ * le « © » porte « Andia ».
+ */
+export const PUBLISHER: { name: string; address: string | null; director: string } | null = null;
+
+/** Hébergeur du site (LCEN, art. 6-III) : nom, adresse et téléphone, dans les mentions légales. */
+export const HOST = {
+  name: 'OVH SAS',
+  address: '2 rue Kellermann, 59100 Roubaix, France',
+  phone: '+33 9 72 10 10 07',
+};
+
+/** Première année de publication du site : le « © » du pied de page va de là à l'année du build. */
+export const FIRST_YEAR = 2026;
