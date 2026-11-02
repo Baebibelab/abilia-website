@@ -56,16 +56,16 @@ relecture sont dans `docs/AUDIT-2026-10-23-LOTS.md`.
 | 5 | F6 | Mineur | Pastilles de période du Rewind ≠ sélecteur de l'app | à faire | | |
 | 5 | C3 | Mineur | Aucune espace insécable en français | à faire | | Règle à écrire dans CONVENTIONS |
 | 5 | I4 | Dette | Virgule de série en anglais | décision | | |
-| 6 | D1 | Majeur | Le déploiement accepte n'importe quelle clé d'hôte SFTP | à faire | | Secret `OVH_KNOWN_HOSTS` |
-| 6 | D3 | Mineur | Aucune Content-Security-Policy | décision | | Report-Only d'abord |
-| 6 | D4 | Mineur | Types compressés incomplets | à faire | | = P3 |
-| 6 | P3 | Mineur | `mod_deflate` sans xml ni txt | doublon | | Voir D4 |
-| 6 | D5 | Dette | CI : droits, outils d'audit, télémétrie, dépendances | à faire | | Job « Audit » avec A.1, A.2, A.7 |
-| 6 | D6 | Mineur | Mise en ligne non atomique, pas de retour arrière écrit | à faire | | |
-| 6 | D7 | Dette | `Permissions-Policy` obsolète | à faire | | |
-| 6 | D8 | Dette | HSTS sans `includeSubDomains` ni `preload` | décision | | Au changement de domaine |
-| 6 | S1 | Mineur | La 404 déclare l'accueil comme canonique | à faire | | |
-| 6 | S2 | Dette | Fiche schema.org sans `offers` | décision | | |
+| 6 | D1 | Majeur | Le déploiement accepte n'importe quelle clé d'hôte SFTP | en cours | #22 | Secret `OVH_KNOWN_HOSTS` à créer avant le prochain déploiement ; FTP chiffré imposé |
+| 6 | D3 | Mineur | Aucune Content-Security-Policy | en cours | #22 | Décidé : stricte en Report-Only, empreintes au build (`scripts/csp.mjs`) ; mode strict après la réouverture (CONVENTIONS) |
+| 6 | D4 | Mineur | Types compressés incomplets | en cours | #22 | = P3 ; `content-encoding` à vérifier en production (A.9) |
+| 6 | P3 | Mineur | `mod_deflate` sans xml ni txt | doublon | #22 | Voir D4, corrigé avec lui |
+| 6 | D5 | Dette | CI : droits, outils d'audit, télémétrie, dépendances | en cours | #22 | Job « Audit » avec A.1, A.2, A.7 ; secret `APP_REPO_TOKEN` à créer (Actions et Dependabot) ; A.7 rouge jusqu'à L1 |
+| 6 | D6 | Mineur | Mise en ligne non atomique, pas de retour arrière écrit | en cours | #22 | Deux `mirror` ; retour arrière dans CONVENTIONS ; essai en mode maintenance à faire |
+| 6 | D7 | Dette | `Permissions-Policy` obsolète | en cours | #22 | `browsing-topics=()` à la place d'`interest-cohort` |
+| 6 | D8 | Dette | HSTS sans `includeSubDomains` ni `preload` | reporté | #22 | Décidé : inchangé jusqu'au changement de domaine (CONVENTIONS, « Vérifier et mettre en ligne ») |
+| 6 | S1 | Mineur | La 404 déclare l'accueil comme canonique | en cours | #22 | Ni canonique, ni hreflang, ni `og:url`, ni fiche schema.org sous `noindex` ; contrôlé par le job Audit |
+| 6 | S2 | Dette | Fiche schema.org sans `offers` | en cours | #22 | Décidé : `Offer` à 0 EUR, `OutOfStock` puis `InStock` selon `APP_STORE_URL` (pas `PreOrder` : rien ne se précommande) ; test des résultats enrichis après la réouverture |
 | 7 | Q1 | Dette | Quatre clés de texte jamais lues | à faire | | |
 | 7 | Q2 | Dette | Fichiers et dessins morts | à faire | | Ou utiliser `recherche.jpg` (F9) |
 | 7 | Q3 | Dette | Commentaires et modèle de partage en retard | à faire | | |
