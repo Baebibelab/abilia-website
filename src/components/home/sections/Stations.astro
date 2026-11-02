@@ -16,24 +16,27 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 
+// Les teintes de l'app (`StationCard.gradient`), assombries là où il le fallait pour que le texte
+// blanc, posé en bas de carte, atteigne 4,5:1 sur tout le dégradé (outil A.12 de
+// docs/AUDIT-TRAME.md) : à vérifier en changeant une couleur.
 type Card = { key: UIKey; icon: Parameters<typeof Glyph>[0]['name']; from: string; to: string };
 
 const stations: Card[] = [
-  { key: 'stations.random', icon: 'shuffle', from: '#ff8a5c', to: '#d93a5b' },
+  { key: 'stations.random', icon: 'shuffle', from: '#ff4800', to: '#9a1e37' },
   { key: 'stations.forgotten', icon: 'history', from: '#9b5de5', to: '#4b33c4' },
-  { key: 'stations.never', icon: 'sparkles', from: '#2ec4b6', to: '#17707a' },
-  { key: 'stations.decade80', icon: 'disc', from: '#f15bb5', to: '#8f2aa3' },
+  { key: 'stations.never', icon: 'sparkles', from: '#26a195', to: '#104f56' },
+  { key: 'stations.decade80', icon: 'disc', from: '#ef48ad', to: '#812693' },
   { key: 'stations.decade90', icon: 'disc', from: '#4f6df5', to: '#33139a' },
-  { key: 'stations.decade00', icon: 'disc', from: '#f39c3d', to: '#d2452a' },
+  { key: 'stations.decade00', icon: 'disc', from: '#d1740d', to: '#8e2f1c' },
 ];
 
 const moods: Card[] = [
-  { key: 'stations.mood.happy', icon: 'sun', from: '#8bc34a', to: '#2e6b1f' },
+  { key: 'stations.mood.happy', icon: 'sun', from: '#71a436', to: '#1d4314' },
   { key: 'stations.mood.evening', icon: 'moon', from: '#6a5ae0', to: '#26247f' },
-  { key: 'stations.mood.chill', icon: 'leaf', from: '#45b08c', to: '#1f6470' },
+  { key: 'stations.mood.chill', icon: 'leaf', from: '#3d9c7c', to: '#19505a' },
   { key: 'stations.mood.melancholy', icon: 'rain', from: '#6d8bab', to: '#2b3a57' },
-  { key: 'stations.mood.energy', icon: 'bolt', from: '#ff6b4a', to: '#c72857' },
-  { key: 'stations.mood.focus', icon: 'target', from: '#4d9de0', to: '#244f94' },
+  { key: 'stations.mood.energy', icon: 'bolt', from: '#ff431a', to: '#9f2045' },
+  { key: 'stations.mood.focus', icon: 'target', from: '#3c93dd', to: '#204684' },
 ];
 
 const rows = [

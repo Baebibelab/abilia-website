@@ -7,6 +7,8 @@
 //      l'autre (`--reveal-index`, pas de `data-reveal-stagger="80"` ms, 90 par défaut).
 //    - `data-reveal-repeat` : l'élément disparaît de nouveau quand il quitte l'écran, et
 //      réapparaît au retour (sinon il reste affiché une fois révélé).
+//    - Filet : à l'arrêt du défilement, un élément déjà dépassé (ou à l'écran en bas de page)
+//      qui n'a jamais été vu dans la zone est révélé quand même.
 //
 // 2. `data-scroll` : l'élément reçoit `--progress`, de 0 (son haut touche le bas de l'écran)
 //    à 1 (son bas quitte le haut de l'écran), mis à jour à chaque image pendant le scroll.
@@ -53,22 +55,51 @@ function setupReveal() {
     return;
   }
 
+  // Éléments pas encore révélés (hors `data-reveal-repeat`), pour le filet ci-dessous.
+  const pending = new Set(elements.filter((el) => !('revealRepeat' in el.dataset)));
+
+  const reveal = (el: HTMLElement) => {
+    el.classList.add('is-revealed');
+    if (pending.delete(el)) observer.unobserve(el);
+  };
+
   const observer = new IntersectionObserver(
     (entries) => {
       for (const entry of entries) {
         const el = entry.target as HTMLElement;
-        if (entry.isIntersecting) {
-          el.classList.add('is-revealed');
-          if (!('revealRepeat' in el.dataset)) observer.unobserve(el);
-        } else if ('revealRepeat' in el.dataset) {
-          el.classList.remove('is-revealed');
-        }
+        if (entry.isIntersecting) reveal(el);
+        else if ('revealRepeat' in el.dataset) el.classList.remove('is-revealed');
       }
     },
-    // Révélé un peu après être entré dans l'écran, pour que l'animation se voie.
-    { rootMargin: '0px 0px -12% 0px', threshold: 0.05 },
+    // Révélé un peu après être entré dans l'écran, pour que l'animation se voie. Seuil 0 : un
+    // seul pixel dans la zone suffit (avec 5 %, un grand bloc traversé vite pouvait n'y être
+    // jamais assez à un rendu).
+    { rootMargin: '0px 0px -12% 0px', threshold: 0 },
   );
   elements.forEach((el) => observer.observe(el));
+
+  // Filet : un défilement très rapide, une ancre ou un retour arrière peuvent faire passer un
+  // élément au-dessus de l'écran sans qu'il ait jamais été dans la zone ; arrêté en bas de
+  // page, un élément peut rester sous la ligne des 88 %. Une fois le défilement arrêté, on
+  // révèle ce qui est déjà dépassé, et en bas de page ce qui est à l'écran : toutes les mesures
+  // d'abord, les classes ensuite.
+  let timer = 0;
+  const sweep = () => {
+    if (pending.size === 0) return;
+    const viewport = window.innerHeight;
+    const atBottom = window.scrollY + viewport >= document.documentElement.scrollHeight - 2;
+    const late = Array.from(pending).filter((el) => {
+      const rect = el.getBoundingClientRect();
+      return rect.bottom < 0 || (atBottom && rect.top < viewport);
+    });
+    late.forEach(reveal);
+  };
+  const scheduleSweep = () => {
+    window.clearTimeout(timer);
+    timer = window.setTimeout(sweep, 150);
+  };
+  window.addEventListener('scroll', scheduleSweep, { passive: true });
+  window.addEventListener('load', scheduleSweep);
 }
 
 function setupScrollProgress() {
