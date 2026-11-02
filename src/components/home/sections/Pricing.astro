@@ -17,6 +17,7 @@ const t = useTranslations(lang);
 
 const free = [
   t('pricing.free.library'),
+  t('pricing.free.playlists'),
   t('pricing.free.playback'),
   t('pricing.free.offline'),
   t('pricing.free.stations'),
@@ -28,6 +29,7 @@ const plus = [
   t('pricing.plus.eq'),
   t('pricing.plus.crossfade'),
   t('pricing.plus.libraries'),
+  t('pricing.plus.scrobbling'),
   t('pricing.plus.family'),
 ];
 const plusPrice = PLUS_PRICE ? t('pricing.plus.price').replace('{price}', PLUS_PRICE[lang]) : t('pricing.plus.priceUnknown');
@@ -161,9 +163,7 @@ const plusPrice = PLUS_PRICE ? t('pricing.plus.price').replace('{price}', PLUS_P
   .note {
     max-width: 640px;
     margin: 28px auto 0;
-    text-align: center;
     color: var(--text-secondary);
-    font-size: 0.95rem;
   }
 
   .beta {

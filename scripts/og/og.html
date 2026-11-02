@@ -1,8 +1,11 @@
 <!doctype html>
 <!--
-  Image de partage (Open Graph, 1200 × 630) des deux langues : public/og/andia-<langue>.png.
-  Régénérer après un changement de titre ou de capture : node scripts/og/render.mjs
-  (Playwright et Chromium sont nécessaires sur la machine, pas dans le projet).
+  Image de partage (Open Graph, 1200 × 630) des deux langues : public/og/andia-<langue>.jpg.
+  Régénérer après un changement de titre, de capture ou de plateformes : node scripts/og/render.mjs
+  (Playwright et Chromium sont nécessaires sur la machine, pas dans le projet). Les textes viennent
+  de src/i18n/ui.ts (hero.eyebrow, hero.title.1, hero.title.2, hero.platforms avec {platforms},
+  qui suit src/config.ts) : render.mjs les pose dans les éléments data-t ; la capture est celle
+  de la langue (?lang=fr ou ?lang=en).
 -->
 <html>
   <head>
@@ -14,7 +17,7 @@
         position: relative;
         background: #07080b;
         color: #f5f6f7;
-        font-family: 'Inter', -apple-system, 'SF Pro Display', sans-serif;
+        font-family: -apple-system, 'SF Pro Display', sans-serif;
       }
       .halo { position: absolute; border-radius: 50%; filter: blur(70px); }
       .h1 { width: 620px; height: 620px; left: -160px; top: -260px; background: rgb(109 194 184 / 0.45); }
@@ -62,15 +65,12 @@
       <h1><span data-t="title1" style="background:none;color:inherit;display:block"></span><span data-t="title2"></span></h1>
       <p class="platforms" data-t="platforms"></p>
     </div>
-    <div class="phone"><img src="../../src/assets/screenshots/en-lecture.jpg" alt="" /><span class="island"></span></div>
+    <div class="phone"><img alt="" /><span class="island"></span></div>
     <script>
-      const texts = {
-        fr: { eyebrow: 'Lecteur de musique pour Jellyfin', title1: 'Toute votre musique,', title2: 'dans votre poche.', platforms: 'Pour iPhone et Apple Watch' },
-        en: { eyebrow: 'Music player for Jellyfin', title1: 'All your music,', title2: 'in your pocket.', platforms: 'For iPhone and Apple Watch' },
-      };
+      // Capture En lecture de la langue demandée (mêmes dossiers que screenshots(lang)).
       const lang = new URLSearchParams(location.search).get('lang') ?? 'fr';
       document.documentElement.lang = lang;
-      for (const el of document.querySelectorAll('[data-t]')) el.textContent = texts[lang][el.dataset.t];
+      document.querySelector('.phone img').src = `../../src/assets/screenshots/${lang === 'fr' ? '' : `${lang}/`}en-lecture.jpg`;
     </script>
   </body>
 </html>

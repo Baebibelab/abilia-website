@@ -12,21 +12,24 @@ src/
                         français, en anglais dans en/, servies par screenshots(lang) (index.ts)
                         ; ipad.jpg et mac.jpg (facultatives, bigScreenshots(lang)) : tant
                         qu'elles manquent, la section iPad et Mac dessine l'écran en CSS
-  components/           briques partagées (Header, Footer, Section, PhoneFrame, AppIcon…)
+  components/           briques partagées (Header, Footer, Section, PhoneFrame, DeviceCard,
+                        FeatureCard, AppIcon…)
   components/home/      l'accueil : Home.astro assemble Hero.astro puis sections/*.astro
   components/privacy/   la page Confidentialité (mise en page commune aux deux langues)
   components/support/   la page Assistance : contact, questions fréquentes, mentions légales
-  content/privacy/      le texte de la politique : fr.md (copie de l'app), en.md (traduction)
+  content/privacy/      le texte de la politique : fr.md et en.md, copies de celles de l'app
   i18n/ui.ts            tous les textes (fr + en) et la table des pages (`routes`)
   layouts/Base.astro    <head> (SEO, Open Graph, icônes), fond animé, en-tête, pied de page
   pages/                pages françaises ; pages/en/ leurs équivalents anglais ;
                         robots.txt.ts et sitemap.xml.ts, générés à partir de `routes`
   scripts/motion.ts     moteur d'animation au scroll (data-reveal, data-scroll)
-  styles/global.css     couleurs, typographie, boutons, verre
+  styles/global.css     couleurs, typographie, boutons, verre, classes partagées (.note…)
   styles/motion.css     états des apparitions data-reveal
 public/                 copié tel quel : .htaccess (OVH), favicons, apple-touch-icon,
                         og/ (images de partage)
 scripts/og/             modèle des images de partage et rendu des icônes PNG (render.mjs)
+scripts/check-spectrum.mjs  contrôle du spectre du hero contre les captures (npm run check)
+scripts/csp.mjs         empreintes des scripts en ligne pour la CSP de dist/.htaccess (npm run build)
 ```
 
 L'accueil est découpé pour que plusieurs personnes y travaillent sans se marcher dessus :
@@ -63,7 +66,11 @@ Variables CSS (`src/styles/global.css`), toujours elles plutôt qu'une couleur e
 Classes utilitaires : `.container` (largeur de contenu + marges, 16 px minimum sur téléphone),
 `.glass` (carte en verre, comme `glassCard()`), `.gradient-text` (corail → violet → sarcelle,
 pour un mot ou une ligne de titre, pas un paragraphe), `.button` + `.button--primary` /
-`.button--ghost`, `.visually-hidden`.
+`.button--ghost`, `.visually-hidden` (et `.visually-hidden-narrow`, sous 520 px seulement),
+`.note` (note discrète sous un bloc de section), `.card-row` (rangée de trois `FeatureCard`, une
+colonne sous 900 px), `.badge-soon` (pastille « Bientôt »). Une section n'y ajuste que sa marge ou
+sa couleur ; un style qui sert à deux sections va dans `global.css` ou dans un composant partagé,
+jamais recopié.
 
 Contraste : tout texte atteint 4,5:1 (WCAG AA) en clair comme en sombre. `--coral` et `--teal`
 n'y arrivent pas sur le fond clair : pour un texte, prendre `--coral-text` / `--teal-text`, et
@@ -72,30 +79,49 @@ n'y arrivent pas sur le fond clair : pour un texte, prendre `--coral-text` / `--
 Typographie : la police système (SF Pro sur les appareils Apple, comme l'app), aucune police
 téléchargée. Titres en `font-weight: 800`, interlettrage négatif, tailles en `clamp()`.
 
+Appareils : l'iPhone (`PhoneFrame`, image de partage), l'iPad et le Mac (`BigScreens`), l'Apple
+Watch et l'écran CarPlay (`Everywhere`) sont des dessins stylisés en CSS, gardés en connaissance de
+cause (décision L7 de l'audit du 23 octobre 2026, alors que les règles marketing d'Apple demandent
+ses propres images de produits) : jamais de logo Apple, dessins stylisés sans nom de modèle, aucun
+texte qui les présente comme des photos de produits.
+
 Le fond (`components/Halos.astro`) est commun à toutes les pages : ne pas en ajouter un autre
 par section. Une section peut poser ses propres halos ou dégradés locaux par-dessus.
 
 ## Composants partagés
 
+- `Header` : la marque, les quatre ancres de l'accueil, la langue et l'appel App Store ; sous
+  860 px, les ancres, Confidentialité et la langue passent dans un menu `<details>` (« Menu »,
+  utilisable sans JavaScript ; le script le referme après un choix, avec Échap ou un clic à
+  côté). Un lien ajouté à l'en-tête s'ajoute aussi à ce menu.
 - `Section` : `id`, `eyebrow`, `title`, `lead`, `align` (`start` / `center`), puis le contenu ;
   l'en-tête apparaît au scroll. Les ancres du menu sont `features`, `offline`, `everywhere`, `pricing`.
 - `PhoneFrame` : un iPhone dessiné en CSS avec une capture (`src`, `alt`, `width`, `loading`).
   La largeur se règle aussi par `--phone-width` sur un parent. Le contenu passé entre ses
   balises se pose par-dessus la capture, dans l'écran (le hero y anime le spectre).
+  Netteté : les captures font 590 px de large, et `widths` s'arrête là. Un iPhone affiché à
+  310 px en densité 3 en voudrait 930 : il est un peu moins net sur un iPhone Pro. Compromis
+  assumé (audit du 23 octobre, P4) ; le jour où l'app fournit des captures à la taille du
+  simulateur (1 179 × 2 556), monter `widths` jusqu'à 930 (les calques posés sur la capture,
+  comme `PhoneSpectrum`, sont en pourcentages de la capture et ne changent pas).
 - `AppStoreButton` : pastille « Bientôt sur l'App Store » tant que `APP_STORE_URL`
-  (`src/config.ts`) est vide. Le jour du lancement, utiliser le **badge officiel d'Apple**, tel
+  (`src/config.ts`) est vide ; elle n'a pas l'air d'un bouton (fond de verre, filet, sans ombre,
+  `cursor: default`), et son point ne bat que dans le hero (`pulse`). Le jour du lancement, utiliser le **badge officiel d'Apple**, tel
   quel ; ne jamais dessiner un faux badge ni utiliser le logo Apple ailleurs.
 - `AppIcon` : l'icône en SVG (`size`, `label` si elle doit être lue).
 - `Glyph` : petites icônes au trait (`name`, `size`), décoratives ; en ajouter une = un tracé
   24 × 24 de plus dans la table du composant.
+- `DeviceCard` : carte d'appareil en verre des sections « iPad et Mac » et « Partout » (`icon`,
+  `title`, `text`, `soon` pour la pastille « Bientôt », `halo`, `haloAt`, `decorative`), le
+  dessin ou la capture de l'appareil entre ses balises.
 - `FeatureCard` : carte en verre avec une icône blanche sur pastille de couleur (`icon`, `tone`,
   `title`, `text`), comme les catégories des Réglages de l'app.
 
 Réglages dans `src/config.ts` :
 
 - `APP_STORE_URL` et `APP_STORE_ID` : le jour du lancement, le lien et l'identifiant de l'app ;
-  le bouton devient un lien, la fiche schema.org reçoit l'adresse, Safari sur iPhone affiche sa
-  bannière d'app.
+  le bouton devient un lien, la fiche schema.org reçoit l'adresse (son offre gratuite, `offers`,
+  passe de `OutOfStock` à `InStock`), Safari sur iPhone affiche sa bannière d'app.
 - `CARPLAY_AVAILABLE`, à passer à `true` le jour où Apple accorde le droit CarPlay. D'ici là, la
   section « Partout » le marque « Bientôt » et rien d'autre n'en parle : une clé de `ui.ts` qui a
   une variante `<clé>.carplay` (description, hero) la donne à la place quand c'est vrai, sans
@@ -103,14 +129,16 @@ Réglages dans `src/config.ts` :
 - `IPAD_AVAILABLE` et `MAC_AVAILABLE`, à passer à `true` le jour où l'app sort sur iPad, sur Mac
   (PR #222 et #223 de l'app). D'ici là, la section « iPad et Mac » n'est construite qu'avec
   `npm run dev` (pour la relire) et aucune page publiée n'en parle ; ensuite, la plateforme rejoint
-  `{platforms}` (« Pour iPhone, iPad, Mac et Apple Watch », description) et `{devices}`
+  `{platforms}` (« Pour iPhone, iPad et Mac », description ; l'Apple Watch n'y entre pas, voir
+  plus bas les fonctions d'Andia Plus) et `{devices}`
   (« pensée pour l'iPhone, l'iPad et le Mac », chapeau du hero), que `useTranslations` remplit
   dans tous les textes de `ui.ts`, et la section paraît, l'autre plateforme y portant « Bientôt ».
-  Penser alors à la ligne des plateformes de `scripts/og/og.html` et aux images de partage.
-- `APP_LANGUAGES` : langues de l'interface de l'app (`['fr', 'en']`), qui ont chacune leurs
-  captures. Une page dans une langue que l'app ne parle pas le dit sous l'appel du hero
-  (`hero.appLanguage`) ; aujourd'hui, aucune.
+  Penser alors à régénérer les images de partage (leur ligne des plateformes suit `platforms()`)
+  et à la configuration requise de `jellyfin.note` (« un iPhone sous iOS 17 » : iPadOS 17, macOS 14).
 - `JELLYFIN_URL`.
+- `DEMO_SERVER` : serveur Jellyfin de démo proposé sous la note Jellyfin. La phrase ne paraît
+  qu'une fois l'app installable : avec `APP_STORE_URL` (`jellyfin.demo`), ou avec seulement
+  `TESTFLIGHT_URL`, précédée de « Dès la sortie » (`jellyfin.demo.soon`).
 - `PLUS_PRICE` : prix d'Andia Plus par langue, affiché par « Tarifs » (`null` : « Achat unique »
   sans prix). Le vrai prix est celui de l'App Store : le changer ici le même jour (plan de prix
   dans `docs/monetisation/` du dépôt de l'app).
@@ -126,10 +154,19 @@ Réglages dans `src/config.ts` :
   bouton d'achat ici.
 
 Les sections de l'accueil, dans l'ordre : `Jellyfin` (`#features`), `Listen` (visite épinglée
-En lecture, paroles, égaliseur, page d'album), `Gapless` (enchaînement et fondu), `Stations`,
+En lecture, paroles, égaliseur, page d'album, page d'artiste), `Gapless` (enchaînement et fondu), `Stations`,
 `Offline` (`#offline`), `Rewind`, `BigScreens` (`#ipad-mac`, iPad et Mac, voir
 `IPAD_AVAILABLE`), `Everywhere` (`#everywhere`, Apple Watch et CarPlay), `Pricing` (`#pricing`, gratuit et Andia
 Plus, bêta ; même répartition que `docs/monetisation/README.md` de l'app).
+
+Fonctions d'Andia Plus (`PlusFeature` de l'app : Rewind, Apple Watch, égaliseur, fondu enchaîné,
+bibliothèques affichées, scrobbling) : « Tarifs » les liste toutes, et partout ailleurs le site dit
+qu'elles sont payantes, comme l'app avec sa pastille « Plus ». Une phrase courte dans le texte de
+la section ou de la carte (« Avec Andia Plus. » / « With Andia Plus. », ou en fin de phrase comme
+`jellyfin.library.text`) ; une pastille `plus.badge` (même rendu que « Bientôt ») là où il n'y a
+qu'un libellé, comme la pastille « Égaliseur 10 bandes » du hero. Elles n'entrent pas dans les
+phrases « Pour … » ni dans la description : l'Apple Watch n'est pas dans `platforms()`. Une
+nouvelle fonction Plus de l'app = une ligne dans « Tarifs » et sa mention là où le site en parle.
 
 ## Animations
 
@@ -184,15 +221,32 @@ chaque image. `<html>` porte la classe `is-scrolled` dès que la page a défilé
 - **Accessibilité** : tout mouvement (translation, rotation, échelle, parallaxe) va dans
   `@media (prefers-reduced-motion: no-preference)`. Avec « Réduire les animations », le moteur
   révèle tout d'emblée ; seuls des fondus de couleur ou d'opacité restent permis. Les effets de
-  flou et de verre ont un repli sous `prefers-reduced-transparency: reduce`.
+  flou et de verre ont un repli sous `prefers-reduced-transparency: reduce`. Chrome l'expose
+  (version 118 et suivantes) ; Safari, peut-être pas : le réglage iOS « Réduire la
+  transparence » n'a alors aucun effet sur le site (à confirmer sur un iPhone, audit du 23
+  octobre, A6). Il n'y a pas d'autre signal : le verre doit donc rester lisible sans ce repli
+  (fond à 55 % au moins derrière du texte).
 - **Sans JavaScript**, rien ne doit rester caché : les états de départ ne valent que sous
-  `html.js` (déjà le cas pour `data-reveal` ; à respecter pour toute animation maison).
+  `html.js` (déjà le cas pour `data-reveal` ; à respecter pour toute animation maison). La
+  classe est posée avant le premier rendu par le script en ligne de `Base.astro`, avec un filet :
+  si le moteur n'a pas démarré au bout de 3 s (navigateur sans modules, script bloqué, erreur),
+  elle saute et tout s'affiche ; le moteur annule ce filet en démarrant. Un état de départ qui ne
+  dépend pas de `html.js` (une animation CSS d'entrée, par exemple) doit donc finir visible tout
+  seul. Ne pas poser la classe depuis le module : il s'exécute après la lecture du HTML, souvent
+  après le premier rendu sur réseau lent, et le haut de page disparaîtrait puis réapparaîtrait.
 - **Performance** : n'animer que `transform`, `opacity` (et `filter` pour une apparition). Pas
   d'écouteur `scroll` à soi : passer par `data-scroll` et `--progress`, que le moteur ne calcule
   que pour les éléments proches de l'écran, une fois par image.
 - Une boucle infinie (halos, pulsation) se coupe aussi avec « Réduire les animations ».
   Le bloc qui la contient porte `data-loop` : le moteur la met en pause tant qu'il est loin de
   l'écran (le fond, toujours visible, n'en a pas besoin).
+- **Pas de bouton de pause** (décision de l'audit du 23 octobre, A5). Les boucles et les
+  mouvements de plus de cinq secondes (halos, dégradé du titre, spectre et anneau du hero,
+  impulsion de Jellyfin, égaliseur de la montre, point « Bientôt ») sont du décor : ils ne
+  portent aucune information et rien ne se lit en eux. L'exemption de WCAG 2.2.2 est assumée
+  à deux conditions, à garder : tout s'arrête avec « Réduire les animations » (le seul moyen
+  de pause du site), et aucun texte ne se déplace ni ne défile seul. Une animation qui porterait du
+  sens, ou du texte qui défile seul, demanderait une vraie commande de pause.
 - Pas de bibliothèque d'animation (GSAP, Lenis…) sans en discuter : le site n'a aujourd'hui
   aucune dépendance côté navigateur.
 
@@ -212,7 +266,15 @@ const t = useTranslations(lang);
 ```
 
 Les composants reçoivent toujours `lang` en prop. Les textes alternatifs des captures vont
-aussi dans `ui.ts` (`screenshot.*`).
+aussi dans `ui.ts` (`screenshot.*`). Une langue du site est une langue de l'app : ses captures
+existent dans cette langue (`src/assets/screenshots/<langue>/`) et la fiche schema.org la déclare
+(`inLanguage`, tirée de `languages`).
+
+**Exception : la 404** (`src/pages/404.astro`). OVH sert une seule page introuvable pour toutes
+les adresses, quelle que soit la langue : elle parle les deux à la fois, le français puis
+l'anglais (`lang="en"` sur les parties anglaises), dans son titre (« Page introuvable · Page not
+found »), sa description et son corps. Ses textes restent donc dans le fichier, et c'est la seule
+page dans ce cas.
 
 **Nouvelle page** : l'ajouter à `routes` dans `ui.ts` avec son adresse dans chaque langue (les
 adresses peuvent différer, par ex. `/confidentialite/` et `/en/privacy/`), puis créer
@@ -237,20 +299,46 @@ aucune mesure d'audience, les journaux d'accès de l'hébergeur), qui n'a pas sa
 politique, copie de celle de l'app. Si le site se met un jour à poser un cookie ou à charger
 quelque chose d'ailleurs, ce paragraphe change dans la même PR.
 
+**Captures** : `en-lecture.jpg` porte le spectre animé du hero (`hero/PhoneSpectrum.astro`), posé
+en pixels sur la rangée de points de la capture. `npm run check` lance `scripts/check-spectrum.mjs`,
+qui retrouve les points et la couleur du fond dans les deux langues : une nouvelle capture dont
+la mise en page a bougé le fait échouer ; remesurer alors les nombres du composant.
+
 **Images de partage** : `public/og/andia-<langue>.jpg` (1200 × 630), rendues depuis
 `scripts/og/og.html` par `node scripts/og/render.mjs` (Playwright installé sur la machine, pas
-dans le projet), qui refait aussi `apple-touch-icon.png` et `favicon-32.png`. Les régénérer quand
-le titre, la capture En lecture ou les plateformes changent.
+dans le projet), qui refait aussi `apple-touch-icon.png` et `favicon-32.png`. Leurs textes sont
+ceux du hero, lus dans `ui.ts` (`hero.eyebrow`, `hero.title.1`, `hero.title.2`, `hero.platforms`,
+dont `{platforms}` suit `src/config.ts`), et la capture est l'En lecture de la langue. Les
+régénérer quand le titre, la capture En lecture ou les plateformes changent.
 
 Ton : celui du README de l'app, chaleureux et concret, en vouvoyant ; l'anglais est une vraie
 traduction, pas un mot à mot.
+
+**Typographie française** (dictionnaire `fr` de `ui.ts`, `PLUS_PRICE` de `src/config.ts`, et
+tout texte français assemblé dans un composant, comme le « % » des genres du Rewind) : une espace
+insécable (`U+00A0`) devant « : ; ! ? » et « », après « », et entre un nombre et son unité ou ce
+qu'il compte (« 96 kHz », « 128 kb/s », « 10 Go », « 7,99 € », « +32 % », « 42 pistes »), pour
+qu'aucune ligne ne commence par « : », « € » ou « % » sur un téléphone étroit. Dans le code,
+l'insécable s'écrit telle quelle (pas `&nbsp;`, que `ui.ts` ne connaît pas) ; un éditeur qui les
+montre aide. Apostrophe droite (') partout en français, donc une chaîne entre guillemets doubles
+dès qu'elle en contient une. En anglais, les guillemets et apostrophes courbes (“ ” ’) restent,
+comme dans l'app, et une insécable lie aussi un nombre à son unité (« 96 kHz », « 10 GB »). Vérifier : `grep -c $' ' src/i18n/ui.ts` ne baisse pas, et
+`grep -n "’" src/i18n/ui.ts` ne montre que des lignes anglaises.
+
+**Anglais** : le vocabulaire et la casse de l'app (`Abilia/Resources/Localizable.xcstrings`,
+glossaire de « Localization » dans `CLAUDE.md` de l'app) : un libellé qui nomme un écran, une
+carte ou un réglage de l'app reprend sa valeur anglaise telle quelle (« Favorite Songs »,
+« Recently Added », « Live Radio », « Lock Screen »), Title Case pour les titres et libellés,
+« song » pour morceau (« track » seulement pour un numéro de piste). Les listes de trois éléments
+ou plus prennent la virgule de série (« iPhone, iPad, Mac, and Apple Watch ») : `list.and.serial`
+de `ui.ts`, que `joinList` emploie dès trois éléments ; le français n'en met jamais.
 
 ## Vérifier et mettre en ligne
 
 ```bash
 npm install
 npm run dev       # http://localhost:4321, rechargement à chaud
-npm run check     # types et textes manquants
+npm run check     # types, textes manquants, spectre du hero posé sur la capture
 npm run build     # site statique dans dist/
 npm run preview   # sert dist/ comme en production
 ```
@@ -262,9 +350,27 @@ qui garde les passages épinglés, contrairement à `hidden`) : vérifier aussi 
 largeur où les colonnes sont les plus serrées. Repères à garder : Lighthouse à 100 sur les quatre
 catégories, aucune erreur axe, CLS à 0.
 
-La CI (`.github/workflows/ci.yml`) refait `check` et `build` sur chaque PR. Le déploiement
+Styles et scripts vont dans chaque page (`inlineStylesheets: 'always'` dans `astro.config.mjs`,
+scripts courts en ligne) : rien ne bloque le premier affichage, et une page de l'accueil pèse
+≈ 32 Ko compressés, dont 62 Ko de CSS bruts (octobre 2026, cinq pages). Passer à `'auto'` (une
+feuille commune mise en cache) quand le site dépasse dix pages, ou quand le CSS en ligne d'une
+page dépasse 100 Ko bruts ; mesurer avant et après (Lighthouse, poids de `dist/`).
+
+La CI (`.github/workflows/ci.yml`) refait `check` et `build` sur chaque PR et sur `main`, et son
+job « Audit » lance les outils rapides de `docs/AUDIT-TRAME.md` (annexe A), extraits de la trame à
+chaque fois : `i18n-check` (A.1 : rouge sur une clé sans anglais ou aux repères différents, une clé
+jamais lue n'est qu'un avertissement), `dist-check` (A.2 : rouge sur tout « ✗ »), une page
+`noindex` qui garderait canonique, hreflang, `og:url` ou fiche schema.org, et la copie de la
+politique de confidentialité comparée à celle de l'app (A.7, rouge dès qu'elles divergent). Le
+dépôt de l'app est privé : A.7 lit `docs/PRIVACY*.md` avec le secret `APP_REPO_TOKEN` (jeton à
+grain fin, lecture seule du dépôt `Baebibelab/abilia`), à créer aussi dans les secrets Dependabot.
+Les deux workflows n'ont que le droit `contents: read` et coupent la télémétrie d'Astro
+(`ASTRO_TELEMETRY_DISABLED`). Dependabot (`.github/dependabot.yml`) propose chaque lundi les mises
+à jour npm. Le déploiement
 (`.github/workflows/deploy.yml`) ne part plus qu'à la demande (Actions › Deploy › Run workflow),
-une fois les secrets `OVH_HOST`, `OVH_USER`, `OVH_PASSWORD` définis (détails en tête du fichier) :
+une fois les secrets `OVH_HOST`, `OVH_USER`, `OVH_PASSWORD` et, en SFTP, `OVH_KNOWN_HOSTS` (la clé
+du serveur, épinglée : un serveur qui présente une autre clé est refusé) définis (détails en tête du
+fichier) :
 mode `site` pour envoyer `dist/`, mode `maintenance` pour envoyer `maintenance/` (toute adresse
 répond 503 avec une page d'attente autonome, hors Astro et hors `ui.ts`, sauf la confidentialité
 et l'assistance dans les deux langues, avec `/_astro/`, `/og/` et les icônes, servies depuis les
@@ -272,6 +378,46 @@ fichiers du dernier envoi en mode `site` : App Store Connect et son relecteur do
 ouvrir). Une page qu'App Store Connect doit voir s'ajoute aussi à `maintenance/.htaccess`. Les règles
 Apache (redirection vers le domaine principal, HTTPS, cache, page 404, en-têtes de sécurité) sont
 dans `public/.htaccess`.
+
+L'envoi du mode `site` se fait en deux temps : `_astro/` d'abord (ressources dont le nom porte une
+empreinte, jamais supprimées à ce moment-là), puis les pages et le reste, avec `--delete` quand
+`OVH_DELETE` est vrai. Une page nouvelle ne cite donc jamais un fichier pas encore arrivé ; pendant
+quelques secondes, d'anciennes pages côtoient les nouvelles ressources, ce qui ne casse rien.
+
+**Revenir à la version précédente** (une mise en ligne qui casse le site) :
+
+1. Tout de suite, si le site est inutilisable : Run workflow en mode `maintenance` (une page
+   d'attente en 503, les fichiers restent sur le serveur).
+2. Annuler la PR fautive sur `main` (`git revert -m 1 <commit de fusion>` dans une PR, ou le bouton
+   « Revert » de GitHub), la fusionner, puis Run workflow sur `main` en mode `site` : le workflow
+   reconstruit tout depuis le code, rien n'est gardé de l'envoi précédent.
+3. En urgence, sans attendre une PR : pousser une étiquette sur le dernier commit sain
+   (`git tag retour-<date> <commit> && git push origin retour-<date>`) et lancer Run workflow en
+   choisissant cette étiquette dans « Use workflow from ». C'est alors le `deploy.yml` de ce
+   commit qui tourne : il doit être postérieur à l'épinglage de la clé SFTP (lot 6 de l'audit du
+   23 octobre), sinon passer par l'étape 2. Supprimer l'étiquette une fois `main` réparé.
+
+Sans `OVH_DELETE`, des fichiers d'une version plus récente peuvent rester sur le serveur après un
+retour arrière ; ils sont inoffensifs (aucune page ne les cite) et partent au prochain envoi avec
+`OVH_DELETE`.
+
+**Content-Security-Policy** (`public/.htaccess`) : `default-src 'none'`, images et styles du site
+(styles en ligne permis, `data:` pour les images), scripts du site plus les empreintes SHA-256 des
+scripts en ligne, ni `<base>`, ni formulaire, ni cadre. `npm run build` lance `scripts/csp.mjs`
+après Astro : il hache chaque `<script>` en ligne exécutable de `dist/` (pas le JSON-LD, qui ne
+s'exécute pas) et remplace le repère `{{CSP_SCRIPT_HASHES}}` de `dist/.htaccess`. Il échoue si une
+page charge un script d'un autre site ou porte un attribut `on…=` : la politique les bloquerait.
+Conséquences pour le code : aucun script, style, police ni image venant d'ailleurs que du site, aucun
+gestionnaire `onclick=` ; un script en ligne de plus est pris en compte tout seul. Elle est en
+`Content-Security-Policy-Report-Only` (rien n'est bloqué, les violations vont dans la console) tant
+que le site est en maintenance. **Passer en mode strict** après la réouverture, une fois A.9 et une
+visite des pages (console ouverte, clair et sombre, animations réduites) sans violation : renommer
+l'en-tête en `Content-Security-Policy` dans `public/.htaccess`, et mettre à jour cette phrase.
+
+**HSTS** reste `max-age=31536000` seul, sans `includeSubDomains` ni `preload`, jusqu'au changement
+de domaine (décision D8 de l'audit du 23 octobre) : précharger un domaine qu'on va quitter n'a pas
+de sens, et le serveur de démo vit sur un autre nom. Le jour du nouveau domaine, décider s'il porte
+`includeSubDomains` (tous ses sous-domaines en https, celui de la démo compris) et `preload`.
 
 Domaine principal : `https://abilia-music.app` (`site` dans `astro.config.mjs`, repris par les
 liens canoniques, hreflang, Open Graph, `robots.txt` et le plan du site). `abilia-music.fr` et les

@@ -9,20 +9,15 @@ export const APP_STORE_URL: string | null = null;
  */
 export const APP_STORE_ID: string | null = null;
 
-/**
- * Langues de l'interface de l'app, qui ont chacune leurs captures (`src/assets/screenshots/`). Une
- * page dans une autre langue prévient ses visiteurs que l'app (et donc les captures) est en
- * français.
- */
-export const APP_LANGUAGES: readonly string[] = ['fr', 'en'];
-
 /** Site du projet Jellyfin, cité là où le site explique qu'il faut un serveur. */
 export const JELLYFIN_URL = 'https://jellyfin.org';
 
 /**
  * Serveur Jellyfin de démo (musique libre de droits), proposé sous la note Jellyfin pour essayer
  * l'app sans serveur. Les valeurs remplacent `{server}`, `{user}` et `{password}` dans
- * `jellyfin.demo` ; mettre `null` pour retirer la phrase.
+ * `jellyfin.demo` ; mettre `null` pour retirer la phrase. Elle ne paraît qu'une fois l'app
+ * installable : avec `APP_STORE_URL`, ou, précédée de « Dès la sortie » (`jellyfin.demo.soon`),
+ * avec seulement `TESTFLIGHT_URL`.
  */
 export const DEMO_SERVER: { url: string; user: string; password: string } | null = {
   url: 'https://demo.andia-music.app',
@@ -57,7 +52,7 @@ export const MAC_AVAILABLE = false;
  * de l'App Store (docs/monetisation/ du dépôt de l'app : 7,99 € au lancement, puis 12,99 €) : le
  * changer ici le même jour. `null` : la section dit « Achat unique » sans prix.
  */
-export const PLUS_PRICE: Record<'fr' | 'en', string> | null = { fr: '7,99 €', en: '$7.99' };
+export const PLUS_PRICE: Record<'fr' | 'en', string> | null = { fr: '7,99 €', en: '$7.99' };
 
 /**
  * Lien public de la bêta TestFlight (App Store Connect › TestFlight › groupe externe › lien

@@ -4,7 +4,7 @@
 // sinon. Home.astro ne la construit qu'une fois `IPAD_AVAILABLE` ou `MAC_AVAILABLE`
 // (src/config.ts) vrai, ou en développement ; la plateforme pas encore sortie porte « Bientôt ».
 import { Picture } from 'astro:assets';
-import Glyph from '../../Glyph.astro';
+import DeviceCard from '../../DeviceCard.astro';
 import Section from '../../Section.astro';
 import AppMock from './bigscreens/AppMock.astro';
 import { bigScreenshots } from '../../../assets/screenshots';
@@ -27,76 +27,73 @@ const missing = (name: string) => (import.meta.env.DEV ? `Capture à fournir : s
   <Fragment slot="title">{t('screens.title.1')}{' '}<span class="gradient-text">{t('screens.title.2')}</span></Fragment>
 
   <div class="duo" data-scroll>
-    <article class="device-card glass" data-reveal="up">
-      <div class="device-card__visual device-card__visual--ipad">
-        <figure class:list={['ipad', { 'ipad--portrait': !!shots.ipad }]}>
-          <div class="ipad__screen">
-            {
-              shots.ipad ? (
-                <Picture
-                  src={shots.ipad}
-                  alt={t('screenshot.ipad')}
-                  formats={['avif', 'webp']}
-                  widths={[500, 800, 1100, 1400]}
-                  sizes="300px"
-                  loading="lazy"
-                  decoding="async"
-                />
-              ) : (
-                <AppMock lang={lang} />
-              )
-            }
-            {!shots.ipad && missing('ipad.jpg') && <span class="placeholder">{missing('ipad.jpg')}</span>}
-          </div>
-        </figure>
-      </div>
-      <div class="device-card__text">
-        <h3>
-          <Glyph name="tablet" size={24} />{t('screens.ipad.title')}
-          {!IPAD_AVAILABLE && <span class="soon">{t('everywhere.soon')}</span>}
-        </h3>
-        <p>{t('screens.ipad.text')}</p>
-      </div>
-    </article>
-
-    <article class="device-card glass" data-reveal="up" data-reveal-delay="120">
-      <div class="device-card__visual device-card__visual--mac">
-        <figure class:list={['mac', { 'mac--drawn': !shots.mac }]}>
+    <DeviceCard
+      icon="tablet"
+      title={t('screens.ipad.title')}
+      text={t('screens.ipad.text')}
+      soon={IPAD_AVAILABLE ? null : t('everywhere.soon')}
+      data-reveal="up"
+    >
+      <figure class:list={['ipad', { 'ipad--portrait': !!shots.ipad }]}>
+        <div class="ipad__screen">
           {
-            shots.mac ? (
+            shots.ipad ? (
               <Picture
-                src={shots.mac}
-                alt={t('screenshot.mac')}
+                src={shots.ipad}
+                alt={t('screenshot.ipad')}
                 formats={['avif', 'webp']}
                 widths={[500, 800, 1100, 1400]}
-                sizes="(max-width: 900px) 86vw, 520px"
+                sizes="300px"
                 loading="lazy"
                 decoding="async"
               />
             ) : (
-              <>
-                <div class="mac__bar" aria-hidden="true">
-                  <i />
-                  <i />
-                  <i />
-                </div>
-                <div class="mac__content">
-                  <AppMock lang={lang} />
-                </div>
-              </>
+              <AppMock lang={lang} />
             )
           }
-          {!shots.mac && missing('mac.jpg') && <span class="placeholder">{missing('mac.jpg')}</span>}
-        </figure>
-      </div>
-      <div class="device-card__text">
-        <h3>
-          <Glyph name="laptop" size={24} />{t('screens.mac.title')}
-          {!MAC_AVAILABLE && <span class="soon">{t('everywhere.soon')}</span>}
-        </h3>
-        <p>{t('screens.mac.text')}</p>
-      </div>
-    </article>
+          {!shots.ipad && missing('ipad.jpg') && <span class="placeholder">{missing('ipad.jpg')}</span>}
+        </div>
+      </figure>
+    </DeviceCard>
+
+    <DeviceCard
+      icon="laptop"
+      title={t('screens.mac.title')}
+      text={t('screens.mac.text')}
+      soon={MAC_AVAILABLE ? null : t('everywhere.soon')}
+      halo="coral"
+      haloAt="75% 30%"
+      data-reveal="up"
+      data-reveal-delay="120"
+    >
+      <figure class:list={['mac', { 'mac--drawn': !shots.mac }]}>
+        {
+          shots.mac ? (
+            <Picture
+              src={shots.mac}
+              alt={t('screenshot.mac')}
+              formats={['avif', 'webp']}
+              widths={[500, 800, 1100, 1400]}
+              sizes="(max-width: 900px) 86vw, 520px"
+              loading="lazy"
+              decoding="async"
+            />
+          ) : (
+            <>
+              <div class="mac__bar" aria-hidden="true">
+                <i />
+                <i />
+                <i />
+              </div>
+              <div class="mac__content">
+                <AppMock lang={lang} />
+              </div>
+            </>
+          )
+        }
+        {!shots.mac && missing('mac.jpg') && <span class="placeholder">{missing('mac.jpg')}</span>}
+      </figure>
+    </DeviceCard>
   </div>
 
   <p class="note" data-reveal="fade">{t('screens.note')}</p>
@@ -115,72 +112,16 @@ const missing = (name: string) => (import.meta.env.DEV ? `Capture à fournir : s
     gap: 0 22px;
   }
 
-  .device-card {
-    display: grid;
+  /* Cartes DeviceCard : elles partagent leurs lignes (subgrid), et leur visuel est plus aéré. */
+  .duo {
+    --device-visual-padding: 40px clamp(18px, 3vw, 32px);
+    --device-visual-min-height-narrow: 0px;
+    --device-visual-padding-narrow: 28px 16px;
+  }
+
+  .duo > :global(.device-card) {
     grid-row: span 2;
     grid-template-rows: subgrid;
-    overflow: hidden;
-    text-align: start;
-  }
-
-  .device-card__visual {
-    position: relative;
-    display: grid;
-    place-items: center;
-    min-height: 330px;
-    padding: 40px clamp(18px, 3vw, 32px);
-    isolation: isolate;
-  }
-
-  .device-card__visual::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background:
-      radial-gradient(closest-side at 50% 55%, var(--halo-teal), transparent),
-      radial-gradient(closest-side at 25% 30%, var(--halo-indigo), transparent);
-  }
-
-  .device-card__visual--mac::before {
-    background:
-      radial-gradient(closest-side at 50% 55%, var(--halo-coral), transparent),
-      radial-gradient(closest-side at 75% 30%, var(--halo-purple), transparent);
-  }
-
-  .device-card__text {
-    display: grid;
-    align-content: start;
-    gap: 10px;
-    padding: 0 clamp(22px, 3vw, 32px) clamp(24px, 3vw, 32px);
-  }
-
-  .device-card__text h3 {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 10px;
-    font-size: 1.45rem;
-    font-weight: 750;
-  }
-
-  .device-card__text h3 :global(.glyph) {
-    color: var(--teal);
-  }
-
-  .device-card__text p {
-    color: var(--text-secondary);
-  }
-
-  .soon {
-    padding: 3px 10px;
-    border-radius: var(--radius-pill);
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--coral-text);
-    background: color-mix(in srgb, var(--coral) 10%, transparent);
   }
 
   /* iPad dessiné (en paysage par défaut) : bord fin et régulier, la capture (ou le dessin) à l'intérieur. */
@@ -288,13 +229,6 @@ const missing = (name: string) => (import.meta.env.DEV ? `Capture à fournir : s
     text-align: center;
   }
 
-  .note {
-    margin-top: 24px;
-    text-align: center;
-    color: var(--text-tertiary);
-    font-size: 0.95rem;
-  }
-
   @media (prefers-reduced-motion: no-preference) {
     .ipad {
       transform: translateY(calc((var(--progress, 0.5) - 0.5) * -40px));
@@ -313,13 +247,6 @@ const missing = (name: string) => (import.meta.env.DEV ? `Capture à fournir : s
       gap: 22px;
       max-width: 600px;
       margin-inline: auto;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .device-card__visual {
-      min-height: 0;
-      padding: 28px 16px;
     }
   }
 </style>
