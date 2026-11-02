@@ -14,12 +14,12 @@ relecture sont dans `docs/AUDIT-2026-10-23-LOTS.md`.
 
 | Lot | Constat | Sévérité | Titre | État | PR | Note |
 | ---: | --- | --- | --- | --- | --- | --- |
-| 1 | L1 | Bloquant | La politique de confidentialité publiée n'est plus celle de l'app | à faire | | Recopier `docs/PRIVACY.md` et `PRIVACY.en.md` du 22 octobre, `updated: '2026-10-22'` |
-| 1 | F1 | Majeur | Tarifs oublie le scrobbling, sixième fonction Plus | à faire | | |
-| 1 | F2 | Majeur | Cinq fonctions Plus présentées sans dire qu'elles sont payantes | décision | | Pastille « Plus », phrase par section, Apple Watch retirée de « Pour … » ; images de partage à régénérer |
-| 1 | F3 | Majeur | La version d'iOS requise n'est dite nulle part | à faire | | |
-| 1 | L4 | Mineur | La ligne des marques ne couvre pas tous les noms Apple employés | à faire | | |
-| 1 | C4 | Mineur | Pastille « Votre musique reste sur votre serveur » inexacte | à faire | | |
+| 1 | L1 | Bloquant | La politique de confidentialité publiée n'est plus celle de l'app | en cours | #26 | Recopier `docs/PRIVACY.md` et `PRIVACY.en.md` du 22 octobre, `updated: '2026-10-22'` |
+| 1 | F1 | Majeur | Tarifs oublie le scrobbling, sixième fonction Plus | en cours | #26 | |
+| 1 | F2 | Majeur | Cinq fonctions Plus présentées sans dire qu'elles sont payantes | en cours | #26 | Décidé le 23 octobre : « Avec Andia Plus. » (égaliseur, fondu, Rewind, Apple Watch), pastille « Plus » sur « Égaliseur 10 bandes », Apple Watch retirée de `platforms()`, du chapeau du hero et de `og.html` ; images de partage régénérées |
+| 1 | F3 | Majeur | La version d'iOS requise n'est dite nulle part | en cours | #26 | |
+| 1 | L4 | Mineur | La ligne des marques ne couvre pas tous les noms Apple employés | en cours | #26 | |
+| 1 | C4 | Mineur | Pastille « Votre musique reste sur votre serveur » inexacte | en cours | #26 | |
 | 2 | L2 | Majeur | Aucune adresse d'assistance ni de contact | décision | | Page `/assistance/` + `/en/support/` recommandée |
 | 2 | L3 | Majeur | Aucune mention légale | décision | | Éditeur, directeur de la publication, hébergeur OVH ; lié au statut DSA |
 | 2 | L5 | Mineur | La politique ne dit rien du site lui-même | décision | | Paragraphe « Ce site » hors de la copie de l'app |

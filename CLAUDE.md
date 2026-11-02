@@ -9,6 +9,8 @@ l'accueil en fichiers.
 - Code, commentaires et messages de commit en français (`feat: …`, `fix: …`), comme l'app.
 - Aucune dépendance côté navigateur sans en discuter ; Astro seul au build.
 - Tout texte visible passe par `src/i18n/ui.ts`, dans les deux langues.
+- Une fonction d'Andia Plus se dit comme telle (« Avec Andia Plus. », pastille « Plus ») et n'entre
+  jamais dans « Pour … » : voir « Fonctions d'Andia Plus » dans CONVENTIONS.
 - Tout mouvement sous `prefers-reduced-motion: no-preference` ; rien de caché sans JavaScript.
 - Rien qui vienne d'ailleurs que du site (scripts, styles, polices, images) ni d'attribut `on…=` :
   la CSP de `public/.htaccess` les bloque. Les empreintes des scripts en ligne sont calculées par
