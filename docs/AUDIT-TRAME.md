@@ -1367,6 +1367,7 @@ declare -A variants=(
   [testflight]='s#TESTFLIGHT_URL: string | null = null#TESTFLIGHT_URL: string | null = "https://testflight.apple.com/join/XXXXXXXX"#'
   [sansprix]="s#PLUS_PRICE: Record<'fr' | 'en', string> | null = {[^}]*}#PLUS_PRICE: Record<'fr' | 'en', string> | null = null#"
   [sansdemo]='/DEMO_SERVER:/,/};/c\export const DEMO_SERVER: { url: string; user: string; password: string } | null = null;'
+  [assistance]='s#SUPPORT_EMAIL: string | null = null#SUPPORT_EMAIL: string | null = "assistance@example.org"#; s#\(PUBLISHER: .*\) | null = null#\1 | null = { name: "Éditeur", address: null, director: "Directeur" }#'
 )
 for name in "${!variants[@]}"; do
   cp .audit-config.ts.orig src/config.ts

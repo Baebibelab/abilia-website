@@ -14,12 +14,12 @@ relecture sont dans `docs/AUDIT-2026-10-23-LOTS.md`.
 
 | Lot | Constat | Sévérité | Titre | État | PR | Note |
 | ---: | --- | --- | --- | --- | --- | --- |
-| 1 | L1 | Bloquant | La politique de confidentialité publiée n'est plus celle de l'app | en cours | #26 | Recopier `docs/PRIVACY.md` et `PRIVACY.en.md` du 22 octobre, `updated: '2026-10-22'` |
-| 1 | F1 | Majeur | Tarifs oublie le scrobbling, sixième fonction Plus | en cours | #26 | |
-| 1 | F2 | Majeur | Cinq fonctions Plus présentées sans dire qu'elles sont payantes | en cours | #26 | Décidé le 23 octobre : « Avec Andia Plus. » (égaliseur, fondu, Rewind, Apple Watch), pastille « Plus » sur « Égaliseur 10 bandes », Apple Watch retirée de `platforms()`, du chapeau du hero et de `og.html` ; images de partage régénérées |
-| 1 | F3 | Majeur | La version d'iOS requise n'est dite nulle part | en cours | #26 | |
-| 1 | L4 | Mineur | La ligne des marques ne couvre pas tous les noms Apple employés | en cours | #26 | |
-| 1 | C4 | Mineur | Pastille « Votre musique reste sur votre serveur » inexacte | en cours | #26 | |
+| 1 | L1 | Bloquant | La politique de confidentialité publiée n'est plus celle de l'app | corrigé | #26 | Recopier `docs/PRIVACY.md` et `PRIVACY.en.md` du 22 octobre, `updated: '2026-10-22'` |
+| 1 | F1 | Majeur | Tarifs oublie le scrobbling, sixième fonction Plus | corrigé | #26 | |
+| 1 | F2 | Majeur | Cinq fonctions Plus présentées sans dire qu'elles sont payantes | corrigé | #26 | Décidé le 23 octobre : « Avec Andia Plus. » (égaliseur, fondu, Rewind, Apple Watch), pastille « Plus » sur « Égaliseur 10 bandes », Apple Watch retirée de `platforms()`, du chapeau du hero et de `og.html` ; images de partage régénérées |
+| 1 | F3 | Majeur | La version d'iOS requise n'est dite nulle part | corrigé | #26 | |
+| 1 | L4 | Mineur | La ligne des marques ne couvre pas tous les noms Apple employés | corrigé | #26 | |
+| 1 | C4 | Mineur | Pastille « Votre musique reste sur votre serveur » inexacte | corrigé | #26 | |
 | 2 | L2 | Majeur | Aucune adresse d'assistance ni de contact | reporté | #23 | Reporté : attend domaine/mail. Page `/assistance/` + `/en/support/` publiée par #23 (questions fréquentes, mentions légales) ; « Nous écrire » n'est construite qu'avec `SUPPORT_EMAIL` (à `null` dans `src/config.ts`), à remplir le jour où l'adresse existe |
 | 2 | L3 | Majeur | Aucune mention légale | reporté | #23 | Reporté : attend l'identité de l'éditeur. #23 publie l'hébergeur (OVH SAS) et « Ce site » ; éditeur, adresse et directeur de la publication ne paraissent qu'avec `PUBLISHER` (à `null` dans `src/config.ts`) |
 | 2 | L5 | Mineur | La politique ne dit rien du site lui-même | en cours | #23 | Paragraphe « Ce site » dans les mentions légales, hors de la copie de l'app |
