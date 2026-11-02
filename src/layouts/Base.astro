@@ -6,7 +6,7 @@ import '../styles/motion.css';
 import Footer from '../components/Footer.astro';
 import Halos from '../components/Halos.astro';
 import Header from '../components/Header.astro';
-import { APP_LANGUAGES, APP_STORE_ID, APP_STORE_URL } from '../config';
+import { APP_STORE_ID, APP_STORE_URL } from '../config';
 import { type Lang, defaultLang, languages, routes, useTranslations } from '../i18n/ui';
 
 interface Props {
@@ -45,7 +45,8 @@ const structuredData = {
   image: new URL('/apple-touch-icon.png', site).href,
   operatingSystem: 'iOS 17, watchOS 10',
   applicationCategory: 'MultimediaApplication',
-  inLanguage: APP_LANGUAGES,
+  // Les langues du site sont celles de l'app, qui a ses captures dans chacune.
+  inLanguage: Object.keys(languages),
   // L'app est gratuite (Andia Plus s'achète dans l'app) : une offre à 0, disponible le jour où
   // APP_STORE_URL est renseigné, indisponible jusque-là (pas « PreOrder » : rien ne se précommande).
   offers: {

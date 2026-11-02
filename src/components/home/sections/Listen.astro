@@ -1,7 +1,8 @@
 ---
 // Section « Écoutez, simplement » : une visite épinglée. Sur grand écran, l'iPhone reste fixe à
-// droite pendant que quatre étapes défilent à gauche, et sa capture change avec l'étape lue
-// (En lecture, paroles, égaliseur, page d'album). Sur téléphone, chaque étape a son iPhone.
+// droite pendant que cinq étapes défilent à gauche, et sa capture change avec l'étape lue
+// (En lecture, paroles, égaliseur, page d'album, page d'artiste). Sur téléphone, chaque étape a
+// son iPhone. Une étape de plus = une ligne de `steps` et ses textes `listen.<clé>.*`.
 //
 // Le passage d'une capture à l'autre se calcule en CSS à partir de `--progress`
 // (`data-scroll="pin"` sur la grille) : chaque étape fait un écran de haut, donc
@@ -26,6 +27,7 @@ const steps = [
   { key: 'lyrics', shot: shots.lyrics, alt: t('screenshot.lyrics'), tone: 'purple' },
   { key: 'eq', shot: shots.equalizer, alt: t('screenshot.equalizer'), tone: 'teal' },
   { key: 'album', shot: shots.album, alt: t('screenshot.album'), tone: 'indigo' },
+  { key: 'artist', shot: shots.artist, alt: t('screenshot.artist'), tone: 'coral' },
 ] as const;
 ---
 
