@@ -1,4 +1,5 @@
-# Configuration Apache de l'hébergement mutualisé OVH (copiée à la racine du site par le build).
+# Configuration Apache du VPS OVH (copiée à la racine du site par le build ; le VirtualHost doit
+# permettre AllowOverride All sur ce dossier).
 
 Options -Indexes
 DirectoryIndex index.html
@@ -7,14 +8,17 @@ ErrorDocument 404 /404.html
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
-  # Une seule adresse publique : abilia-music.fr et les « www » redirigent vers abilia-music.app
-  # (même chemin), pour que les moteurs de recherche ne voient pas le site en double. Les deux
-  # domaines sont rattachés au même hébergement en multisite, dossier www.
-  RewriteCond %{HTTP_HOST} ^(www\.)?abilia-music\.fr$ [NC,OR]
-  RewriteCond %{HTTP_HOST} ^www\.abilia-music\.app$ [NC]
-  RewriteRule ^(.*)$ https://abilia-music.app/$1 [L,R=301]
+  # Une seule adresse publique : andiamusic.app, les « www » et les anciens domaines
+  # (abilia-music.app, abilia-music.fr, s'ils pointent encore ici) redirigent vers andiamusic.fr
+  # (même chemin), pour que les moteurs de recherche ne voient pas le site en double. Chaque nom
+  # doit avoir son certificat sur le VPS (ServerAlias du même VirtualHost).
+  RewriteCond %{HTTP_HOST} ^www\.andiamusic\.fr$ [NC,OR]
+  RewriteCond %{HTTP_HOST} ^(www\.)?andiamusic\.app$ [NC,OR]
+  RewriteCond %{HTTP_HOST} ^(www\.)?abilia-music\.(app|fr)$ [NC]
+  RewriteRule ^(.*)$ https://andiamusic.fr/$1 [L,R=301]
 
-  # HTTPS partout (règle recommandée par OVH ; /en → /en/ est déjà fait par Apache, DirectorySlash).
+  # HTTPS partout (Apache seul sur le VPS, sans proxy devant : le port suffit ; /en → /en/ est
+  # déjà fait par Apache, DirectorySlash).
   RewriteCond %{SERVER_PORT} 80
   RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [L,R=301]
 </IfModule>

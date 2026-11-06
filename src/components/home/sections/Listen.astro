@@ -2,13 +2,15 @@
 // Section « Écoutez, simplement » : une visite épinglée. Sur grand écran, l'iPhone reste fixe à
 // droite pendant que cinq étapes défilent à gauche, et sa capture change avec l'étape lue
 // (En lecture, paroles, égaliseur, page d'album, page d'artiste). Sur téléphone, chaque étape a
-// son iPhone. Une étape de plus = une ligne de `steps` et ses textes `listen.<clé>.*`.
+// son iPhone. Une étape de plus = une ligne de `steps` et ses textes `listen.<clé>.*`. Sous la
+// visite, trois cartes sans capture : visualiseur, « À suivre », lecture continue.
 //
 // Le passage d'une capture à l'autre se calcule en CSS à partir de `--progress`
 // (`data-scroll="pin"` sur la grille) : chaque étape fait un écran de haut, donc
 // `--t = --progress × (N − 1) + 0,5` vaut l'indice de l'étape centrée à l'écran. Les captures
 // sont empilées, chacune fondue au-dessus de la précédente ; sans JavaScript, `--progress`
 // manque et la première reste affichée.
+import FeatureCard from '../../FeatureCard.astro';
 import PhoneFrame from '../../PhoneFrame.astro';
 import Section from '../../Section.astro';
 import { screenshots } from '../../../assets/screenshots';
@@ -69,9 +71,19 @@ const steps = [
       </div>
     </div>
   </div>
+
+  <div class="card-row listen__more" data-reveal-stagger="110">
+    <FeatureCard icon="sun" tone="purple" title={t('listen.visualizer.title')} text={t('listen.visualizer.text')} data-reveal />
+    <FeatureCard icon="layers" tone="teal" title={t('listen.queue.title')} text={t('listen.queue.text')} data-reveal />
+    <FeatureCard icon="infinity" tone="coral" title={t('listen.autoplay.title')} text={t('listen.autoplay.text')} data-reveal />
+  </div>
 </Section>
 
 <style>
+  .listen__more {
+    margin-top: clamp(48px, 8vw, 96px);
+  }
+
   /* Les halos des captures débordent largement : coupés au bord de la page (`clip` laisse
      fonctionner l'iPhone épinglé, contrairement à `hidden`). */
   :global(.section.listen) {

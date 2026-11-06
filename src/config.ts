@@ -17,13 +17,10 @@ export const JELLYFIN_URL = 'https://jellyfin.org';
  * l'app sans serveur. Les valeurs remplacent `{server}`, `{user}` et `{password}` dans
  * `jellyfin.demo` ; mettre `null` pour retirer la phrase. Elle ne paraît qu'une fois l'app
  * installable : avec `APP_STORE_URL`, ou, précédée de « Dès la sortie » (`jellyfin.demo.soon`),
- * avec seulement `TESTFLIGHT_URL`.
+ * avec seulement `TESTFLIGHT_URL`. `null` tant que le serveur n'est pas en ligne (il ira sur le VPS
+ * du site).
  */
-export const DEMO_SERVER: { url: string; user: string; password: string } | null = {
-  url: 'https://demo.andia-music.app',
-  user: 'demo',
-  password: 'demo',
-};
+export const DEMO_SERVER: { url: string; user: string; password: string } | null = null;
 
 /**
  * CarPlay attend encore l'autorisation d'Apple (droit `carplay-audio`, voir docs/LANCEMENT.md de
@@ -69,7 +66,7 @@ export const TESTFLIGHT_URL: string | null = null;
  * l'URL de la page. `null` tant qu'elle n'existe pas (elle attend le domaine définitif) : la page
  * paraît alors sans sa partie « Nous écrire », et son chapeau ne promet pas d'adresse.
  */
-export const SUPPORT_EMAIL: string | null = null;
+export const SUPPORT_EMAIL: string | null = 'hello@andiamusic.app';
 
 /**
  * Éditeur du site (LCEN, art. 6-III), lu par les mentions légales de la page Assistance et par

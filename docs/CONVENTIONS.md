@@ -2,7 +2,7 @@
 
 Ce qu'il faut savoir pour ajouter ou modifier une page, une section ou une animation. Le site
 est un site **statique** Astro (aucun serveur, aucune dépendance côté navigateur), en français
-à la racine et en anglais sous `/en/`, mis en ligne sur l'hébergement mutualisé OVH.
+à la racine et en anglais sous `/en/`, mis en ligne sur un VPS OVH (Apache), à l'adresse `https://andiamusic.fr`.
 
 ## Arborescence
 
@@ -25,7 +25,7 @@ src/
   scripts/motion.ts     moteur d'animation au scroll (data-reveal, data-scroll)
   styles/global.css     couleurs, typographie, boutons, verre, classes partagées (.note…)
   styles/motion.css     états des apparitions data-reveal
-public/                 copié tel quel : .htaccess (OVH), favicons, apple-touch-icon,
+public/                 copié tel quel : .htaccess (Apache), favicons, apple-touch-icon,
                         og/ (images de partage)
 scripts/og/             modèle des images de partage et rendu des icônes PNG (render.mjs)
 scripts/check-spectrum.mjs  contrôle du spectre du hero contre les captures (npm run check)
@@ -275,7 +275,7 @@ aussi dans `ui.ts` (`screenshot.*`). Une langue du site est une langue de l'app 
 existent dans cette langue (`src/assets/screenshots/<langue>/`) et la fiche schema.org la déclare
 (`inLanguage`, tirée de `languages`).
 
-**Exception : la 404** (`src/pages/404.astro`). OVH sert une seule page introuvable pour toutes
+**Exception : la 404** (`src/pages/404.astro`). Apache sert une seule page introuvable pour toutes
 les adresses, quelle que soit la langue : elle parle les deux à la fois, le français puis
 l'anglais (`lang="en"` sur les parties anglaises), dans son titre (« Page introuvable · Page not
 found »), sa description et son corps. Ses textes restent donc dans le fichier, et c'est la seule
@@ -373,9 +373,10 @@ Les deux workflows n'ont que le droit `contents: read` et coupent la télémétr
 (`ASTRO_TELEMETRY_DISABLED`). Dependabot (`.github/dependabot.yml`) propose chaque lundi les mises
 à jour npm. Le déploiement
 (`.github/workflows/deploy.yml`) ne part plus qu'à la demande (Actions › Deploy › Run workflow),
-une fois les secrets `OVH_HOST`, `OVH_USER`, `OVH_PASSWORD` et, en SFTP, `OVH_KNOWN_HOSTS` (la clé
-du serveur, épinglée : un serveur qui présente une autre clé est refusé) définis (détails en tête du
-fichier) :
+une fois les secrets `VPS_HOST`, `VPS_USER`, `VPS_SSH_KEY` (clé SSH réservée au déploiement, d'un
+utilisateur du VPS qui ne possède que le dossier du site) et `VPS_KNOWN_HOSTS` (la clé du serveur,
+épinglée : un serveur qui présente une autre clé est refusé) définis ; envoi par rsync sur SSH
+(détails en tête du fichier) :
 mode `site` pour envoyer `dist/`, mode `maintenance` pour envoyer `maintenance/` (toute adresse
 répond 503 avec une page d'attente autonome, hors Astro et hors `ui.ts`, sauf la confidentialité
 et l'assistance dans les deux langues, avec `/_astro/`, `/og/` et les icônes, servies depuis les
@@ -386,7 +387,7 @@ dans `public/.htaccess`.
 
 L'envoi du mode `site` se fait en deux temps : `_astro/` d'abord (ressources dont le nom porte une
 empreinte, jamais supprimées à ce moment-là), puis les pages et le reste, avec `--delete` quand
-`OVH_DELETE` est vrai. Une page nouvelle ne cite donc jamais un fichier pas encore arrivé ; pendant
+`VPS_DELETE` est vrai. Une page nouvelle ne cite donc jamais un fichier pas encore arrivé ; pendant
 quelques secondes, d'anciennes pages côtoient les nouvelles ressources, ce qui ne casse rien.
 
 **Revenir à la version précédente** (une mise en ligne qui casse le site) :
@@ -399,12 +400,12 @@ quelques secondes, d'anciennes pages côtoient les nouvelles ressources, ce qui 
 3. En urgence, sans attendre une PR : pousser une étiquette sur le dernier commit sain
    (`git tag retour-<date> <commit> && git push origin retour-<date>`) et lancer Run workflow en
    choisissant cette étiquette dans « Use workflow from ». C'est alors le `deploy.yml` de ce
-   commit qui tourne : il doit être postérieur à l'épinglage de la clé SFTP (lot 6 de l'audit du
-   23 octobre), sinon passer par l'étape 2. Supprimer l'étiquette une fois `main` réparé.
+   commit qui tourne : il doit être postérieur au passage sur le VPS (envoi par rsync, novembre
+   2026), sinon passer par l'étape 2. Supprimer l'étiquette une fois `main` réparé.
 
-Sans `OVH_DELETE`, des fichiers d'une version plus récente peuvent rester sur le serveur après un
+Sans `VPS_DELETE`, des fichiers d'une version plus récente peuvent rester sur le serveur après un
 retour arrière ; ils sont inoffensifs (aucune page ne les cite) et partent au prochain envoi avec
-`OVH_DELETE`.
+`VPS_DELETE`.
 
 **Content-Security-Policy** (`public/.htaccess`) : `default-src 'none'`, images et styles du site
 (styles en ligne permis, `data:` pour les images), scripts du site plus les empreintes SHA-256 des
@@ -419,20 +420,20 @@ que le site est en maintenance. **Passer en mode strict** après la réouverture
 visite des pages (console ouverte, clair et sombre, animations réduites) sans violation : renommer
 l'en-tête en `Content-Security-Policy` dans `public/.htaccess`, et mettre à jour cette phrase.
 
-**HSTS** reste `max-age=31536000` seul, sans `includeSubDomains` ni `preload`, jusqu'au changement
-de domaine (décision D8 de l'audit du 23 octobre) : précharger un domaine qu'on va quitter n'a pas
-de sens, et le serveur de démo vit sur un autre nom. Le jour du nouveau domaine, décider s'il porte
-`includeSubDomains` (tous ses sous-domaines en https, celui de la démo compris) et `preload`.
+**HSTS** reste `max-age=31536000` seul, sans `includeSubDomains` ni `preload` (décision D8 de
+l'audit du 23 octobre, prise en attendant le domaine définitif). Le domaine étant fixé, décider
+s'il porte `includeSubDomains` (tous les sous-domaines de `andiamusic.fr` en https, celui du
+serveur de démo compris) et `preload`.
 
-Domaine principal : `https://abilia-music.app` (`site` dans `astro.config.mjs`, repris par les
-liens canoniques, hreflang, Open Graph, `robots.txt` et le plan du site). `abilia-music.fr` et les
-« www » sont rattachés au même hébergement OVH (multisite, dossier `www`, certificat SSL activé
-pour chacun) et redirigent en 301 vers le domaine principal, même chemin.
-
-Ce domaine date du nom précédent de l'app (Abilia) : le site est en maintenance jusqu'au nouveau
-(`docs/LANCEMENT.md` §7 du dépôt de l'app, « Suites du changement de nom »). Le jour venu, changer
-le domaine à quatre endroits : `site` dans `astro.config.mjs`, la valeur par défaut de `SITE_URL`
-dans `.github/workflows/deploy.yml`, les redirections de `public/.htaccess` (anciens domaines et
-« www » vers le nouveau), et ce paragraphe ; puis régénérer les images de partage (`scripts/og/`)
-et donner les URL `/confidentialite/` (politique) et `/assistance/` (assistance) à App Store
+Domaine principal : `https://andiamusic.fr` (`site` dans `astro.config.mjs`, repris par les liens
+canoniques, hreflang, Open Graph, `robots.txt` et le plan du site), choisi le 6 novembre 2026.
+`andiamusic.app`, les « www » et les anciens domaines du nom Abilia (`abilia-music.app`,
+`abilia-music.fr`, tant qu'ils pointent sur le serveur) redirigent en 301 vers lui, même chemin
+(`public/.htaccess`) : tous en `ServerAlias` du même VirtualHost d'Apache, chacun avec son
+certificat. L'adresse d'assistance (`SUPPORT_EMAIL`) est sur `andiamusic.app`. Le serveur de démo
+ira sur le même VPS (`DEMO_SERVER` à `null` en attendant). Changer de domaine, c'est le changer à
+quatre endroits : `site` dans `astro.config.mjs`, la valeur par défaut de `SITE_URL` dans
+`.github/workflows/deploy.yml` (et l'adresse passée à `dist-check` dans `ci.yml`), les redirections
+de `public/.htaccess`, et ce paragraphe ; les images de partage ne portent pas le domaine. Les URL
+`/confidentialite/` (politique) et `/assistance/` (assistance) sont celles à donner à App Store
 Connect (liste de contrôle du § 9 de `docs/AUDIT-TRAME.md`).

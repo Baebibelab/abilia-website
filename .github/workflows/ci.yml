@@ -72,7 +72,7 @@ jobs:
 
       - name: Site construit (A.2)
         run: |
-          node "$RUNNER_TEMP/tools/dist-check.mjs" dist https://abilia-music.app | tee "$RUNNER_TEMP/dist.txt"
+          node "$RUNNER_TEMP/tools/dist-check.mjs" dist https://andiamusic.fr | tee "$RUNNER_TEMP/dist.txt"
           ! grep '✗' "$RUNNER_TEMP/dist.txt"
 
       - name: Pages noindex sans canonique ni hreflang

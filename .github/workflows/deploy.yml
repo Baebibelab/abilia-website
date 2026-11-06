@@ -1,26 +1,32 @@
-# Mise en ligne sur l'hébergement OVH, à la demande seulement (Actions › Deploy › Run workflow) :
-# le push sur main ne déploie plus, le temps de valider le nouveau nom de l'app (Andia).
+# Mise en ligne sur le VPS OVH (Apache), à la demande seulement (Actions › Deploy › Run workflow) :
+# le push sur main ne déploie pas.
 #   mode maintenance  envoie maintenance/ : toute adresse répond 503 avec une page d'attente
-#                     (les fichiers du site restent sur le serveur, OVH_DELETE est ignoré).
+#                     (les fichiers du site restent sur le serveur, VPS_DELETE est ignoré).
 #   mode site         construit et envoie dist/, ce qui remet le .htaccess du site : _astro/
 #                     d'abord, puis le reste (voir l'étape d'envoi).
 #
+# Envoi par rsync sur SSH, avec une clé réservée au déploiement (jamais de mot de passe). Sur le
+# VPS : un utilisateur dédié (ex. `deploy`), propriétaire du dossier du site et de rien d'autre,
+# sa clé publique dans ~deploy/.ssh/authorized_keys ; rsync installé.
+#
 # Secrets du dépôt (Settings › Secrets and variables › Actions) :
-#   OVH_HOST       serveur FTP / SFTP de l'hébergement (ex. ftp.cluster0XX.hosting.ovh.net)
-#   OVH_USER       identifiant FTP
-#   OVH_PASSWORD   mot de passe FTP
-#   OVH_KNOWN_HOSTS  clés publiques du serveur SFTP, au format known_hosts (obligatoire en sftp) :
-#                  sortie de `ssh-keyscan -t ed25519,rsa <OVH_HOST>`. ssh-keyscan ne prouve rien
-#                  à lui seul : comparer l'empreinte (`ssh-keyscan … | ssh-keygen -lf -`) à celle
-#                  d'une première connexion faite d'un autre réseau, ou à celle que donne OVH.
-#                  À refaire si OVH change la clé (le déploiement échoue alors, c'est voulu).
+#   VPS_HOST         nom ou adresse du VPS (ex. vps-xxxxxxxx.vps.ovh.net)
+#   VPS_USER         utilisateur SSH du déploiement (ex. deploy)
+#   VPS_SSH_KEY      clé privée de cet utilisateur (ed25519, sans phrase de passe), créée pour ce
+#                    seul usage : `ssh-keygen -t ed25519 -N '' -C deploy-andiamusic -f deploy`
+#   VPS_KNOWN_HOSTS  clés publiques du serveur, au format known_hosts : sortie de
+#                    `ssh-keyscan -t ed25519,rsa <VPS_HOST>` (avec `-p` si le port n'est pas 22).
+#                    ssh-keyscan ne prouve rien à lui seul : comparer l'empreinte
+#                    (`ssh-keyscan … | ssh-keygen -lf -`) à celle que le VPS donne lui-même
+#                    (`ssh-keygen -lf /etc/ssh/ssh_host_ed25519_key.pub`, dans sa console OVH).
+#                    À refaire si la clé du serveur change (le déploiement échoue alors, c'est voulu).
 # Variables du dépôt (facultatives) :
-#   OVH_PROTOCOL   sftp (défaut, offres Pro et Performance) ou ftp (offre Perso : FTP chiffré
-#                  imposé, certificat du serveur vérifié)
-#   OVH_REMOTE_DIR dossier du site sur l'hébergement (défaut : www)
-#   OVH_DELETE     true pour supprimer du serveur les fichiers qui ne sont plus dans le build
-#   SITE_URL       adresse publique du site (défaut : https://abilia-music.app)
-# Tant que OVH_HOST n'est pas défini, le job s'arrête sans rien envoyer.
+#   VPS_PORT        port SSH (défaut : 22)
+#   VPS_REMOTE_DIR  dossier du site sur le VPS, celui du DocumentRoot d'Apache
+#                   (défaut : /var/www/andiamusic.fr)
+#   VPS_DELETE      true pour supprimer du serveur les fichiers qui ne sont plus dans le build
+#   SITE_URL        adresse publique du site (défaut : https://andiamusic.fr)
+# Tant que VPS_HOST n'est pas défini, le job s'arrête sans rien envoyer.
 
 name: Deploy
 
@@ -47,12 +53,12 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     env:
-      HAS_TARGET: ${{ secrets.OVH_HOST != '' }}
+      HAS_TARGET: ${{ secrets.VPS_HOST != '' }}
       MAINTENANCE: ${{ inputs.mode != 'site' }}
     steps:
-      - name: Hébergement non configuré
+      - name: Serveur non configuré
         if: env.HAS_TARGET != 'true'
-        run: echo "::notice::Secrets OVH absents, rien n'est mis en ligne."
+        run: echo "::notice::Secrets VPS absents, rien n'est mis en ligne."
 
       - uses: actions/checkout@v4
         if: env.HAS_TARGET == 'true'
@@ -67,49 +73,37 @@ jobs:
         env:
           SITE_URL: ${{ vars.SITE_URL }}
 
-      - name: Envoi sur OVH
+      - name: Envoi sur le VPS
         if: env.HAS_TARGET == 'true'
         env:
-          HOST: ${{ secrets.OVH_HOST }}
-          USER: ${{ secrets.OVH_USER }}
-          PASSWORD: ${{ secrets.OVH_PASSWORD }}
-          PROTOCOL: ${{ vars.OVH_PROTOCOL || 'sftp' }}
-          REMOTE_DIR: ${{ vars.OVH_REMOTE_DIR || 'www' }}
-          DELETE: ${{ inputs.mode == 'site' && vars.OVH_DELETE == 'true' && '--delete' || '' }}
+          HOST: ${{ secrets.VPS_HOST }}
+          USER: ${{ secrets.VPS_USER }}
+          SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+          KNOWN_HOSTS: ${{ secrets.VPS_KNOWN_HOSTS }}
+          PORT: ${{ vars.VPS_PORT || '22' }}
+          REMOTE_DIR: ${{ vars.VPS_REMOTE_DIR || '/var/www/andiamusic.fr' }}
+          DELETE: ${{ inputs.mode == 'site' && vars.VPS_DELETE == 'true' && '--delete' || '' }}
           SOURCE: ${{ inputs.mode == 'site' && 'dist/' || 'maintenance/' }}
-          KNOWN_HOSTS: ${{ secrets.OVH_KNOWN_HOSTS }}
         run: |
-          sudo apt-get update -qq && sudo apt-get install -y -qq lftp
-          # Clé du serveur épinglée : sans elle, lftp accepterait n'importe quel serveur se faisant
-          # passer pour OVH (le runner est neuf à chaque fois) et lui donnerait le mot de passe.
-          if [ "$PROTOCOL" = sftp ]; then
-            if [ -z "$KNOWN_HOSTS" ]; then
-              echo "::error::Secret OVH_KNOWN_HOSTS absent : clé du serveur SFTP inconnue, rien n'est envoyé (voir l'en-tête du workflow)."
-              exit 1
-            fi
-            install -d -m 700 ~/.ssh
-            printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
-            chmod 600 ~/.ssh/known_hosts
+          # Clé du serveur épinglée : sans elle, ssh accepterait n'importe quel serveur se faisant
+          # passer pour le VPS (le runner est neuf à chaque fois).
+          if [ -z "$KNOWN_HOSTS" ] || [ -z "$SSH_KEY" ] || [ -z "$USER" ]; then
+            echo "::error::Secret VPS_KNOWN_HOSTS, VPS_SSH_KEY ou VPS_USER absent : rien n'est envoyé (voir l'en-tête du workflow)."
+            exit 1
           fi
+          install -d -m 700 ~/.ssh
+          printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/known_hosts ~/.ssh/deploy_key
+          SSH="ssh -p $PORT -i $HOME/.ssh/deploy_key -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes -o UserKnownHostsFile=$HOME/.ssh/known_hosts -o BatchMode=yes"
           # Mode site : les ressources hachées de _astro/ d'abord (sans rien supprimer), puis les pages
           # et le reste, de sorte qu'une page nouvelle ne cite jamais un fichier pas encore envoyé.
-          # Les anciennes ressources ne partent (OVH_DELETE) qu'à la fin du second envoi, une fois
-          # toutes les pages remplacées. Retour arrière : docs/CONVENTIONS.md, « Vérifier et mettre
-          # en ligne ».
-          ASSETS=""
+          # Les anciennes ressources ne partent (VPS_DELETE) qu'au second envoi, une fois toutes les
+          # pages remplacées. Retour arrière : docs/CONVENTIONS.md, « Vérifier et mettre en ligne ».
+          # --chmod : lisible par Apache (www-data), modifiable par l'utilisateur du déploiement seul.
+          RSYNC="rsync --recursive --links --times --compress --itemize-changes --exclude=.DS_Store --chmod=D755,F644"
           if [ "$SOURCE" = dist/ ] && [ -d dist/_astro ]; then
-            ASSETS="mirror --reverse --verbose --parallel=4 --exclude-glob .DS_Store 'dist/_astro/' '$REMOTE_DIR/_astro/';"
+            $RSYNC -e "$SSH" dist/_astro/ "$USER@$HOST:$REMOTE_DIR/_astro/"
           fi
-          # Le mot de passe passe par l'environnement (LFTP_PASSWORD, --env-password), jamais par la ligne de commande.
-          export LFTP_PASSWORD="$PASSWORD"
-          lftp -c "
-            set sftp:auto-confirm no;
-            set sftp:connect-program 'ssh -a -x -o StrictHostKeyChecking=yes -o UserKnownHostsFile=$HOME/.ssh/known_hosts';
-            set ftp:ssl-force yes;
-            set ftp:ssl-protect-data yes;
-            set ssl:verify-certificate yes;
-            set net:max-retries 3;
-            open --user '$USER' --env-password '$PROTOCOL://$HOST';
-            $ASSETS
-            mirror --reverse --verbose --parallel=4 $DELETE --exclude-glob .DS_Store '$SOURCE' '$REMOTE_DIR/';
-          "
+          $RSYNC $DELETE -e "$SSH" "$SOURCE" "$USER@$HOST:$REMOTE_DIR/"
+          rm -f ~/.ssh/deploy_key

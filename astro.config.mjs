@@ -2,14 +2,15 @@
 import { defineConfig } from 'astro/config';
 
 // Adresse publique du site, utilisée pour les liens canoniques, hreflang, Open Graph et le plan du
-// site. abilia-music.fr pointe sur le même hébergement et redirige ici (public/.htaccess).
+// site. andiamusic.app, les « www » et les anciens domaines (abilia-music.*) pointent sur le même
+// serveur et redirigent ici (public/.htaccess).
 // La variable SITE_URL au build la remplace (préproduction, par exemple).
 // Une variable vide (variable de dépôt non définie dans le workflow) garde l'adresse par défaut.
-const site = process.env.SITE_URL || 'https://abilia-music.app';
+const site = process.env.SITE_URL || 'https://andiamusic.fr';
 
 export default defineConfig({
   site,
-  // Site entièrement statique : le dossier dist/ est envoyé tel quel sur l'hébergement OVH.
+  // Site entièrement statique : le dossier dist/ est envoyé tel quel sur le VPS OVH.
   output: 'static',
   trailingSlash: 'always',
   // Les feuilles de style (une dizaine de Ko compressés) vont dans la page : rien ne bloque le
