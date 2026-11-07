@@ -1282,18 +1282,18 @@ console.log(`${Object.keys(fr).length} clés fr, ${Object.keys(en).length} clés
 Par page de `dist/` : `lang`, titre, longueur de la description, canonique, hreflang, image de
 partage, `robots`, nombre de `h1` et d'images, poids ; liens internes morts, ancres absentes,
 identifiants en double, images sans `alt`, ressources hors du site ; liste des liens externes.
-`node $W/tools/dist-check.mjs $W/site/dist https://abilia-music.app` (puis sur chaque
+`node $W/tools/dist-check.mjs $W/site/dist https://andiamusic.fr` (puis sur chaque
 `dist-<variante>/`).
 
 ```js
 // Contrôles du site construit (dist/) : liens internes et ancres, liens externes, et pour chaque
 // page : lang, title, description, canonical, hreflang, og:image, nombre de h1, img sans alt,
 // identifiants en double, ressources hors du site.
-// Usage : node dist-check.mjs <dossier dist> [adresse publique, ex. https://abilia-music.app]
+// Usage : node dist-check.mjs <dossier dist> [adresse publique, ex. https://andiamusic.fr]
 import { readFileSync, readdirSync, statSync, existsSync } from 'node:fs';
 import { join, relative } from 'node:path';
 const dist = process.argv[2] ?? 'dist';
-const site = (process.argv[3] ?? 'https://abilia-music.app').replace(/\/$/, '');
+const site = (process.argv[3] ?? 'https://andiamusic.fr').replace(/\/$/, '');
 const pages = [];
 const walk = (d) => readdirSync(d).forEach((f) => { const p = join(d, f); statSync(p).isDirectory() ? walk(p) : p.endsWith('.html') && pages.push(p); });
 walk(dist);
@@ -1579,9 +1579,9 @@ APP=${APP:-../abilia}   # le dépôt de l'app (la CI passe APP=.app)
 diff <(awk 'f>=2; /^---$/{f++}' src/content/privacy/fr.md | sed '/./,$!d' | cat -s) \
      <(sed '1,/^\*Mise à jour/d' $APP/docs/PRIVACY.md | grep -v '^<!--' | sed '/./,$!d' | cat -s) && echo "fr identique"
 diff <(awk 'f>=2; /^---$/{f++}' src/content/privacy/en.md | sed '/./,$!d' | cat -s) \
-     <(sed '1,/^\*Last updated/d' $APP/docs/PRIVACY.en.md | grep -v '^<!--' | sed '/./,$!d' | cat -s) && echo "en identique"
+     <(sed -E '1,/^\*(Last )?[Uu]pdated/d' $APP/docs/PRIVACY.en.md | grep -v '^<!--' | sed '/./,$!d' | cat -s) && echo "en identique"
 grep -m1 "updated:" src/content/privacy/fr.md src/content/privacy/en.md
-grep -m1 "Mise à jour" $APP/docs/PRIVACY.md; grep -m1 "Last updated" $APP/docs/PRIVACY.en.md
+grep -m1 "Mise à jour" $APP/docs/PRIVACY.md; grep -m1 -E "^\*(Last )?[Uu]pdated" $APP/docs/PRIVACY.en.md
 grep -n "lastUpdatedDate" -A4 $APP/Abilia/Features/Settings/PrivacyPolicyView.swift | head -6
 ```
 
@@ -1621,10 +1621,10 @@ done
 `HEAD` et `GET`.
 
 ```bash
-SITE=https://abilia-music.app      # le domaine du moment
+SITE=https://andiamusic.fr         # le domaine du moment
 for url in "$SITE/" "$SITE/en/" "$SITE/confidentialite/" "$SITE/en/privacy/" "$SITE/confidentialite" \
-           "$SITE/page-inconnue/" "$SITE/sitemap.xml" "$SITE/robots.txt" "http://abilia-music.app/" \
-           "https://www.abilia-music.app/" "https://abilia-music.fr/en/" "https://www.abilia-music.fr/"; do
+           "$SITE/page-inconnue/" "$SITE/sitemap.xml" "$SITE/robots.txt" "http://andiamusic.fr/" \
+           "https://www.andiamusic.fr/" "https://andiamusic.app/en/" "https://www.andiamusic.app/" "https://abilia-music.app/"; do
   echo "== $url"; curl -sS -o /dev/null -D - --compressed "$url" | grep -iE "^(HTTP|location|cache-control|content-type|content-encoding|strict-transport|content-security|x-frame|x-content-type|referrer-policy|permissions-policy|retry-after|x-robots)"
 done
 # Ressources hachées : un an, immuables ; une image du build
