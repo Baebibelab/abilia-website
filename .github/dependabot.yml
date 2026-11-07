@@ -12,3 +12,7 @@ updates:
     open-pull-requests-limit: 5
     commit-message:
       prefix: 'chore'
+    ignore:
+      # Les types de Node suivent la version du build (.nvmrc, Node 22) : on garde la 22.x.
+      - dependency-name: '@types/node'
+        update-types: ['version-update:semver-major']
