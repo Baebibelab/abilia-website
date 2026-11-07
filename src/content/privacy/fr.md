@@ -1,16 +1,15 @@
 ---
 # Copie de docs/PRIVACY.md du dépôt de l'app (Baebibelab/abilia), sans son titre ni sa date :
 # même texte, à recopier ici à chaque modification là-bas (avec la date et la traduction anglaise).
-updated: '2026-11-06'
+updated: '2026-11-07'
 ---
 
-Andia ne collecte aucune donnée personnelle, sauf si vous vous abonnez à Andia Horizon et acceptez
-l'envoi de vos écoutes (ci-dessous). L'app parle au serveur Jellyfin que vous lui indiquez, à
-l'annuaire Radio Browser et aux radios que vous écoutez quand vous utilisez les radios en direct, à
-Discogs pour les notes du public des albums (sauf si vous les désactivez), à Ticketmaster pour les
-concerts à venir des artistes si vous lui donnez votre clé Ticketmaster, si vous reliez votre compte
-Last.fm ou ListenBrainz (Andia Plus), à ce service pour vos écoutes, et, avec Andia Horizon, à son
-serveur ; à aucun autre service : ni publicité, ni mesure d'audience, ni suivi.
+Andia ne collecte aucune donnée personnelle. L'app parle au serveur Jellyfin que vous lui indiquez,
+à l'annuaire Radio Browser et aux radios que vous écoutez quand vous utilisez les radios en direct,
+à Discogs pour les notes du public des albums (sauf si vous les désactivez), à Ticketmaster pour les
+concerts à venir des artistes si vous lui donnez votre clé Ticketmaster et, si vous reliez votre
+compte Last.fm ou ListenBrainz (Andia Plus), à ce service pour vos écoutes ; à aucun autre service :
+ni publicité, ni mesure d'audience, ni suivi.
 
 ## Votre serveur
 
@@ -103,38 +102,41 @@ l'appareil, comme pour toute écoute en ligne ; aucun cookie n'est gardé pour c
 compte Jellyfin, ni votre bibliothèque ne sont envoyés. Vos radios favorites et récentes restent sur
 l'appareil. Avec « Radios en direct » désactivé, rien n'est envoyé.
 
-## Andia Horizon
+## Andia Horizon (à venir)
 
-Seulement si vous vous abonnez à Andia Horizon et acceptez l'envoi sur son écran d'accueil
-(Bibliothèque › Découvrir). L'app envoie alors au serveur d'Andia Horizon (hébergé chez OVH), une
-fois par mois : le titre, l'artiste, l'album, l'année et les genres de vos 500 morceaux les plus
-écoutés, avec leur nombre d'écoutes et vos favoris ; pour le reste de la bibliothèque, des
-empreintes (SHA-256 de « artiste|titre » et « artiste|album »), d'où l'on ne relit pas directement
-les noms, qui servent seulement à ne pas vous proposer ce que vous avez déjà. Elle envoie aussi vos
-réglages de découverte, la langue de l'app et les morceaux que vous gardez dans votre liste d'envies. Le serveur
-reconnaît votre abonnement par la transaction signée de l'App Store, sans compte ni adresse e-mail,
-et en garde le pays de la boutique App Store (par exemple la France), pour chercher vos extraits
-dans la boutique iTunes de ce pays ; il ne reçoit ni l'adresse de votre serveur Jellyfin, ni votre
-nom d'utilisateur, ni vos fichiers, ni le reste de votre journal d'écoute. Pour écrire votre
-portrait et choisir vos suggestions, il transmet ces écoutes, votre portrait, vos réglages et vos
-retours à Claude, l'IA d'Anthropic (anthropic.com), qui, selon ses conditions commerciales, ne s'en
-sert pas pour entraîner ses modèles. Pour vérifier les suggestions et trouver leurs extraits, il
-interroge sa copie de MusicBrainz, puis iTunes Search (Apple) ou Deezer, avec seulement l'artiste et
-le titre proposés (et, pour iTunes, le pays de votre boutique). Avec l'époque « Sorties récentes »,
-il demande aussi à Deezer, avec seulement des noms d'artistes (certains de ceux que vous écoutez le
-plus), leurs artistes voisins et les dernières sorties de ceux-ci, pour appuyer les suggestions sur
-de vraies nouveautés. Les extraits et les pochettes viennent d'Apple ou de Deezer, qui reçoivent
-l'adresse IP de l'appareil comme pour toute écoute en ligne ; aucun cookie n'est gardé pour ces
-pochettes. « Effacer mes données Horizon » (Découvrir › Réglages) efface aussitôt tout cela et
-retire votre accord. Pendant l'abonnement, le serveur ne garde que les deux derniers relevés
-mensuels d'écoute, les suggestions des 90 derniers jours (la dernière liste toujours), avec la date à laquelle vous avez ouvert chaque liste, et les portraits de l'année écoulée (le
-dernier toujours) ; tout est effacé 90 jours après la fin ou le remboursement de l'abonnement (les
-sauvegardes du serveur, gardées 14 jours, en gardent une copie jusque-là). Sans abonnement, rien
-n'est envoyé ; abonné, tant que vous n'avez pas accepté, seule la transaction signée de l'App Store
-est présentée au serveur, pour reconnaître l'abonnement (à l'ouverture de Découvrir, ou quand
-l'abonnement change ; voir « Achats ») : aucune écoute, aucun nom ne part avant « J'accepte, c'est
-parti ». Chaque compte Jellyfin connecté sur l'appareil donne son propre accord : un autre compte,
-même avec le même abonnement, voit l'écran d'accord avant que rien de lui ne parte.
+Andia Horizon, un abonnement à part, n'est pas encore disponible : pour l'instant, l'app n'envoie
+rien à son serveur, et ce qui suit ne vaudra qu'à sa sortie. Seulement si vous vous abonnez à Andia
+Horizon et acceptez l'envoi sur son écran d'accueil (Bibliothèque › Découvrir). L'app envoie alors
+au serveur d'Andia Horizon (hébergé chez OVH), une fois par mois : le titre, l'artiste, l'album,
+l'année et les genres de vos 500 morceaux les plus écoutés, avec leur nombre d'écoutes et vos
+favoris ; pour le reste de la bibliothèque, des empreintes (SHA-256 de « artiste|titre » et «
+artiste|album »), d'où l'on ne relit pas directement les noms, qui servent seulement à ne pas vous
+proposer ce que vous avez déjà. Elle envoie aussi vos réglages de découverte, la langue de l'app et
+les morceaux que vous gardez dans votre liste d'envies. Le serveur reconnaît votre abonnement par la
+transaction signée de l'App Store, sans compte ni adresse e-mail, et en garde le pays de la boutique
+App Store (par exemple la France), pour chercher vos extraits dans la boutique iTunes de ce pays ;
+il ne reçoit ni l'adresse de votre serveur Jellyfin, ni votre nom d'utilisateur, ni vos fichiers, ni
+le reste de votre journal d'écoute. Pour écrire votre portrait et choisir vos suggestions, il
+transmet ces écoutes, votre portrait, vos réglages et vos retours à Claude, l'IA d'Anthropic
+(anthropic.com), qui, selon ses conditions commerciales, ne s'en sert pas pour entraîner ses
+modèles. Pour vérifier les suggestions et trouver leurs extraits, il interroge sa copie de
+MusicBrainz, puis iTunes Search (Apple) ou Deezer, avec seulement l'artiste et le titre proposés
+(et, pour iTunes, le pays de votre boutique). Avec l'époque « Sorties récentes », il demande aussi à
+Deezer, avec seulement des noms d'artistes (certains de ceux que vous écoutez le plus), leurs
+artistes voisins et les dernières sorties de ceux-ci, pour appuyer les suggestions sur de vraies
+nouveautés. Les extraits et les pochettes viennent d'Apple ou de Deezer, qui reçoivent l'adresse IP
+de l'appareil comme pour toute écoute en ligne ; aucun cookie n'est gardé pour ces pochettes. «
+Effacer mes données Horizon » (Découvrir › Réglages) efface aussitôt tout cela et retire votre
+accord. Pendant l'abonnement, le serveur ne garde que les deux derniers relevés mensuels d'écoute,
+les suggestions des 90 derniers jours (la dernière liste toujours), avec la date à laquelle vous
+avez ouvert chaque liste, et les portraits de l'année écoulée (le dernier toujours) ; tout est
+effacé 90 jours après la fin ou le remboursement de l'abonnement (les sauvegardes du serveur,
+gardées 14 jours, en gardent une copie jusque-là). Sans abonnement, rien n'est envoyé ; abonné, tant
+que vous n'avez pas accepté, seule la transaction signée de l'App Store est présentée au serveur,
+pour reconnaître l'abonnement (à l'ouverture de Découvrir, ou quand l'abonnement change ; voir «
+Achats ») : aucune écoute, aucun nom ne part avant « J'accepte, c'est parti ». Chaque compte
+Jellyfin connecté sur l'appareil donne son propre accord : un autre compte, même avec le même
+abonnement, voit l'écran d'accord avant que rien de lui ne parte.
 
 ## Apple Watch
 
@@ -159,10 +161,11 @@ propos.
 
 ## Achats
 
-Andia Plus et Andia Horizon s'achètent par l'App Store. Andia ne reçoit aucune information de
-paiement. Andia Plus est vérifié sur l'appareil, sans serveur d'Andia ; pour Andia Horizon, le
-serveur d'Andia Horizon reçoit la transaction signée par l'App Store (son identifiant, l'abonnement
-choisi, sa date de fin et le pays de la boutique App Store), sans nom ni moyen de paiement.
+Andia Plus s'achète par l'App Store. Andia ne reçoit aucune information de paiement. Andia Plus est
+vérifié sur l'appareil, sans serveur d'Andia. À sa sortie, Andia Horizon s'achètera aussi par l'App
+Store ; son serveur recevra alors la transaction signée par l'App Store (son identifiant,
+l'abonnement choisi, sa date de fin et le pays de la boutique App Store), sans nom ni moyen de
+paiement.
 
 ## Liens externes
 

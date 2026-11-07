@@ -2,16 +2,15 @@
 # Copie de docs/PRIVACY.en.md du dépôt de l'app (Baebibelab/abilia), traduction de
 # src/content/privacy/fr.md, sans son titre ni sa date : même texte que la politique en anglais de
 # l'app, à recopier ici à chaque modification là-bas. Le français fait foi.
-updated: '2026-11-06'
+updated: '2026-11-07'
 ---
 
-Andia doesn’t collect any personal data, unless you subscribe to Andia Horizon and agree to send
-your listening data (below). The app talks to the Jellyfin server you point it to, to the Radio
-Browser directory and the stations you listen to when you use live radio, to Discogs for public
-album ratings (unless you turn them off), to Ticketmaster for artists’ upcoming concerts if you give
-it your Ticketmaster key, if you link your Last.fm or ListenBrainz account (Andia Plus), to that
-service for your listens, and, with Andia Horizon, to its server. It talks to no other service: no
-ads, no analytics, no tracking.
+Andia doesn’t collect any personal data. The app talks to the Jellyfin server you point it to, to
+the Radio Browser directory and the stations you listen to when you use live radio, to Discogs for
+public album ratings (unless you turn them off), to Ticketmaster for artists’ upcoming concerts if
+you give it your Ticketmaster key, and, if you link your Last.fm or ListenBrainz account (Andia
+Plus), to that service for your listens. It talks to no other service: no ads, no analytics, no
+tracking.
 
 ## Your Server
 
@@ -96,36 +95,38 @@ device’s IP address, as with any online listening; no cookies are kept for the
 Jellyfin account nor your library is sent. Your favorite and recent stations stay on the device.
 With “Live Radio” turned off, nothing is sent.
 
-## Andia Horizon
+## Andia Horizon (Coming Soon)
 
-Only if you subscribe to Andia Horizon and agree on its welcome screen (Library › Discover). The app
-then sends the Andia Horizon server (hosted by OVH), once a month: the title, artist, album, year
-and genres of your 500 most played songs, with their play counts and your favorites; for the rest of
-your library, fingerprints (SHA-256 of “artist|title” and “artist|album”), from which names can’t be
-read back directly, used only to avoid suggesting what you already have. It also sends your
-discovery settings, the app’s language and the songs you keep in your wishlist. The server recognizes your
-subscription from the App Store’s signed transaction, with no account or email address, and keeps
-its App Store country or region (France, for example) to look for your previews in that country’s
-iTunes Store; it doesn’t receive your Jellyfin server’s address, your username, your files or the
-rest of your listening history. To write your portrait and pick your suggestions, it passes this
-listening data, your portrait, your settings and your feedback to Claude, Anthropic’s AI
-(anthropic.com), which under its commercial terms doesn’t use it to train its models. To check
-suggestions and find their previews, it queries its copy of MusicBrainz, then iTunes Search (Apple)
-or Deezer, with only the suggested artist and title (and, for iTunes, your store’s country or
-region). With the “Recent Releases” era, it also asks Deezer, with only artist names (some of those
-you listen to most), for related artists and their latest releases, so suggestions rest on real new
-music. Previews and artwork come from Apple or Deezer, which receive the device’s IP address as with
-any online listening; no cookie is kept for this artwork. “Erase My Horizon Data” (Discover ›
-Settings) erases all of this at once and withdraws your consent. While you’re subscribed, the server
-keeps only the last two monthly listening reports, the last 90 days of suggestions (always the latest list), with the date you opened each list, and the past
-year’s portraits (always the latest one); everything is erased 90 days after the subscription ends
-or is refunded (the server’s backups, kept for 14 days, hold a copy until then). Without a
-subscription, nothing is sent; once you subscribe, until you agree, only the App Store’s signed
-transaction is presented to the server, to recognize your subscription (when you open Discover, or
-when the subscription changes; see “Purchases”): no listening data and no names are sent before “I
-Agree, Let’s Go.” Each Jellyfin account signed in on the device gives its own consent: another
-account, even with the same subscription, sees the consent screen before anything of its own is
-sent.
+Andia Horizon, a separate subscription, isn’t available yet: for now, the app sends nothing to its
+server, and what follows will only apply once it’s released. Only if you subscribe to Andia Horizon
+and agree on its welcome screen (Library › Discover). The app then sends the Andia Horizon server
+(hosted by OVH), once a month: the title, artist, album, year and genres of your 500 most played
+songs, with their play counts and your favorites; for the rest of your library, fingerprints
+(SHA-256 of “artist|title” and “artist|album”), from which names can’t be read back directly, used
+only to avoid suggesting what you already have. It also sends your discovery settings, the app’s
+language and the songs you keep in your wishlist. The server recognizes your subscription from the
+App Store’s signed transaction, with no account or email address, and keeps its App Store country or
+region (France, for example) to look for your previews in that country’s iTunes Store; it doesn’t
+receive your Jellyfin server’s address, your username, your files or the rest of your listening
+history. To write your portrait and pick your suggestions, it passes this listening data, your
+portrait, your settings and your feedback to Claude, Anthropic’s AI (anthropic.com), which under its
+commercial terms doesn’t use it to train its models. To check suggestions and find their previews,
+it queries its copy of MusicBrainz, then iTunes Search (Apple) or Deezer, with only the suggested
+artist and title (and, for iTunes, your store’s country or region). With the “Recent Releases” era,
+it also asks Deezer, with only artist names (some of those you listen to most), for related artists
+and their latest releases, so suggestions rest on real new music. Previews and artwork come from
+Apple or Deezer, which receive the device’s IP address as with any online listening; no cookie is
+kept for this artwork. “Erase My Horizon Data” (Discover › Settings) erases all of this at once and
+withdraws your consent. While you’re subscribed, the server keeps only the last two monthly
+listening reports, the last 90 days of suggestions (always the latest list), with the date you
+opened each list, and the past year’s portraits (always the latest one); everything is erased 90
+days after the subscription ends or is refunded (the server’s backups, kept for 14 days, hold a copy
+until then). Without a subscription, nothing is sent; once you subscribe, until you agree, only the
+App Store’s signed transaction is presented to the server, to recognize your subscription (when you
+open Discover, or when the subscription changes; see “Purchases”): no listening data and no names
+are sent before “I Agree, Let’s Go.” Each Jellyfin account signed in on the device gives its own
+consent: another account, even with the same subscription, sees the consent screen before anything
+of its own is sent.
 
 ## Apple Watch
 
@@ -148,10 +149,11 @@ and are only sent if you share them yourself from Settings › About.
 
 ## Purchases
 
-Andia Plus and Andia Horizon are bought through the App Store. Andia doesn’t receive any payment
-information. Andia Plus is verified on the device, with no Andia server; for Andia Horizon, the
-Andia Horizon server receives the transaction signed by the App Store (its identifier, the chosen
-subscription, its end date and the App Store country or region), with no name or payment method.
+Andia Plus is bought through the App Store. Andia doesn’t receive any payment information. Andia
+Plus is verified on the device, with no Andia server. Once released, Andia Horizon will also be
+bought through the App Store; its server will then receive the transaction signed by the App Store
+(its identifier, the chosen subscription, its end date and the App Store country or region), with no
+name or payment method.
 
 ## External Links
 
